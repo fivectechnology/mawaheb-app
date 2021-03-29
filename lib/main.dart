@@ -13,6 +13,8 @@ Future<void> main() async {
   await inject(environment: prod.name);
 
   runApp(const App());
+
+  // new changes
 }
 
 // TODO(abd): setup notifications
