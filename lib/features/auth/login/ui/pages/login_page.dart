@@ -35,7 +35,10 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
         decoration: BoxDecoration(color: theme.primaryColor),
         child: Column(
           children: [
-            Text('${viewmodel.hashCode}', style: textTheme.bodyText1.copyWith(color: theme.accentColor)),
+            Text(
+              '${viewmodel.hashCode}',
+              style: textTheme.bodyText1.copyWith(color: theme.accentColor),
+            ),
             RaisedButton(
               onPressed: () {
                 context.pushPage(
