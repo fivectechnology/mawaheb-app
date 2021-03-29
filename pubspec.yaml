@@ -1,0 +1,87 @@
+name: mawaheb_app
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  core_sdk: 
+    git:   
+     url: https://gitlab.com/abd.ktefane.7/flutter-core.git 
+     ref: master
+
+  # DATA
+  shared_preferences: ^0.5.12+4
+  supercharged: ^1.12.0
+  tuple: ^1.0.3
+
+  # Networking
+  dio_flutter_transformer: ^3.0.2
+  dio_cookie_manager: ^1.0.0
+
+  # State Managment
+  provider: ^4.3.3
+
+  # UI
+  webview_flutter: ^1.0.7
+  animations: ^1.1.2
+  pin_code_text_field: ^1.7.1
+  flutter_local_notifications: ^4.0.1+1 
+  fancy_shimmer_image: ^1.2.0
+  cupertino_icons: ^1.0.0
+  flutter_spinkit: "^4.1.2"
+  flutter_svg: ^0.19.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^1.10.0
+  mockito: ^4.1.3
+  mobx_codegen: ^1.1.2
+  built_value_generator: ^7.1.0
+  json_serializable: ^3.2.2
+  injectable_generator: ^1.0.5
+  flutter_launcher_icons: "^0.8.0"
+  pedantic: ^1.9.2
+
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    - lang/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+        - asset: assets/fonts/poppins/Poppins-Italic.ttf
+          style: italic
+
