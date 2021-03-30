@@ -20,7 +20,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
   final PrefsRepository prefsRepository;
 
   @override
-  Map<String, dynamic> wrapWithBaseData(data, int siteId) {
+  Map<String, dynamic> wrapWithBaseData(data) {
     // final wrappedData = Map<String, dynamic>();
     // final siteIdParam = siteId ?? prefsRepository.siteId ?? -1;
     // wrappedData['langCode'] = prefsRepository.languageCode ?? LANGUAGE_DEFAULT;

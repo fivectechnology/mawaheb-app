@@ -202,7 +202,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "21bc2a8f6988eaef5bb9527743ee16d65e9277c5"
+      resolved-ref: bcf421b1a14077b8a4150689298c98d869921608
       url: "https://gitlab.com/abd.ktefane.7/flutter-core.git"
     source: git
     version: "0.0.1"
