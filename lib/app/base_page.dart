@@ -8,6 +8,9 @@ import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_bottom_nav.dart';
 import 'package:mawaheb_app/features/home/ui/pages/home_page.dart';
+import 'package:mawaheb_app/features/notifications/ui/pages/notifications_page.dart';
+import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
+import 'package:mawaheb_app/features/settings/ui/settings_page.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -24,13 +27,19 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
-  // TODO(ahmad): change this when new pages ready
+  // TODO(ahmad): uncomment this when new pages ready
   final List<Widget> pages = <Widget>[
     Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-    Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-    Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-    Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+    Navigator(key: NotificationsPage.navKey, onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
+    Navigator(key: PublicInfoPage.navKey, onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
+    Navigator(key: SettingsPage.navKey, onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
   ];
+  // final List<Widget> pages = <Widget>[
+  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+  // ];
 
   AppViewmodel appViewmodel;
 
