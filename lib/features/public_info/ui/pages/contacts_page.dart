@@ -33,11 +33,61 @@ class _ContactsPageState extends MobxState<ContactsPage, PublicInfoViewmodel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.07),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return imageRow(context: context);
-            }));
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: context.fullWidth * 0.05,
+            vertical: context.fullHeight * 0.05),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/logo_image.png'),
+            contactRow(
+                title: 'Address: ', text: 'Maeaheb Headquarter, Polygon'),
+            contactRow(title: 'Email: ', text: 'jessica.reyes@mail.com'),
+            contactRow(title: 'Phone: ', text: '+971-425-9201'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget contactRow({String title, String text}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: RichText(
+                  text: TextSpan(
+                    text: title,
+                    style: textTheme.headline6.copyWith(fontSize: 14),
+                    children: [
+                      TextSpan(
+                          text: text,
+                          style: textTheme.subtitle2
+                              .copyWith(fontWeight: FontWeight.w200)),
+                    ],
+                  ),
+                ),
+              ),
+              // Text(
+              //   title,
+              //   style: textTheme.headline6.copyWith(fontSize: 14),
+              // ),
+              // Flexible(
+              //   child: Text(
+              //     text,
+              //     style:
+              //         textTheme.subtitle2.copyWith(fontWeight: FontWeight.w200),
+              //   ),
+              // )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
