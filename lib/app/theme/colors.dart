@@ -61,3 +61,9 @@ const LinearGradient RED_GRADIENT = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
 );
+
+const LinearGradient BUTTON_GRADIENT = LinearGradient(
+  colors: [YELLOW, RED],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
