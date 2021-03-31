@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
-import 'package:mawaheb_app/features/public_info/ui/widgets/download_row_widget.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
 class ContactsPage extends StatefulWidget {
