@@ -5,6 +5,7 @@ import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/about_us_page.dart';
+import 'package:mawaheb_app/features/public_info/ui/pages/contacts_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mawaheb_app/features/splash/ui/pages/splash_page.dart';
 
@@ -36,6 +37,9 @@ class PageRouter {
 
       case AboutUsPage.route:
         return AboutUsPage.pageRoute;
+
+      case ContactsPage.route:
+        return ContactsPage.pageRoute;
 
       default:
         return _errorRoute(value.name);
