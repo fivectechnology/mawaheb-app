@@ -6,6 +6,7 @@ import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_passwo
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/about_us_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/contacts_page.dart';
+import 'package:mawaheb_app/features/public_info/ui/pages/gallery_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/strategic_partners_page.dart';
 import 'package:mawaheb_app/features/splash/ui/pages/splash_page.dart';
@@ -44,6 +45,9 @@ class PageRouter {
 
       case StrategicPartnersPage.route:
         return StrategicPartnersPage.pageRoute;
+
+      case GalleryPage.route:
+        return GalleryPage.pageRoute;
 
       default:
         return _errorRoute(value.name);

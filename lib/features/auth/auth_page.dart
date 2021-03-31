@@ -2,6 +2,7 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/features/public_info/ui/pages/gallery_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/strategic_partners_page.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,6 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
   @override
   Widget build(BuildContext context) {
     // TODO(ahmad): add public info tabs here with login as first tab
-    return Provider(
-        create: (_) => viewmodel, child: const StrategicPartnersPage());
+    return Provider(create: (_) => viewmodel, child: const GalleryPage());
   }
 }
