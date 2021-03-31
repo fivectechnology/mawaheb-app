@@ -6,7 +6,10 @@ import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmode
 class PublicInfoPage extends StatefulWidget {
   const PublicInfoPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
+  static const String route = '/public_info';
+
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -14,7 +17,8 @@ class PublicInfoPage extends StatefulWidget {
   _PublicInfoPageState createState() => _PublicInfoPageState();
 }
 
-class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
+class _PublicInfoPageState
+    extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
