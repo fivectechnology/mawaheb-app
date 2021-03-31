@@ -5,21 +5,22 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:mawaheb_app/features/public_info/ui/widgets/download_row_widget.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
-class ContactsPage extends StatefulWidget {
-  const ContactsPage({Key key}) : super(key: key);
+class StrategicPartnersPage extends StatefulWidget {
+  const StrategicPartnersPage({Key key}) : super(key: key);
 
-  static const String route = '/contacts';
+  static const String route = '/strategic_partners';
 
   static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const ContactsPage());
+      MaterialPageRoute<dynamic>(builder: (_) => const StrategicPartnersPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
   @override
-  _ContactsPageState createState() => _ContactsPageState();
+  _StrategicPartnersPageState createState() => _StrategicPartnersPageState();
 }
 
-class _ContactsPageState extends MobxState<ContactsPage, PublicInfoViewmodel> {
+class _StrategicPartnersPageState
+    extends MobxState<StrategicPartnersPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
