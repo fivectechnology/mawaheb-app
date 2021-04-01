@@ -32,10 +32,26 @@
   "lbl_email_username": "Enter email or username",
   "lbl_resend_otp": "Resend OTP",
 
+  "lbl_add_sport": "Add Sport",
+  "lbl_sport_name": "Sport name",
+  "lbl_position": "Position",
+  "lbl_weight": "Weight in kilogram",
+  "lbl_hight": "Hight in CM",
+  "lbl_prefer_hand": "Prefer hand",
+  "lbl_prefer_leg": "Prefer leg",
+  "lbl_upload_video": "Upload videos",
+  "lbl_max_video": "Max 3 videos",
+
+
 
 
 
   "msg_recover_account": "Recover \nYour Account",
   "msg_enter_otp": "Enter OTP sent to your Email",
-  "msg_check_otp": "OTP sent please check your email"
+  "msg_check_otp": "OTP sent please check your email",
+
+  "msg_brief": "write a brief about your self"
+
+
+
 }
