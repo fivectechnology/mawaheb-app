@@ -36,7 +36,7 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
 
 //* ACTIONS *//
 
-  String get _tabTitle {
+  String get tabTitle {
     switch (tabsIndex) {
       case PublicInfoTabs.about_us:
         return 'About us';
