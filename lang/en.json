@@ -11,7 +11,6 @@
   "lbl_contacts": "Contacts",
   "lbl_strategic_partners": "Strategic Partners",
   "lbl_download_center": "Download Center",
-
   "lbl_address": "Address",
   "lbl_emirates": "Emirates",
   "lbl_state/province/area": "State/province/area",
@@ -41,6 +40,11 @@
   "lbl_prefer_leg": "Prefer leg",
   "lbl_upload_video": "Upload videos",
   "lbl_max_video": "Max 3 videos",
+
+  "lbl_add": "Add",
+  "lbl_search_sport": "Search sport",
+  "lbl_choose_sport": "Choose Sport",
+
 
 
 

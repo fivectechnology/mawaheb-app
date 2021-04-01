@@ -45,6 +45,8 @@ dependencies:
   flutter_svg: ^0.19.1
   easy_gradient_text: ^1.0.0
   dotted_decoration: ^1.0.0
+  modal_bottom_sheet: ^1.0.0
+
 
 
 

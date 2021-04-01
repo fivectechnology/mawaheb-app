@@ -20,34 +20,37 @@ class MawahebButton extends StatelessWidget {
   final BuildContext context;
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      color: buttonColor,
-      onPressed: onPressed,
-      elevation: 0,
-      hoverElevation: 0,
-      focusElevation: 0,
-      highlightElevation: 0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(80.0),
-          side: BorderSide(color: borderColor, width: 1.0)),
-      padding: const EdgeInsets.all(0.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: buttonColor,
+    return SizedBox(
+      height: context.fullHeight * 0.07,
+      child: RaisedButton(
+        color: buttonColor,
+        onPressed: onPressed,
+        elevation: 0,
+        hoverElevation: 0,
+        focusElevation: 0,
+        highlightElevation: 0,
+        shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(80.0),
-            border: Border.all(color: borderColor, width: 1.0)),
-        constraints:
-            const BoxConstraints(minWidth: double.infinity, minHeight: 55),
-        // min sizes for Material buttons
-        alignment: Alignment.center,
-        child: Text(
-          context.translate(text),
-          style: TextStyle(
-              color: textColor,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins'),
-          textAlign: TextAlign.center,
+            side: BorderSide(color: borderColor, width: 1.0)),
+        padding: const EdgeInsets.all(0.0),
+        child: Container(
+          decoration: BoxDecoration(
+              color: buttonColor,
+              borderRadius: BorderRadius.circular(80.0),
+              border: Border.all(color: borderColor, width: 1.0)),
+          constraints:
+              const BoxConstraints(minWidth: double.infinity, minHeight: 55),
+          // min sizes for Material buttons
+          alignment: Alignment.center,
+          child: Text(
+            context.translate(text),
+            style: TextStyle(
+                color: textColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins'),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
