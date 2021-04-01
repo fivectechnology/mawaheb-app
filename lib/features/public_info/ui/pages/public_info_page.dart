@@ -1,3 +1,4 @@
+import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
@@ -25,13 +26,7 @@ class PublicInfoPage extends StatefulWidget {
 class _PublicInfoPageState
     extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
   TabController _tabController;
-  final _tabs = const [
-    Text('About us'),
-    Text('Gallery'),
-    Text('Contacts'),
-    Text('Strategic Partners'),
-    Text('DownLoad Center')
-  ];
+
   List<Widget> pages = const [
     AboutUsPage(),
     GalleryPage(),
@@ -52,6 +47,13 @@ class _PublicInfoPageState
 
   @override
   Widget build(BuildContext context) {
+    final _tabs = [
+      Text(context.translate('lbl_about_us')),
+      Text(context.translate('lbl_gallery')),
+      Text(context.translate('lbl_contacts')),
+      Text(context.translate('lbl_strategic_partners')),
+      Text(context.translate('lbl_download_center'))
+    ];
     return DefaultTabController(
       length: pages.length,
       child: Scaffold(
@@ -68,7 +70,7 @@ class _PublicInfoPageState
                 labelStyle: textTheme.subtitle1,
                 indicatorWeight: 3,
                 labelPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 tabs: _tabs),
           ),
         ),
