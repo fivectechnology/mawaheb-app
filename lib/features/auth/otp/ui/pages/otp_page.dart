@@ -1,11 +1,12 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({Key key}) : super(key: key);
@@ -35,34 +36,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: const [
-            Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-            SizedBox(width: 10),
-            Text(
-              'back',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 12),
-            )
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'OTP',
-              style: textTheme.headline1.copyWith(fontSize: 20),
-            ),
-          )
-        ],
-      ),
+      appBar: customAppBar(context: context, title: 'OTP', withTitle: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08),
         child: Column(
@@ -73,7 +47,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                   vertical: context.fullHeight * 0.02,
                 ),
                 child: Text(
-                  'Enter OTP sent to your Email',
+                  context.translate('msg_enter_otp'),
                   style: textTheme.headline1.copyWith(
                       color: Colors.black, fontSize: 22, wordSpacing: 0.5),
                 )),
@@ -98,14 +72,16 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 onPressed: () {
                   _otpBottomSheet(context);
                 },
-                text: 'Resend OTP',
+                context: context,
+                text: 'lbl_resend_otp',
                 buttonColor: Colors.white,
                 textColor: Colors.black,
                 borderColor: Colors.black,
               ),
             ),
-            const MawahebButton(
-              text: 'Next',
+            MawahebButton(
+              context: context,
+              text: 'lbl_next',
               buttonColor: Color(0xFF9F9F9F),
               textColor: Colors.white,
               borderColor: Colors.white,
@@ -116,7 +92,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
     );
   }
 
-  void _otpBottomSheet(context) {
+  void _otpBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -125,7 +101,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
               ListTile(
                 leading: SvgPicture.asset('assets/icons/ic_otp.svg'),
                 title: Text(
-                  'OTP sent please check your email',
+                  context.translate('msg_check_otp'),
                   style: textTheme.bodyText1.copyWith(color: Colors.grey),
                 ),
                 subtitle: Text(

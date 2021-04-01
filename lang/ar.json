@@ -10,5 +10,50 @@
   "lbl_gallery": "المعرض",
   "lbl_contacts": "تواصل معنا",
   "lbl_strategic_partners": "شركاؤنا",
-  "lbl_download_center": "مركز التنزيل"
+  "lbl_download_center": "مركز التنزيل",
+
+  "lbl_address": "العنوان",
+  "lbl_emirates": "الإمارات",
+  "lbl_state/province/area": "الولاية/المقاطعة/المنطقة",
+  "lbl_back": "رجوع",
+  "lbl_next": "التالي",
+  "lbl_personal_info": "المعلومات الشخصية",
+  "lbl_add_image": "اضافة صورة",
+  "lbl_full_name": "الاسم الكامل",
+  "lbl_date_of_birth": "تاريخ الميلاد",
+  "lbl_nationality": "الجنسية",
+  "lbl_category": "النوع",
+  "lbl_gender": "الجنس",
+  "lbl_welcome_to_mawaheb": "مرحباً بك في مواهب",
+  "lbl_email": "البريد الالكتروني",
+  "lbl_password": "كلمة المرور",
+  "lbl_forget_password": "هل نسيت المرور ",
+  "lbl_login": "تسجيل دخول",
+  "lbl_sign_up": "التسجيل ك لاعب",
+  "lbl_email_username": "ادخل البريد أو اسم المستخدم",
+  "lbl_resend_otp": "اعادة ارسال OTP",
+  "lbl_add_sport": "اضافة رياضة",
+  "lbl_sport_name": "اسم الرياضة",
+  "lbl_position": "المركز",
+  "lbl_weight": "الوزن ب الكيلوغرام",
+  "lbl_hight": "الطول ب السنتيمتر",
+  "lbl_prefer_hand": "اليد المفضلة",
+  "lbl_prefer_leg": "الرجل المفضلة",
+  "lbl_upload_video": "ارفع فيديو",
+  "lbl_max_video": "3 مقاطع فيديو كحد أقصى",
+  "lbl_add": "اضافة",
+  "lbl_search_sport": "ابحث عن رياضة",
+  "lbl_choose_sport": "اختار رياضة",
+
+
+
+
+  "msg_recover_account": "استعادة\n حسابك",
+  "msg_enter_otp": "ادخل OTP المرسل الى بريدك الالكتروني",
+  "msg_check_otp": "تم إرسال OTP ، يرجى التحقق من بريدك الإلكتروني",
+  "msg_brief": "نبذة مختصرة عن نفسك"
+
+
+
+
 }
