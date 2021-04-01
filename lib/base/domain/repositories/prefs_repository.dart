@@ -15,5 +15,5 @@ abstract class PrefsRepository {
   UserModel get user;
   Future<bool> setUser(UserModel user);
 
-  Future<void> clearUserData();
+  Future<bool> clearUserData();
 }

@@ -7,20 +7,20 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel extends Equatable {
   const UserModel({
-    @required this.mobile,
+    @required this.userName,
     @required this.password,
   });
 
-  final String mobile;
+  final String userName;
 
   final String password;
 
   UserModel copyWith({
-    String mobile,
+    String userName,
     String password,
   }) {
     return UserModel(
-      mobile: mobile ?? this.mobile,
+      userName: userName ?? this.userName,
       password: password ?? this.password,
     );
   }
@@ -29,7 +29,7 @@ class UserModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [mobile, password];
+  List<Object> get props => [userName, password];
 
   static UserModel fromJson(Object json) => _$UserModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserModelToJson(this);

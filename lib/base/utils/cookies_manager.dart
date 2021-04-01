@@ -12,8 +12,8 @@ class MawahebCookieManager extends CookieManager {
   Future onError(DioError err) async {
     _logger.e('cookies error $err');
     if (err.response.statusCode == 401) {
-      // TODO(abd): add login here
-      // DioHelper.login();
+      // TODO(ahmad): you should retry to re-login with saved user info in prefs
+      // TODOO(ahmad): if the above login call also return with 401 you must navigate to login page (App.navkey.currentstate.pop())
     }
   }
 }

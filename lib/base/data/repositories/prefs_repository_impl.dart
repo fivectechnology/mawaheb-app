@@ -41,9 +41,10 @@ class PrefsRepositoryImpl implements PrefsRepository {
   }
 
   @override
-  Future<void> clearUserData() async {
+  Future<bool> clearUserData() async {
     await _prefs.remove(PreferencesKeys.USER_PROFILE);
     await _prefs.remove(PreferencesKeys.FB_USER_TOKEN);
     await _prefs.remove(PreferencesKeys.APP_LANGUAGE);
+    return true;
   }
 }
