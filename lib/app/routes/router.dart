@@ -4,6 +4,7 @@ import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
+import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/about_us_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/contacts_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/download_center_page.dart';
@@ -52,6 +53,9 @@ class PageRouter {
 
       case DownLoadCenterPage.route:
         return DownLoadCenterPage.pageRoute;
+
+      case PlayerInfoPage.route:
+        return PlayerInfoPage.pageRoute;
 
       default:
         return _errorRoute(value.name);

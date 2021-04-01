@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
@@ -35,34 +36,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: const [
-            Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-            SizedBox(width: 10),
-            Text(
-              'back',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 12),
-            )
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'OTP',
-              style: textTheme.headline1.copyWith(fontSize: 20),
-            ),
-          )
-        ],
-      ),
+      appBar: customAppBar(context: context, title: 'OTP', withTitle: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08),
         child: Column(
