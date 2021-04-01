@@ -16,9 +16,9 @@ Widget customAppBar({String title, BuildContext context, bool withTitle}) {
           ),
         ),
         const SizedBox(width: 10),
-        const Text(
-          'back',
-          style: TextStyle(
+        Text(
+          context.translate('back'),
+          style: const TextStyle(
               color: Colors.black, fontWeight: FontWeight.w300, fontSize: 12),
         )
       ],
@@ -28,7 +28,7 @@ Widget customAppBar({String title, BuildContext context, bool withTitle}) {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
-            title,
+            context.translate(title),
             style: context.textTheme.headline1.copyWith(
                 fontSize: 20, color: Colors.black, letterSpacing: 0.2),
           ),

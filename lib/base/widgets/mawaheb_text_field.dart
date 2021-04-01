@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget mawahebTextField(
     {String hintText,
     bool isSuffixIcon,
     Function onPressed,
     bool showPassword,
+    BuildContext context,
     Color hintColor}) {
   return TextFormField(
     // obscureText: showPassword == null ? isSuffixIcon : !showPassword,
     decoration: InputDecoration(
       enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey)),
-      hintText: hintText,
+      hintText: context.translate(hintText),
       hintStyle: TextStyle(
           color: hintColor ?? Colors.black,
           fontWeight: FontWeight.w200,

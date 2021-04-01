@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class MawahebButton extends StatelessWidget {
-  const MawahebButton({
-    Key key,
-    this.text,
-    this.buttonColor,
-    this.textColor,
-    this.borderColor,
-    this.onPressed,
-  }) : super(key: key);
+  const MawahebButton(
+      {Key key,
+      this.text,
+      this.buttonColor,
+      this.textColor,
+      this.borderColor,
+      this.onPressed,
+      this.context})
+      : super(key: key);
 
   final String text;
   final Color textColor;
   final Color buttonColor;
   final Function onPressed;
   final Color borderColor;
-
+  final BuildContext context;
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -39,7 +41,7 @@ class MawahebButton extends StatelessWidget {
         // min sizes for Material buttons
         alignment: Alignment.center,
         child: Text(
-          text,
+          context.translate(text),
           style: TextStyle(
               color: textColor,
               fontSize: 20,

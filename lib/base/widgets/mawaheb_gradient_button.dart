@@ -35,7 +35,7 @@ class MawahebGradientButton extends StatelessWidget {
                 minHeight: 55), // min sizes for Material buttons
             alignment: Alignment.center,
             child: Text(
-              text,
+              context.translate(text),
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,

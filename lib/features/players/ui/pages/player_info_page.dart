@@ -38,7 +38,7 @@ class _PlayerInfoPageState extends MobxState<PlayerInfoPage, PlayersViewmodel> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: customAppBar(
-          context: context, title: 'Personal info', withTitle: true),
+          context: context, title: 'lbl_personal_info', withTitle: true),
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: context.fullWidth * 0.08,
@@ -47,19 +47,29 @@ class _PlayerInfoPageState extends MobxState<PlayerInfoPage, PlayersViewmodel> {
           children: [
             imageRow(),
             SizedBox(height: context.fullHeight * 0.02),
-            mawahebTextField(hintText: 'Full Name', hintColor: Colors.grey),
+            mawahebTextField(
+                hintText: 'lbl_full_name',
+                hintColor: Colors.grey,
+                context: context),
             SizedBox(height: context.fullHeight * 0.02),
-            mawahebTextField(hintText: 'Date of birth', hintColor: Colors.grey),
+            mawahebTextField(
+                hintText: 'lbl_date_of_birth',
+                hintColor: Colors.grey,
+                context: context),
             SizedBox(height: context.fullHeight * 0.02),
-            mawhaebDropDown(hint: 'Nationality'),
+            mawhaebDropDown(hint: 'lbl_nationality', context: context),
             SizedBox(height: context.fullHeight * 0.02),
-            mawhaebDropDown(hint: 'Category'),
+            mawhaebDropDown(hint: 'lbl_category', context: context),
             SizedBox(height: context.fullHeight * 0.02),
-            mawahebTextField(hintText: 'Male', hintColor: Colors.grey),
+            mawahebTextField(
+                hintText: 'lbl_gender',
+                hintColor: Colors.grey,
+                context: context),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
-                child: MawahebGradientButton(text: 'Next', onPressed: () {}),
+                child: MawahebGradientButton(
+                    text: 'lbl_next', onPressed: () {}, context: context),
               ),
             )
           ],
@@ -88,7 +98,7 @@ class _PlayerInfoPageState extends MobxState<PlayerInfoPage, PlayersViewmodel> {
           ),
         ),
         Text(
-          'Add Image',
+          context.translate('lbl_add_image'),
           style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
         )
       ],

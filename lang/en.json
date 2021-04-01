@@ -10,6 +10,32 @@
   "lbl_gallery": "Gallery",
   "lbl_contacts": "Contacts",
   "lbl_strategic_partners": "Strategic Partners",
-  "lbl_download_center": "Download Center"
+  "lbl_download_center": "Download Center",
 
+  "lbl_address": "Address",
+  "lbl_emirates": "Emirates",
+  "lbl_state/province/area": "State/province/area",
+  "lbl_back": "back",
+  "lbl_next": "Next",
+  "lbl_personal_info": "Personal Info",
+  "lbl_add_image": "Add image",
+  "lbl_full_name": "Full Name",
+  "lbl_date_of_birth": "Date of birth",
+  "lbl_nationality": "Nationality",
+  "lbl_category": "Category",
+  "lbl_welcome_to_mawaheb": "Welcome to Mawaheb",
+  "lbl_email": "Email",
+  "lbl_password": "Password",
+  "lbl_forget_password": "Forget Password?",
+  "lbl_login": "Login",
+  "lbl_sign_up": "Sign up as player",
+  "lbl_email_username": "Enter email or username",
+  "lbl_resend_otp": "Resend OTP",
+
+
+
+
+  "msg_recover_account": "Recover \nYour Account",
+  "msg_enter_otp": "Enter OTP sent to your Email",
+  "msg_check_otp": "OTP sent please check your email"
 }

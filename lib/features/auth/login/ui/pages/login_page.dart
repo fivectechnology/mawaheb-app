@@ -47,21 +47,23 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   top: context.fullHeight * 0.22,
                   bottom: context.fullHeight * 0.1),
               child: GradientText(
-                text: 'Welcome to Mawaheb',
+                text: context.translate('lbl_welcome_to_mawaheb'),
                 colors: const [YELLOW, RED],
                 style: textTheme.headline1
                     .copyWith(fontSize: 26, letterSpacing: 0.3),
               ),
             ),
             mawahebTextField(
-              hintText: 'Email',
+              context: context,
+              hintText: 'lbl_email',
             ),
             Padding(
               padding: EdgeInsets.only(
                   top: context.fullHeight * 0.04,
                   bottom: context.fullHeight * 0.02),
               child: mawahebTextField(
-                  hintText: 'Password',
+                  context: context,
+                  hintText: 'lbl_password',
                   isSuffixIcon: true,
                   showPassword: false),
             ),
@@ -71,7 +73,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
               children: [
                 InkWell(
                   child: Text(
-                    'Forget Password?',
+                    context.translate('lbl_forget_password'),
                     style: textTheme.subtitle1.copyWith(
                         fontSize: 12,
                         decoration: TextDecoration.underline,
@@ -84,9 +86,17 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
               padding: EdgeInsets.only(
                   top: context.fullHeight * 0.05,
                   bottom: context.fullHeight * 0.04),
-              child: MawahebGradientButton(text: 'Login', onPressed: () {}),
+              child: MawahebGradientButton(
+                text: 'lbl_login',
+                onPressed: () {},
+                context: context,
+              ),
             ),
-            MawahebGradientButton(text: 'Sign up as player', onPressed: () {}),
+            MawahebGradientButton(
+              text: 'lbl_sign_up',
+              onPressed: () {},
+              context: context,
+            ),
           ],
         ),
       ),

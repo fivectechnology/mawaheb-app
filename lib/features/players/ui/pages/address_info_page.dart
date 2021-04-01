@@ -38,23 +38,33 @@ class _AddressInfoPageState
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: customAppBar(context: context, title: 'Address', withTitle: true),
+      appBar:
+          customAppBar(context: context, title: 'lbl_address', withTitle: true),
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: context.fullWidth * 0.08,
             vertical: context.fullHeight * 0.03),
         child: Column(
           children: [
-            mawhaebDropDown(hint: 'Emirates'),
+            mawhaebDropDown(hint: 'lbl_emirates', context: context),
             SizedBox(height: context.fullHeight * 0.02),
             mawahebTextField(
-                hintText: 'State/province/area', hintColor: Colors.grey),
+                hintText: 'lbl_state/province/area',
+                hintColor: Colors.grey,
+                context: context),
             SizedBox(height: context.fullHeight * 0.02),
-            mawahebTextField(hintText: 'Address', hintColor: Colors.grey),
+            mawahebTextField(
+                hintText: 'lbl_address',
+                hintColor: Colors.grey,
+                context: context),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
-                child: MawahebGradientButton(text: 'Next', onPressed: () {}),
+                child: MawahebGradientButton(
+                  text: 'lbl_next',
+                  onPressed: () {},
+                  context: context,
+                ),
               ),
             )
           ],
