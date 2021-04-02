@@ -6,7 +6,6 @@ import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({Key key}) : super(key: key);
@@ -82,7 +81,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
             MawahebButton(
               context: context,
               text: 'lbl_next',
-              buttonColor: Color(0xFF9F9F9F),
+              buttonColor: const Color(0xFF9F9F9F),
               textColor: Colors.white,
               borderColor: Colors.white,
             ),
