@@ -2,6 +2,7 @@ import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mobx/mobx.dart';
@@ -22,7 +23,7 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
     Future.delayed(2.seconds).then((_) {
       // TODO(ahmad): use this when you want to test base pages without login
       getContext((context) =>
-          context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
+          context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
       // getContext((context) => context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
 
       // TODO(ahmad): use this when you want to test base pages without login
