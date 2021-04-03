@@ -1,7 +1,10 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -135,7 +138,9 @@ class _RenewSubscriptionPageState
                         ),
                         FlatButton(
                           minWidth: context.fullWidth * 0.2,
-                          onPressed: () {},
+                          onPressed: () {
+                            _subscriptionBottomSheet(context);
+                          },
                           color: YELLOW,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
@@ -213,5 +218,99 @@ class _RenewSubscriptionPageState
         onChanged: (value) {},
       ),
     );
+  }
+
+  void _subscriptionBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: context.fullWidth * 0.08,
+                vertical: context.fullHeight * 0.03),
+            child: Wrap(
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/ic_otp.svg'),
+                    SizedBox(width: context.fullWidth * 0.04),
+                    Expanded(
+                      child: Text(
+                        context.translate(
+                            'by confirming you are going to pay 400AED to renew your subscription on mawaheb'),
+                        style: textTheme.bodyText1.copyWith(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
+                  child: MawahebGradientButton(
+                    onPressed: () {
+                      context.pop();
+                      _confirmationBottomSheet(context);
+                    },
+                    context: context,
+                    text: 'lbl_accept',
+                  ),
+                ),
+                MawahebButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  context: context,
+                  text: 'lbl_skip',
+                  buttonColor: Colors.white,
+                  textColor: Colors.black,
+                  borderColor: Colors.black,
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _confirmationBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: context.fullWidth * 0.08,
+                vertical: context.fullHeight * 0.03),
+            child: Wrap(
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/ic_otp.svg'),
+                    SizedBox(width: context.fullWidth * 0.04),
+                    Expanded(
+                      child: Text(
+                        context.translate(
+                            'by confirming you are going to pay 400AED to renew your subscription on mawaheb'),
+                        style: textTheme.bodyText1.copyWith(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: context.fullHeight * 0.02),
+                  child: MawahebButton(
+                    context: context,
+                    text: 'lbl_back',
+                    buttonColor: Colors.white,
+                    textColor: Colors.black,
+                    borderColor: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

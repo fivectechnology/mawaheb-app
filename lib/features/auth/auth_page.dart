@@ -2,7 +2,6 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/renew_subscription_page.dart';
 import 'package:provider/provider.dart';
 
 class AuthPage extends StatefulWidget {
@@ -33,7 +32,6 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
   @override
   Widget build(BuildContext context) {
     // TODO(ahmad): add public info tabs here with login as first tab
-    return Provider(
-        create: (_) => viewmodel, child: const RenewSubscriptionPage());
+    return Provider(create: (_) => viewmodel, child: const ProfilePage());
   }
 }
