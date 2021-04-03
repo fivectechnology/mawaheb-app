@@ -4,6 +4,7 @@ import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/players/ui/pages/add_sport_page.dart';
 import 'package:mawaheb_app/features/players/ui/pages/address_info_page.dart';
 import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
@@ -64,6 +65,9 @@ class PageRouter {
 
       case AddSportPage.route:
         return AddSportPage.pageRoute;
+
+      case RegisterPage.route:
+        return RegisterPage.pageRoute;
 
       default:
         return _errorRoute(value.name);
