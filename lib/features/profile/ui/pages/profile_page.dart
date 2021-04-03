@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/renew_subscription_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/videos_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
@@ -39,7 +40,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
         padding: EdgeInsets.only(top: context.fullHeight * 0.05),
         child: Column(
           children: [
-            profileActivationRow(isPending: false),
+            profileActivationRow(isPending: true),
             profileDetails(),
             Container(
               margin: EdgeInsets.only(top: context.fullHeight * 0.04),
@@ -118,7 +119,9 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
           Visibility(
               visible: isPending,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pushPage(const RenewSubscriptionPage());
+                },
                 icon: Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.grey[400],
