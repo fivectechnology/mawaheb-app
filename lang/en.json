@@ -37,6 +37,8 @@
   "lbl_hight": "Hight in CM",
   "lbl_prefer_hand": "Prefer hand",
   "lbl_prefer_leg": "Prefer leg",
+  "lbl_brief": "Brief",
+
   "lbl_upload_video": "Upload videos",
   "lbl_max_video": "Max 3 videos",
   "lbl_add": "Add",
