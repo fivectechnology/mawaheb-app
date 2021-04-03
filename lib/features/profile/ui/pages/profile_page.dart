@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/videos_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -79,7 +80,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
             Expanded(
               child: TabBarView(controller: _tabController, children: const [
                 MyInfoPage(),
-                ViewsPage(),
+                VideosPage(),
                 ViewsPage(),
               ]),
             )
