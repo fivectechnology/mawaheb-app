@@ -2,10 +2,7 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/features/players/ui/pages/add_sport_page.dart';
-
 import 'package:provider/provider.dart';
-
-import 'forgot_password/ui/pages/forgot_password_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({

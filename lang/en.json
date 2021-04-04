@@ -30,7 +30,6 @@
   "lbl_sign_up": "Sign up as player",
   "lbl_email_username": "Enter email or username",
   "lbl_resend_otp": "Resend OTP",
-
   "lbl_add_sport": "Add Sport",
   "lbl_sport_name": "Sport name",
   "lbl_position": "Position",
@@ -40,10 +39,17 @@
   "lbl_prefer_leg": "Prefer leg",
   "lbl_upload_video": "Upload videos",
   "lbl_max_video": "Max 3 videos",
-
   "lbl_add": "Add",
   "lbl_search_sport": "Search sport",
   "lbl_choose_sport": "Choose Sport",
+
+  "lbl_app_notification": "App Notification",
+  "lbl_change_password": "Change password",
+  "lbl_change_email": "Change Email",
+  "lbl_term_of_service": "Terms of service",
+  "lbl_log_out": "Log out",
+  "lbl_language": "Language",
+
 
 
 
