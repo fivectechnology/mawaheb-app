@@ -20,7 +20,7 @@ class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
         return Container(
           decoration: const BoxDecoration(
             color: WHITE,
-            border: Border(bottom: BorderSide(color: BORDER_COLOR)),
+            // border: Border(bottom: BorderSide(color: BORDER_COLOR)),
           ),
           child: AppBar(
             title: Text(
