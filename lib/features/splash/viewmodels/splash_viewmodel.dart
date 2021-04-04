@@ -23,7 +23,7 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
     Future.delayed(2.seconds).then((_) {
       // TODO(ahmad): use this when you want to test base pages without login
       getContext((context) =>
-          context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+          context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
       // getContext((context) => context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
 
       // TODO(ahmad): use this when you want to test base pages without login

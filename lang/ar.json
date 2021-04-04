@@ -50,6 +50,20 @@
   "lbl_term_of_service": "بنود الخدمة",
   "lbl_log_out": "تسجيل الخروج",
   "lbl_language": "اللغة",
+  "lbl_brief": "نبذة مختصرة",
+  "lbl_renew_subscription": "تجديد الاشتراك",
+  "lbl_choose_payment": "اختر طريقة الدفع",
+  "lbl_card_number": "رقم البطاقة",
+  "lbl_expiry_month": "شهر انتهاء الصلاحية",
+  "lbl_expiry_year": "سنة انتهاء الصلاحية",
+  "lbl_cvv_Number": "رقم CVV",
+  "lbl_card_holder_name": "اسم حامل البطاقة",
+  "lbl_pay": "ادفع",
+  "lbl_delete": "حذف",
+  "lbl_skip": "تخطي",
+  "lbl_replace": "استبدال",
+  "lbl_accept": "قبول",
+
 
 
 
@@ -57,7 +71,8 @@
   "msg_recover_account": "استعادة\n حسابك",
   "msg_enter_otp": "ادخل OTP المرسل الى بريدك الالكتروني",
   "msg_check_otp": "تم إرسال OTP ، يرجى التحقق من بريدك الإلكتروني",
-  "msg_brief": "نبذة مختصرة عن نفسك"
+  "msg_brief": "نبذة مختصرة عن نفسك",
+  "msg_accepted": "لقد قرأت ووافقت على"
 
 
 
