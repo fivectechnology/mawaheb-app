@@ -3,6 +3,9 @@ import 'package:mawaheb_app/base/data/models/user_model.dart';
 abstract class PrefsRepository {
   const PrefsRepository();
 
+  String get token;
+  Future<bool> setToken();
+
   String get fbToken;
   Future<bool> setFbToken(String fbToken);
 

@@ -1,4 +1,3 @@
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/Fimber/logger_impl.dart';
 import 'package:core_sdk/utils/dio/retry_interceptor.dart';
@@ -8,8 +7,9 @@ import 'package:dio/dio.dart';
 import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
-import 'package:mawaheb_app/base/utils/cookies_manager.dart';
+import 'package:mawaheb_app/base/utils/token_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'injection_container.config.dart';
@@ -46,12 +46,17 @@ abstract class AppModule {
   Future<SharedPreferences> getPrefs() => SharedPreferences.getInstance();
 
   @singleton
-  Dio dio(BaseOptions option, Logger logger) {
+  Dio dio(
+    BaseOptions option,
+    Logger logger,
+    PrefsRepository prefsRepository,
+  ) {
     final Dio dio = Dio(option);
     return dio
       ..transformer = FlutterTransformer()
       ..interceptors.addAll(<Interceptor>[
-        MawahebCookieManager(CookieJar(), logger),
+        //MawahebCookieManager(CookieJar(), logger),
+        TokenInterceptor(baseDio: dio, prefsRepository: prefsRepository),
         RetryInterceptor(
           dio: dio,
           logger: logger,

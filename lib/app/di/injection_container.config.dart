@@ -111,7 +111,7 @@ Future<GetIt> $inject(
         logger: get<Logger>(),
       ));
   gh.lazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(get<AuthDataSource>()));
+      () => AuthRepositoryImpl(get<AuthDataSource>(), get<PrefsRepository>()));
   gh.factory<AuthViewmodel>(
       () => AuthViewmodel(get<Logger>(), get<AuthRepository>()));
   gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(

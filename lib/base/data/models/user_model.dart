@@ -18,6 +18,7 @@ class UserModel extends Equatable {
   UserModel copyWith({
     String userName,
     String password,
+    String baseToken,
   }) {
     return UserModel(
       userName: userName ?? this.userName,

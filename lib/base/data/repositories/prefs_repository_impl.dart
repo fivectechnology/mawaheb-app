@@ -6,11 +6,23 @@ import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:injectable/injectable.dart';
 
+const String DEFAULT_USER_NAME = 'admin';
+const String DEFAULT_PASSWORD = 'admin';
+
 @Singleton(as: PrefsRepository)
 class PrefsRepositoryImpl implements PrefsRepository {
   const PrefsRepositoryImpl(this._prefs);
 
   final SharedPreferences _prefs;
+
+  @override
+  String get token =>
+      _prefs.getString(PreferencesKeys.USER_TOKEN) ?? base64Encode(utf8.encode('$DEFAULT_USER_NAME:$DEFAULT_PASSWORD'));
+  //base64Encode(utf8.encode('${user.userName}:${user.password}'));
+
+  @override
+  Future<bool> setToken() =>
+      _prefs.setString(PreferencesKeys.USER_TOKEN, base64Encode(utf8.encode('${user.userName}:${user.password}')));
 
   @override
   String get fbToken => _prefs.getString(PreferencesKeys.FB_USER_TOKEN);
@@ -43,6 +55,7 @@ class PrefsRepositoryImpl implements PrefsRepository {
   @override
   Future<bool> clearUserData() async {
     await _prefs.remove(PreferencesKeys.USER_PROFILE);
+    await _prefs.remove(PreferencesKeys.USER_TOKEN);
     await _prefs.remove(PreferencesKeys.FB_USER_TOKEN);
     await _prefs.remove(PreferencesKeys.APP_LANGUAGE);
     return true;

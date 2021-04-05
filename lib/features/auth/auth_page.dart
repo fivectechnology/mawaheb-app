@@ -2,16 +2,12 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({
-    Key key,
-  }) : super(key: key);
+  const AuthPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AuthPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AuthPage());
 
   static const String route = '/auth';
 
