@@ -10,6 +10,80 @@
   "lbl_gallery": "Gallery",
   "lbl_contacts": "Contacts",
   "lbl_strategic_partners": "Strategic Partners",
-  "lbl_download_center": "Download Center"
+  "lbl_download_center": "Download Center",
+  "lbl_address": "Address",
+  "lbl_emirates": "Emirates",
+  "lbl_state/province/area": "State/province/area",
+  "lbl_back": "back",
+  "lbl_next": "Next",
+  "lbl_personal_info": "Personal Info",
+  "lbl_add_image": "Add image",
+  "lbl_full_name": "Full Name",
+  "lbl_date_of_birth": "Date of birth",
+  "lbl_nationality": "Nationality",
+  "lbl_category": "Category",
+  "lbl_welcome_to_mawaheb": "Welcome to Mawaheb",
+  "lbl_email": "Email",
+  "lbl_password": "Password",
+  "lbl_forget_password": "Forget Password?",
+  "lbl_login": "Login",
+  "lbl_sign_up": "Sign up as player",
+  "lbl_email_username": "Enter email or username",
+  "lbl_resend_otp": "Resend OTP",
+  "lbl_add_sport": "Add Sport",
+  "lbl_sport_name": "Sport name",
+  "lbl_position": "Position",
+  "lbl_weight": "Weight in kilogram",
+  "lbl_hight": "Hight in CM",
+  "lbl_prefer_hand": "Prefer hand",
+  "lbl_prefer_leg": "Prefer leg",
+  "lbl_brief": "Brief",
+  "lbl_upload_video": "Upload videos",
+  "lbl_max_video": "Max 3 videos",
+  "lbl_add": "Add",
+  "lbl_search_sport": "Search sport",
+  "lbl_choose_sport": "Choose Sport",
+  "lbl_app_notification": "App Notification",
+  "lbl_change_password": "Change password",
+  "lbl_change_email": "Change Email",
+  "lbl_term_of_service": "Terms of service",
+  "lbl_log_out": "Log out",
+  "lbl_language": "Language",
+
+  "lbl_renew_subscription": "Renew Subscription",
+  "lbl_choose_payment": "Choose a payment method",
+  "lbl_card_number": "Card Number",
+  "lbl_expiry_month": "Expiry month",
+  "lbl_expiry_year": "Expiry year",
+  "lbl_cvv_Number": "CVV Number",
+  "lbl_card_holder_name": "Card holder's name",
+  "lbl_pay": "Pay",
+  "lbl_delete": "Delete",
+  "lbl_skip": "Skip",
+  "lbl_replace": "Replace",
+  "lbl_accept": "Accept",
+  "lbl_name": "Name",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  "msg_recover_account": "Recover \nYour Account",
+  "msg_enter_otp": "Enter OTP sent to your Email",
+  "msg_check_otp": "OTP sent please check your email",
+  "msg_brief": "write a brief about your self",
+  "msg_accepted": "I have read and accepted the"
+
+
+
 
 }

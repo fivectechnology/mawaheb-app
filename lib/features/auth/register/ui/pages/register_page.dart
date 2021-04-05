@@ -3,25 +3,27 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({
     Key key,
   }) : super(key: key);
 
-  static const String route = '/login';
+  static const String route = '/register';
 
   static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const LoginPage());
+      MaterialPageRoute(builder: (context) => const RegisterPage());
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
+class _RegisterPageState
+    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -35,7 +37,9 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, //new line
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      appBar: customAppBar(context: context, title: 'login', withTitle: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08),
         child: Column(
@@ -43,14 +47,11 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(
-                  top: context.fullHeight * 0.22,
-                  bottom: context.fullHeight * 0.1),
-              child: GradientText(
-                text: context.translate('lbl_welcome_to_mawaheb'),
-                colors: const [YELLOW, RED],
-                style: textTheme.headline1
-                    .copyWith(fontSize: 26, letterSpacing: 0.3),
+              padding:
+                  EdgeInsets.symmetric(vertical: context.fullHeight * 0.04),
+              child: mawahebTextField(
+                context: context,
+                hintText: 'lbl_name',
               ),
             ),
             mawahebTextField(
@@ -60,37 +61,12 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
             Padding(
               padding: EdgeInsets.only(
                   top: context.fullHeight * 0.04,
-                  bottom: context.fullHeight * 0.02),
+                  bottom: context.fullHeight * 0.06),
               child: mawahebTextField(
                   context: context,
                   hintText: 'lbl_password',
                   isSuffixIcon: true,
                   showPassword: false),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  child: Text(
-                    context.translate('lbl_forget_password'),
-                    style: textTheme.subtitle1.copyWith(
-                        fontSize: 12,
-                        decoration: TextDecoration.underline,
-                        color: const Color(0xFF9F9F9F)),
-                  ),
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: context.fullHeight * 0.05,
-                  bottom: context.fullHeight * 0.04),
-              child: MawahebGradientButton(
-                text: 'lbl_login',
-                onPressed: () {},
-                context: context,
-              ),
             ),
             MawahebGradientButton(
               text: 'lbl_sign_up',
