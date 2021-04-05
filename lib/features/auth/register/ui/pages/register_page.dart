@@ -1,12 +1,9 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:core_sdk/utils/mobx/mobx_state.dart';
-import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
@@ -22,8 +19,7 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState
-    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
@@ -70,7 +66,9 @@ class _RegisterPageState
             ),
             MawahebGradientButton(
               text: 'lbl_sign_up',
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(PlayerInfoPage.route);
+              },
               context: context,
             ),
           ],

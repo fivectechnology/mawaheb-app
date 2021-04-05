@@ -1,5 +1,6 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/widgets/user_list_tile.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -43,16 +44,7 @@ class _ViewsPageState extends MobxState<ViewsPage, ProfileViewmodel> {
                 shrinkWrap: true,
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(1000),
-                      child: Image.asset(
-                        'assets/images/profile.png',
-                      ),
-                    ),
-                    title: Text('Club name'),
-                    subtitle: Text('Club'),
-                  );
+                  return userListTile();
                 })
           ],
         ),

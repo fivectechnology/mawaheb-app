@@ -13,6 +13,7 @@
   "lbl_download_center": "Download Center",
   "lbl_address": "Address",
   "lbl_emirates": "Emirates",
+  "lbl_country": "Country",
   "lbl_state/province/area": "State/province/area",
   "lbl_back": "back",
   "lbl_next": "Next",
@@ -22,6 +23,7 @@
   "lbl_date_of_birth": "Date of birth",
   "lbl_nationality": "Nationality",
   "lbl_category": "Category",
+  "lbl_gender": "Gender",
   "lbl_welcome_to_mawaheb": "Welcome to Mawaheb",
   "lbl_email": "Email",
   "lbl_password": "Password",
@@ -49,7 +51,6 @@
   "lbl_term_of_service": "Terms of service",
   "lbl_log_out": "Log out",
   "lbl_language": "Language",
-
   "lbl_renew_subscription": "Renew Subscription",
   "lbl_choose_payment": "Choose a payment method",
   "lbl_card_number": "Card Number",
@@ -63,6 +64,19 @@
   "lbl_replace": "Replace",
   "lbl_accept": "Accept",
   "lbl_name": "Name",
+  "lbl_phone_num": "Phone Number",
+  "lbl_edit": "Edit",
+  "lbl_sport": "Sport",
+  "lbl_filter": "Filter",
+  "lbl_booked_by_us": "Booked by us",
+  "lbl_confirmed_by_us": "Confirmed by us",
+  "lbl_videos": "Videos",
+
+
+
+
+
+
 
 
 

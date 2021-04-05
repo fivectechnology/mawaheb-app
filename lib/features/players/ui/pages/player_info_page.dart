@@ -6,6 +6,7 @@ import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/address_info_page.dart';
 
 class PlayerInfoPage extends StatefulWidget {
   const PlayerInfoPage({
@@ -69,7 +70,11 @@ class _PlayerInfoPageState extends MobxState<PlayerInfoPage, PlayersViewmodel> {
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
                 child: MawahebGradientButton(
-                    text: 'lbl_next', onPressed: () {}, context: context),
+                    text: 'lbl_next',
+                    onPressed: () {
+                      context.pushPage(const AddressInfoPage());
+                    },
+                    context: context),
               ),
             )
           ],

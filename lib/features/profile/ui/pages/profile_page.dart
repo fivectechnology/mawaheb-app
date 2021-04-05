@@ -1,16 +1,24 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/renew_subscription_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/videos_page.dart';
+import 'file:///E:/Android%20Projects/mawaheb-app/lib/features/home/ui/pages/renew_subscription_page.dart';
+import 'file:///E:/Android%20Projects/mawaheb-app/lib/features/players/ui/pages/videos_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
+import 'package:mawaheb_app/features/profile/ui/widgets/profile_detail_row.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
+import 'my_info_page.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
+
+  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -37,13 +45,13 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(top: context.fullHeight * 0.05),
+        padding: EdgeInsets.only(top: context.fullHeight * 0.01),
         child: Column(
           children: [
             profileActivationRow(isPending: true),
-            profileDetails(),
+            profileDetails(context: context),
             Container(
-              margin: EdgeInsets.only(top: context.fullHeight * 0.04),
+              margin: EdgeInsets.only(top: context.fullHeight * 0.02),
               height: context.fullHeight * 0.07,
               decoration: BoxDecoration(
                   border: Border(
@@ -120,7 +128,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
               visible: isPending,
               child: IconButton(
                 onPressed: () {
-                  context.pushPage(const RenewSubscriptionPage());
+                  App.navKey.currentState.push(RenewSubscriptionPage.pageRoute);
                 },
                 icon: Icon(
                   Icons.arrow_forward_ios,
@@ -128,34 +136,6 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                   size: 16,
                 ),
               ))
-        ],
-      ),
-    );
-  }
-
-  Widget profileDetails() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const CircleAvatar(
-            radius: 52,
-            backgroundColor: Color(0xFF9F9F9F),
-            child: CircleAvatar(
-              radius: 45,
-              backgroundImage: AssetImage('assets/images/profile.png'),
-            ),
-          ),
-          SizedBox(width: context.fullWidth * 0.02),
-          Center(
-            child: Text(
-              'Jacob Sullivan',
-              textAlign: TextAlign.center,
-              style: textTheme.headline3
-                  .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          )
         ],
       ),
     );

@@ -5,15 +5,11 @@ import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
-import 'package:mawaheb_app/features/players/ui/pages/add_sport_page.dart';
-import 'package:mawaheb_app/features/players/ui/pages/address_info_page.dart';
+import 'package:mawaheb_app/features/home/ui/pages/renew_subscription_page.dart';
 import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
-import 'package:mawaheb_app/features/public_info/ui/pages/about_us_page.dart';
-import 'package:mawaheb_app/features/public_info/ui/pages/contacts_page.dart';
-import 'package:mawaheb_app/features/public_info/ui/pages/download_center_page.dart';
-import 'package:mawaheb_app/features/public_info/ui/pages/gallery_page.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/add_sport_page.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/address_info_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
-import 'package:mawaheb_app/features/public_info/ui/pages/strategic_partners_page.dart';
 import 'package:mawaheb_app/features/splash/ui/pages/splash_page.dart';
 
 import '../../features/auth/login/ui/pages/login_page.dart';
@@ -42,20 +38,8 @@ class PageRouter {
       case OtpPage.route:
         return OtpPage.pageRoute;
 
-      case AboutUsPage.route:
-        return AboutUsPage.pageRoute;
-
-      case ContactsPage.route:
-        return ContactsPage.pageRoute;
-
-      case StrategicPartnersPage.route:
-        return StrategicPartnersPage.pageRoute;
-
-      case GalleryPage.route:
-        return GalleryPage.pageRoute;
-
-      case DownLoadCenterPage.route:
-        return DownLoadCenterPage.pageRoute;
+      case RenewSubscriptionPage.route:
+        return RenewSubscriptionPage.pageRoute;
 
       case PlayerInfoPage.route:
         return PlayerInfoPage.pageRoute;

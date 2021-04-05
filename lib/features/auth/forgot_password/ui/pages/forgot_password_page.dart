@@ -1,10 +1,9 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key key}) : super(key: key);
@@ -18,8 +17,7 @@ class ForgotPasswordPage extends StatefulWidget {
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordPageState
-    extends ProviderMobxState<ForgotPasswordPage, AuthViewmodel> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   void initState() {
     super.initState();
@@ -47,7 +45,7 @@ class _ForgotPasswordPageState
                     bottom: context.fullHeight * 0.1),
                 child: Text(
                   context.translate('msg_recover_account'),
-                  style: textTheme.headline2
+                  style: context.textTheme.headline2
                       .copyWith(color: Colors.black, fontSize: 40),
                 )),
             mawahebTextField(
@@ -57,6 +55,9 @@ class _ForgotPasswordPageState
             Padding(
               padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.1),
               child: MawahebButton(
+                onPressed: () {
+                  context.pushPage(const OtpPage());
+                },
                 context: context,
                 text: 'lbl_next',
                 buttonColor: Colors.white,
