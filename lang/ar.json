@@ -14,6 +14,7 @@
 
   "lbl_address": "العنوان",
   "lbl_emirates": "الإمارات",
+  "lbl_country": "البلد",
   "lbl_state/province/area": "الولاية/المقاطعة/المنطقة",
   "lbl_back": "رجوع",
   "lbl_next": "التالي",
@@ -64,6 +65,10 @@
   "lbl_replace": "استبدال",
   "lbl_accept": "قبول",
   "lbl_name": "الاسم",
+  "lbl_phone_num": "رقم الموبايل",
+  "lbl_edit": "تعديل",
+
+
 
 
 

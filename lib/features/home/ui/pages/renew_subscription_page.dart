@@ -11,6 +11,11 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 class RenewSubscriptionPage extends StatefulWidget {
   const RenewSubscriptionPage({Key key}) : super(key: key);
 
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const RenewSubscriptionPage());
+
+  static const String route = '/renew_subscription';
+
   @override
   _RenewSubscriptionPageState createState() => _RenewSubscriptionPageState();
 }

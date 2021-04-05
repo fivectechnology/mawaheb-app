@@ -5,13 +5,12 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'package:mawaheb_app/base/widgets/search_bottom_sheet.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AddSportPage extends StatefulWidget {
   const AddSportPage({
@@ -94,13 +93,16 @@ class _AddSportPageState extends MobxState<AddSportPage, PlayersViewmodel> {
                 ),
               ),
             ),
-            uploadSpace(onPress: () {
-              _settingModalBottomSheet(context);
-            }),
+            uploadSpace(onPress: () {}),
             SizedBox(height: context.fullHeight * 0.03),
             MawahebGradientButton(
               text: context.translate('lbl_next'),
-              onPressed: () {},
+              onPressed: () {
+                searchModalBottomSheet(
+                    context: context,
+                    onPress: () {},
+                    title: 'lbl_choose_sport');
+              },
               context: context,
             ),
           ],
@@ -136,88 +138,5 @@ class _AddSportPageState extends MobxState<AddSportPage, PlayersViewmodel> {
         ),
       ),
     );
-  }
-
-  void _settingModalBottomSheet(BuildContext context) {
-    showMaterialModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SizedBox(
-              height: context.fullHeight * 0.9,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: context.fullWidth * 0.08,
-                    vertical: context.fullHeight * 0.03),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.translate('lbl_choose_sport'),
-                      style: textTheme.headline1
-                          .copyWith(fontSize: 20, letterSpacing: 0.2),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: context.fullHeight * 0.02),
-                      child: SizedBox(
-                        height: context.fullHeight * 0.06,
-                        child: TextField(
-                          decoration: InputDecoration(
-                              hintText: context.translate('lbl_search_sport'),
-                              hintStyle: textTheme.bodyText1
-                                  .copyWith(color: Colors.grey, fontSize: 12),
-                              suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.search,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide:
-                                      const BorderSide(color: Colors.grey)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide:
-                                      const BorderSide(color: Colors.grey))),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: context.fullHeight * 0.6,
-                      child: ListView.builder(
-                          itemCount: 100,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {},
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: context.fullHeight * 0.02),
-                                child: Text(
-                                  'Sport Name',
-                                  style: textTheme.bodyText1,
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: MawahebButton(
-                          textColor: Colors.white,
-                          buttonColor: Colors.grey[300],
-                          borderColor: Colors.white,
-                          text: 'lbl_add',
-                          onPressed: () {},
-                          context: context,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ));
-        });
   }
 }

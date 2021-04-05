@@ -4,6 +4,7 @@ import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'file:///E:/Android%20Projects/mawaheb-app/lib/features/profile/ui/pages/add_sport_page.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -62,7 +63,9 @@ class _AddressInfoPageState
                 alignment: FractionalOffset.bottomCenter,
                 child: MawahebGradientButton(
                   text: 'lbl_next',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushPage(const AddSportPage());
+                  },
                   context: context,
                 ),
               ),
