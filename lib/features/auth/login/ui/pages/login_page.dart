@@ -1,11 +1,12 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -21,7 +22,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
+class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
@@ -35,6 +36,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false, //new line
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08),
@@ -49,7 +51,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
               child: GradientText(
                 text: context.translate('lbl_welcome_to_mawaheb'),
                 colors: const [YELLOW, RED],
-                style: textTheme.headline1
+                style: context.textTheme.headline1
                     .copyWith(fontSize: 26, letterSpacing: 0.3),
               ),
             ),
@@ -72,9 +74,12 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 InkWell(
+                  onTap: () {
+                    context.pushNamed(ForgotPasswordPage.route);
+                  },
                   child: Text(
                     context.translate('lbl_forget_password'),
-                    style: textTheme.subtitle1.copyWith(
+                    style: context.textTheme.subtitle1.copyWith(
                         fontSize: 12,
                         decoration: TextDecoration.underline,
                         color: const Color(0xFF9F9F9F)),
@@ -88,13 +93,17 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   bottom: context.fullHeight * 0.04),
               child: MawahebGradientButton(
                 text: 'lbl_login',
-                onPressed: () {},
+                onPressed: () {
+                  context.pushNamed(BasePage.route);
+                },
                 context: context,
               ),
             ),
             MawahebGradientButton(
               text: 'lbl_sign_up',
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(RegisterPage.route);
+              },
               context: context,
             ),
           ],

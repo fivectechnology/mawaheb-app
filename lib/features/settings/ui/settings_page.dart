@@ -1,4 +1,3 @@
-import 'package:core_sdk/utils/colors.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

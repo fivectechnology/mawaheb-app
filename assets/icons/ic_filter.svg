@@ -1,0 +1,13 @@
+<svg id="round-filter_list-24px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_3058" data-name="Rectangle 3058" width="18" height="12" transform="translate(3 6)" fill="#2d2d33" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Bounding_Boxes">
+    <path id="Path_1114" data-name="Path 1114" d="M0,0H24V24H0Z" fill="none"/>
+  </g>
+  <g id="Mask_Group_117" data-name="Mask Group 117" clip-path="url(#clip-path)">
+    <path id="Path_1115" data-name="Path 1115" d="M11,18h2a1,1,0,0,0,1-1h0a1,1,0,0,0-1-1H11a1,1,0,0,0-1,1h0A1,1,0,0,0,11,18ZM3,7H3A1,1,0,0,0,4,8H20a1,1,0,0,0,1-1h0a1,1,0,0,0-1-1H4A1,1,0,0,0,3,7Zm4,6H17a1,1,0,0,0,1-1h0a1,1,0,0,0-1-1H7a1,1,0,0,0-1,1H6A1,1,0,0,0,7,13Z" fill="#2d2d33"/>
+  </g>
+</svg>

@@ -7,13 +7,14 @@ import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
+import 'add_sport_page.dart';
+
 class AddressInfoPage extends StatefulWidget {
   const AddressInfoPage({
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AddressInfoPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AddressInfoPage());
 
   static const String route = '/address_info';
 
@@ -21,8 +22,7 @@ class AddressInfoPage extends StatefulWidget {
   _AddressInfoPageState createState() => _AddressInfoPageState();
 }
 
-class _AddressInfoPageState
-    extends MobxState<AddressInfoPage, PlayersViewmodel> {
+class _AddressInfoPageState extends MobxState<AddressInfoPage, PlayersViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -38,31 +38,24 @@ class _AddressInfoPageState
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar:
-          customAppBar(context: context, title: 'lbl_address', withTitle: true),
+      appBar: customAppBar(context: context, title: 'lbl_address', withTitle: true),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: context.fullWidth * 0.08,
-            vertical: context.fullHeight * 0.03),
+        padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08, vertical: context.fullHeight * 0.03),
         child: Column(
           children: [
             mawhaebDropDown(hint: 'lbl_emirates', context: context),
             SizedBox(height: context.fullHeight * 0.02),
-            mawahebTextField(
-                hintText: 'lbl_state/province/area',
-                hintColor: Colors.grey,
-                context: context),
+            mawahebTextField(hintText: 'lbl_state/province/area', hintColor: Colors.grey, context: context),
             SizedBox(height: context.fullHeight * 0.02),
-            mawahebTextField(
-                hintText: 'lbl_address',
-                hintColor: Colors.grey,
-                context: context),
+            mawahebTextField(hintText: 'lbl_address', hintColor: Colors.grey, context: context),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
                 child: MawahebGradientButton(
                   text: 'lbl_next',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushPage(const AddSportPage());
+                  },
                   context: context,
                 ),
               ),

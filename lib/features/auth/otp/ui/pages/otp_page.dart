@@ -1,10 +1,9 @@
-import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class OtpPage extends StatefulWidget {
@@ -19,7 +18,7 @@ class OtpPage extends StatefulWidget {
   _OtpPageState createState() => _OtpPageState();
 }
 
-class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
+class _OtpPageState extends State<OtpPage> {
   @override
   void initState() {
     super.initState();
@@ -47,12 +46,12 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 ),
                 child: Text(
                   context.translate('msg_enter_otp'),
-                  style: textTheme.headline1.copyWith(
+                  style: context.textTheme.headline1.copyWith(
                       color: Colors.black, fontSize: 22, wordSpacing: 0.5),
                 )),
             Text(
               'roger.schneider@mail.com',
-              style: textTheme.bodyText1
+              style: context.textTheme.bodyText1
                   .copyWith(color: Colors.black, fontSize: 16),
             ),
             SizedBox(
@@ -60,7 +59,8 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
             ),
             PinCodeTextField(
                 autofocus: true,
-                pinTextStyle: textTheme.headline2.copyWith(fontSize: 26),
+                pinTextStyle:
+                    context.textTheme.headline2.copyWith(fontSize: 26),
                 pinBoxDecoration:
                     ProvidedPinBoxDecoration.underlinedPinBoxDecoration),
             Padding(
@@ -79,6 +79,9 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
               ),
             ),
             MawahebButton(
+              onPressed: () {
+                context.pushPage(const BasePage());
+              },
               context: context,
               text: 'lbl_next',
               buttonColor: const Color(0xFF9F9F9F),
@@ -101,11 +104,13 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 leading: SvgPicture.asset('assets/icons/ic_otp.svg'),
                 title: Text(
                   context.translate('msg_check_otp'),
-                  style: textTheme.bodyText1.copyWith(color: Colors.grey),
+                  style:
+                      context.textTheme.bodyText1.copyWith(color: Colors.grey),
                 ),
                 subtitle: Text(
                   'roger.schneider@mail.com',
-                  style: textTheme.bodyText1.copyWith(color: Colors.black),
+                  style:
+                      context.textTheme.bodyText1.copyWith(color: Colors.black),
                 ),
               ),
             ],
