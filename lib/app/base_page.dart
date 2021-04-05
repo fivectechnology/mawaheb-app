@@ -7,7 +7,6 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_bottom_nav.dart';
-import 'package:mawaheb_app/features/home/ui/pages/home_page.dart';
 import 'package:mawaheb_app/features/notifications/ui/pages/notifications_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';

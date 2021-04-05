@@ -6,6 +6,7 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'file:///E:/Android%20Projects/mawaheb-app/lib/features/home/ui/pages/renew_subscription_page.dart';
 import 'file:///E:/Android%20Projects/mawaheb-app/lib/features/players/ui/pages/videos_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
+import 'package:mawaheb_app/features/profile/ui/widgets/profile_detail_row.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -44,13 +45,13 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(top: context.fullHeight * 0.05),
+        padding: EdgeInsets.only(top: context.fullHeight * 0.01),
         child: Column(
           children: [
             profileActivationRow(isPending: true),
-            profileDetails(),
+            profileDetails(context: context),
             Container(
-              margin: EdgeInsets.only(top: context.fullHeight * 0.04),
+              margin: EdgeInsets.only(top: context.fullHeight * 0.02),
               height: context.fullHeight * 0.07,
               decoration: BoxDecoration(
                   border: Border(
@@ -135,34 +136,6 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                   size: 16,
                 ),
               ))
-        ],
-      ),
-    );
-  }
-
-  Widget profileDetails() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const CircleAvatar(
-            radius: 52,
-            backgroundColor: Color(0xFF9F9F9F),
-            child: CircleAvatar(
-              radius: 45,
-              backgroundImage: AssetImage('assets/images/profile.png'),
-            ),
-          ),
-          SizedBox(width: context.fullWidth * 0.02),
-          Center(
-            child: Text(
-              'Jacob Sullivan',
-              textAlign: TextAlign.center,
-              style: textTheme.headline3
-                  .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          )
         ],
       ),
     );

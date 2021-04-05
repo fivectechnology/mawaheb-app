@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/base/widgets/card_info_player.dart';
-import 'package:mawaheb_app/base/widgets/edit_name_bottom_sheet.dart';
-
 import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
 import 'add_sport_page.dart';
-import 'file:///E:/Android%20Projects/mawaheb-app/lib/features/profile/ui/pages/address_info_page.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+
+import 'address_info_page.dart';
 
 class MyInfoPage extends StatefulWidget {
   const MyInfoPage({Key key}) : super(key: key);

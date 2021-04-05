@@ -1,11 +1,9 @@
-import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class OtpPage extends StatefulWidget {

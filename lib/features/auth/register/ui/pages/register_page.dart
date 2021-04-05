@@ -1,12 +1,8 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:core_sdk/utils/mobx/mobx_state.dart';
-import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
 
 class RegisterPage extends StatefulWidget {

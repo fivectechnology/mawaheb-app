@@ -1,11 +1,9 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key key}) : super(key: key);
