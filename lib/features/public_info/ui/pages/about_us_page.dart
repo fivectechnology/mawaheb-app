@@ -8,8 +8,7 @@ class AboutUsPage extends StatefulWidget {
 
   static const String route = '/about_us';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -17,7 +16,7 @@ class AboutUsPage extends StatefulWidget {
   _AboutUsPageState createState() => _AboutUsPageState();
 }
 
-class _AboutUsPageState extends MobxState<AboutUsPage, PublicInfoViewmodel> {
+class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -34,8 +33,7 @@ class _AboutUsPageState extends MobxState<AboutUsPage, PublicInfoViewmodel> {
       body: Padding(
           padding: EdgeInsets.only(top: context.fullHeight * 0.04),
           child: ListView.builder(
-              padding:
-                  EdgeInsets.symmetric(horizontal: context.fullWidth * 0.1),
+              padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.1),
               itemCount: 3,
               itemBuilder: (context, index) {
                 return aboutUsTile();

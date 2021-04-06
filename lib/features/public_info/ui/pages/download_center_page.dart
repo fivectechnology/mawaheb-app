@@ -19,8 +19,7 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState
-    extends MobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -57,8 +56,7 @@ class _DownLoadCenterPageState
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Text('Aenean sed lorem est. Sed quis neque ',
-                  style: textTheme.subtitle1.copyWith(fontSize: 16))
+              Text('Aenean sed lorem est. Sed quis neque ', style: textTheme.subtitle1.copyWith(fontSize: 16))
             ],
           ),
           Row(

@@ -11,10 +11,8 @@ import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<BaseResponseModel<String>>> login({@required String userName, @required String password});
+  Future<NetworkResult<bool>> login({@required String userName, @required String password});
   Future<NetworkResult<BaseResponseModel<String>>> logout();
-  Future<NetworkResult<BaseResponseModel<String>>> getAboutUs();
-  Future<NetworkResult<BaseResponseModel<String>>> getContactUs();
 }
 
 @LazySingleton(as: AuthDataSource)
@@ -32,46 +30,24 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
         );
 
   @override
-  Future<NetworkResult<BaseResponseModel<String>>> login({
+  Future<NetworkResult<bool>> login({
     @required String userName,
     @required String password,
   }) {
-    return request(
+    return mawahebRequest(
       method: METHOD.POST,
       endpoint: LOGIN_ENDPOINT,
+      withAuth: false,
       data: {'username': userName, 'password': password},
     );
   }
 
+  // TODO(ahmad): need test
   @override
   Future<NetworkResult<BaseResponseModel<String>>> logout() {
-    return request(
+    return mawahebRequest(
       method: METHOD.GET,
       endpoint: LOGIN_ENDPOINT,
-    );
-  }
-
-  @override
-  Future<NetworkResult<BaseResponseModel<String>>> getAboutUs() {
-    return request(
-      method: METHOD.POST,
-      endpoint: ABOUT_US_ENDPOINT,
-      data: {
-        'data': {},
-        'fields': ['summary', 'vision', 'mission', 'ourValues']
-      },
-    );
-  }
-
-  @override
-  Future<NetworkResult<BaseResponseModel<String>>> getContactUs() {
-    return request(
-      method: METHOD.POST,
-      endpoint: CONTACT_US_ENDPOINT,
-      data: {
-        'data': {},
-        'fields': ['email', 'phone', 'country', 'emirate', 'address', 'googleMapsCoordination']
-      },
     );
   }
 }

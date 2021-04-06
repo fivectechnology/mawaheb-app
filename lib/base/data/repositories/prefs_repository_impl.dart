@@ -44,7 +44,10 @@ class PrefsRepositoryImpl implements PrefsRepository {
   Future<bool> setBaseUrl(String baseUrl) => _prefs.setString(PreferencesKeys.API_BASE_URL, baseUrl);
 
   @override
-  Future<bool> setUser(UserModel user) => _prefs.setString(PreferencesKeys.USER_PROFILE, json.encode(user.toJson()));
+  Future<bool> setUser(UserModel user) async {
+    await _prefs.setString(PreferencesKeys.USER_PROFILE, json.encode(user.toJson()));
+    return setToken();
+  }
 
   @override
   UserModel get user {

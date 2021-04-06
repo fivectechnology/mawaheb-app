@@ -14,8 +14,7 @@ class PublicInfoPage extends StatefulWidget {
 
   static const String route = '/public_info';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -23,8 +22,7 @@ class PublicInfoPage extends StatefulWidget {
   _PublicInfoPageState createState() => _PublicInfoPageState();
 }
 
-class _PublicInfoPageState
-    extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
+class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
   TabController _tabController;
 
   List<Widget> pages = const [
@@ -62,21 +60,19 @@ class _PublicInfoPageState
           child: AppBar(
             shape: Border(bottom: BorderSide(color: Colors.grey[400])),
             bottom: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: RED,
-                labelColor: Colors.black,
-                labelStyle: textTheme.subtitle1,
-                indicatorWeight: 3,
-                labelPadding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                tabs: _tabs),
+              controller: _tabController,
+              isScrollable: true,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: RED,
+              labelColor: Colors.black,
+              labelStyle: textTheme.subtitle1,
+              indicatorWeight: 3,
+              labelPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              tabs: _tabs,
+            ),
           ),
         ),
-        body: TabBarView(
-          children: pages,
-        ),
+        body: TabBarView(children: pages),
       ),
     );
   }

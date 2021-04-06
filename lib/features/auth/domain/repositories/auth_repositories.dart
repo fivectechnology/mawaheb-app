@@ -9,8 +9,4 @@ abstract class AuthRepository extends BaseRepository {
   Future<NetworkResult<bool>> login({@required String userName, @required String password});
 
   Future<NetworkResult<bool>> logout();
-
-  Future<NetworkResult<String>> getAboutUs();
-
-  Future<NetworkResult<String>> getContactUs();
 }

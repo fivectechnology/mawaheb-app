@@ -64,6 +64,38 @@ Future<GetIt> $inject(
   gh.factory<AppViewmodel>(() => AppViewmodel(get<Logger>()));
   gh.factory<BaseOptions>(
       () => appModule.dioOption(get<String>(instanceName: 'ApiBaseUrl')));
+  gh.factory<SplashViewmodel>(
+      () => SplashViewmodel(get<Logger>(), get<PrefsRepository>()));
+  gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
+        client: get<Dio>(),
+        prefsRepository: get<PrefsRepository>(),
+        connectionChecker: get<DataConnectionChecker>(),
+        logger: get<Logger>(),
+      ));
+  gh.lazySingleton<HomeRepository>(
+      () => HomeRepositoryImpl(get<HomeDataSource>()));
+  gh.factory<HomeViewmodel>(
+      () => HomeViewmodel(get<Logger>(), get<HomeRepository>()));
+  gh.lazySingleton<NotificationsDataSource>(() => NotificationsDataSourceImpl(
+        client: get<Dio>(),
+        prefsRepository: get<PrefsRepository>(),
+        connectionChecker: get<DataConnectionChecker>(),
+        logger: get<Logger>(),
+      ));
+  gh.lazySingleton<NotificationsRepository>(
+      () => NotificationsRepositoryImpl(get<NotificationsDataSource>()));
+  gh.factory<NotificationsViewmodel>(() =>
+      NotificationsViewmodel(get<Logger>(), get<NotificationsRepository>()));
+  gh.lazySingleton<PlayersDataSource>(() => PlayersDataSourceImpl(
+        client: get<Dio>(),
+        prefsRepository: get<PrefsRepository>(),
+        connectionChecker: get<DataConnectionChecker>(),
+        logger: get<Logger>(),
+      ));
+  gh.lazySingleton<PlayersRepository>(
+      () => PlayersRepositoryImpl(get<PlayersDataSource>()));
+  gh.factory<PlayersViewmodel>(
+      () => PlayersViewmodel(get<Logger>(), get<PlayersRepository>()));
   gh.lazySingleton<ProfileDataSource>(() => ProfileDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -102,8 +134,6 @@ Future<GetIt> $inject(
       ));
   gh.lazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(get<SplashDataSource>()));
-  gh.factory<SplashViewmodel>(
-      () => SplashViewmodel(get<Logger>(), get<PrefsRepository>()));
   gh.lazySingleton<AuthDataSource>(() => AuthDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -114,43 +144,17 @@ Future<GetIt> $inject(
       () => AuthRepositoryImpl(get<AuthDataSource>(), get<PrefsRepository>()));
   gh.factory<AuthViewmodel>(
       () => AuthViewmodel(get<Logger>(), get<AuthRepository>()));
-  gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<HomeRepository>(
-      () => HomeRepositoryImpl(get<HomeDataSource>()));
-  gh.factory<HomeViewmodel>(
-      () => HomeViewmodel(get<Logger>(), get<HomeRepository>()));
-  gh.lazySingleton<NotificationsDataSource>(() => NotificationsDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<NotificationsRepository>(
-      () => NotificationsRepositoryImpl(get<NotificationsDataSource>()));
-  gh.factory<NotificationsViewmodel>(() =>
-      NotificationsViewmodel(get<Logger>(), get<NotificationsRepository>()));
-  gh.lazySingleton<PlayersDataSource>(() => PlayersDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<PlayersRepository>(
-      () => PlayersRepositoryImpl(get<PlayersDataSource>()));
-  gh.factory<PlayersViewmodel>(
-      () => PlayersViewmodel(get<Logger>(), get<PlayersRepository>()));
 
   // Eager singletons must be registered in the right order
   gh.singleton<Logger>(appModule.logger());
   final sharedPreferences = await appModule.getPrefs();
   gh.singleton<SharedPreferences>(sharedPreferences);
-  gh.singleton<Dio>(appModule.dio(get<BaseOptions>(), get<Logger>()));
   gh.singleton<PrefsRepository>(PrefsRepositoryImpl(get<SharedPreferences>()));
+  gh.singleton<Dio>(appModule.dio(
+    get<BaseOptions>(),
+    get<Logger>(),
+    get<PrefsRepository>(),
+  ));
   return get;
 }
 

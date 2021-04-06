@@ -43,5 +43,8 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
         fromJsonT,
       );
 
+  static bool Function(Object) get successMapper =>
+      (Object baseJson) => _$BaseResponseModelFromJson(baseJson, (_) => Null).status == 0;
+
   Map<String, dynamic> toJson(Object Function(T value) toJsonT) => _$BaseResponseModelToJson(this, toJsonT);
 }

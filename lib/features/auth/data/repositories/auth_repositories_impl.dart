@@ -22,10 +22,4 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<NetworkResult<bool>> logout() =>
       authDataSource.logout().whenSuccessWrapped((_) => _prefsRepository.clearUserData());
-
-  @override
-  Future<NetworkResult<String>> getAboutUs() => authDataSource.getAboutUs().whenSuccessWrapped((res) => res.data);
-
-  @override
-  Future<NetworkResult<String>> getContactUs() => authDataSource.getContactUs().whenSuccessWrapped((res) => res.data);
 }

@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/dio/token_option.dart';
-import 'package:core_sdk/utils/extensions/string.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mawaheb_app/app/app.dart';
@@ -41,64 +37,43 @@ class TokenInterceptor extends Interceptor {
 
   @override
   Future onError(DioError err) async {
-    if (!refreshTokenUrl.isNullOrEmpty) {
-      if ((err.response?.statusCode ?? -1) == 401) {
-        // If no token, firstly lock this interceptor to prevent other request enter this interceptor.
-        // then request token
-        baseDio.interceptors.requestLock.lock();
-        baseDio.interceptors.responseLock.lock();
+    if ((err.response?.statusCode ?? -1) == 401) {
+      // If no token, firstly lock this interceptor to prevent other request enter this interceptor.
+      // then request token
 
-        tokenDio.options = baseDio.options;
-        final lang = prefsRepository.languageCode ?? LANGUAGE_DEFAULT;
-        try {
-          // TODO(abd): make login request here
-          final tokenRes = await tokenDio.post(
-            refreshTokenUrl,
-            data: {
-              'langCode': lang,
-              'data': {
-                'token': prefsRepository.token,
-                'refreshToken': prefsRepository.refreshToken,
-              }
-            },
-          );
-          print('my debug tokenRes  $tokenRes');
-          // this status mean that refresh token is invalidate and we should go
-          // to login page after unlock dio for login requests
-          if ((tokenRes?.statusCode ?? -1) == 401) {
-            throw Exception('Refresh token fail with 401');
-          } else {
-            final tokens = BaseResponseModel.fromJson(LoginResModel.fromJson)(
-              jsonDecode(tokenRes.data),
-            ).data;
-            await prefsRepository.setToken(tokens.token);
-            await prefsRepository.setRefreshToken(tokens.refreshToken);
-            baseDio.interceptors.requestLock.unlock();
-            baseDio.interceptors.responseLock.unlock();
-            final newOptions = err.request
-              ..merge(headers: {
-                'Authorization': 'Bearer ' + prefsRepository.token,
-              });
-            return await baseDio.request(
-              err.request.path,
-              data: err.request.data,
-              queryParameters: err.request.queryParameters,
-              cancelToken: err.request.cancelToken,
-              options: TokenOption.needToken(err.request) ? newOptions : err.request,
-              onSendProgress: err.request.onSendProgress,
-              onReceiveProgress: err.request.onReceiveProgress,
-            );
-          }
-        } catch (ex) {
-          print('my debug token refresh catch $ex');
-          await prefsRepository.clearUserData();
-          baseDio.interceptors.requestLock.unlock();
-          baseDio.interceptors.responseLock.unlock();
-          App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
-        }
+      baseDio.interceptors.requestLock.lock();
+      baseDio.interceptors.responseLock.lock();
+      tokenDio.options = baseDio.options;
+      try {
+        // this status mean that refresh token is invalidate and we should go
+        // to login page after unlock dio for login requests
+        // TODO(ahmad): you should retry to re-login with saved user info in prefs
+        // TODOO(ahmad): if the above login call also return with 401 you must navigate to login page (App.navkey.currentstate.pop())
+        // if ((tokenRes?.statusCode ?? -1) == 401) {
+        //   throw Exception('Refresh token fail with 401');
+        // } else {
+        //   baseDio.interceptors.requestLock.unlock();
+        //   baseDio.interceptors.responseLock.unlock();
+        //   final newOptions = err.request..merge(headers: {'Authorization': 'Basic ' + prefsRepository.token});
+        //   return await baseDio.request(
+        //     err.request.path,
+        //     data: err.request.data,
+        //     queryParameters: err.request.queryParameters,
+        //     cancelToken: err.request.cancelToken,
+        //     options: TokenOption.needToken(err.request) ? newOptions : err.request,
+        //     onSendProgress: err.request.onSendProgress,
+        //     onReceiveProgress: err.request.onReceiveProgress,
+        //   );
+        // }
+      } catch (ex) {
+        print('my debug token refresh catch $ex');
+        await prefsRepository.clearUserData();
+        baseDio.interceptors.requestLock.unlock();
+        baseDio.interceptors.responseLock.unlock();
+        App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
       }
-
-      return err;
     }
+
+    return err;
   }
 }

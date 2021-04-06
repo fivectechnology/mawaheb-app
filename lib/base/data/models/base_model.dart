@@ -4,9 +4,17 @@ import 'base_response_model.dart';
 
 abstract class BaseModel {
   const BaseModel(this.status, this.offset, this.total, this.errors);
+
+  ///  [status]
+  ///  0 success
+  /// -1 failure
+  /// -4 validation error
   final int status;
+
   final int offset;
+
   final int total;
+
   final Map<String, dynamic> errors;
 }
 

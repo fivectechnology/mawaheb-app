@@ -19,8 +19,7 @@ class StrategicPartnersPage extends StatefulWidget {
   _StrategicPartnersPageState createState() => _StrategicPartnersPageState();
 }
 
-class _StrategicPartnersPageState
-    extends MobxState<StrategicPartnersPage, PublicInfoViewmodel> {
+class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
