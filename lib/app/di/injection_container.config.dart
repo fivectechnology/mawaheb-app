@@ -112,8 +112,8 @@ Future<GetIt> $inject(
         connectionChecker: get<DataConnectionChecker>(),
         logger: get<Logger>(),
       ));
-  gh.lazySingleton<PublicInfoRepository>(
-      () => PublicInfoRepositoryImpl(get<PublicInfoDataSource>()));
+  gh.lazySingleton<PublicInfoRepository>(() => PublicInfoRepositoryImpl(
+      get<PublicInfoDataSource>(), get<PrefsRepository>()));
   gh.factory<PublicInfoViewmodel>(
       () => PublicInfoViewmodel(get<Logger>(), get<PublicInfoRepository>()));
   gh.lazySingleton<SettingsDataSource>(() => SettingsDataSourceImpl(
