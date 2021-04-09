@@ -13,10 +13,17 @@ import 'package:supercharged/supercharged.dart';
 
 part 'public_info_viewmodels.g.dart';
 
-enum PublicInfoTabs { about_us, gallery, contacts, strategic_partners, download_center }
+enum PublicInfoTabs {
+  about_us,
+  gallery,
+  contacts,
+  strategic_partners,
+  download_center
+}
 
 @injectable
-class PublicInfoViewmodel extends _PublicInfoViewmodelBase with _$PublicInfoViewmodel {
+class PublicInfoViewmodel extends _PublicInfoViewmodelBase
+    with _$PublicInfoViewmodel {
   PublicInfoViewmodel(
     Logger logger,
     PublicInfoRepository publicinfoRepository,
@@ -24,7 +31,8 @@ class PublicInfoViewmodel extends _PublicInfoViewmodelBase with _$PublicInfoView
 }
 
 abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
-  _PublicInfoViewmodelBase(Logger logger, this._publicinfoRepository) : super(logger);
+  _PublicInfoViewmodelBase(Logger logger, this._publicinfoRepository)
+      : super(logger);
   final PublicInfoRepository _publicinfoRepository;
   //
   // String get tabTitle {
@@ -51,6 +59,9 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   //
   @observable
   ObservableFuture<AboutUsModel> aboutUsFuture;
+
+  @observable
+  ObservableFuture<ContactUsModel> contactsFuture;
   //
   // @observable
   // ObservableFuture<ContactUsModel> contactUsFuture;
@@ -62,6 +73,12 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get aboutUsLoading => aboutUsFuture?.isPending ?? false;
+
+  @computed
+  ContactUsModel get contacts => contactsFuture?.value;
+
+  @computed
+  bool get contactsLoading => contactsFuture?.isPending ?? false;
   //
   // @computed
   // ContactUsModel get contactUs => contactUsFuture?.value;
@@ -70,14 +87,17 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   //
   @action
   void getaboutUs() => aboutUsFuture = futureWrapper(
-        () => _publicinfoRepository.getAboutUs().whenSuccess((res) => res.data.first),
+        () => _publicinfoRepository
+            .getAboutUs()
+            .whenSuccess((res) => res.data.first),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
-  // @action
-  // void getcontactUs() => contactUsFuture = futureWrapper(
-  //       () => _publicinfoRepository.getContactUs().whenSuccess((res) => res.data),
-  //       catchBlock: (err) => showSnack(err, duration: 2.seconds),
-  //     );
-
+  @action
+  void getcontactUs() => contactsFuture = futureWrapper(
+        () => _publicinfoRepository
+            .getContactUs()
+            .whenSuccess((res) => res.data.first),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
 }

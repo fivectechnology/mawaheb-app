@@ -73,7 +73,8 @@ void main() {
         prefsRepository: prefsRepository,
       );
 
-      publicInfoRepository = PublicInfoRepositoryImpl(publicInfoDataSource, prefsRepository);
+      publicInfoRepository =
+          PublicInfoRepositoryImpl(publicInfoDataSource, prefsRepository);
     });
 
     tearDown(() {
@@ -85,6 +86,31 @@ void main() {
     test('success about us function', () async {
       final res = await publicInfoRepository.getAboutUs();
       expect(res.isSuccess, equals(true));
+      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.mission, isNotNull);
+      expect(res.getOrThrow().data.first.vision, isNotNull);
+      expect(res.getOrThrow().data.first.summary, isNotNull);
+      expect(res.getOrThrow().data.first.ourValues, isNotNull);
+    });
+
+    test('success contacts function', () async {
+      final res = await publicInfoRepository.getContactUs();
+      expect(res.isSuccess, equals(true));
+      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.address, isNotNull);
+      expect(res.getOrThrow().data.first.country, isNotNull);
+      expect(res.getOrThrow().data.first.email, isNotNull);
+      expect(res.getOrThrow().data.first.emirate, isNotNull);
+      expect(res.getOrThrow().data.first.googleMapsCoordination, isNotNull);
+      expect(res.getOrThrow().data.first.phone, isNotNull);
+    });
+
+    test('success strategic partners function', () async {
+      final res = await publicInfoRepository.getStrategicPartners();
+      expect(res.isSuccess, equals(true));
+      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.title, isNotNull);
+      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
     });
   });
 }
