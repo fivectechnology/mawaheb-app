@@ -29,6 +29,10 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
   @override
   Widget build(BuildContext context) {
     // TODO(ahmad): add public info tabs here with login as first tab
-    return Provider(create: (_) => viewmodel, child: const LoginPage());
+
+    return Scaffold(
+      key: viewmodel.scaffoldKey,
+      body: Provider(create: (_) => viewmodel, child: const LoginPage()),
+    );
   }
 }

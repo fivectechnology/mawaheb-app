@@ -20,35 +20,19 @@ class BasePage extends StatefulWidget {
 
   static const String route = '/base';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
 
   @override
   _BasePageState createState() => _BasePageState();
 }
 
 class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
-  // TODO(ahmad): uncomment this when new pages ready
   final List<Widget> pages = <Widget>[
-    Navigator(
-        key: ProfilePage.navKey,
-        onGenerateRoute: (RouteSettings route) => ProfilePage.pageRoute),
-    Navigator(
-        key: NotificationsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
-    Navigator(
-        key: PublicInfoPage.navKey,
-        onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
-    Navigator(
-        key: SettingsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
+    Navigator(key: ProfilePage.navKey, onGenerateRoute: (RouteSettings route) => ProfilePage.pageRoute),
+    Navigator(key: NotificationsPage.navKey, onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
+    Navigator(key: PublicInfoPage.navKey, onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
+    Navigator(key: SettingsPage.navKey, onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
   ];
-  // final List<Widget> pages = <Widget>[
-  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-  //   Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-  // ];
 
   AppViewmodel appViewmodel;
 
@@ -67,11 +51,9 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
         body: buildBaseScreenBody,
         bottomNavigationBar: Container(
           height: 60.0 + context.mediaQuery.padding.bottom,
-          decoration: const BoxDecoration(
-              color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
+          decoration: const BoxDecoration(color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
           child: Column(children: <Widget>[
-            Expanded(
-                child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
+            Expanded(child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
           ]),
         ),
       ),

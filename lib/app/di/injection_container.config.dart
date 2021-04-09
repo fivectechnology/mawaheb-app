@@ -124,8 +124,6 @@ Future<GetIt> $inject(
       ));
   gh.lazySingleton<SettingsRepository>(
       () => SettingsRepositoryImpl(get<SettingsDataSource>()));
-  gh.factory<SettingsViewmodel>(
-      () => SettingsViewmodel(get<Logger>(), get<SettingsRepository>()));
   gh.lazySingleton<SplashDataSource>(() => SplashDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -144,6 +142,11 @@ Future<GetIt> $inject(
       () => AuthRepositoryImpl(get<AuthDataSource>(), get<PrefsRepository>()));
   gh.factory<AuthViewmodel>(
       () => AuthViewmodel(get<Logger>(), get<AuthRepository>()));
+  gh.factory<SettingsViewmodel>(() => SettingsViewmodel(
+        get<Logger>(),
+        get<SettingsRepository>(),
+        get<AuthRepository>(),
+      ));
 
   // Eager singletons must be registered in the right order
   gh.singleton<Logger>(appModule.logger());

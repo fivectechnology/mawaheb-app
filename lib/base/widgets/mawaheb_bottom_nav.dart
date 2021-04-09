@@ -29,27 +29,26 @@ class MawahebBottomNavigationBar extends StatelessWidget {
               title: context.translate(getTitle(PageIndex.home)),
               index: PageIndex.home.index,
               icon: 'assets/icons/ic_home.svg',
-              activeIcon: 'assets/icons/ic_home_selected.svg',
+              activeIcon: 'assets/icons/ic_home.svg',
             ),
             bottomNavigationBarTile(
               title: context.translate(getTitle(PageIndex.notifications)),
               index: PageIndex.notifications.index,
               // TODO(ahmad): add notifications svg icon here
-              icon: 'assets/icons/ic_home.svg',
-              activeIcon: 'assets/icons/ic_home_selected.svg',
+              icon: 'assets/icons/ic_notification.svg',
+              activeIcon: 'assets/icons/ic_notification.svg',
             ),
             bottomNavigationBarTile(
               title: context.translate(getTitle(PageIndex.public_info)),
               index: PageIndex.public_info.index,
-              // TODO(ahmad): add public info svg icons here
-              icon: 'assets/icons/ic_home.svg',
-              activeIcon: 'assets/icons/ic_home_selected.svg',
+              child: const Icon(Icons.info, size: 24.0, color: GREY),
+              activeChild: const Icon(Icons.info, size: 24.0, color: GREY),
             ),
             bottomNavigationBarTile(
               title: context.translate(getTitle(PageIndex.settings)),
               index: PageIndex.settings.index,
-              child: const Icon(Icons.more_horiz, size: 24.0),
-              activeChild: const Icon(Icons.more_horiz, size: 24.0, color: PRIMARY),
+              icon: 'assets/icons/ic_settings.svg',
+              activeIcon: 'assets/icons/ic_settings.svg',
             ),
           ],
         );

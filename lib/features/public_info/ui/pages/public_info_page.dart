@@ -8,6 +8,7 @@ import 'package:mawaheb_app/features/public_info/ui/pages/download_center_page.d
 import 'package:mawaheb_app/features/public_info/ui/pages/gallery_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/strategic_partners_page.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
+import 'package:provider/provider.dart';
 
 class PublicInfoPage extends StatefulWidget {
   const PublicInfoPage({Key key}) : super(key: key);
@@ -72,7 +73,7 @@ class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel
             ),
           ),
         ),
-        body: TabBarView(children: pages),
+        body: Provider(create: (_) => viewmodel, child: TabBarView(children: pages)),
       ),
     );
   }

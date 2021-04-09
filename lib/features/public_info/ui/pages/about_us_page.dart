@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
+import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class AboutUsPage extends StatefulWidget {
   const AboutUsPage({Key key}) : super(key: key);
@@ -28,16 +31,45 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (viewmodel?.aboutUs == null) {
+      viewmodel.getaboutUs();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-          padding: EdgeInsets.only(top: context.fullHeight * 0.04),
-          child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.1),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return aboutUsTile();
-              })),
+        padding: EdgeInsets.only(top: context.fullHeight * 0.04),
+        child: MawahebFutureBuilder<AboutUsModel>(
+            future: viewmodel.aboutUsFuture,
+            onRetry: viewmodel.getaboutUs,
+            onSuccess: (aboutUs) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/ic_about_us.png'),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
+                    child: Text('Summary', style: textTheme.bodyText1),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          aboutUs.summary,
+                          style: textTheme.bodyText2,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              );
+            }),
+      ),
     );
   }
 

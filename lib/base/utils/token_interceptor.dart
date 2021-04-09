@@ -41,9 +41,9 @@ class TokenInterceptor extends Interceptor {
       // If no token, firstly lock this interceptor to prevent other request enter this interceptor.
       // then request token
 
-      baseDio.interceptors.requestLock.lock();
-      baseDio.interceptors.responseLock.lock();
-      tokenDio.options = baseDio.options;
+      // baseDio.interceptors.requestLock.lock();
+      // baseDio.interceptors.responseLock.lock();
+      // tokenDio.options = baseDio.options;
       try {
         // this status mean that refresh token is invalidate and we should go
         // to login page after unlock dio for login requests

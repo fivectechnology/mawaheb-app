@@ -62,22 +62,24 @@ void main() {
   group('public info repository =>', () {
     PublicInfoDataSource publicInfoDataSource;
     PublicInfoRepository publicInfoRepository;
+    PrefsRepository prefsRepository;
 
     setUp(() {
+      prefsRepository = FakePrefsRepository(token: 'YWRtaW46YWRtaW4=');
       publicInfoDataSource = PublicInfoDataSourceImpl(
-        client: client,
+        client: createDio(prefsRepositoryArgs: prefsRepository),
         connectionChecker: connectionChecker,
         logger: LoggerImpl(),
-        prefsRepository: FakePrefsRepository(),
+        prefsRepository: prefsRepository,
       );
 
-      publicInfoRepository =
-          PublicInfoRepositoryImpl(publicInfoDataSource, prefsRepository);
+      publicInfoRepository = PublicInfoRepositoryImpl(publicInfoDataSource, prefsRepository);
     });
 
     tearDown(() {
       publicInfoDataSource = null;
       publicInfoRepository = null;
+      prefsRepository = null;
     });
 
     test('success about us function', () async {
