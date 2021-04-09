@@ -27,6 +27,8 @@ void main() {
       final res = await publicInfoDataSource.getAboutUs();
       expect(res.isSuccess, equals(true));
       expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.mission, isNotNull);
+      // expect(res.getOrThrow().data.first.ourValues, isNotNull);
     });
   });
 }

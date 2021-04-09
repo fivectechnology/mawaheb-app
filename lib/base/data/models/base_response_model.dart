@@ -14,6 +14,8 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
     this.data,
   ) : super(status, offset, total, errors);
 
+  final T data;
+
   BaseResponseModel<T> copyWith({
     int status,
     int offset,
@@ -29,8 +31,6 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
       data ?? this.data,
     );
   }
-
-  final T data;
 
   @override
   bool get stringify => true;

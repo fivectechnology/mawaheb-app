@@ -135,6 +135,8 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
 
   Future<NetworkResult<T>> mawahebRequest<T>({
     @required METHOD method,
+
+    /// detirmine if use com.axelor or mawahbe
     bool mawahebModel = true,
     bool public = false,
     bool withAuth = true,

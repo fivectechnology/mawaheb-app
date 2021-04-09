@@ -45,10 +45,11 @@ class TokenInterceptor extends Interceptor {
       baseDio.interceptors.responseLock.lock();
       tokenDio.options = baseDio.options;
       try {
-        // this status mean that refresh token is invalidate and we should go
-        // to login page after unlock dio for login requests
+        throw Exception('Refresh token fail with 401');
         // TODO(ahmad): you should retry to re-login with saved user info in prefs
         // TODOO(ahmad): if the above login call also return with 401 you must navigate to login page (App.navkey.currentstate.pop())
+        // this status mean that refresh token is invalidate and we should go
+        // to login page after unlock dio for login requests
         // if ((tokenRes?.statusCode ?? -1) == 401) {
         //   throw Exception('Refresh token fail with 401');
         // } else {

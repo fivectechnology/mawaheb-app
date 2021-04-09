@@ -7,13 +7,14 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
+import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
 import 'package:mawaheb_app/features/public_info/data/models/contact_us_model.dart';
 
 abstract class PublicInfoDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<BaseResponseModel<AboutUsModel>>> getAboutUs();
+  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>>> getAboutUs();
   Future<NetworkResult<BaseResponseModel<ContactUsModel>>> getContactUs();
 }
 
@@ -32,22 +33,33 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements Public
         );
 
   @override
-  Future<NetworkResult<BaseResponseModel<AboutUsModel>>> getAboutUs() {
+  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>>> getAboutUs() {
     return mawahebRequest(
       modelName: 'AboutUs',
-      // endpoint: '/ws/rest/com.axelor.mawaheb.base.db.AboutUs/search',
       action: EndPointAction.search,
       method: METHOD.POST,
-      mapper: BaseResponseModel.fromJson(AboutUsModel.fromJson),
+      data: {
+        'fields': [
+          'id',
+          'version',
+          'email',
+          'phone',
+          'country',
+          'emirate',
+          'address',
+          'googleMapsCoordination',
+        ]
+      },
+      mapper: ListBaseResponseModel.fromJson(AboutUsModel.fromJson),
     );
   }
 
   @override
   Future<NetworkResult<BaseResponseModel<ContactUsModel>>> getContactUs() {
     return mawahebRequest(
+      method: METHOD.POST,
       modelName: 'ContactUs',
       action: EndPointAction.search,
-      method: METHOD.POST,
       mapper: BaseResponseModel.fromJson(ContactUsModel.fromJson),
     );
   }

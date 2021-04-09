@@ -65,7 +65,7 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getaboutUs() => aboutUsFuture = futureWrapper(
-        () => _publicinfoRepository.getAboutUs().whenSuccess((res) => res.data),
+        () => _publicinfoRepository.getAboutUs().whenSuccess((res) => res.data.first),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
