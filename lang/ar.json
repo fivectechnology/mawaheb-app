@@ -11,7 +11,7 @@
   "lbl_contacts": "تواصل معنا",
   "lbl_strategic_partners": "شركاؤنا",
   "lbl_download_center": "مركز التنزيل",
-
+  "lbl_phone": "رقم الهاتف",
   "lbl_address": "العنوان",
   "lbl_emirates": "الإمارات",
   "lbl_country": "البلد",
@@ -72,6 +72,11 @@
   "lbl_booked_by_us": "حجز من قبلنا",
   "lbl_confirmed_by_us": "تم التأكيد من قبلنا",
   "lbl_videos": "مقاطع الفيديو",
+  "lbl_log_in": "تسجيل الدخول",
+  "lbl_summary": "ملخصنا",
+  "lbl_mission": "مهمتنا",
+  "lbl_vision": "نظرتنا",
+  "lbl_value": "قيمتنا",
 
 
 

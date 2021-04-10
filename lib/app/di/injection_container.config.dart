@@ -114,8 +114,11 @@ Future<GetIt> $inject(
       ));
   gh.lazySingleton<PublicInfoRepository>(() => PublicInfoRepositoryImpl(
       get<PublicInfoDataSource>(), get<PrefsRepository>()));
-  gh.factory<PublicInfoViewmodel>(
-      () => PublicInfoViewmodel(get<Logger>(), get<PublicInfoRepository>()));
+  gh.factory<PublicInfoViewmodel>(() => PublicInfoViewmodel(
+        get<Logger>(),
+        get<PublicInfoRepository>(),
+        get<PrefsRepository>(),
+      ));
   gh.lazySingleton<SettingsDataSource>(() => SettingsDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),

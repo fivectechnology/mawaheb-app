@@ -6,12 +6,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
-import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
 import 'package:mawaheb_app/features/public_info/data/models/contact_us_model.dart';
+import 'package:mawaheb_app/features/public_info/data/models/download_center_model.dart';
+import 'package:mawaheb_app/features/public_info/data/models/gallery_model.dart';
 import 'package:mawaheb_app/features/public_info/data/models/strategic_partners_model.dart';
 
 abstract class PublicInfoDataSource extends BaseRemoteDataSource {
@@ -21,6 +22,11 @@ abstract class PublicInfoDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>>
       getStrategicPartners();
+
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>>
+      getDownloadCenter();
+
+  Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery();
 }
 
 @LazySingleton(as: PublicInfoDataSource)
@@ -84,6 +90,33 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
         'fields': ['id', 'version', 'title', 'source'],
       },
       mapper: ListBaseResponseModel.fromJson(StrategicPartnersModel.fromJson),
+    );
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>>
+      getDownloadCenter() {
+    return mawahebRequest(
+      modelName: 'DownloadCentreItem',
+      method: METHOD.POST,
+      action: EndPointAction.search,
+      data: {
+        'fields': ['id', 'version', 'title', 'source'],
+      },
+      mapper: ListBaseResponseModel.fromJson(DownloadCenterModel.fromJson),
+    );
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery() {
+    return mawahebRequest(
+      modelName: 'StrategicPartner',
+      method: METHOD.POST,
+      action: EndPointAction.search,
+      data: {
+        'fields': ['id', 'version', 'title', 'source'],
+      },
+      mapper: ListBaseResponseModel.fromJson(GalleryModel.fromJson),
     );
   }
 }

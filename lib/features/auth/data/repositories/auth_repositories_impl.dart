@@ -9,17 +9,22 @@ import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
-  const AuthRepositoryImpl(this.authDataSource, this._prefsRepository) : super(authDataSource);
+  const AuthRepositoryImpl(this.authDataSource, this._prefsRepository)
+      : super(authDataSource);
 
   final AuthDataSource authDataSource;
   final PrefsRepository _prefsRepository;
 
   @override
-  Future<NetworkResult<bool>> login({@required String userName, @required String password}) => authDataSource
-      .login(userName: userName, password: password)
-      .whenSuccessWrapped((_) => _prefsRepository.setUser(UserModel(userName: userName, password: password)));
+  Future<NetworkResult<bool>> login(
+          {@required String userName, @required String password}) =>
+      authDataSource
+          .login(userName: userName, password: password)
+          .whenSuccessWrapped((_) => _prefsRepository
+              .setUser(UserModel(userName: userName, password: password)));
 
   @override
-  Future<NetworkResult<bool>> logout() =>
-      authDataSource.logout().whenSuccessWrapped((_) => _prefsRepository.clearUserData());
+  Future<bool> logout() =>
+      // authDataSource.logout().whenSuccessWrapped((_) =>
+      _prefsRepository.clearUserData();
 }

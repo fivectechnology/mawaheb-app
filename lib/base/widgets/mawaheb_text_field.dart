@@ -11,16 +11,22 @@ Widget mawahebTextField({
   TextEditingController textEditingController,
 }) {
   return TextFormField(
-    // obscureText: showPassword == null ? isSuffixIcon : !showPassword,
+    // ignore: avoid_bool_literals_in_conditional_expressions
+    obscureText: showPassword == null ? false : !showPassword,
     controller: textEditingController,
     decoration: InputDecoration(
-      enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+      enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey)),
       hintText: context.translate(hintText),
-      hintStyle: TextStyle(color: hintColor ?? Colors.black, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
+      hintStyle: TextStyle(
+          color: hintColor ?? Colors.black,
+          fontWeight: FontWeight.w200,
+          fontFamily: 'Poppins'),
       suffixIcon: isSuffixIcon == true
           ? IconButton(
               onPressed: onPressed,
-              icon: Icon(showPassword ? Icons.visibility_off : Icons.visibility, color: Colors.black),
+              icon: Icon(showPassword ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.black),
             )
           : null,
     ),

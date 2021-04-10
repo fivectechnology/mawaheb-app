@@ -4,7 +4,6 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
 class AboutUsPage extends StatefulWidget {
   const AboutUsPage({Key key}) : super(key: key);
@@ -54,22 +53,22 @@ class _AboutUsPageState
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     aboutUsTile(
-                      title: 'Summary',
+                      title: 'lbl_summary',
                       image: 'assets/images/ic_summary.png',
                       text: aboutUs.summary,
                     ),
                     aboutUsTile(
-                      title: 'Mission',
+                      title: 'lbl_mission',
                       image: 'assets/images/ic_mission.png',
                       text: aboutUs.mission,
                     ),
                     aboutUsTile(
-                      title: 'Vision',
+                      title: 'lbl_vision',
                       image: 'assets/images/ic_vision.png',
                       text: aboutUs.vision,
                     ),
                     aboutUsTile(
-                      title: 'Value',
+                      title: 'lbl_value',
                       image: 'assets/images/ic_value.png',
                       text: aboutUs.ourValues,
                     )
@@ -95,7 +94,7 @@ class _AboutUsPageState
           Padding(
             padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
             child: Text(
-              title,
+              context.translate(title),
               style: textTheme.bodyText1,
             ),
           ),

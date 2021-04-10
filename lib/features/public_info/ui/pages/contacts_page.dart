@@ -55,9 +55,9 @@ class _ContactsPageState
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/logo_image.png'),
-                  contactRow(title: 'Address: ', text: contacts.address),
-                  contactRow(title: 'Email: ', text: contacts.email),
-                  contactRow(title: 'Phone: ', text: contacts.phone),
+                  contactRow(title: 'lbl_address', text: contacts.address),
+                  contactRow(title: 'lbl_email', text: contacts.email),
+                  contactRow(title: 'lbl_phone', text: contacts.phone),
                 ],
               );
             }),
@@ -76,7 +76,7 @@ class _ContactsPageState
               Flexible(
                 child: RichText(
                   text: TextSpan(
-                    text: title,
+                    text: context.translate(title) + ': ',
                     style: textTheme.headline6.copyWith(fontSize: 14),
                     children: [
                       TextSpan(

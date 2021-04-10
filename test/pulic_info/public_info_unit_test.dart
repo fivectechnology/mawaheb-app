@@ -1,10 +1,7 @@
 import 'package:core_sdk/utils/Fimber/logger_impl.dart';
-import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/public_info/data/datasources/public_info_datasource.dart';
-import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
 import 'package:mawaheb_app/features/public_info/data/repositories/public_info_repositiory_impl.dart';
 import 'package:mawaheb_app/features/public_info/domain/repositories/public_info_repository.dart';
 
@@ -52,6 +49,22 @@ void main() {
 
     test('test success strategic partners', () async {
       final res = await publicInfoDataSource.getStrategicPartners();
+      expect(res.isSuccess, equals(true));
+      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.title, isNotNull);
+      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+    });
+
+    test('test success gallery', () async {
+      final res = await publicInfoDataSource.getGallery();
+      expect(res.isSuccess, equals(true));
+      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.title, isNotNull);
+      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+    });
+
+    test('test success download center', () async {
+      final res = await publicInfoDataSource.getDownloadCenter();
       expect(res.isSuccess, equals(true));
       expect(res.getOrThrow().status, equals(0));
       expect(res.getOrThrow().data.first.title, isNotNull);
@@ -107,6 +120,22 @@ void main() {
 
     test('success strategic partners function', () async {
       final res = await publicInfoRepository.getStrategicPartners();
+      expect(res.isSuccess, equals(true));
+      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.title, isNotNull);
+      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+    });
+
+    test('success gallery function', () async {
+      final res = await publicInfoRepository.getGallery();
+      expect(res.isSuccess, equals(true));
+      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow().data.first.title, isNotNull);
+      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+    });
+
+    test('success download center function', () async {
+      final res = await publicInfoRepository.getDownloadCenter();
       expect(res.isSuccess, equals(true));
       expect(res.getOrThrow().status, equals(0));
       expect(res.getOrThrow().data.first.title, isNotNull);
