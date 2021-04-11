@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
-Widget mawahebTextField(
-    {String hintText,
-    bool isSuffixIcon,
-    Function onPressed,
-    bool showPassword,
-    BuildContext context,
-    Color hintColor}) {
+Widget mawahebTextField({
+  String hintText,
+  bool isSuffixIcon,
+  Function onPressed,
+  bool showPassword,
+  BuildContext context,
+  Color hintColor,
+  TextEditingController textEditingController,
+}) {
   return TextFormField(
-    // obscureText: showPassword == null ? isSuffixIcon : !showPassword,
+    // ignore: avoid_bool_literals_in_conditional_expressions
+    obscureText: showPassword == null ? false : !showPassword,
+    controller: textEditingController,
     decoration: InputDecoration(
       enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey)),

@@ -13,13 +13,15 @@ class RegisterPage extends StatefulWidget {
 
   static const String route = '/register';
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const RegisterPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const RegisterPage());
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool showPassword = false;
   @override
   void initState() {
     super.initState();
@@ -43,7 +45,8 @@ class _RegisterPageState extends State<RegisterPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.04),
+              padding:
+                  EdgeInsets.symmetric(vertical: context.fullHeight * 0.04),
               child: mawahebTextField(
                 context: context,
                 hintText: 'lbl_name',
@@ -54,9 +57,19 @@ class _RegisterPageState extends State<RegisterPage> {
               hintText: 'lbl_email',
             ),
             Padding(
-              padding: EdgeInsets.only(top: context.fullHeight * 0.04, bottom: context.fullHeight * 0.06),
-              child:
-                  mawahebTextField(context: context, hintText: 'lbl_password', isSuffixIcon: true, showPassword: false),
+              padding: EdgeInsets.only(
+                  top: context.fullHeight * 0.04,
+                  bottom: context.fullHeight * 0.06),
+              child: mawahebTextField(
+                  context: context,
+                  hintText: 'lbl_password',
+                  isSuffixIcon: true,
+                  showPassword: showPassword,
+                  onPressed: () {
+                    setState(() {
+                      showPassword = !showPassword;
+                    });
+                  }),
             ),
             MawahebGradientButton(
               text: 'lbl_sign_up',

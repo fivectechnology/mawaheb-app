@@ -6,7 +6,8 @@ import 'package:mawaheb_app/features/auth/data/datasources/auth_datasource.dart'
 abstract class AuthRepository extends BaseRepository {
   const AuthRepository(AuthDataSource authDataSource) : super(authDataSource);
 
-  Future<NetworkResult<bool>> login({@required String userName, @required String password});
+  Future<NetworkResult<bool>> login(
+      {@required String userName, @required String password});
 
-  Future<NetworkResult<bool>> logout();
+  Future<bool> logout();
 }

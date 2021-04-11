@@ -1,13 +1,14 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
-import 'package:mawaheb_app/features/auth/login/ui/pages/login_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:provider/provider.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AuthPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const AuthPage());
 
   static const String route = '/auth';
 
@@ -29,6 +30,10 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
   @override
   Widget build(BuildContext context) {
     // TODO(ahmad): add public info tabs here with login as first tab
-    return Provider(create: (_) => viewmodel, child: const LoginPage());
+
+    return Scaffold(
+      key: viewmodel.scaffoldKey,
+      body: Provider(create: (_) => viewmodel, child: const PublicInfoPage()),
+    );
   }
 }

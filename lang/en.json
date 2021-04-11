@@ -50,6 +50,7 @@
   "lbl_change_email": "Change Email",
   "lbl_term_of_service": "Terms of service",
   "lbl_log_out": "Log out",
+  "lbl_log_in": "Log in",
   "lbl_language": "Language",
   "lbl_renew_subscription": "Renew Subscription",
   "lbl_choose_payment": "Choose a payment method",
@@ -65,12 +66,18 @@
   "lbl_accept": "Accept",
   "lbl_name": "Name",
   "lbl_phone_num": "Phone Number",
+  "lbl_phone": "Phone",
   "lbl_edit": "Edit",
   "lbl_sport": "Sport",
   "lbl_filter": "Filter",
   "lbl_booked_by_us": "Booked by us",
   "lbl_confirmed_by_us": "Confirmed by us",
   "lbl_videos": "Videos",
+
+  "lbl_summary": "Summary",
+  "lbl_mission": "Mission",
+  "lbl_vision": "Vision",
+  "lbl_value": "Value",
 
 
 

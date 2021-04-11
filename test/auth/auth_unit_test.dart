@@ -34,16 +34,17 @@ void main() {
   group('auth repository =>', () {
     AuthDataSource authDataSource;
     AuthRepository authRepository;
+    final prefs = FakePrefsRepository();
 
     setUp(() {
       authDataSource = AuthDataSourceImpl(
-        client: client,
+        client: createDio(prefsRepositoryArgs: prefs),
         connectionChecker: connectionChecker,
         logger: LoggerImpl(),
-        prefsRepository: FakePrefsRepository(),
+        prefsRepository: prefs,
       );
 
-      authRepository = AuthRepositoryImpl(authDataSource, prefsRepository);
+      authRepository = AuthRepositoryImpl(authDataSource, prefs);
     });
 
     tearDown(() {
@@ -54,8 +55,8 @@ void main() {
     test('success login function', () async {
       final NetworkResult<bool> res = await authRepository.login(userName: 'admin', password: 'admin');
       expect(res.isSuccess, equals(true));
-      expect(prefsRepository.token, isNotNull);
-      expect(prefsRepository.user, equals(const UserModel(userName: 'admin', password: 'admin')));
+      expect(prefs.token, isNotNull);
+      expect(prefs.user, equals(const UserModel(userName: 'admin', password: 'admin')));
     });
   });
 }
