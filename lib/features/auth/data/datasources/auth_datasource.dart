@@ -13,8 +13,7 @@ import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<bool>> login(
-      {@required String userName, @required String password});
+  Future<NetworkResult<bool>> login({@required String userName, @required String password});
 
   Future<NetworkResult<BaseResponseModel<String>>> logout();
 
@@ -27,8 +26,7 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
 }
 
 @LazySingleton(as: AuthDataSource)
-class AuthDataSourceImpl extends MawahebRemoteDataSource
-    implements AuthDataSource {
+class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSource {
   AuthDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -72,14 +70,16 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   }) {
     return mawahebRequest(
       method: METHOD.POST,
-      endpoint: PROFILE_UPDATE_ENDPOINT,
-      withAuth: false,
+      // endpoint: PROFILE_UPDATE_ENDPOINT,
+      mawahebModel: false,
+      modelName: 'auth.db.User',
+      withAuth: true,
       data: {
         'data': {
           'code': code,
           'name': userName,
           'email': email,
-          'password': password
+          'password': password,
         }
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),

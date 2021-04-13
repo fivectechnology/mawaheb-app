@@ -12,19 +12,15 @@ import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
-  const AuthRepositoryImpl(this.authDataSource, this._prefsRepository)
-      : super(authDataSource);
+  const AuthRepositoryImpl(this.authDataSource, this._prefsRepository) : super(authDataSource);
 
   final AuthDataSource authDataSource;
   final PrefsRepository _prefsRepository;
 
   @override
-  Future<NetworkResult<bool>> login(
-          {@required String userName, @required String password}) =>
-      authDataSource
-          .login(userName: userName, password: password)
-          .whenSuccessWrapped((_) => _prefsRepository
-              .setUser(UserModel(userName: userName, password: password)));
+  Future<NetworkResult<bool>> login({@required String userName, @required String password}) => authDataSource
+      .login(userName: userName, password: password)
+      .whenSuccessWrapped((_) => _prefsRepository.setUser(UserModel(userName: userName, password: password)));
 
   @override
   Future<bool> logout() =>
@@ -32,15 +28,15 @@ class AuthRepositoryImpl extends AuthRepository {
       _prefsRepository.clearUserData();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp(
-      {@required String userName,
-      @required String email,
-      @required String password}) {
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
+    @required String userName,
+    @required String email,
+    @required String password,
+  }) {
     String code;
     _prefsRepository
         .setUser(UserModel(userName: userName, password: password))
         .whenComplete(() => code = _prefsRepository.token)
-        .whenComplete(() => authDataSource.signUp(
-            userName: userName, code: code, email: email, password: password));
+        .whenComplete(() => authDataSource.signUp(userName: userName, code: code, email: email, password: password));
   }
 }
