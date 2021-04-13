@@ -1,6 +1,11 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +22,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
+  AppViewmodel appViewmodel;
+
   @override
   void initState() {
     super.initState();
@@ -28,12 +35,22 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
   }
 
   @override
+  void didChangeDependencies() {
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO(ahmad): add public info tabs here with login as first tab
 
     return Scaffold(
+      appBar: MawahebAppBar(
+        appViewModel: appViewmodel,
+        title: 'Mawahaeb',
+      ),
       key: viewmodel.scaffoldKey,
-      body: Provider(create: (_) => viewmodel, child: const PublicInfoPage()),
+      body: Provider(create: (_) => viewmodel, child: const RegisterPage()),
     );
   }
 }

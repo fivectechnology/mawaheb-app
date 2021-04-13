@@ -21,21 +21,6 @@ class PublicInfoPage extends StatefulWidget {
 class _PublicInfoPageState
     extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
   TabController _tabController;
-  // List<Widget> _tabs = [
-  //   Text('lbl_about_us'),
-  //   Text('lbl_gallery'),
-  //   Text('lbl_contacts'),
-  //   Text('lbl_strategic_partners'),
-  //   Text('lbl_download_center'),
-  // ];
-  //
-  // List<Widget> pages = [
-  //   AboutUsPage(),
-  //   GalleryPage(),
-  //   ContactsPage(),
-  //   StrategicPartnersPage(),
-  //   DownLoadCenterPage()
-  // ];
 
   @override
   void initState() {

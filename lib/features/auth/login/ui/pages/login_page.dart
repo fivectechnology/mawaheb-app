@@ -51,9 +51,9 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                    top: context.fullHeight * 0.22,
-                    bottom: context.fullHeight * 0.1),
+                padding: EdgeInsets.symmetric(
+                  vertical: context.fullHeight * 0.1,
+                ),
                 child: GradientText(
                   text: context.translate('lbl_welcome_to_mawaheb'),
                   colors: const [YELLOW, RED],

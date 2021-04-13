@@ -15,6 +15,7 @@ class MyInfoPage extends StatefulWidget {
 }
 
 class _MyInfoPageState extends State<MyInfoPage> {
+  bool isPlayer = true;
   @override
   void initState() {
     super.initState();
@@ -41,14 +42,17 @@ class _MyInfoPageState extends State<MyInfoPage> {
                 Text(context.translate('Sport'),
                     style: context.textTheme.subtitle1
                         .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                IconButton(
-                    icon: const Icon(
-                      Icons.edit,
-                      color: Colors.grey,
-                    ),
-                    onPressed: () {
-                      App.navKey.currentState.push(AddSportPage.pageRoute);
-                    })
+                Visibility(
+                  visible: isPlayer,
+                  child: IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        App.navKey.currentState.push(AddSportPage.pageRoute);
+                      }),
+                )
               ],
             ),
           ),
@@ -79,14 +83,17 @@ class _MyInfoPageState extends State<MyInfoPage> {
                 Text(context.translate('lbl_personal_info'),
                     style: context.textTheme.subtitle1
                         .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                IconButton(
-                    icon: const Icon(
-                      Icons.edit,
-                      color: Colors.grey,
-                    ),
-                    onPressed: () {
-                      App.navKey.currentState.push(PlayerInfoPage.pageRoute);
-                    })
+                Visibility(
+                  visible: isPlayer,
+                  child: IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        App.navKey.currentState.push(PlayerInfoPage.pageRoute);
+                      }),
+                )
               ],
             ),
           ),
@@ -115,14 +122,17 @@ class _MyInfoPageState extends State<MyInfoPage> {
                 Text(context.translate('lbl_address'),
                     style: context.textTheme.subtitle1
                         .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                IconButton(
-                    icon: const Icon(
-                      Icons.edit,
-                      color: Colors.grey,
-                    ),
-                    onPressed: () {
-                      App.navKey.currentState.push(AddressInfoPage.pageRoute);
-                    })
+                Visibility(
+                  visible: isPlayer,
+                  child: IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        App.navKey.currentState.push(AddressInfoPage.pageRoute);
+                      }),
+                )
               ],
             ),
           ),

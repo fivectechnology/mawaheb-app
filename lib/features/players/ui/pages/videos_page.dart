@@ -14,6 +14,8 @@ class VideosPage extends StatefulWidget {
 }
 
 class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
+  bool isPlayer = true;
+
   @override
   void initState() {
     super.initState();
@@ -27,15 +29,18 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _selectVideoBottomSheet(context);
-          },
-          backgroundColor: YELLOW,
-          child: const Icon(
-            Icons.add,
-            color: Colors.black87,
-            size: 36,
+        floatingActionButton: Visibility(
+          visible: isPlayer,
+          child: FloatingActionButton(
+            onPressed: () {
+              _selectVideoBottomSheet(context);
+            },
+            backgroundColor: YELLOW,
+            child: const Icon(
+              Icons.add,
+              color: Colors.black87,
+              size: 36,
+            ),
           ),
         ),
         backgroundColor: Colors.white,
@@ -55,20 +60,23 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
             padding: EdgeInsets.symmetric(
                 horizontal: context.fullWidth * 0.04,
                 vertical: context.fullHeight * 0.01),
-            child: Row(
-              children: [
-                Image.asset('assets/icons/ic_approve.png'),
-                SizedBox(
-                  width: context.fullWidth * 0.02,
-                ),
-                Text(
-                  'Approved',
-                  style: textTheme.headline2.copyWith(
-                      fontSize: 12,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w800),
-                ),
-              ],
+            child: Visibility(
+              visible: isPlayer,
+              child: Row(
+                children: [
+                  Image.asset('assets/icons/ic_approve.png'),
+                  SizedBox(
+                    width: context.fullWidth * 0.02,
+                  ),
+                  Text(
+                    'Approved',
+                    style: textTheme.headline2.copyWith(
+                        fontSize: 12,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
             ),
           ),
           Stack(
@@ -80,18 +88,21 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8), color: Colors.red),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: context.fullWidth * 0.03),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () {
-                      _optionVideoBottomSheet(context);
-                    },
-                    icon: const Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
-                      size: 28,
+              Visibility(
+                visible: isPlayer,
+                child: Padding(
+                  padding: EdgeInsets.only(right: context.fullWidth * 0.03),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () {
+                        _optionVideoBottomSheet(context);
+                      },
+                      icon: const Icon(
+                        Icons.more_horiz,
+                        color: Colors.white,
+                        size: 28,
+                      ),
                     ),
                   ),
                 ),

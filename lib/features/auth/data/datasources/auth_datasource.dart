@@ -7,16 +7,28 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
+import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
+import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<bool>> login({@required String userName, @required String password});
+  Future<NetworkResult<bool>> login(
+      {@required String userName, @required String password});
+
   Future<NetworkResult<BaseResponseModel<String>>> logout();
+
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
+    @required String userName,
+    @required String code,
+    @required String email,
+    @required String password,
+  });
 }
 
 @LazySingleton(as: AuthDataSource)
-class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSource {
+class AuthDataSourceImpl extends MawahebRemoteDataSource
+    implements AuthDataSource {
   AuthDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -48,6 +60,29 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
     return mawahebRequest(
       method: METHOD.GET,
       endpoint: LOGIN_ENDPOINT,
+    );
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
+    @required String userName,
+    @required String code,
+    @required String email,
+    @required String password,
+  }) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      endpoint: PROFILE_UPDATE_ENDPOINT,
+      withAuth: false,
+      data: {
+        'data': {
+          'code': code,
+          'name': userName,
+          'email': email,
+          'password': password
+        }
+      },
+      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
     );
   }
 }
