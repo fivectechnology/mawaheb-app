@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
+import 'package:mawaheb_app/features/public_info/data/models/strategic_partners_model.dart';
 import 'package:mawaheb_app/features/public_info/ui/widgets/download_row_widget.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
@@ -19,7 +21,8 @@ class StrategicPartnersPage extends StatefulWidget {
   _StrategicPartnersPageState createState() => _StrategicPartnersPageState();
 }
 
-class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
+class _StrategicPartnersPageState
+    extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -31,13 +34,29 @@ class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPag
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (viewmodel?.partners == null) {
+      viewmodel.getPartners();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.07),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return imageRow(context: context);
+        body: MawahebFutureBuilder<List<StrategicPartnersModel>>(
+            future: viewmodel.partnersFuture,
+            onRetry: viewmodel.getPartners,
+            onSuccess: (partners) {
+              return ListView.builder(
+                  reverse: true,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: context.fullWidth * 0.07),
+                  itemCount: partners.length,
+                  itemBuilder: (context, index) {
+                    return imageRow(
+                        context: context, title: partners[index].title);
+                  });
             }));
   }
 }

@@ -8,9 +8,9 @@ Widget imageRow({BuildContext context, String title, String image}) {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text(
-          'image title',
-          style: TextStyle(
+        Text(
+          title,
+          style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
         ),
         const SizedBox(height: 10),

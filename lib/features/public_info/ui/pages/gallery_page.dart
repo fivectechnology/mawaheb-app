@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
+import 'package:mawaheb_app/features/public_info/data/models/gallery_model.dart';
 import 'package:mawaheb_app/features/public_info/ui/widgets/download_row_widget.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
@@ -10,7 +12,8 @@ class GalleryPage extends StatefulWidget {
 
   static const String route = '/gallery';
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const GalleryPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const GalleryPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -18,7 +21,8 @@ class GalleryPage extends StatefulWidget {
   _GalleryPageState createState() => _GalleryPageState();
 }
 
-class _GalleryPageState extends ProviderMobxState<GalleryPage, PublicInfoViewmodel> {
+class _GalleryPageState
+    extends ProviderMobxState<GalleryPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -30,13 +34,29 @@ class _GalleryPageState extends ProviderMobxState<GalleryPage, PublicInfoViewmod
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (viewmodel?.gallery == null) {
+      viewmodel.getGallery();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.07),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return imageRow(context: context);
+        body: MawahebFutureBuilder<List<GalleryModel>>(
+            future: viewmodel.galleryFuture,
+            onRetry: viewmodel.getGallery,
+            onSuccess: (gallery) {
+              return ListView.builder(
+                  reverse: true,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: context.fullWidth * 0.07),
+                  itemCount: gallery.length,
+                  itemBuilder: (context, index) {
+                    return imageRow(
+                        context: context, title: gallery[index].title);
+                  });
             }));
   }
 }

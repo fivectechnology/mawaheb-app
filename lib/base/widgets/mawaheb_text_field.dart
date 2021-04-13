@@ -13,6 +13,7 @@ Widget mawahebTextField({
   return TextFormField(
     // ignore: avoid_bool_literals_in_conditional_expressions
     obscureText: showPassword == null ? false : !showPassword,
+
     controller: textEditingController,
     decoration: InputDecoration(
       enabledBorder: const UnderlineInputBorder(

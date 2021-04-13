@@ -2,6 +2,7 @@ import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/login/ui/pages/login_page.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
@@ -88,13 +89,13 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<ContactUsModel> contactsFuture;
 
   @observable
-  ObservableFuture<GalleryModel> galleryFuture;
+  ObservableFuture<List<GalleryModel>> galleryFuture;
 
   @observable
-  ObservableFuture<StrategicPartnersModel> partnersFuture;
+  ObservableFuture<List<StrategicPartnersModel>> partnersFuture;
 
   @observable
-  ObservableFuture<DownloadCenterModel> downloadsFuture;
+  ObservableFuture<List<DownloadCenterModel>> downloadsFuture;
 
   @observable
   bool isLoggedIn = false;
@@ -117,22 +118,22 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   bool get contactsLoading => contactsFuture?.isPending ?? false;
 
   @computed
-  ContactUsModel get gallery => contactsFuture?.value;
+  List<GalleryModel> get gallery => galleryFuture?.value;
 
   @computed
-  bool get galleryLoading => contactsFuture?.isPending ?? false;
+  bool get galleryLoading => galleryFuture?.isPending ?? false;
 
   @computed
-  ContactUsModel get partners => contactsFuture?.value;
+  List<StrategicPartnersModel> get partners => partnersFuture?.value;
 
   @computed
-  bool get partnersLoading => contactsFuture?.isPending ?? false;
+  bool get partnersLoading => partnersFuture?.isPending ?? false;
 
   @computed
-  ContactUsModel get downloads => contactsFuture?.value;
+  List<DownloadCenterModel> get downloads => downloadsFuture?.value;
 
   @computed
-  bool get downloadsLoading => contactsFuture?.isPending ?? false;
+  bool get downloadsLoading => downloadsFuture?.isPending ?? false;
 
   @computed
   bool get isLogged => isLoggedIn;
@@ -181,6 +182,28 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
         () => _publicinfoRepository
             .getContactUs()
             .whenSuccess((res) => res.data.first),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
+
+  @action
+  void getGallery() => galleryFuture = futureWrapper(
+        () => _publicinfoRepository.getGallery().whenSuccess((res) => res.data),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
+
+  @action
+  void getDownloads() => downloadsFuture = futureWrapper(
+        () => _publicinfoRepository
+            .getDownloadCenter()
+            .whenSuccess((res) => res.data),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
+
+  @action
+  void getPartners() => partnersFuture = futureWrapper(
+        () => _publicinfoRepository
+            .getStrategicPartners()
+            .whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 }
