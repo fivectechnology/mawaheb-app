@@ -8,6 +8,7 @@ import 'package:mawaheb_app/base/utils/token_interceptor.dart';
 import 'package:mockito/mockito.dart';
 
 class FakePrefsRepository extends Mock implements PrefsRepository {
+  // try new 5c repo
   FakePrefsRepository({String token}) {
     _token = token;
   }
