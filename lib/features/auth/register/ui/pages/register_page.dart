@@ -5,7 +5,6 @@ import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
-import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
@@ -21,8 +20,7 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState
-    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState extends MobxState<RegisterPage, AuthViewmodel> {
   bool showPassword = false;
 
   final TextEditingController _userNameController = TextEditingController();
@@ -50,7 +48,7 @@ class _RegisterPageState
         child: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 78),
+              padding: const EdgeInsets.symmetric(vertical: 42),
               child: mawahebTextField(
                   context: context,
                   hintText: 'lbl_name',
@@ -61,7 +59,7 @@ class _RegisterPageState
                 hintText: 'lbl_email',
                 textEditingController: _emailController),
             Padding(
-              padding: const EdgeInsets.only(top: 78, bottom: 70),
+              padding: const EdgeInsets.only(top: 45, bottom: 70),
               child: mawahebTextField(
                   context: context,
                   hintText: 'lbl_password',

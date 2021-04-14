@@ -42,8 +42,9 @@ class _AboutUsPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(top: context.fullHeight * 0.04),
+        padding: const EdgeInsets.only(top: 26),
         child: MawahebFutureBuilder<AboutUsModel>(
             future: viewmodel.aboutUsFuture,
             onRetry: viewmodel.getaboutUs,
@@ -86,18 +87,20 @@ class _AboutUsPageState
     String image,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
+      padding: const EdgeInsets.only(bottom: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(image),
+          const SizedBox(height: 5),
           Padding(
             padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
             child: Text(
               context.translate(title),
-              style: textTheme.bodyText1,
+              style: textTheme.headline2.copyWith(fontSize: 16),
             ),
           ),
+          const SizedBox(height: 7),
           Row(
             children: [
               Expanded(

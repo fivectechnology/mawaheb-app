@@ -4,11 +4,11 @@ import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/add_sport_page.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/address_info_page.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/player_info_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/home/ui/pages/renew_subscription_page.dart';
-import 'package:mawaheb_app/features/players/ui/pages/player_info_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/add_sport_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/address_info_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mawaheb_app/features/splash/ui/pages/splash_page.dart';
 

@@ -2,10 +2,7 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
-import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +47,7 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
         title: 'Mawahaeb',
       ),
       key: viewmodel.scaffoldKey,
-      body: Provider(create: (_) => viewmodel, child: const RegisterPage()),
+      body: Provider(create: (_) => viewmodel, child: const PublicInfoPage()),
     );
   }
 }

@@ -49,9 +49,7 @@ class _StrategicPartnersPageState
             onRetry: viewmodel.getPartners,
             onSuccess: (partners) {
               return ListView.builder(
-                  reverse: true,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: context.fullWidth * 0.07),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: partners.length,
                   itemBuilder: (context, index) {
                     return imageRow(

@@ -50,8 +50,7 @@ class _GalleryPageState
             onSuccess: (gallery) {
               return ListView.builder(
                   reverse: true,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: context.fullWidth * 0.07),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: gallery.length,
                   itemBuilder: (context, index) {
                     return imageRow(

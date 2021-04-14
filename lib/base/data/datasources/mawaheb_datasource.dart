@@ -55,7 +55,9 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
       Response response;
       dynamic jsonResponse;
       try {
-        final Options options = withAuth ? TokenOption.toOptions().merge(headers: headers) : Options(headers: headers);
+        final Options options = withAuth
+            ? TokenOption.toOptions().merge(headers: headers)
+            : Options(headers: headers);
         print('data = $data');
         print('endpoint = $endpoint');
 
@@ -107,7 +109,8 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
         }
 
         if ((jsonResponse['status'] as int) != 0) {
-          throw ServerException(jsonResponse['data']['message'] ?? 'msg_something_wrong');
+          throw ServerException(
+              jsonResponse['data']['message'] ?? 'msg_something_wrong');
         }
 
         return Success(mapper(jsonResponse));
@@ -115,7 +118,8 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
         //logger.e('my debug new error $response $jsonResponse');
         logger.e('BaseDataSourceWithMapperImpl => request<$T> => ERROR = $e');
         try {
-          return NetworkError(ServerFailure(jsonResponse['data']['message'] ?? 'msg_something_wrong'));
+          return NetworkError(ServerFailure(
+              jsonResponse['data']['message'] ?? 'msg_something_wrong'));
         } catch (ex) {
           logger.e(
               'BaseDataSourceWithMapperImpl FINAL CATCH ERROR => request<$T> => ERROR = e:$e \n $response \n $jsonResponse');
@@ -130,7 +134,9 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
   Future<NetworkResult<T>> _checkNetwork<T>(
     Future<NetworkResult<T>> Function() body,
   ) async {
-    return await connectionChecker.hasConnection ? await body() : NetworkError(NetworkFailure('msg_no_internet'));
+    return await connectionChecker.hasConnection
+        ? await body()
+        : NetworkError(NetworkFailure('msg_no_internet'));
   }
 
   Future<NetworkResult<T>> mawahebRequest<T>({
@@ -181,7 +187,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
     return (public ? BASE_PUBLIC_API : BASE_REST_API) +
         (mawahebModel ? MAWAHEB_BASE_DB : BASE_DB) +
         modelName +
-        (id != null ? '/$id' : '') +
+        (id != null ? '$id' : '') +
         (action != null ? '/${action.raw}' : '');
   }
 }

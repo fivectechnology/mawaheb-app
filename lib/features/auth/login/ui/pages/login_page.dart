@@ -24,7 +24,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
+class _LoginPageState extends MobxState<LoginPage, AuthViewmodel> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool showPassword = false;
@@ -119,7 +119,9 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
               }),
               MawahebGradientButton(
                 text: 'lbl_sign_up',
-                onPressed: () => context.pushNamed(RegisterPage.route),
+                onPressed: () {
+                  context.pushPage(const RegisterPage());
+                },
                 context: context,
               ),
             ],
