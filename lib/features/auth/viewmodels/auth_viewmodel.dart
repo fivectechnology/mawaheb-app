@@ -21,6 +21,19 @@ import 'package:supercharged/supercharged.dart';
 
 part 'auth_viewmodel.g.dart';
 
+abstract class PageSliderModel {
+  const PageSliderModel(this.value);
+  final int value;
+}
+
+class PageSliderForawardModel extends PageSliderModel {
+  const PageSliderForawardModel() : super(1);
+}
+
+class PageSliderBackwardModel extends PageSliderModel {
+  const PageSliderBackwardModel() : super(-1);
+}
+
 @injectable
 class AuthViewmodel extends _AuthViewmodelBase with _$AuthViewmodel {
   AuthViewmodel(
@@ -35,6 +48,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   final AuthRepository _authRepository;
 
   //* OBSERVERS *//
+  @observable
+  PageSliderModel registerSliderModel;
 
   @observable
   ObservableFuture<bool> loginFuture;
@@ -120,13 +135,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   void login({String userName, String password}) {
     loginFuture = futureWrapper(
-      () => _authRepository
-          .login(userName: userName, password: password)
-          .whenSuccess(
+      () => _authRepository.login(userName: userName, password: password).whenSuccess(
             (res) => res.apply(
               () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               ),
             ),
           ),
@@ -139,32 +151,33 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     registerFuture = futureWrapper(
       () => _authRepository
           .signUp(
-              userName: username,
-              email: email,
-              password: password,
-              code: username + '123')
-          .whenSuccess((res) => res.data.first)
-          .whenComplete(() => getContext(
-                    (context) => context.pushPage(const PlayerInfoPage()),
-                  )
-              // => res.apply(
-              //       () => getContext(
-              //         (context) => context.pushPage(const PlayerInfoPage()),
-              //       ),
-              //     ),
-              ),
+            userName: username,
+            email: email,
+            password: password,
+            code: username + '123',
+          )
+          .whenSuccess(
+            (res) => res.data.first.apply(() {
+              logger.d('signUp success with res: $res');
+              changeRegisterSlider(const PageSliderForawardModel());
+            }),
+          ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
   }
 
   @action
-  void addPersonalInfo(
-      {String dateOfBirth,
-      String gender,
-      String name,
-      String phone,
-      CountryModel country,
-      CategoryModel categoryModel}) {
+  void changeRegisterSlider(PageSliderModel pageSliderModel) => registerSliderModel = pageSliderModel;
+
+  @action
+  void addPersonalInfo({
+    String dateOfBirth,
+    String gender,
+    String name,
+    String phone,
+    CountryModel country,
+    CategoryModel categoryModel,
+  }) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addPersonalInfo(
@@ -188,8 +201,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void addAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void addAddressInfo({String address, String area, EmirateModel emirateModel}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -212,12 +224,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void addSportInfo(
-      {String weight,
-      String height,
-      String hand,
-      String leg,
-      SportModel sport,
-      SportPositionModel position}) {
+      {String weight, String height, String hand, String leg, SportModel sport, SportPositionModel position}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addSportInfo(

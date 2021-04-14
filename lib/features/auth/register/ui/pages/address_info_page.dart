@@ -13,8 +13,7 @@ class AddressInfoPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AddressInfoPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AddressInfoPage());
 
   static const String route = '/address_info';
 
@@ -22,7 +21,7 @@ class AddressInfoPage extends StatefulWidget {
   _AddressInfoPageState createState() => _AddressInfoPageState();
 }
 
-class _AddressInfoPageState extends MobxState<AddressInfoPage, AuthViewmodel> {
+class _AddressInfoPageState extends ProviderMobxState<AddressInfoPage, AuthViewmodel> {
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   EmirateModel currentEmirate;
@@ -49,8 +48,7 @@ class _AddressInfoPageState extends MobxState<AddressInfoPage, AuthViewmodel> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar:
-          customAppBar(context: context, title: 'lbl_address', withTitle: true),
+      appBar: customAppBar(context: context, title: 'lbl_address', withTitle: true),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 26),
         child: MawahebFutureBuilder<List<EmirateModel>>(
@@ -73,17 +71,19 @@ class _AddressInfoPageState extends MobxState<AddressInfoPage, AuthViewmodel> {
                         .toList(),
                   ),
                   const SizedBox(height: 26),
-                  mawahebTextField(
-                      hintText: 'lbl_state/province/area',
-                      hintColor: Colors.grey,
-                      textEditingController: _stateController,
-                      context: context),
+                  MawahebTextField(
+                    hintText: 'lbl_state/province/area',
+                    hintColor: Colors.grey,
+                    textEditingController: _stateController,
+                    context: context,
+                  ),
                   const SizedBox(height: 26),
-                  mawahebTextField(
-                      hintText: 'lbl_address',
-                      hintColor: Colors.grey,
-                      textEditingController: _addressController,
-                      context: context),
+                  MawahebTextField(
+                    hintText: 'lbl_address',
+                    hintColor: Colors.grey,
+                    textEditingController: _addressController,
+                    context: context,
+                  ),
                   Expanded(
                     child: Align(
                       alignment: FractionalOffset.bottomCenter,

@@ -15,8 +15,7 @@ class PlayerInfoPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const PlayerInfoPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const PlayerInfoPage());
 
   static const String route = '/player_info';
 
@@ -24,7 +23,7 @@ class PlayerInfoPage extends StatefulWidget {
   _PlayerInfoPageState createState() => _PlayerInfoPageState();
 }
 
-class _PlayerInfoPageState extends MobxState<PlayerInfoPage, AuthViewmodel> {
+class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
@@ -59,8 +58,7 @@ class _PlayerInfoPageState extends MobxState<PlayerInfoPage, AuthViewmodel> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: customAppBar(
-          context: context, title: 'lbl_personal_info', withTitle: true),
+      appBar: customAppBar(context: context, title: 'lbl_personal_info', withTitle: true),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 43,
@@ -73,19 +71,20 @@ class _PlayerInfoPageState extends MobxState<PlayerInfoPage, AuthViewmodel> {
                 children: [
                   imageRow(),
                   const SizedBox(height: 26),
-                  mawahebTextField(
-                      hintText: 'lbl_full_name',
-                      hintColor: Colors.grey,
-                      textEditingController: _nameController,
-                      context: context),
+                  MawahebTextField(
+                    hintText: 'lbl_full_name',
+                    hintColor: Colors.grey,
+                    textEditingController: _nameController,
+                    context: context,
+                  ),
                   const SizedBox(height: 26),
-                  mawahebTextField(
+                  MawahebTextField(
                       hintText: 'lbl_date_of_birth',
                       hintColor: Colors.grey,
                       textEditingController: _dateOfBirthController,
                       context: context),
                   const SizedBox(height: 26),
-                  mawahebTextField(
+                  MawahebTextField(
                       hintText: 'lbl_phone_num',
                       hintColor: Colors.grey,
                       textEditingController: _phoneController,
@@ -119,21 +118,23 @@ class _PlayerInfoPageState extends MobxState<PlayerInfoPage, AuthViewmodel> {
                         .toList(),
                   ),
                   const SizedBox(height: 26),
-                  mawahebTextField(
-                      hintText: 'lbl_gender',
-                      hintColor: Colors.grey,
-                      textEditingController: _genderController,
-                      context: context),
+                  MawahebTextField(
+                    hintText: 'lbl_gender',
+                    hintColor: Colors.grey,
+                    textEditingController: _genderController,
+                    context: context,
+                  ),
                   const SizedBox(height: 26),
                   MawahebGradientButton(
                       text: 'lbl_next',
                       onPressed: () => viewmodel.addPersonalInfo(
-                          phone: _phoneController.text,
-                          name: _nameController.text,
-                          gender: _genderController.text,
-                          dateOfBirth: _dateOfBirthController.text,
-                          categoryModel: currentCategory,
-                          country: currentCountry),
+                            phone: _phoneController.text,
+                            name: _nameController.text,
+                            gender: _genderController.text,
+                            dateOfBirth: _dateOfBirthController.text,
+                            categoryModel: currentCategory,
+                            country: currentCountry,
+                          ),
                       context: context),
                   const SizedBox(height: 34),
                 ],

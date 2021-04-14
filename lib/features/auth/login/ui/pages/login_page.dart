@@ -17,14 +17,13 @@ class LoginPage extends StatefulWidget {
 
   static const String route = '/login';
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const LoginPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const LoginPage());
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends MobxState<LoginPage, AuthViewmodel> {
+class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool showPassword = false;
@@ -57,30 +56,29 @@ class _LoginPageState extends MobxState<LoginPage, AuthViewmodel> {
                 child: GradientText(
                   text: context.translate('lbl_welcome_to_mawaheb'),
                   colors: const [YELLOW, RED],
-                  style: context.textTheme.headline1
-                      .copyWith(fontSize: 26, letterSpacing: 0.3),
+                  style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
                 ),
               ),
-              mawahebTextField(
+              MawahebTextField(
                 context: context,
                 hintText: 'lbl_email',
                 textEditingController: _userNameController,
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    top: context.fullHeight * 0.04,
-                    bottom: context.fullHeight * 0.02),
-                child: mawahebTextField(
-                    textEditingController: _passwordController,
-                    context: context,
-                    hintText: 'lbl_password',
-                    isSuffixIcon: true,
-                    showPassword: showPassword,
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    }),
+                padding: EdgeInsets.only(top: context.fullHeight * 0.04, bottom: context.fullHeight * 0.02),
+                child: MawahebTextField(
+                  textEditingController: _passwordController,
+                  context: context,
+                  hintText: 'lbl_password',
+                  isSuffixIcon: true,
+                  useObscure: true,
+                  // showPassword: showPassword,
+                  // onPressed: () {
+                  //   setState(() {
+                  //     showPassword = !showPassword;
+                  //   });
+                  // },
+                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -92,36 +90,31 @@ class _LoginPageState extends MobxState<LoginPage, AuthViewmodel> {
                     },
                     child: Text(
                       context.translate('lbl_forget_password'),
-                      style: context.textTheme.subtitle1.copyWith(
-                          fontSize: 12,
-                          decoration: TextDecoration.underline,
-                          color: const Color(0xFF9F9F9F)),
+                      style: context.textTheme.subtitle1
+                          .copyWith(fontSize: 12, decoration: TextDecoration.underline, color: const Color(0xFF9F9F9F)),
                     ),
                   )
                 ],
               ),
               Observer(builder: (_) {
                 return Padding(
-                  padding: EdgeInsets.only(
-                      top: context.fullHeight * 0.05,
-                      bottom: context.fullHeight * 0.04),
+                  padding: EdgeInsets.only(top: context.fullHeight * 0.05, bottom: context.fullHeight * 0.04),
                   child: MawahebGradientButton(
                     // TODO(ahmad): ask backend for username and password validation
                     // enable: !_userNameController.text.isNullOrEmpty && !_passwordController.text.isNullOrEmpty,
                     isLoading: viewmodel.loginLoading,
                     text: 'lbl_login',
                     onPressed: () => viewmodel.login(
-                        userName: _userNameController.text,
-                        password: _passwordController.text),
+                      userName: _userNameController.text,
+                      password: _passwordController.text,
+                    ),
                     context: context,
                   ),
                 );
               }),
               MawahebGradientButton(
                 text: 'lbl_sign_up',
-                onPressed: () {
-                  context.pushPage(const RegisterPage());
-                },
+                onPressed: () => context.pushNamed(RegisterPage.route, arguments: viewmodel),
                 context: context,
               ),
             ],

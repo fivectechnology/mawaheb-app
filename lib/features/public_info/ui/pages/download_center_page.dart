@@ -22,8 +22,7 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState
-    extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -52,19 +51,16 @@ class _DownLoadCenterPageState
             onRetry: viewmodel.getDownloads,
             onSuccess: (downloads) {
               return ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: context.fullWidth * 0.02),
+                  padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
                   itemCount: downloads.length,
                   itemBuilder: (context, index) {
                     return downloadButton(
-                        fileName: downloads[index].title,
-                        onPress: () {
-                          _launchURL(
-                              id: downloads[index].source.id,
-                              version: downloads[index].source.version == null
-                                  ? 0
-                                  : downloads[index].source.version);
-                        });
+                      fileName: downloads[index].title,
+                      onPress: () => _launchURL(
+                        id: downloads[index].source.id,
+                        version: downloads[index].source.version ?? 0,
+                      ),
+                    );
                   });
             }),
       ),
@@ -82,7 +78,7 @@ class _DownLoadCenterPageState
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Text(fileName, style: textTheme.subtitle1.copyWith(fontSize: 16))
+              Expanded(child: Text(fileName, style: textTheme.subtitle1.copyWith(fontSize: 16)))
             ],
           ),
           Row(
@@ -108,8 +104,7 @@ class _DownLoadCenterPageState
   }
 
   _launchURL({int id, int version}) async {
-    var url =
-        'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/content/download?v=$version';
+    var url = 'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/content/download?v=$version';
     if (await canLaunch(url)) {
       print(url);
       await launch(url);

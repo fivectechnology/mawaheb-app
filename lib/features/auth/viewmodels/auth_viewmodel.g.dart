@@ -73,6 +73,22 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
               name: '_AuthViewmodelBase.emirates'))
           .value;
 
+  final _$registerSliderModelAtom =
+      Atom(name: '_AuthViewmodelBase.registerSliderModel');
+
+  @override
+  PageSliderModel get registerSliderModel {
+    _$registerSliderModelAtom.reportRead();
+    return super.registerSliderModel;
+  }
+
+  @override
+  set registerSliderModel(PageSliderModel value) {
+    _$registerSliderModelAtom.reportWrite(value, super.registerSliderModel, () {
+      super.registerSliderModel = value;
+    });
+  }
+
   final _$loginFutureAtom = Atom(name: '_AuthViewmodelBase.loginFuture');
 
   @override
@@ -259,6 +275,17 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
+  void changeRegisterSlider(PageSliderModel pageSliderModel) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.changeRegisterSlider');
+    try {
+      return super.changeRegisterSlider(pageSliderModel);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addPersonalInfo(
       {String dateOfBirth,
       String gender,
@@ -320,6 +347,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   @override
   String toString() {
     return '''
+registerSliderModel: ${registerSliderModel},
 loginFuture: ${loginFuture},
 registerFuture: ${registerFuture},
 sportFuture: ${sportFuture},

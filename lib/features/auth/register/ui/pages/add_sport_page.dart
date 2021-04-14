@@ -19,8 +19,7 @@ class AddSportPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AddSportPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AddSportPage());
 
   static const String route = '/add_sport';
 
@@ -28,8 +27,7 @@ class AddSportPage extends StatefulWidget {
   _AddSportPageState createState() => _AddSportPageState();
 }
 
-class _AddSportPageState
-    extends ProviderMobxState<AddSportPage, AuthViewmodel> {
+class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> {
   final TextEditingController _hightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
 
@@ -64,14 +62,9 @@ class _AddSportPageState
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: customAppBar(
-          context: context,
-          title: context.translate('lbl_add_sport'),
-          withTitle: true),
+      appBar: customAppBar(context: context, title: context.translate('lbl_add_sport'), withTitle: true),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: context.fullWidth * 0.08,
-            vertical: context.fullHeight * 0.03),
+        padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08, vertical: context.fullHeight * 0.03),
         child: MawahebFutureBuilder(
             onRetry: viewmodel.getSports,
             future: viewmodel.sportFuture,
@@ -106,15 +99,17 @@ class _AddSportPageState
                         .toList(),
                   ),
                   SizedBox(height: context.fullHeight * 0.02),
-                  mawahebTextField(
-                      hintText: context.translate('lbl_weight'),
-                      hintColor: Colors.grey,
-                      context: context),
+                  MawahebTextField(
+                    hintText: context.translate('lbl_weight'),
+                    hintColor: Colors.grey,
+                    context: context,
+                  ),
                   SizedBox(height: context.fullHeight * 0.02),
-                  mawahebTextField(
-                      hintText: context.translate('lbl_hight'),
-                      hintColor: Colors.grey,
-                      context: context),
+                  MawahebTextField(
+                    hintText: context.translate('lbl_hight'),
+                    hintColor: Colors.grey,
+                    context: context,
+                  ),
                   SizedBox(height: context.fullHeight * 0.02),
                   mawhaebDropDown(
                       hint: context.translate('lbl_prefer_hand'),
@@ -142,21 +137,17 @@ class _AddSportPageState
                         print(v);
                       }),
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: context.fullHeight * 0.03),
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
                     child: SizedBox(
                       height: context.fullHeight * 0.15,
                       child: TextFormField(
                         maxLines: 10,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: const BorderSide(color: Colors.grey)),
+                              borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
                           hintText: context.translate('msg_brief'),
-                          hintStyle: const TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w200,
-                              fontFamily: 'Poppins'),
+                          hintStyle:
+                              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
                         ),
                       ),
                     ),
@@ -185,18 +176,13 @@ class _AddSportPageState
   Widget uploadSpace({Function onPress}) {
     return Container(
       height: context.fullHeight * 0.14,
-      decoration: DottedDecoration(
-          shape: Shape.box,
-          dash: const [10, 10],
-          borderRadius: BorderRadius.circular(10),
-          color: RED),
+      decoration:
+          DottedDecoration(shape: Shape.box, dash: const [10, 10], borderRadius: BorderRadius.circular(10), color: RED),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InkWell(
-                onTap: onPress,
-                child: SvgPicture.asset('assets/icons/ic_upload.svg')),
+            InkWell(onTap: onPress, child: SvgPicture.asset('assets/icons/ic_upload.svg')),
             Text(
               context.translate('lbl_upload_video'),
               style: textTheme.headline6,

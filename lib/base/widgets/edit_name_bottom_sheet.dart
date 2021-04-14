@@ -12,23 +12,21 @@ void editNameBottomSheet(BuildContext context) {
         return Padding(
           padding: context.mediaQuery.viewInsets,
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.08,
-                vertical: context.fullHeight * 0.03),
+            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08, vertical: context.fullHeight * 0.03),
             child: Wrap(
               children: [
                 Text(
                   'Edit name',
                   style: context.textTheme.headline2.copyWith(fontSize: 20),
                 ),
-                mawahebTextField(
-                    context: context,
-                    hintColor: Colors.grey,
-                    showPassword: false,
-                    hintText: 'lbl_full_name'),
+                MawahebTextField(
+                  context: context,
+                  hintColor: Colors.grey,
+                  // showPassword: false,
+                  hintText: 'lbl_full_name',
+                ),
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: context.fullHeight * 0.04),
+                  padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.04),
                   child: MawahebGradientButton(
                     onPressed: () {},
                     text: 'Edit',
