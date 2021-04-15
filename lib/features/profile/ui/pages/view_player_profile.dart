@@ -34,10 +34,10 @@ class _ViewPlayerProfileState extends State<ViewPlayerProfile>
         children: [
           profileDetails(context: context),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.06),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
             height: context.fullHeight * 0.07,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: GREY,
               borderRadius: BorderRadius.circular(
                 25.0,
               ),
@@ -60,11 +60,12 @@ class _ViewPlayerProfileState extends State<ViewPlayerProfile>
               unselectedLabelColor: Colors.black,
               labelColor: Colors.black,
               labelStyle: context.textTheme.bodyText1,
-              labelPadding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              // labelPadding:
+              //     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               controller: _tabController,
             ),
           ),
+          const SizedBox(height: 26),
           Expanded(
             child: TabBarView(controller: _tabController, children: const [
               MyInfoPage(),

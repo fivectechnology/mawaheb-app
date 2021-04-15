@@ -18,13 +18,15 @@ class ProfilePage extends StatefulWidget {
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with TickerProviderStateMixin {
+class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
+    with TickerProviderStateMixin {
   TabController _tabController;
 
   @override
@@ -41,51 +43,60 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.only(top: context.fullHeight * 0.01),
-        child: Column(
-          children: [
-            profileActivationRow(isPending: true),
-            profileDetails(context: context),
-            Container(
-              margin: EdgeInsets.only(top: context.fullHeight * 0.02),
-              height: context.fullHeight * 0.07,
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1.0, color: Colors.grey[300]))),
-              child: TabBar(
-                indicator: UnderlineTabIndicator(
-                    borderSide: const BorderSide(width: 3.0, color: RED),
-                    insets: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08)),
-                tabs: [
-                  Text(
-                    'my info',
-                    style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Padding(
+          padding: EdgeInsets.only(top: context.fullHeight * 0.01),
+          child: Column(
+            children: [
+              profileActivationRow(isPending: true),
+              profileDetails(context: context),
+              Container(
+                height: context.fullHeight * 0.07,
+                decoration: const BoxDecoration(
+                    border:
+                        Border(bottom: BorderSide(width: 1.0, color: GREY))),
+                child: TabBar(
+                  indicator: UnderlineTabIndicator(
+                      borderSide: const BorderSide(width: 3.0, color: RED),
+                      insets: EdgeInsets.symmetric(
+                          horizontal: context.fullWidth * 0.1)),
+                  tabs: [
+                    Text(
+                      'my info',
+                      style: textTheme.headline2
+                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Videos',
+                      style: textTheme.headline2
+                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Views',
+                      style: textTheme.headline2
+                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                  unselectedLabelColor: GREY,
+                  labelColor: Colors.black,
+                  labelStyle: textTheme.subtitle1,
+                  labelPadding: const EdgeInsets.symmetric(
+                    vertical: 15,
                   ),
-                  Text(
-                    'Videos',
-                    style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'Views',
-                    style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                ],
-                unselectedLabelColor: Colors.grey,
-                labelColor: Colors.black,
-                labelStyle: textTheme.subtitle1,
-                labelPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                controller: _tabController,
+                  controller: _tabController,
+                ),
               ),
-            ),
-            Expanded(
-              child: TabBarView(controller: _tabController, children: const [
-                MyInfoPage(),
-                VideosPage(),
-                ViewsPage(),
-              ]),
-            )
-          ],
+              Expanded(
+                child: TabBarView(controller: _tabController, children: const [
+                  MyInfoPage(),
+                  VideosPage(),
+                  ViewsPage(),
+                ]),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -95,7 +106,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
     return Container(
       padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.04),
       height: context.fullHeight * 0.08,
-      color: Colors.grey[300],
+      color: GREY.withOpacity(0.5),
       child: Row(
         children: [
           SvgPicture.asset(
@@ -124,7 +135,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
                 },
                 icon: Icon(
                   Icons.arrow_forward_ios,
-                  color: Colors.grey[400],
+                  color: DARK_GREY.withOpacity(0.6),
                   size: 16,
                 ),
               ))
