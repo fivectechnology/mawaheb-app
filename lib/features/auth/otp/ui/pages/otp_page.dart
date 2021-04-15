@@ -13,7 +13,7 @@ class OtpPage extends StatefulWidget {
 
   static const String route = '/otp';
 
-  static MaterialPageRoute get pageRoute =>
+  static MaterialPageRoute pageRoute() =>
       MaterialPageRoute(builder: (context) => const OtpPage());
 
   @override

@@ -64,7 +64,7 @@ class _RegisterPageState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: customAppBar(
         context: context,
         title: context.translate(pageTitle),
@@ -79,7 +79,7 @@ class _RegisterPageState
           onPageChanged: (int pageIndex) => changeTitle(pageIndex),
           children: const [
             SignUpPage(),
-            OtpPage(),
+            // OtpPage(),
             PlayerInfoPage(),
             AddressInfoPage(),
             AddSportPage(),

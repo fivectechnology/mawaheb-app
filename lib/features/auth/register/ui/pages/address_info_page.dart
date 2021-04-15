@@ -1,6 +1,6 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
-import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
@@ -27,7 +27,10 @@ class _AddressInfoPageState
     extends ProviderMobxState<AddressInfoPage, AuthViewmodel> {
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   EmirateModel currentEmirate;
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +38,8 @@ class _AddressInfoPageState
 
   @override
   void dispose() {
+    _stateController.dispose();
+    _addressController.dispose();
     super.dispose();
   }
 
@@ -46,61 +51,85 @@ class _AddressInfoPageState
     }
   }
 
+  String stateValidator(String value) {
+    if (value.isEmpty) {
+      return 'State is empty';
+    }
+    return null;
+  }
+
+  String addressValidator(String value) {
+    if (value.isEmpty) {
+      return 'Address is empty';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MawahebFutureBuilder<List<EmirateModel>>(
         future: viewmodel.emirateFuture,
         onRetry: viewmodel.getEmirates,
         onSuccess: (emirate) {
-          return Column(
-            children: [
-              mawhaebDropDown(
-                hint: 'lbl_emirates',
-                context: context,
-                onChanged: (value) {
-                  currentEmirate = value;
-                },
-                items: viewmodel.emirates
-                    .map((em) => DropdownMenuItem(
-                          child: Text(em.name),
-                          value: em,
-                        ))
-                    .toList(),
-              ),
-              const SizedBox(height: 26),
-              MawahebTextField(
-                hintText: 'lbl_state/province/area',
-                hintColor: Colors.grey,
-                textEditingController: _stateController,
-                context: context,
-              ),
-              const SizedBox(height: 26),
-              MawahebTextField(
-                hintText: 'lbl_address',
-                hintColor: Colors.grey,
-                textEditingController: _addressController,
-                context: context,
-              ),
-              Expanded(
-                child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Observer(
-                    builder: (_) {
-                      return MawahebGradientButton(
-                        text: 'lbl_next',
-                        isLoading: viewmodel.registerLoading,
-                        onPressed: () => viewmodel.addAddressInfo(
-                            emirateModel: currentEmirate,
-                            address: _addressController.text,
-                            area: _addressController.text),
-                        context: context,
-                      );
-                    },
+          return Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                mawhaebDropDown(
+                  hint: 'lbl_emirates',
+                  context: context,
+                  onChanged: (value) {
+                    currentEmirate = value;
+                  },
+                  items: viewmodel.emirates
+                      .map((em) => DropdownMenuItem(
+                            child: Text(em.name),
+                            value: em,
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 26),
+                MawahebTextField(
+                  hintText: 'lbl_state/province/area',
+                  hintColor: Colors.grey,
+                  validator: stateValidator,
+                  textEditingController: _stateController,
+                  context: context,
+                ),
+                const SizedBox(height: 26),
+                MawahebTextField(
+                  hintText: 'lbl_address',
+                  hintColor: Colors.grey,
+                  validator: addressValidator,
+                  textEditingController: _addressController,
+                  context: context,
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Observer(
+                      builder: (_) {
+                        return MawahebGradientButton(
+                          text: 'lbl_next',
+                          isLoading: viewmodel.registerLoading,
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              viewmodel.addAddressInfo(
+                                  emirateModel: currentEmirate,
+                                  address: _addressController.text,
+                                  area: _addressController.text);
+                            }
+                          },
+                          context: context,
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 34),
-            ],
+                const SizedBox(height: 34),
+              ],
+            ),
           );
         });
   }

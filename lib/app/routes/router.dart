@@ -24,7 +24,7 @@ class PageRouter {
         return RegisterPage.pageRoute(value.arguments as AuthViewmodel);
 
       case ForgotPasswordPage.route:
-        return ForgotPasswordPage.pageRoute;
+        return ForgotPasswordPage.pageRoute(value.arguments as AuthViewmodel);
 
       case RenewSubscriptionPage.route:
         return RenewSubscriptionPage.pageRoute;

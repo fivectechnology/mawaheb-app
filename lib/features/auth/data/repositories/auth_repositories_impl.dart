@@ -101,6 +101,7 @@ class AuthRepositoryImpl extends AuthRepository {
         hand: hand,
         leg: leg,
         sport: sport,
+        brief: brief,
         sportPositionModel: sportPositionModel,
       );
 

@@ -33,6 +33,7 @@ class _AddSportPageState
   final TextEditingController _hightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _briefController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   SportModel currentSport;
   SportPositionModel position;
@@ -46,6 +47,10 @@ class _AddSportPageState
 
   @override
   void dispose() {
+    _hightController.dispose();
+    _weightController.dispose();
+    _briefController.dispose();
+
     super.dispose();
   }
 
@@ -60,124 +65,148 @@ class _AddSportPageState
     }
   }
 
+  String hightValidator(String value) {
+    if (value.isEmpty) {
+      return 'State is empty';
+    }
+    return null;
+  }
+
+  String weightValidator(String value) {
+    if (value.isEmpty) {
+      return 'State is empty';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MawahebFutureBuilder(
         onRetry: viewmodel.getSports,
         future: viewmodel.sportFuture,
         onSuccess: (sport) {
-          return ListView(
-            children: [
-              mawhaebDropDown(
-                hint: context.translate('lbl_sport_name'),
-                context: context,
-                onChanged: (value) {
-                  currentSport = value;
-                },
-                items: viewmodel.sports
-                    .map((em) => DropdownMenuItem(
-                          child: Text(em.name),
-                          value: em,
-                        ))
-                    .toList(),
-              ),
-              const SizedBox(height: 26),
-              mawhaebDropDown(
-                hint: context.translate('lbl_position'),
-                context: context,
-                onChanged: (value) {
-                  position = value;
-                },
-                items: viewmodel.positions
-                    .map((em) => DropdownMenuItem(
-                          child: Text(em.name),
-                          value: em,
-                        ))
-                    .toList(),
-              ),
-              const SizedBox(height: 26),
-              MawahebTextField(
-                hintText: context.translate('lbl_weight'),
-                hintColor: Colors.grey,
-                context: context,
-                textEditingController: _hightController,
-              ),
-              const SizedBox(height: 26),
-              MawahebTextField(
-                hintText: context.translate('lbl_hight'),
-                hintColor: Colors.grey,
-                context: context,
-                textEditingController: _weightController,
-              ),
-              const SizedBox(height: 26),
-              mawhaebDropDown(
-                  hint: context.translate('lbl_prefer_hand'),
+          return Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                mawhaebDropDown(
+                  hint: context.translate('lbl_sport_name'),
                   context: context,
-                  items: ['RIGHT', 'LEFT', 'BOTH']
-                      .map((e) => DropdownMenuItem(
-                            child: Text(e),
-                            value: e,
+                  onChanged: (value) {
+                    currentSport = value;
+                  },
+                  items: viewmodel.sports
+                      .map((em) => DropdownMenuItem(
+                            child: Text(em.name),
+                            value: em,
                           ))
                       .toList(),
-                  onChanged: (v) {
-                    print(v);
-                  }),
-              const SizedBox(height: 26),
-              mawhaebDropDown(
-                  hint: context.translate('lbl_prefer_leg'),
+                ),
+                const SizedBox(height: 26),
+                mawhaebDropDown(
+                  hint: context.translate('lbl_position'),
                   context: context,
-                  items: ['RIGHT', 'LEFT', 'BOTH']
-                      .map((e) => DropdownMenuItem(
-                            child: Text(e),
-                            value: e,
+                  onChanged: (value) {
+                    position = value;
+                  },
+                  items: viewmodel.positions
+                      .map((em) => DropdownMenuItem(
+                            child: Text(em.name),
+                            value: em,
                           ))
                       .toList(),
-                  onChanged: (v) {
-                    print(v);
-                  }),
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
-                child: SizedBox(
-                  height: context.fullHeight * 0.15,
-                  child: TextFormField(
-                    controller: _briefController,
-                    maxLines: 10,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: const BorderSide(color: Colors.grey)),
-                      hintText: context.translate('msg_brief'),
-                      hintStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w200,
-                          fontFamily: 'Poppins'),
+                ),
+                const SizedBox(height: 26),
+                MawahebTextField(
+                  hintText: context.translate('lbl_weight'),
+                  hintColor: Colors.grey,
+                  context: context,
+                  validator: weightValidator,
+                  textEditingController: _hightController,
+                ),
+                const SizedBox(height: 26),
+                MawahebTextField(
+                  hintText: context.translate('lbl_hight'),
+                  hintColor: Colors.grey,
+                  context: context,
+                  validator: hightValidator,
+                  textEditingController: _weightController,
+                ),
+                const SizedBox(height: 26),
+                mawhaebDropDown(
+                    hint: context.translate('lbl_prefer_hand'),
+                    context: context,
+                    items: ['RIGHT', 'LEFT', 'BOTH']
+                        .map((e) => DropdownMenuItem(
+                              child: Text(e),
+                              value: e,
+                            ))
+                        .toList(),
+                    onChanged: (v) {
+                      print(v);
+                    }),
+                const SizedBox(height: 26),
+                mawhaebDropDown(
+                    hint: context.translate('lbl_prefer_leg'),
+                    context: context,
+                    items: ['RIGHT', 'LEFT', 'BOTH']
+                        .map((e) => DropdownMenuItem(
+                              child: Text(e),
+                              value: e,
+                            ))
+                        .toList(),
+                    onChanged: (v) {
+                      print(v);
+                    }),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
+                  child: SizedBox(
+                    height: context.fullHeight * 0.15,
+                    child: TextFormField(
+                      controller: _briefController,
+                      maxLines: 10,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: const BorderSide(color: Colors.grey)),
+                        hintText: context.translate('msg_brief'),
+                        hintStyle: const TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w200,
+                            fontFamily: 'Poppins'),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              uploadSpace(onPress: () {}),
-              const SizedBox(height: 26),
-              Observer(
-                builder: (_) {
-                  return MawahebGradientButton(
-                    text: context.translate('lbl_next'),
-                    isLoading: viewmodel.registerLoading,
-                    onPressed: () => viewmodel.addSportInfo(
-                      height: int.parse(_hightController.text),
-                      weight: int.parse(_weightController.text),
-                      hand: hand,
-                      leg: leg,
-                      brief: _briefController.text,
-                      sport: currentSport,
-                      position: position,
-                    ),
-                    context: context,
-                  );
-                },
-              ),
-              const SizedBox(height: 34),
-            ],
+                uploadSpace(onPress: () {}),
+                const SizedBox(height: 26),
+                Observer(
+                  builder: (_) {
+                    return MawahebGradientButton(
+                      text: context.translate('lbl_next'),
+                      isLoading: viewmodel.registerLoading,
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          viewmodel.addSportInfo(
+                            height: int.parse(_hightController.text),
+                            weight: int.parse(_weightController.text),
+                            hand: hand,
+                            leg: leg,
+                            brief: _briefController.text,
+                            sport: currentSport,
+                            position: position,
+                          );
+                        }
+                      },
+                      context: context,
+                    );
+                  },
+                ),
+                const SizedBox(height: 34),
+              ],
+            ),
           );
         });
   }

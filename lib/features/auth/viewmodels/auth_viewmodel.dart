@@ -14,6 +14,7 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/add_sport_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/address_info_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/player_info_page.dart';
@@ -177,8 +178,14 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       () => _authRepository.sendOTP(email: email).whenSuccess(
             (res) => res.apply(() {
               logger.d('otp success with res: $res');
-
-              changeRegisterSlider(const PageSliderForawardModel());
+              if (player == null) {
+                // getContext(
+                //   (context) => context.pushNamedAndRemoveUntil(
+                //       BasePage.route, (_) => false),
+                // );
+              } else {
+                changeRegisterSlider(const PageSliderForawardModel());
+              }
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -215,8 +222,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res.data.first.apply(() {
+              ///login after sing up
+              // _authRepository.login(userName: username, password: password);
               logger.d('signUp success with res: $res');
-              changeRegisterSlider(PageSliderForawardModel());
+              changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -301,10 +310,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               sport: sport,
               sportPositionModel: position)
           .whenSuccess(
-            (res) => res.data.first.apply(() {
-              logger.d('sport info success with res: $res');
-              changeRegisterSlider(PageSliderForawardModel());
-            }),
+            (res) => res.data.first.apply(
+              () => getContext(
+                (context) => context.pushNamedAndRemoveUntil(
+                    BasePage.route, (_) => false),
+              ),
+            ),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
