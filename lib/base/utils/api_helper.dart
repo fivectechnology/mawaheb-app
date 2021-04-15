@@ -35,4 +35,3 @@ const String OTP_SEND_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/send';
 const String OTP_VERIFY_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/verify';
 
 //* USER *//
-const String PROFILE_UPDATE_ENDPOINT = BASE_REST_API + BASE_DB + 'auth.db.User';

@@ -10,8 +10,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
   static const String route = '/forgot_password';
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const ForgotPasswordPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const ForgotPasswordPage());
 
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
@@ -40,18 +39,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding: EdgeInsets.only(
-                    top: context.fullHeight * 0.02,
-                    bottom: context.fullHeight * 0.1),
+                padding: EdgeInsets.only(top: context.fullHeight * 0.02, bottom: context.fullHeight * 0.1),
                 child: Text(
                   context.translate('msg_recover_account'),
-                  style: context.textTheme.headline2
-                      .copyWith(color: Colors.black, fontSize: 40),
+                  style: context.textTheme.headline2.copyWith(color: Colors.black, fontSize: 40),
                 )),
-            mawahebTextField(
-                hintText: 'lbl_email_username',
-                hintColor: Colors.grey,
-                context: context),
+            MawahebTextField(
+              hintText: 'lbl_email_username',
+              hintColor: Colors.grey,
+              context: context,
+            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.1),
               child: MawahebButton(

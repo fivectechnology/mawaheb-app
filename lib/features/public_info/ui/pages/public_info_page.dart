@@ -9,8 +9,7 @@ class PublicInfoPage extends StatefulWidget {
 
   static const String route = '/public_info';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -18,24 +17,8 @@ class PublicInfoPage extends StatefulWidget {
   _PublicInfoPageState createState() => _PublicInfoPageState();
 }
 
-class _PublicInfoPageState
-    extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
+class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
   TabController _tabController;
-  // List<Widget> _tabs = [
-  //   Text('lbl_about_us'),
-  //   Text('lbl_gallery'),
-  //   Text('lbl_contacts'),
-  //   Text('lbl_strategic_partners'),
-  //   Text('lbl_download_center'),
-  // ];
-  //
-  // List<Widget> pages = [
-  //   AboutUsPage(),
-  //   GalleryPage(),
-  //   ContactsPage(),
-  //   StrategicPartnersPage(),
-  //   DownLoadCenterPage()
-  // ];
 
   @override
   void initState() {
@@ -72,15 +55,15 @@ class _PublicInfoPageState
               labelColor: Colors.black,
               labelStyle: textTheme.subtitle1,
               indicatorWeight: 3,
-              labelPadding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              labelPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               tabs: viewmodel.tabs,
             ),
           ),
         ),
         body: Provider(
-            create: (_) => viewmodel,
-            child: TabBarView(children: viewmodel.pages)),
+          create: (_) => viewmodel,
+          child: TabBarView(children: viewmodel.pages),
+        ),
       ),
     );
   }

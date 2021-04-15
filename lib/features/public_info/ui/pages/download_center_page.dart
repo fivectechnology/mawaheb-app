@@ -2,8 +2,11 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
+import 'package:mawaheb_app/features/public_info/data/models/download_center_model.dart';
 
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DownLoadCenterPage extends StatefulWidget {
   const DownLoadCenterPage({Key key}) : super(key: key);
@@ -31,21 +34,40 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (viewmodel?.downloads == null) {
+      viewmodel.getDownloads();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
-        child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return downloadButton();
+        child: MawahebFutureBuilder<List<DownloadCenterModel>>(
+            future: viewmodel.downloadsFuture,
+            onRetry: viewmodel.getDownloads,
+            onSuccess: (downloads) {
+              return ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
+                  itemCount: downloads.length,
+                  itemBuilder: (context, index) {
+                    return downloadButton(
+                      fileName: downloads[index].title,
+                      onPress: () => _launchURL(
+                        id: downloads[index].source.id,
+                        version: downloads[index].source.version ?? 0,
+                      ),
+                    );
+                  });
             }),
       ),
     );
   }
 
-  Widget downloadButton({String text}) {
+  Widget downloadButton({String fileName, Function onPress}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
       child: Column(
@@ -56,7 +78,7 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Text('Aenean sed lorem est. Sed quis neque ', style: textTheme.subtitle1.copyWith(fontSize: 16))
+              Expanded(child: Text(fileName, style: textTheme.subtitle1.copyWith(fontSize: 16)))
             ],
           ),
           Row(
@@ -64,7 +86,7 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
             children: [
               FlatButton(
                 minWidth: context.fullWidth * 0.2,
-                onPressed: () {},
+                onPressed: onPress,
                 color: YELLOW,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
@@ -79,5 +101,15 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
         ],
       ),
     );
+  }
+
+  _launchURL({int id, int version}) async {
+    var url = 'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/content/download?v=$version';
+    if (await canLaunch(url)) {
+      print(url);
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

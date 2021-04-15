@@ -1,9 +1,11 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/base_page.dart';
-import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
+import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class OtpPage extends StatefulWidget {
@@ -11,14 +13,13 @@ class OtpPage extends StatefulWidget {
 
   static const String route = '/otp';
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const OtpPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const OtpPage());
 
   @override
   _OtpPageState createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -31,66 +32,55 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      appBar: customAppBar(context: context, title: 'OTP', withTitle: true),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.fullHeight * 0.02,
-                ),
-                child: Text(
-                  context.translate('msg_enter_otp'),
-                  style: context.textTheme.headline1.copyWith(
-                      color: Colors.black, fontSize: 22, wordSpacing: 0.5),
-                )),
-            Text(
-              'roger.schneider@mail.com',
-              style: context.textTheme.bodyText1
-                  .copyWith(color: Colors.black, fontSize: 16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: context.fullHeight * 0.02,
             ),
-            SizedBox(
-              height: context.fullHeight * 0.08,
-            ),
-            PinCodeTextField(
-                autofocus: true,
-                pinTextStyle:
-                    context.textTheme.headline2.copyWith(fontSize: 26),
-                pinBoxDecoration:
-                    ProvidedPinBoxDecoration.underlinedPinBoxDecoration),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: context.fullHeight * 0.08,
-                  bottom: context.fullHeight * 0.04),
-              child: MawahebButton(
-                onPressed: () {
-                  _otpBottomSheet(context);
-                },
-                context: context,
-                text: 'lbl_resend_otp',
-                buttonColor: Colors.white,
-                textColor: Colors.black,
-                borderColor: Colors.black,
-              ),
-            ),
-            MawahebButton(
-              onPressed: () {
-                context.pushPage(const BasePage());
-              },
-              context: context,
-              text: 'lbl_next',
-              buttonColor: const Color(0xFF9F9F9F),
-              textColor: Colors.white,
-              borderColor: Colors.white,
-            ),
-          ],
+            child: Text(
+              context.translate('msg_enter_otp'),
+              style: context.textTheme.headline1.copyWith(color: Colors.black, fontSize: 22, wordSpacing: 0.5),
+            )),
+        Observer(builder: (_) {
+          return Text(
+            viewmodel?.player?.name ?? '',
+            style: context.textTheme.bodyText1.copyWith(color: Colors.black, fontSize: 16),
+          );
+        }),
+        SizedBox(
+          height: context.fullHeight * 0.08,
         ),
-      ),
+        PinCodeTextField(
+          autofocus: true,
+          pinTextStyle: context.textTheme.headline2.copyWith(fontSize: 26),
+          pinBoxDecoration: ProvidedPinBoxDecoration.underlinedPinBoxDecoration,
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: context.fullHeight * 0.08, bottom: context.fullHeight * 0.04),
+          child: MawahebButton(
+            onPressed: () {
+              _otpBottomSheet(context);
+            },
+            context: context,
+            text: 'lbl_resend_otp',
+            buttonColor: Colors.white,
+            textColor: Colors.black,
+            borderColor: Colors.black,
+          ),
+        ),
+        MawahebButton(
+          onPressed: () {
+            context.pushPage(const BasePage());
+          },
+          context: context,
+          text: 'lbl_next',
+          buttonColor: const Color(0xFF9F9F9F),
+          textColor: Colors.white,
+          borderColor: Colors.white,
+        ),
+      ],
     );
   }
 
@@ -104,13 +94,11 @@ class _OtpPageState extends State<OtpPage> {
                 leading: SvgPicture.asset('assets/icons/ic_otp.svg'),
                 title: Text(
                   context.translate('msg_check_otp'),
-                  style:
-                      context.textTheme.bodyText1.copyWith(color: Colors.grey),
+                  style: context.textTheme.bodyText1.copyWith(color: Colors.grey),
                 ),
                 subtitle: Text(
                   'roger.schneider@mail.com',
-                  style:
-                      context.textTheme.bodyText1.copyWith(color: Colors.black),
+                  style: context.textTheme.bodyText1.copyWith(color: Colors.black),
                 ),
               ),
             ],

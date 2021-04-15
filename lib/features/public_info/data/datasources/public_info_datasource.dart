@@ -110,7 +110,7 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
   @override
   Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery() {
     return mawahebRequest(
-      modelName: 'StrategicPartner',
+      modelName: 'PhotoGalleryItem',
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
-Widget mawhaebDropDown({String hint, BuildContext context, Color textColor}) {
+Widget mawhaebDropDown(
+    {String hint,
+    BuildContext context,
+    Color textColor,
+    List items,
+    Function onChanged}) {
   return DropdownButtonFormField(
     decoration: const InputDecoration(
       enabledBorder:
@@ -17,7 +22,7 @@ Widget mawhaebDropDown({String hint, BuildContext context, Color textColor}) {
           fontFamily: 'Poppins'),
       // ignore: prefer_const_literals_to_create_immutables
     ),
-    onChanged: (value) {},
-    items: const [],
+    onChanged: onChanged,
+    items: items,
   );
 }

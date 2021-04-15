@@ -3,17 +3,17 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget imageRow({BuildContext context, String title, String image}) {
   return Padding(
-    padding: EdgeInsets.only(top: context.fullHeight * 0.05),
+    padding: const EdgeInsets.only(top: 26),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text(
-          'image title',
-          style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'Poppins'),
+        Text(
+          title,
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.asset(

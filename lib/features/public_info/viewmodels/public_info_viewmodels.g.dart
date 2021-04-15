@@ -37,11 +37,11 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       (_$contactsLoadingComputed ??= Computed<bool>(() => super.contactsLoading,
               name: '_PublicInfoViewmodelBase.contactsLoading'))
           .value;
-  Computed<ContactUsModel> _$galleryComputed;
+  Computed<List<GalleryModel>> _$galleryComputed;
 
   @override
-  ContactUsModel get gallery =>
-      (_$galleryComputed ??= Computed<ContactUsModel>(() => super.gallery,
+  List<GalleryModel> get gallery =>
+      (_$galleryComputed ??= Computed<List<GalleryModel>>(() => super.gallery,
               name: '_PublicInfoViewmodelBase.gallery'))
           .value;
   Computed<bool> _$galleryLoadingComputed;
@@ -51,13 +51,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       (_$galleryLoadingComputed ??= Computed<bool>(() => super.galleryLoading,
               name: '_PublicInfoViewmodelBase.galleryLoading'))
           .value;
-  Computed<ContactUsModel> _$partnersComputed;
+  Computed<List<StrategicPartnersModel>> _$partnersComputed;
 
   @override
-  ContactUsModel get partners =>
-      (_$partnersComputed ??= Computed<ContactUsModel>(() => super.partners,
+  List<StrategicPartnersModel> get partners => (_$partnersComputed ??=
+          Computed<List<StrategicPartnersModel>>(() => super.partners,
               name: '_PublicInfoViewmodelBase.partners'))
-          .value;
+      .value;
   Computed<bool> _$partnersLoadingComputed;
 
   @override
@@ -65,13 +65,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       (_$partnersLoadingComputed ??= Computed<bool>(() => super.partnersLoading,
               name: '_PublicInfoViewmodelBase.partnersLoading'))
           .value;
-  Computed<ContactUsModel> _$downloadsComputed;
+  Computed<List<DownloadCenterModel>> _$downloadsComputed;
 
   @override
-  ContactUsModel get downloads =>
-      (_$downloadsComputed ??= Computed<ContactUsModel>(() => super.downloads,
+  List<DownloadCenterModel> get downloads => (_$downloadsComputed ??=
+          Computed<List<DownloadCenterModel>>(() => super.downloads,
               name: '_PublicInfoViewmodelBase.downloads'))
-          .value;
+      .value;
   Computed<bool> _$downloadsLoadingComputed;
 
   @override
@@ -123,13 +123,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.galleryFuture');
 
   @override
-  ObservableFuture<GalleryModel> get galleryFuture {
+  ObservableFuture<List<GalleryModel>> get galleryFuture {
     _$galleryFutureAtom.reportRead();
     return super.galleryFuture;
   }
 
   @override
-  set galleryFuture(ObservableFuture<GalleryModel> value) {
+  set galleryFuture(ObservableFuture<List<GalleryModel>> value) {
     _$galleryFutureAtom.reportWrite(value, super.galleryFuture, () {
       super.galleryFuture = value;
     });
@@ -139,13 +139,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.partnersFuture');
 
   @override
-  ObservableFuture<StrategicPartnersModel> get partnersFuture {
+  ObservableFuture<List<StrategicPartnersModel>> get partnersFuture {
     _$partnersFutureAtom.reportRead();
     return super.partnersFuture;
   }
 
   @override
-  set partnersFuture(ObservableFuture<StrategicPartnersModel> value) {
+  set partnersFuture(ObservableFuture<List<StrategicPartnersModel>> value) {
     _$partnersFutureAtom.reportWrite(value, super.partnersFuture, () {
       super.partnersFuture = value;
     });
@@ -155,13 +155,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.downloadsFuture');
 
   @override
-  ObservableFuture<DownloadCenterModel> get downloadsFuture {
+  ObservableFuture<List<DownloadCenterModel>> get downloadsFuture {
     _$downloadsFutureAtom.reportRead();
     return super.downloadsFuture;
   }
 
   @override
-  set downloadsFuture(ObservableFuture<DownloadCenterModel> value) {
+  set downloadsFuture(ObservableFuture<List<DownloadCenterModel>> value) {
     _$downloadsFutureAtom.reportWrite(value, super.downloadsFuture, () {
       super.downloadsFuture = value;
     });
@@ -213,6 +213,39 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
         name: '_PublicInfoViewmodelBase.getcontactUs');
     try {
       return super.getcontactUs();
+    } finally {
+      _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getGallery() {
+    final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
+        name: '_PublicInfoViewmodelBase.getGallery');
+    try {
+      return super.getGallery();
+    } finally {
+      _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getDownloads() {
+    final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
+        name: '_PublicInfoViewmodelBase.getDownloads');
+    try {
+      return super.getDownloads();
+    } finally {
+      _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getPartners() {
+    final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
+        name: '_PublicInfoViewmodelBase.getPartners');
+    try {
+      return super.getPartners();
     } finally {
       _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
     }

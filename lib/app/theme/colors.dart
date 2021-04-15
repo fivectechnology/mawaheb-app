@@ -11,7 +11,7 @@ const TEXT_COLOR = Color(0xFF1E3340);
 const TEXT_SECONDARY_COLOR = Color.fromARGB(255, 75, 75, 75);
 
 // PRIMARY
-const PRIMARY = Color(0xFF7244F6);
+const PRIMARY = Color(0xFFFFDB5D);
 const LIGHT_PRIMARY = Color.fromARGB(255, 104, 171, 203);
 const LIGHT_ACCENT = Color.fromARGB(255, 164, 208, 220);
 
@@ -28,8 +28,8 @@ const BLUE = Color.fromARGB(255, 66, 135, 218);
 const ERROR_COLOR = Color.fromARGB(255, 243, 67, 54);
 const SHADOW_COLOR = Color.fromARGB(255, 200, 200, 200);
 const BACKGROUND_COLOR = Color.fromARGB(255, 244, 245, 250);
-const YELLOW = Color.fromARGB(255, 254, 184, 1);
-const RED = Color.fromARGB(255, 255, 49, 58);
+const YELLOW = Color(0xFFFFDB5D);
+const RED = Color(0xFFFE0000);
 const GREEN = Color(0xff4cd964);
 
 const LinearGradient GREY_GRADIENT = LinearGradient(
