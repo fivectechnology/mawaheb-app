@@ -23,6 +23,7 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
     dateOfBirth: json['dateOfBirth'] as String,
     phone: json['phone'] as String,
     area: json['area'] as String,
+    password: json['password'] as String,
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -47,4 +48,5 @@ Map<String, dynamic> _$PlayerModelToJson(PlayerModel instance) =>
       'dateOfBirth': instance.dateOfBirth,
       'phone': instance.phone,
       'area': instance.area,
+      'password': instance.password,
     };

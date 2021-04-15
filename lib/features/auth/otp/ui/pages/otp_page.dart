@@ -13,13 +13,16 @@ class OtpPage extends StatefulWidget {
 
   static const String route = '/otp';
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const OtpPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const OtpPage());
 
   @override
   _OtpPageState createState() => _OtpPageState();
 }
 
 class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
+  final TextEditingController _otpController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -41,12 +44,14 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
             ),
             child: Text(
               context.translate('msg_enter_otp'),
-              style: context.textTheme.headline1.copyWith(color: Colors.black, fontSize: 22, wordSpacing: 0.5),
+              style: context.textTheme.headline1.copyWith(
+                  color: Colors.black, fontSize: 22, wordSpacing: 0.5),
             )),
         Observer(builder: (_) {
           return Text(
-            viewmodel?.player?.name ?? '',
-            style: context.textTheme.bodyText1.copyWith(color: Colors.black, fontSize: 16),
+            viewmodel?.player?.email ?? '',
+            style: context.textTheme.bodyText1
+                .copyWith(color: Colors.black, fontSize: 16),
           );
         }),
         SizedBox(
@@ -56,35 +61,46 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
           autofocus: true,
           pinTextStyle: context.textTheme.headline2.copyWith(fontSize: 26),
           pinBoxDecoration: ProvidedPinBoxDecoration.underlinedPinBoxDecoration,
+          controller: _otpController,
         ),
         Padding(
-          padding: EdgeInsets.only(top: context.fullHeight * 0.08, bottom: context.fullHeight * 0.04),
-          child: MawahebButton(
+            padding: EdgeInsets.only(
+                top: context.fullHeight * 0.08,
+                bottom: context.fullHeight * 0.04),
+            child: Observer(
+              builder: (_) {
+                return MawahebButton(
+                  onPressed: () {
+                    viewmodel.sendOTP(email: viewmodel?.player?.email);
+                    _otpBottomSheet(context, viewmodel?.player?.email);
+                  },
+                  context: context,
+                  text: 'lbl_resend_otp',
+                  buttonColor: Colors.white,
+                  textColor: Colors.black,
+                  borderColor: Colors.black,
+                );
+              },
+            )),
+        Observer(builder: (_) {
+          return MawahebButton(
             onPressed: () {
-              _otpBottomSheet(context);
+              viewmodel.verifyOTP(
+                  email: viewmodel?.player?.email,
+                  code: int.parse(_otpController.text));
             },
             context: context,
-            text: 'lbl_resend_otp',
-            buttonColor: Colors.white,
-            textColor: Colors.black,
-            borderColor: Colors.black,
-          ),
-        ),
-        MawahebButton(
-          onPressed: () {
-            context.pushPage(const BasePage());
-          },
-          context: context,
-          text: 'lbl_next',
-          buttonColor: const Color(0xFF9F9F9F),
-          textColor: Colors.white,
-          borderColor: Colors.white,
-        ),
+            text: 'lbl_next',
+            buttonColor: const Color(0xFF9F9F9F),
+            textColor: Colors.white,
+            borderColor: Colors.white,
+          );
+        }),
       ],
     );
   }
 
-  void _otpBottomSheet(BuildContext context) {
+  void _otpBottomSheet(BuildContext context, String email) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -94,11 +110,13 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 leading: SvgPicture.asset('assets/icons/ic_otp.svg'),
                 title: Text(
                   context.translate('msg_check_otp'),
-                  style: context.textTheme.bodyText1.copyWith(color: Colors.grey),
+                  style:
+                      context.textTheme.bodyText1.copyWith(color: Colors.grey),
                 ),
                 subtitle: Text(
-                  'roger.schneider@mail.com',
-                  style: context.textTheme.bodyText1.copyWith(color: Colors.black),
+                  email,
+                  style:
+                      context.textTheme.bodyText1.copyWith(color: Colors.black),
                 ),
               ),
             ],

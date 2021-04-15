@@ -23,6 +23,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.dateOfBirth,
     @required this.phone,
     @required this.area,
+    @required this.password,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -43,6 +44,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final String dateOfBirth;
   final String phone;
   final String area;
+  final String password;
 
   PlayerModel copyWith({
     String code,
@@ -53,8 +55,8 @@ class PlayerModel extends VersionModel with EquatableMixin {
     String leg,
     String hand,
     String brief,
-    String height,
-    String weight,
+    int height,
+    int weight,
     String gender,
     String address,
     String dateOfBirth,
@@ -63,6 +65,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
     String area,
     int id,
     int version,
+    String password,
   }) {
     return PlayerModel(
       code: code ?? this.code,
@@ -80,6 +83,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       phone: phone ?? this.phone,
       area: area ?? this.area,
+      password: password ?? this.password,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -106,6 +110,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       dateOfBirth,
       id,
       version,
+      password,
     ];
   }
 

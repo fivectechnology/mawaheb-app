@@ -1,6 +1,7 @@
 import 'package:core_sdk/data/repositories/base_repository.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
@@ -46,11 +47,12 @@ abstract class AuthRepository extends BaseRepository {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addSportInfo({
     @required int id,
     @required int version,
-    @required String weight,
-    @required String height,
+    @required int weight,
+    @required int height,
     @required String hand,
     @required String leg,
     @required SportModel sport,
+    @required String brief,
     @required SportPositionModel sportPositionModel,
   });
 
@@ -64,4 +66,13 @@ abstract class AuthRepository extends BaseRepository {
   Future<NetworkResult<ListBaseResponseModel<CategoryModel>>> getCategories();
 
   Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates();
+
+  Future<NetworkResult<bool>> sendOTP({
+    @required String email,
+  });
+
+  Future<NetworkResult<BaseResponseModel<String>>> verifyOTP({
+    @required String email,
+    @required int code,
+  });
 }

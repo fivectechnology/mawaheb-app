@@ -2,6 +2,7 @@ import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/user_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
@@ -84,10 +85,11 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addSportInfo({
     @required int id,
     @required int version,
-    @required String weight,
-    @required String height,
+    @required int weight,
+    @required int height,
     @required String hand,
     @required String leg,
+    @required String brief,
     @required SportModel sport,
     @required SportPositionModel sportPositionModel,
   }) =>
@@ -121,4 +123,13 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() =>
       authDataSource.getSports();
+
+  @override
+  Future<NetworkResult<bool>> sendOTP({String email}) =>
+      authDataSource.sendOTP(email: email);
+
+  @override
+  Future<NetworkResult<BaseResponseModel<String>>> verifyOTP(
+          {String email, int code}) =>
+      authDataSource.verifyOTP(email: email, code: code);
 }

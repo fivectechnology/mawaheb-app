@@ -29,7 +29,7 @@
   "lbl_password": "Password",
   "lbl_forget_password": "Forget Password?",
   "lbl_login": "Login",
-  "lbl_sign_up": "Sign up as player",
+  "lbl_sign_up_player": "Sign up as player",
   "lbl_email_username": "Enter email or username",
   "lbl_resend_otp": "Resend OTP",
   "lbl_add_sport": "Add Sport",
@@ -73,6 +73,9 @@
   "lbl_booked_by_us": "Booked by us",
   "lbl_confirmed_by_us": "Confirmed by us",
   "lbl_videos": "Videos",
+  "lbl_sign_up": "Sign up",
+  "lbl_otp": "OTP",
+
 
   "lbl_summary": "Summary",
   "lbl_mission": "Mission",

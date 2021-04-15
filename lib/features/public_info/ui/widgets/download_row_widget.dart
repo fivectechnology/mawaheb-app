@@ -20,6 +20,9 @@ Widget imageRow({BuildContext context, String title, String image}) {
             'assets/images/gallery_image.png',
             width: context.fullWidth,
           ),
+
+          //           Image.network(
+          //                 'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/4/content/download?v=0')
         ),
       ],
     ),

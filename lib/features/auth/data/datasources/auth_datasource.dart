@@ -63,12 +63,22 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addSportInfo({
     @required int id,
     @required int version,
-    @required String weight,
-    @required String height,
+    @required int weight,
+    @required int height,
     @required String hand,
     @required String leg,
+    @required String brief,
     @required SportModel sport,
     @required SportPositionModel sportPositionModel,
+  });
+
+  Future<NetworkResult<bool>> sendOTP({
+    @required String email,
+  });
+
+  Future<NetworkResult<BaseResponseModel<String>>> verifyOTP({
+    @required String email,
+    @required int code,
   });
 }
 
@@ -203,10 +213,11 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addSportInfo({
     @required int id,
     @required int version,
-    @required String weight,
-    @required String height,
+    @required int weight,
+    @required int height,
     @required String hand,
     @required String leg,
+    @required String brief,
     @required SportModel sport,
     @required SportPositionModel sportPositionModel,
   }) {
@@ -225,6 +236,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'height': height,
           'hand': hand,
           'leg': leg,
+          'brief': brief,
         }
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
@@ -294,6 +306,31 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
         'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson),
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> sendOTP({String email}) {
+    return mawahebRequest(
+      endpoint: OTP_SEND_ENDPOINT,
+      method: METHOD.POST,
+      data: {'data': email},
+    );
+  }
+
+  @override
+  Future<NetworkResult<BaseResponseModel<String>>> verifyOTP(
+      {String email, int code}) {
+    return mawahebRequest(
+      endpoint: OTP_VERIFY_ENDPOINT,
+      method: METHOD.POST,
+      data: {
+        'data': {
+          'key': email,
+          'code': code,
+        }
+      },
+      mapper: BaseResponseModel.fromJson((obj) => obj as String),
     );
   }
 }
