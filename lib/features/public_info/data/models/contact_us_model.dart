@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:mawaheb_app/base/data/models/version_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 
 part 'contact_us_model.g.dart';
 
@@ -19,8 +21,8 @@ class ContactUsModel extends VersionModel with EquatableMixin {
     @required this.email,
   }) : super(id, version);
 
-  final String country;
-  final String emirate;
+  final CountryModel country;
+  final EmirateModel emirate;
   final String address;
   final String phone;
   final String googleMapsCoordination;
@@ -29,8 +31,8 @@ class ContactUsModel extends VersionModel with EquatableMixin {
   ContactUsModel copyWith({
     int id,
     int version,
-    String country,
-    String emirate,
+    CountryModel country,
+    EmirateModel emirate,
     String address,
     String phone,
     String googleMapsCoordination,
@@ -43,7 +45,8 @@ class ContactUsModel extends VersionModel with EquatableMixin {
       emirate: emirate ?? this.emirate,
       address: address ?? this.address,
       phone: phone ?? this.phone,
-      googleMapsCoordination: googleMapsCoordination ?? this.googleMapsCoordination,
+      googleMapsCoordination:
+          googleMapsCoordination ?? this.googleMapsCoordination,
       email: email ?? this.email,
     );
   }

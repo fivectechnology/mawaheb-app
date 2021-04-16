@@ -42,7 +42,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
     return Scaffold(
       key: viewmodel.scaffoldKey,
       backgroundColor: Colors.white,
-      body: Column(
+      body: ListView(
         children: [
           Card(
             elevation: 3,
