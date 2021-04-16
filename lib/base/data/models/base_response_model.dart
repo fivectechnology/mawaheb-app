@@ -11,14 +11,16 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
     int offset,
     int total,
     Map<String, dynamic> errors,
+    // String message,
     this.data,
-  ) : super(status, offset, total, errors);
+  ) : super(status, offset, total, errors /* , message */);
 
   BaseResponseModel<T> copyWith({
     int status,
     int offset,
     int total,
     Map<String, dynamic> errors,
+    // String message,
     T data,
   }) {
     return BaseResponseModel<T>(
@@ -26,6 +28,7 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
       offset ?? this.offset,
       total ?? this.total,
       errors ?? this.errors,
+      // message ?? this.message,
       data ?? this.data,
     );
   }

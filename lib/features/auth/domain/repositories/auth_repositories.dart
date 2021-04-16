@@ -14,16 +14,16 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 abstract class AuthRepository extends BaseRepository {
   const AuthRepository(AuthDataSource authDataSource) : super(authDataSource);
 
-  Future<NetworkResult<bool>> login(
-      {@required String userName, @required String password});
+  Future<NetworkResult<bool>> login({@required String userName, @required String password});
 
   Future<bool> logout();
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp(
-      {@required String userName,
-      @required String email,
-      @required String password,
-      @required String code});
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
+    @required String displayName,
+    @required String code,
+    @required String email,
+    @required String password,
+  });
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addPersonalInfo({
     @required String name,
@@ -58,8 +58,7 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
-      getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions();
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -67,11 +66,11 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates();
 
-  Future<NetworkResult<bool>> sendOTP({
+  Future<NetworkResult<BaseResponseModel<String>>> sendOTP({
     @required String email,
   });
 
-  Future<NetworkResult<BaseResponseModel<String>>> verifyOTP({
+  Future<NetworkResult<BaseResponseModel<int>>> verifyOTP({
     @required String email,
     @required int code,
   });

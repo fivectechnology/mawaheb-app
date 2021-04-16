@@ -31,7 +31,7 @@ class PrefsRepositoryImpl implements PrefsRepository {
   Future<bool> setFbToken(String fbToken) => _prefs.setString(PreferencesKeys.FB_USER_TOKEN, fbToken);
 
   @override
-  String get languageCode => _prefs.getString(PreferencesKeys.APP_LANGUAGE);
+  String get languageCode => _prefs?.getString(PreferencesKeys.APP_LANGUAGE) ?? LANGUAGE_DEFAULT;
 
   @override
   Future<bool> setApplicationLanguage(String languageCode) =>

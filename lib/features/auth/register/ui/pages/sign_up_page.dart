@@ -11,8 +11,7 @@ class SignUpPage extends StatefulWidget {
 
   static const String route = '/signUp';
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const SignUpPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const SignUpPage());
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -56,8 +55,7 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
   }
 
   String emailValidator(String email) {
-    const Pattern pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+    const Pattern pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?)*$";
     RegExp regex = new RegExp(pattern);
@@ -85,10 +83,11 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
               ),
             ),
             MawahebTextField(
-                context: context,
-                hintText: 'lbl_email',
-                validator: emailValidator,
-                textEditingController: _emailController),
+              context: context,
+              hintText: 'lbl_email',
+              validator: emailValidator,
+              textEditingController: _emailController,
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 45, bottom: 70),
               child: MawahebTextField(
@@ -104,7 +103,7 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
               return MawahebGradientButton(
                 context: context,
                 text: 'lbl_sign_up_player',
-                isLoading: viewmodel.registerLoading,
+                isLoading: viewmodel.otpLoading,
                 // onPressed: () {
                 //   if (_formKey.currentState.validate()) {
                 //     _formKey.currentState.save();
@@ -117,8 +116,8 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
                 //     viewmodel.sendOTP(email: _emailController.text);
                 //   }
                 // },
-                onPressed: () => viewmodel.signUp(
-                  username: _userNameController.text,
+                onPressed: () => viewmodel.sendOTP(
+                  name: _userNameController.text,
                   email: _emailController.text,
                   password: _passwordController.text,
                 ),

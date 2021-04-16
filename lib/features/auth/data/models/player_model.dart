@@ -116,5 +116,31 @@ class PlayerModel extends VersionModel with EquatableMixin {
 
   static PlayerModel fromJson(Object json) => _$PlayerModelFromJson(json);
 
+  static PlayerModel fromUi({
+    @required String name,
+    @required String email,
+    @required String password,
+  }) =>
+      PlayerModel(
+        name: name,
+        email: email,
+        password: password,
+        code: null,
+        language: null,
+        type: null,
+        leg: null,
+        hand: null,
+        brief: null,
+        height: null,
+        weight: null,
+        gender: null,
+        address: null,
+        dateOfBirth: null,
+        phone: null,
+        area: null,
+        id: null,
+        version: null,
+      );
+
   Map<String, dynamic> toJson() => _$PlayerModelToJson(this);
 }

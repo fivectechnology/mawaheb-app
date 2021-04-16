@@ -86,13 +86,12 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       (_$otpErrorComputed ??= Computed<bool>(() => super.otpError,
               name: '_AuthViewmodelBase.otpError'))
           .value;
-  Computed<String> _$otpCodeComputed;
+  Computed<int> _$otpCodeComputed;
 
   @override
-  String get otpCode =>
-      (_$otpCodeComputed ??= Computed<String>(() => super.otpCode,
-              name: '_AuthViewmodelBase.otpCode'))
-          .value;
+  int get otpCode => (_$otpCodeComputed ??= Computed<int>(() => super.otpCode,
+          name: '_AuthViewmodelBase.otpCode'))
+      .value;
   Computed<bool> _$verifyOTPLoadingComputed;
 
   @override
@@ -225,13 +224,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$otpFutureAtom = Atom(name: '_AuthViewmodelBase.otpFuture');
 
   @override
-  ObservableFuture<bool> get otpFuture {
+  ObservableFuture<String> get otpFuture {
     _$otpFutureAtom.reportRead();
     return super.otpFuture;
   }
 
   @override
-  set otpFuture(ObservableFuture<bool> value) {
+  set otpFuture(ObservableFuture<String> value) {
     _$otpFutureAtom.reportWrite(value, super.otpFuture, () {
       super.otpFuture = value;
     });
@@ -241,13 +240,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.verifyOTPFuture');
 
   @override
-  ObservableFuture<String> get verifyOTPFuture {
+  ObservableFuture<int> get verifyOTPFuture {
     _$verifyOTPFutureAtom.reportRead();
     return super.verifyOTPFuture;
   }
 
   @override
-  set verifyOTPFuture(ObservableFuture<String> value) {
+  set verifyOTPFuture(ObservableFuture<int> value) {
     _$verifyOTPFutureAtom.reportWrite(value, super.verifyOTPFuture, () {
       super.verifyOTPFuture = value;
     });
@@ -323,33 +322,40 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void sendOTP({String email}) {
+  void sendOTP(
+      {String name, String email, String password, bool resend = false}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.sendOTP');
     try {
-      return super.sendOTP(email: email);
+      return super.sendOTP(
+          name: name, email: email, password: password, resend: resend);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void verifyOTP({String email, int code}) {
+  void verifyOTP({int code}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.verifyOTP');
     try {
-      return super.verifyOTP(email: email, code: code);
+      return super.verifyOTP(code: code);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void signUp({String username, String email, String password}) {
+  void signUp(
+      {String displayName, String email, String password, String code}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.signUp');
     try {
-      return super.signUp(username: username, email: email, password: password);
+      return super.signUp(
+          displayName: displayName,
+          email: email,
+          password: password,
+          code: code);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }

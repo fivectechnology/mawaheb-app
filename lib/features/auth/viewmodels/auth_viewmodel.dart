@@ -14,10 +14,6 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
-import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/add_sport_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/address_info_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/player_info_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -77,10 +73,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<List<EmirateModel>> emirateFuture;
 
   @observable
-  ObservableFuture<bool> otpFuture;
+  ObservableFuture<String> otpFuture;
 
   @observable
-  ObservableFuture<String> verifyOTPFuture;
+  ObservableFuture<int> verifyOTPFuture;
 
   //* COMPUTED *//
 
@@ -118,7 +114,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   bool get otpError => otpFuture?.isFailure ?? false;
 
   @computed
-  String get otpCode => verifyOTPFuture?.value ?? false;
+  int get otpCode => verifyOTPFuture?.value ?? false;
 
   @computed
   bool get verifyOTPLoading => verifyOTPFuture?.isPending ?? false;
@@ -158,13 +154,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   void login({String userName, String password}) {
     loginFuture = futureWrapper(
-      () => _authRepository
-          .login(userName: userName, password: password)
-          .whenSuccess(
+      () => _authRepository.login(userName: userName, password: password).whenSuccess(
             (res) => res.apply(
               () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               ),
             ),
           ),
@@ -173,57 +166,67 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void sendOTP({String email}) {
+  void sendOTP({
+    String name,
+    String email,
+    String password,
+    bool resend = false,
+  }) {
+    if (!resend) {
+      registerFuture = ObservableFuture.value(PlayerModel.fromUi(email: email, name: name, password: password));
+    }
     otpFuture = futureWrapper(
-      () => _authRepository.sendOTP(email: email).whenSuccess(
-            (res) => res.apply(() {
+      () => _authRepository.sendOTP(email: player.email).whenSuccess(
+            (res) => res.data.apply(() {
               logger.d('otp success with res: $res');
-              if (player == null) {
-                // getContext(
-                //   (context) => context.pushNamedAndRemoveUntil(
-                //       BasePage.route, (_) => false),
-                // );
-              } else {
+              if (!resend) {
                 changeRegisterSlider(const PageSliderForawardModel());
+              } else {
+                //showSnack()
               }
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
     );
   }
 
   @action
-  void verifyOTP({String email, int code}) {
+  void verifyOTP({int code}) {
+    print('my debug asdfasdfasf');
+    logger.d('otp verify enterre');
+
     verifyOTPFuture = futureWrapper(
-      () => _authRepository.verifyOTP(email: email, code: code).whenSuccess(
-            (res) => res.apply(() {
+      () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess(
+            (res) => res.apply(() async {
               logger.d('otp verify success with res: $res');
-              _authRepository.signUp(
-                  userName: player.name,
-                  email: player.email,
-                  password: player.password,
-                  code: verifyOTPFuture.value);
-              changeRegisterSlider(PageSliderForawardModel());
+              await _authRepository.signUp(
+                displayName: player.name,
+                email: player.email,
+                password: player.password,
+                code: res.data.toString(),
+              );
+              await _authRepository.login(userName: player.email, password: player.password);
+              changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
     );
   }
 
   @action
-  void signUp({String username, String email, String password}) {
+  void signUp({String displayName, String email, String password, String code}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .signUp(
-            userName: username,
+            displayName: displayName,
             email: email,
             password: password,
-            code: username + '123',
+            code: code,
           )
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              ///login after sing up
-              // _authRepository.login(userName: username, password: password);
               logger.d('signUp success with res: $res');
               changeRegisterSlider(const PageSliderForawardModel());
             }),
@@ -233,8 +236,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changeRegisterSlider(PageSliderModel pageSliderModel) =>
-      registerSliderModel = pageSliderModel;
+  void changeRegisterSlider(PageSliderModel pageSliderModel) => registerSliderModel = pageSliderModel;
 
   @action
   void addPersonalInfo({
@@ -259,7 +261,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(() {
               logger.d('personal info success with res: $res');
-              changeRegisterSlider(PageSliderForawardModel());
+              changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -267,8 +269,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void addAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void addAddressInfo({String address, String area, EmirateModel emirateModel}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -281,7 +282,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(() {
               logger.d('address success with res: $res');
-              changeRegisterSlider(PageSliderForawardModel());
+              changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -290,13 +291,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void addSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int weight, int height, String hand, String leg, String brief, SportModel sport, SportPositionModel position}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addSportInfo(
@@ -312,8 +307,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(
               () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               ),
             ),
           ),

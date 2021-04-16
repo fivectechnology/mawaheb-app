@@ -35,12 +35,12 @@ void main() {
     //   expect(res.isSuccess, equals(true));
     // });
 
-    test('success login function', () async {
-      final NetworkResult<bool> res = await authDataSource.sendOTP(
-        email: 'ahmad.shihab2019@gmail.com',
-      );
-      expect(res.isSuccess, equals(true));
-    });
+    // test('success login function', () async {
+    //   final NetworkResult<bool> res = await authDataSource.sendOTP(
+    //     email: 'ahmad.shihab2019@gmail.com',
+    //   );
+    //   expect(res.isSuccess, equals(true));
+    // });
 
     // test('success signup function', () async {
     //   final res = await authDataSource.signUp(

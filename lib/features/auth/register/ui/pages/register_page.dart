@@ -1,7 +1,9 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:core_sdk/utils/mobx/widgets/mobx_loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/add_sport_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/address_info_page.dart';
@@ -18,8 +20,7 @@ class RegisterPage extends StatefulWidget {
   }) : super(key: key);
 
   static const String route = '/register';
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
-      MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
@@ -30,8 +31,7 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState
-    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
 
   String pageTitle = 'lbl_sign_up';
@@ -47,9 +47,9 @@ class _RegisterPageState
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel,
-          (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel sliderModel) {
         slidePage(sliderModel);
+        viewmodel.registerSliderModel = null;
       }),
     ]);
   }
@@ -62,28 +62,32 @@ class _RegisterPageState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: true,
-      appBar: customAppBar(
-        context: context,
-        title: context.translate(pageTitle),
-        onBackButton: onBackButton,
-        withTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 38),
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          onPageChanged: (int pageIndex) => changeTitle(pageIndex),
-          children: const [
-            SignUpPage(),
-            // OtpPage(),
-            PlayerInfoPage(),
-            AddressInfoPage(),
-            AddSportPage(),
-          ],
+    return MobxLoadingPage(
+      viewmodel: viewmodel,
+      loadingWidget: const Center(child: MawahebLoader()),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true,
+        appBar: customAppBar(
+          context: context,
+          title: context.translate(pageTitle),
+          onBackButton: onBackButton,
+          withTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 38),
+          child: PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            onPageChanged: (int pageIndex) => changeTitle(pageIndex),
+            children: const [
+              SignUpPage(),
+              OtpPage(),
+              PlayerInfoPage(),
+              AddressInfoPage(),
+              AddSportPage(),
+            ],
+          ),
         ),
       ),
     );
@@ -120,10 +124,8 @@ class _RegisterPageState
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(
-            duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(
-            duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
   }
 
   // TODO(ahmad): put this in seperate file

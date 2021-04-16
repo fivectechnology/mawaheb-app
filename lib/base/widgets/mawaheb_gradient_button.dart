@@ -29,8 +29,7 @@ class MawahebGradientButton extends StatelessWidget {
         hoverElevation: 0,
         focusElevation: 0,
         highlightElevation: 0,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
         padding: const EdgeInsets.all(0.0),
         child: Ink(
           decoration: const BoxDecoration(
@@ -38,9 +37,8 @@ class MawahebGradientButton extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(80.0)),
           ),
           child: Container(
-            constraints: const BoxConstraints(
-                minWidth: double.infinity,
-                minHeight: 55), // min sizes for Material buttons
+            constraints:
+                const BoxConstraints(minWidth: double.infinity, minHeight: 55), // min sizes for Material buttons
             alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
