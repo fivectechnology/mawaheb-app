@@ -72,6 +72,33 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       (_$emiratesComputed ??= Computed<List<EmirateModel>>(() => super.emirates,
               name: '_AuthViewmodelBase.emirates'))
           .value;
+  Computed<bool> _$otpLoadingComputed;
+
+  @override
+  bool get otpLoading =>
+      (_$otpLoadingComputed ??= Computed<bool>(() => super.otpLoading,
+              name: '_AuthViewmodelBase.otpLoading'))
+          .value;
+  Computed<bool> _$otpErrorComputed;
+
+  @override
+  bool get otpError =>
+      (_$otpErrorComputed ??= Computed<bool>(() => super.otpError,
+              name: '_AuthViewmodelBase.otpError'))
+          .value;
+  Computed<int> _$otpCodeComputed;
+
+  @override
+  int get otpCode => (_$otpCodeComputed ??= Computed<int>(() => super.otpCode,
+          name: '_AuthViewmodelBase.otpCode'))
+      .value;
+  Computed<bool> _$verifyOTPLoadingComputed;
+
+  @override
+  bool get verifyOTPLoading => (_$verifyOTPLoadingComputed ??= Computed<bool>(
+          () => super.verifyOTPLoading,
+          name: '_AuthViewmodelBase.verifyOTPLoading'))
+      .value;
 
   final _$registerSliderModelAtom =
       Atom(name: '_AuthViewmodelBase.registerSliderModel');
@@ -194,6 +221,37 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     });
   }
 
+  final _$otpFutureAtom = Atom(name: '_AuthViewmodelBase.otpFuture');
+
+  @override
+  ObservableFuture<String> get otpFuture {
+    _$otpFutureAtom.reportRead();
+    return super.otpFuture;
+  }
+
+  @override
+  set otpFuture(ObservableFuture<String> value) {
+    _$otpFutureAtom.reportWrite(value, super.otpFuture, () {
+      super.otpFuture = value;
+    });
+  }
+
+  final _$verifyOTPFutureAtom =
+      Atom(name: '_AuthViewmodelBase.verifyOTPFuture');
+
+  @override
+  ObservableFuture<int> get verifyOTPFuture {
+    _$verifyOTPFutureAtom.reportRead();
+    return super.verifyOTPFuture;
+  }
+
+  @override
+  set verifyOTPFuture(ObservableFuture<int> value) {
+    _$verifyOTPFutureAtom.reportWrite(value, super.verifyOTPFuture, () {
+      super.verifyOTPFuture = value;
+    });
+  }
+
   final _$_AuthViewmodelBaseActionController =
       ActionController(name: '_AuthViewmodelBase');
 
@@ -264,11 +322,40 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void signUp({String username, String email, String password}) {
+  void sendOTP(
+      {String name, String email, String password, bool resend = false}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.sendOTP');
+    try {
+      return super.sendOTP(
+          name: name, email: email, password: password, resend: resend);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void verifyOTP({int code}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.verifyOTP');
+    try {
+      return super.verifyOTP(code: code);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void signUp(
+      {String displayName, String email, String password, String code}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.signUp');
     try {
-      return super.signUp(username: username, email: email, password: password);
+      return super.signUp(
+          displayName: displayName,
+          email: email,
+          password: password,
+          code: code);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -323,10 +410,11 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
 
   @override
   void addSportInfo(
-      {String weight,
-      String height,
+      {int weight,
+      int height,
       String hand,
       String leg,
+      String brief,
       SportModel sport,
       SportPositionModel position}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
@@ -337,6 +425,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
           height: height,
           hand: hand,
           leg: leg,
+          brief: brief,
           sport: sport,
           position: position);
     } finally {
@@ -355,6 +444,8 @@ positionFuture: ${positionFuture},
 categoryFuture: ${categoryFuture},
 countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
+otpFuture: ${otpFuture},
+verifyOTPFuture: ${verifyOTPFuture},
 loginLoading: ${loginLoading},
 loginError: ${loginError},
 player: ${player},
@@ -363,7 +454,11 @@ sports: ${sports},
 countries: ${countries},
 positions: ${positions},
 categories: ${categories},
-emirates: ${emirates}
+emirates: ${emirates},
+otpLoading: ${otpLoading},
+otpError: ${otpError},
+otpCode: ${otpCode},
+verifyOTPLoading: ${verifyOTPLoading}
     ''';
   }
 }

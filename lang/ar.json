@@ -30,7 +30,7 @@
   "lbl_password": "كلمة المرور",
   "lbl_forget_password": "هل نسيت المرور ",
   "lbl_login": "تسجيل دخول",
-  "lbl_sign_up": "التسجيل ك لاعب",
+  "lbl_sign_up_player": "التسجيل ك لاعب",
   "lbl_email_username": "ادخل البريد أو اسم المستخدم",
   "lbl_resend_otp": "اعادة ارسال OTP",
   "lbl_add_sport": "اضافة رياضة",
@@ -77,6 +77,10 @@
   "lbl_mission": "مهمتنا",
   "lbl_vision": "نظرتنا",
   "lbl_value": "قيمتنا",
+  "lbl_sign_up": "تسجيل جديد",
+  "lbl_otp": "OTP",
+
+
 
 
 

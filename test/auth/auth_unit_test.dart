@@ -1,4 +1,5 @@
 import 'package:core_sdk/utils/Fimber/logger_impl.dart';
+import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/datasources/auth_datasource.dart';
@@ -31,6 +32,13 @@ void main() {
     // test('success login function', () async {
     //   final NetworkResult<bool> res =
     //       await authDataSource.login(userName: 'admin', password: 'admin');
+    //   expect(res.isSuccess, equals(true));
+    // });
+
+    // test('success login function', () async {
+    //   final NetworkResult<bool> res = await authDataSource.sendOTP(
+    //     email: 'ahmad.shihab2019@gmail.com',
+    //   );
     //   expect(res.isSuccess, equals(true));
     // });
 

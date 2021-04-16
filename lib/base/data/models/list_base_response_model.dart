@@ -11,8 +11,9 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
     int offset,
     int total,
     Map<String, dynamic> errors,
+    // String message,
     this.data,
-  ) : super(status, offset, total, errors);
+  ) : super(status, offset, total, errors /* , message*/);
 
   final List<T> data;
 
@@ -21,6 +22,7 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
     int offset,
     int total,
     Map<String, dynamic> errors,
+    // String message,
     List<T> data,
   }) {
     return ListBaseResponseModel<T>(
@@ -28,6 +30,7 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
       offset ?? this.offset,
       total ?? this.total,
       errors ?? this.errors,
+      // message ?? this.message,
       data ?? this.data,
     );
   }

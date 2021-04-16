@@ -202,7 +202,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: bcf421b1a14077b8a4150689298c98d869921608
+      resolved-ref: "79ac43e2f4ed031e4faea8dd3a94bdc31186e732"
       url: "https://gitlab.com/abd.ktefane.7/flutter-core.git"
     source: git
     version: "0.0.1"
@@ -492,6 +492,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.19"
+  image_picker:
+    dependency: "direct main"
+    description:
+      name: image_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.7+22"
+  image_picker_platform_interface:
+    dependency: transitive
+    description:
+      name: image_picker_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.6"
   injectable:
     dependency: transitive
     description:
