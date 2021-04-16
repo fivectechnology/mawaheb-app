@@ -1,8 +1,10 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/widgets/progress_bar.dart';
+import 'package:core_sdk/utils/widgets/switch_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
 import 'package:mawaheb_app/features/settings/viewmodels/settings_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:supercharged/supercharged.dart';
@@ -13,7 +15,8 @@ class SettingsPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -23,7 +26,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
   Lang _lang = Lang.english;
-  bool noti = false;
+
   @override
   void initState() {
     super.initState();
@@ -44,27 +47,18 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
           Card(
             elevation: 3,
             shadowColor: Colors.black87,
-            margin: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05, vertical: context.fullHeight * 0.04),
+            margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(context.translate('lbl_app_notification'),
-                          style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                      Switch(
-                        value: noti,
-                        onChanged: (value) {
-                          setState(() {
-                            noti = value;
-                          });
-                        },
-                        activeTrackColor: RED,
-                        activeColor: Colors.white,
-                        inactiveTrackColor: Colors.grey,
-                      ),
+                          style: textTheme.subtitle1.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
+                      const NotificationButton(),
                     ],
                   ),
                 ),
@@ -84,19 +78,22 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
           Card(
             elevation: 3,
             shadowColor: Colors.black54,
-            margin: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05, vertical: context.fullHeight * 0.05),
+            margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
                   child: Text(context.translate('lbl_language'),
-                      style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                      style: textTheme.subtitle1
+                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
                 RadioListTile(
-                  title:
-                      Text('English', style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                  title: Text('English',
+                      style: textTheme.subtitle1
+                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                   activeColor: RED,
                   value: Lang.english,
                   groupValue: _lang,
@@ -107,8 +104,9 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                   },
                 ),
                 RadioListTile(
-                  title:
-                      Text('العربية', style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                  title: Text('العربية',
+                      style: textTheme.subtitle1
+                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                   activeColor: RED,
                   value: Lang.arabic,
                   groupValue: _lang,
@@ -132,7 +130,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
     bool isLoading = false,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15.0),
       child: InkWell(
         onTap: isLoading ? null : onPress,
         child: Row(
@@ -140,7 +138,8 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
           children: [
             Text(
               context.translate(text),
-              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+              style: textTheme.subtitle1
+                  .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             AnimatedSwitcher(
               duration: 400.milliseconds,

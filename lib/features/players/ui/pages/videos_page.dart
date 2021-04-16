@@ -48,40 +48,34 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
 
   Widget videoRow() {
     return Padding(
-      padding: EdgeInsets.only(bottom: context.fullHeight * 0.03),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.04,
-                vertical: context.fullHeight * 0.01),
-            child: Row(
-              children: [
-                Image.asset('assets/icons/ic_approve.png'),
-                SizedBox(
-                  width: context.fullWidth * 0.02,
-                ),
-                Text(
-                  'Approved',
-                  style: textTheme.headline2.copyWith(
-                      fontSize: 12,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w800),
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Image.asset('assets/icons/ic_approve.png'),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                'Approved',
+                style: textTheme.headline2.copyWith(
+                    fontSize: 12,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w800),
+              ),
+            ],
           ),
           Stack(
             children: [
               Container(
-                margin:
-                    EdgeInsets.symmetric(horizontal: context.fullWidth * 0.04),
                 height: context.fullHeight * 0.3,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8), color: Colors.red),
               ),
               Padding(
-                padding: EdgeInsets.only(right: context.fullWidth * 0.03),
+                padding: const EdgeInsets.only(right: 8),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
@@ -97,7 +91,7 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
                 ),
               )
             ],
-          )
+          ),
         ],
       ),
     );
@@ -108,9 +102,7 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.08,
-                vertical: context.fullHeight * 0.03),
+            padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 24),
             child: Wrap(
               children: [
                 Row(
@@ -122,15 +114,15 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
                         context.translate(
                             'you have already added 3 videos for this sportif you want to add new one remove one of uploaded videos'),
                         style: textTheme.bodyText1.copyWith(
-                            height: 1,
-                            color: Colors.grey,
+                            height: 1.2,
+                            color: TEXT_SECONDARY_COLOR,
                             fontWeight: FontWeight.w200),
                       ),
                     ),
                   ],
                 ),
                 ListView.builder(
-                    padding: EdgeInsets.only(top: context.fullHeight * 0.03),
+                    padding: const EdgeInsets.only(top: 52),
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: 3,
@@ -138,7 +130,9 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
                       return currentVideoRow(context);
                     }),
                 Padding(
-                  padding: EdgeInsets.only(top: context.fullHeight * 0.02),
+                  padding: const EdgeInsets.only(
+                    top: 44,
+                  ),
                   child: MawahebButton(
                     context: context,
                     text: 'lbl_skip',
@@ -158,9 +152,7 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.08,
-                vertical: context.fullHeight * 0.03),
+            padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 24),
             child: Wrap(
               children: [
                 Row(
@@ -172,16 +164,15 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
                         context.translate(
                             'you are going to delete Playground Football 1 .mp4 video to confirm tab delete '),
                         style: textTheme.bodyText1.copyWith(
-                            height: 1,
-                            color: Colors.grey,
+                            height: 1.2,
+                            color: TEXT_SECONDARY_COLOR,
                             fontWeight: FontWeight.w200),
                       ),
                     ),
                   ],
                 ),
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: context.fullHeight * 0.04),
+                  padding: const EdgeInsets.symmetric(vertical: 26),
                   child: MawahebButton(
                     context: context,
                     text: 'lbl_delete',

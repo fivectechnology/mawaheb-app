@@ -23,6 +23,7 @@ class RenewSubscriptionPage extends StatefulWidget {
 class _RenewSubscriptionPageState
     extends MobxState<RenewSubscriptionPage, ProfileViewmodel> {
   bool isAccepted = false;
+
   @override
   void initState() {
     super.initState();
@@ -40,17 +41,14 @@ class _RenewSubscriptionPageState
       appBar: customAppBar(
           context: context, withTitle: true, title: 'lbl_renew_subscription'),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
-              child: Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Card(
                   elevation: 3,
                   shadowColor: Colors.black87,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: context.fullWidth * 0.05,
-                  ),
+                  margin: const EdgeInsets.only(top: 28),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -82,87 +80,85 @@ class _RenewSubscriptionPageState
                           child: paymentTextField(hint: 'Card Number')),
                     ],
                   )),
-            ),
-            Card(
-              elevation: 3,
-              shadowColor: Colors.black87,
-              margin: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.05,
-                vertical: context.fullWidth * 0.05,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    leading: InkWell(
-                      onTap: () {
-                        setState(() {
-                          isAccepted = !isAccepted;
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(top: context.fullHeight * 0.01),
-                        height: context.fullWidth * 0.08,
-                        width: context.fullWidth * 0.08,
-                        decoration: BoxDecoration(
-                            color: isAccepted ? YELLOW : Colors.white,
-                            border:
-                                Border.all(width: 2.0, color: Colors.black)),
-                        child: Icon(
-                          Icons.check,
-                          color: isAccepted ? Colors.black : Colors.white,
-                          size: 26,
+              Card(
+                elevation: 3,
+                shadowColor: Colors.black87,
+                margin: const EdgeInsets.only(top: 18, bottom: 70),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      leading: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isAccepted = !isAccepted;
+                          });
+                        },
+                        child: Container(
+                          margin:
+                              EdgeInsets.only(top: context.fullHeight * 0.01),
+                          height: context.fullWidth * 0.08,
+                          width: context.fullWidth * 0.08,
+                          decoration: BoxDecoration(
+                              color: isAccepted ? YELLOW : Colors.white,
+                              border:
+                                  Border.all(width: 2.0, color: Colors.black)),
+                          child: Icon(
+                            Icons.check,
+                            color: isAccepted ? Colors.black : Colors.white,
+                            size: 26,
+                          ),
                         ),
                       ),
+                      title: Text(
+                        context.translate('msg_accepted'),
+                        style: textTheme.bodyText2.copyWith(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 12),
+                      ),
+                      subtitle: Text(
+                        context.translate('lbl_term_of_service'),
+                        style: textTheme.headline6.copyWith(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    title: Text(
-                      context.translate('msg_accepted'),
-                      style: textTheme.bodyText2.copyWith(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 12),
-                    ),
-                    subtitle: Text(
-                      context.translate('lbl_term_of_service'),
-                      style: textTheme.headline6
-                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: context.fullWidth * 0.05,
-                        vertical: context.fullHeight * 0.02),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'AED 400',
-                          style: textTheme.headline2.copyWith(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                        FlatButton(
-                          minWidth: context.fullWidth * 0.2,
-                          onPressed: () {
-                            _subscriptionBottomSheet(context);
-                          },
-                          color: YELLOW,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
-                          child: Text(
-                            context.translate('lbl_pay'),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: context.fullWidth * 0.05,
+                          vertical: context.fullHeight * 0.02),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'AED 400',
                             style: textTheme.headline2.copyWith(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 25, fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
+                          FlatButton(
+                            minWidth: context.fullWidth * 0.2,
+                            onPressed: () {
+                              _subscriptionBottomSheet(context);
+                            },
+                            color: YELLOW,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            child: Text(
+                              context.translate('lbl_pay'),
+                              style: textTheme.headline2.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -170,9 +166,7 @@ class _RenewSubscriptionPageState
 
   Widget paymentRow({String title, double width, Widget child}) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: context.fullWidth * 0.05,
-          vertical: context.fullHeight * 0.01),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -229,51 +223,57 @@ class _RenewSubscriptionPageState
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.08,
-                vertical: context.fullHeight * 0.03),
-            child: Wrap(
-              children: [
-                Row(
+          return Wrap(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 38, vertical: 24),
+                child: Wrap(
                   children: [
-                    SvgPicture.asset('assets/icons/ic_otp.svg'),
-                    SizedBox(width: context.fullWidth * 0.04),
-                    Expanded(
-                      child: Text(
-                        context.translate(
-                            'by confirming you are going to pay 400AED to renew your subscription on mawaheb'),
-                        style: textTheme.bodyText1.copyWith(
-                          color: Colors.grey,
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/icons/ic_otp.svg'),
+                        SizedBox(width: context.fullWidth * 0.04),
+                        Expanded(
+                          child: Text(
+                            context.translate(
+                                'by confirming you are going to pay 400AED to renew your subscription on mawaheb'),
+                            style: textTheme.bodyText1.copyWith(
+                              height: 1.2,
+                              color: TEXT_SECONDARY_COLOR,
+                            ),
+                          ),
                         ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 32,
+                        bottom: 26,
                       ),
+                      child: MawahebGradientButton(
+                        onPressed: () {
+                          context.pop();
+                          _confirmationBottomSheet(context);
+                        },
+                        context: context,
+                        text: 'lbl_accept',
+                      ),
+                    ),
+                    MawahebButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      context: context,
+                      text: 'lbl_skip',
+                      buttonColor: Colors.white,
+                      textColor: Colors.black,
+                      borderColor: Colors.black,
                     ),
                   ],
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
-                  child: MawahebGradientButton(
-                    onPressed: () {
-                      context.pop();
-                      _confirmationBottomSheet(context);
-                    },
-                    context: context,
-                    text: 'lbl_accept',
-                  ),
-                ),
-                MawahebButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  context: context,
-                  text: 'lbl_skip',
-                  buttonColor: Colors.white,
-                  textColor: Colors.black,
-                  borderColor: Colors.black,
-                ),
-              ],
-            ),
+              )
+            ],
           );
         });
   }
@@ -283,9 +283,7 @@ class _RenewSubscriptionPageState
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.08,
-                vertical: context.fullHeight * 0.03),
+            padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 24),
             child: Wrap(
               children: [
                 Row(
@@ -304,7 +302,10 @@ class _RenewSubscriptionPageState
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: context.fullHeight * 0.02),
+                  padding: const EdgeInsets.only(
+                    top: 32,
+                    bottom: 34,
+                  ),
                   child: MawahebButton(
                     context: context,
                     text: 'lbl_back',
