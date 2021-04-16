@@ -17,7 +17,8 @@ class OtpPage extends StatefulWidget {
 
   static const String route = '/otp';
 
-  static MaterialPageRoute pageRoute() => MaterialPageRoute(builder: (context) => const OtpPage());
+  static MaterialPageRoute pageRoute() =>
+      MaterialPageRoute(builder: (context) => const OtpPage());
 
   @override
   _OtpPageState createState() => _OtpPageState();
@@ -51,12 +52,14 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
               ),
               child: Text(
                 context.translate('msg_enter_otp'),
-                style: context.textTheme.headline1.copyWith(color: Colors.black, fontSize: 22, wordSpacing: 0.5),
+                style: context.textTheme.headline1.copyWith(
+                    color: Colors.black, fontSize: 22, wordSpacing: 0.5),
               )),
           Observer(builder: (_) {
             return Text(
               viewmodel?.player?.email ?? '',
-              style: context.textTheme.bodyText1.copyWith(color: Colors.black, fontSize: 16),
+              style: context.textTheme.bodyText1
+                  .copyWith(color: Colors.black, fontSize: 16),
             );
           }),
           SizedBox(
@@ -70,7 +73,9 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
           // ),
           codeField(true),
           Padding(
-            padding: EdgeInsets.only(top: context.fullHeight * 0.08, bottom: context.fullHeight * 0.04),
+            padding: EdgeInsets.only(
+                top: context.fullHeight * 0.08,
+                bottom: context.fullHeight * 0.04),
             child: MawahebButton(
               onPressed: () => viewmodel.sendOTP(resend: true),
               // _otpBottomSheet(context, viewmodel?.player?.email ?? '');
@@ -108,11 +113,13 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 leading: SvgPicture.asset('assets/icons/ic_otp.svg'),
                 title: Text(
                   context.translate('msg_check_otp'),
-                  style: context.textTheme.bodyText1.copyWith(color: Colors.grey),
+                  style:
+                      context.textTheme.bodyText1.copyWith(color: Colors.grey),
                 ),
                 subtitle: Text(
                   email,
-                  style: context.textTheme.bodyText1.copyWith(color: Colors.black),
+                  style:
+                      context.textTheme.bodyText1.copyWith(color: Colors.black),
                 ),
               ),
             ],
@@ -154,7 +161,8 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
           color: DARK_GREY,
           fontWeight: FontWeight.w600,
         ),
-        pinTextAnimatedSwitcherTransition: ProvidedPinBoxTextAnimation.scalingTransition,
+        pinTextAnimatedSwitcherTransition:
+            ProvidedPinBoxTextAnimation.scalingTransition,
         pinBoxColor: Colors.green[100],
         pinTextAnimatedSwitcherDuration: const Duration(milliseconds: 200),
         highlightAnimationBeginColor: Colors.black,

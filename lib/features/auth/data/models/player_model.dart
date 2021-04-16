@@ -31,7 +31,6 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final String name;
   final String email;
   final String code;
-
   final String language;
   final String type;
   final String leg;

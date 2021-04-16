@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/home/ui/pages/renew_subscription_page.dart';
 import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
 
@@ -10,16 +11,17 @@ import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
 import 'package:mawaheb_app/features/profile/ui/widgets/profile_detail_row.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:provider/provider.dart';
 
 import 'my_info_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
 
-  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
-
   static MaterialPageRoute<dynamic> get pageRoute =>
       MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
+
+  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -28,6 +30,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
     with TickerProviderStateMixin {
   TabController _tabController;
+  PrefsRepository _prefsRepository;
 
   @override
   void initState() {
@@ -89,11 +92,11 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                 ),
               ),
               Expanded(
-                child: TabBarView(controller: _tabController, children: const [
-                  MyInfoPage(),
-                  VideosPage(),
-                  ViewsPage(),
-                ]),
+                child: Provider(
+                  create: (_) => viewmodel,
+                  child: TabBarView(
+                      controller: _tabController, children: viewmodel.pages),
+                ),
               )
             ],
           ),
