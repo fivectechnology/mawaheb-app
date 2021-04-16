@@ -347,21 +347,12 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void signUp(
-      {String displayName,
-      String email,
-      String password,
-      String code,
-      int otp}) {
+  void signUp({String displayName, String email, String password}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.signUp');
     try {
-      return super.signUp(
-          displayName: displayName,
-          email: email,
-          password: password,
-          code: code,
-          otp: otp);
+      return super
+          .signUp(displayName: displayName, email: email, password: password);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
