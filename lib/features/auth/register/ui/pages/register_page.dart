@@ -10,9 +10,7 @@ import 'package:mawaheb_app/features/auth/register/ui/pages/add_sport_page.dart'
 import 'package:mawaheb_app/features/auth/register/ui/pages/address_info_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/player_info_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 

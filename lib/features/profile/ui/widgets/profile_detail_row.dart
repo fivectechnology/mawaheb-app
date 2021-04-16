@@ -1,23 +1,22 @@
+import 'package:core_sdk/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget profileDetails({BuildContext context}) {
   return Padding(
-    padding: EdgeInsets.symmetric(
-        vertical: context.fullHeight * 0.02,
-        horizontal: context.fullWidth * 0.04),
+    padding: const EdgeInsets.only(top: 10, bottom: 42, left: 16),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const CircleAvatar(
           radius: 52,
-          backgroundColor: Color(0xFF9F9F9F),
+          backgroundColor: GREY,
           child: CircleAvatar(
             radius: 45,
             backgroundImage: AssetImage('assets/images/profile.png'),
           ),
         ),
-        SizedBox(width: context.fullWidth * 0.02),
+        const SizedBox(width: 16),
         Center(
           child: Text(
             'Jacob Sullivan',

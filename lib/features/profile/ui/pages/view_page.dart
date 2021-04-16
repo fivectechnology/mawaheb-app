@@ -32,9 +32,7 @@ class _ViewsPageState extends MobxState<ViewsPage, ProfileViewmodel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(
-                  top: context.fullHeight * 0.04,
-                  left: context.fullWidth * 0.06),
+              padding: const EdgeInsets.all(26),
               child: Text(context.translate('Clubs view profile'),
                   style: textTheme.subtitle1
                       .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),

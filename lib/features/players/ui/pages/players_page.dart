@@ -8,6 +8,7 @@ import 'package:mawaheb_app/base/widgets/user_list_tile.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/filter_chip_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
 
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);
@@ -40,9 +41,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: context.fullWidth * 0.05,
-                  vertical: context.fullHeight * 0.01),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Card(
                 elevation: 10,
                 child: TextField(
@@ -101,93 +100,73 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
-        builder: (context) => SizedBox(
-              height: context.fullHeight * 0.8,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: context.fullHeight * 0.04,
-                    horizontal: context.fullWidth * 0.08),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(context.translate('lbl_filter'),
-                        style: context.textTheme.headline2.copyWith(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    mawhaebDropDown(
+        builder: (context) => Wrap(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(context.translate('lbl_filter'),
+                          style: context.textTheme.headline2.copyWith(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      mawhaebDropDown(
+                          textColor: Colors.black,
+                          hint: context.translate('lbl_nationality'),
+                          context: context),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                          textColor: Colors.black,
+                          hint: context.translate('lbl_sport'),
+                          context: context),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                          textColor: Colors.black,
+                          hint: context.translate('lbl_position'),
+                          context: context),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                          textColor: Colors.black,
+                          hint: context.translate('lbl_prefer_hand'),
+                          context: context),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                          textColor: Colors.black,
+                          hint: context.translate('lbl_prefer_hand'),
+                          context: context),
+                      const SizedBox(height: 26),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(context.translate('lbl_confirmed_by_us'),
+                              style: textTheme.subtitle1.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                          const NotificationButton(),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(context.translate('lbl_booked_by_us'),
+                              style: textTheme.subtitle1.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                          const NotificationButton()
+                        ],
+                      ),
+                      const SizedBox(height: 26),
+                      MawahebButton(
+                        context: context,
+                        buttonColor: Colors.white,
                         textColor: Colors.black,
-                        hint: context.translate('lbl_nationality'),
-                        context: context),
-                    SizedBox(height: context.fullHeight * 0.02),
-                    mawhaebDropDown(
-                        textColor: Colors.black,
-                        hint: context.translate('lbl_sport'),
-                        context: context),
-                    SizedBox(height: context.fullHeight * 0.02),
-                    mawhaebDropDown(
-                        textColor: Colors.black,
-                        hint: context.translate('lbl_position'),
-                        context: context),
-                    SizedBox(height: context.fullHeight * 0.02),
-                    mawhaebDropDown(
-                        textColor: Colors.black,
-                        hint: context.translate('lbl_prefer_hand'),
-                        context: context),
-                    SizedBox(height: context.fullHeight * 0.02),
-                    mawhaebDropDown(
-                        textColor: Colors.black,
-                        hint: context.translate('lbl_prefer_hand'),
-                        context: context),
-                    SizedBox(height: context.fullHeight * 0.02),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(context.translate('lbl_confirmed_by_us'),
-                            style: textTheme.subtitle1.copyWith(
-                                fontSize: 14, fontWeight: FontWeight.bold)),
-                        Switch(
-                          value: noti,
-                          onChanged: (value) {
-                            setState(() {
-                              noti = value;
-                            });
-                          },
-                          activeTrackColor: RED,
-                          activeColor: Colors.white,
-                          inactiveTrackColor: Colors.grey,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(context.translate('lbl_booked_by_us'),
-                            style: textTheme.subtitle1.copyWith(
-                                fontSize: 14, fontWeight: FontWeight.bold)),
-                        Switch(
-                          value: noti,
-                          onChanged: (value) {
-                            setState(() {
-                              noti = value;
-                            });
-                          },
-                          activeTrackColor: RED,
-                          activeColor: Colors.white,
-                          inactiveTrackColor: Colors.grey,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: context.fullHeight * 0.02),
-                    MawahebButton(
-                      context: context,
-                      buttonColor: Colors.white,
-                      textColor: Colors.black,
-                      borderColor: Colors.black,
-                      text: 'lbl_filter',
-                      onPressed: () {},
-                    )
-                  ],
+                        borderColor: Colors.black,
+                        text: 'lbl_filter',
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ));
   }
 }

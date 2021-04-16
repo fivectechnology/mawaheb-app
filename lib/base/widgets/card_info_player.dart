@@ -5,17 +5,15 @@ Widget cardInfoPlayer({BuildContext context, List<Widget> rows}) {
   return Card(
     elevation: 3,
     shadowColor: Colors.black87,
-    margin: EdgeInsets.symmetric(
-      horizontal: context.fullWidth * 0.05,
-    ),
+    margin: const EdgeInsets.symmetric(horizontal: 28),
     child: Column(children: rows),
   );
 }
 
 Widget infoRow({BuildContext context, String title, String value}) {
   return Padding(
-    padding: EdgeInsets.symmetric(
-      horizontal: context.fullWidth * 0.04,
+    padding: const EdgeInsets.symmetric(
+      vertical: 8,
     ),
     child: ListTile(
       title: Text(
