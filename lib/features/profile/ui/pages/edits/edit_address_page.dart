@@ -1,13 +1,13 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -33,8 +33,8 @@ class EditAddressPage extends StatefulWidget {
 
 class _EditAddressPageState
     extends ProviderMobxState<EditAddressPage, ProfileViewmodel> {
-  final TextEditingController _stateController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   EmirateModel currentEmirate;
@@ -46,8 +46,8 @@ class _EditAddressPageState
 
   @override
   void dispose() {
-    _stateController.dispose();
-    _addressController.dispose();
+    stateController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
@@ -57,6 +57,8 @@ class _EditAddressPageState
     if (viewmodel?.emirates == null) {
       viewmodel.getEmirates();
     }
+    stateController = TextEditingController(text: viewmodel.player.area);
+    addressController = TextEditingController(text: viewmodel.player.address);
   }
 
   String stateValidator(String value) {
@@ -76,71 +78,80 @@ class _EditAddressPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WHITE,
+      appBar:
+          customAppBar(context: context, title: 'lbl_address', withTitle: true),
       body: MawahebFutureBuilder<List<EmirateModel>>(
           future: viewmodel.emirateFuture,
           onRetry: viewmodel.getEmirates,
           onSuccess: (emirate) {
             return Form(
               key: _formKey,
-              child: Column(
-                children: [
-                  mawhaebDropDown(
-                    hint: 'lbl_emirates',
-                    context: context,
-                    onChanged: (value) {
-                      currentEmirate = value;
-                    },
-                    items: viewmodel.emirates
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.name),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                    hintText: 'lbl_state/province/area',
-                    hintColor: Colors.grey,
-                    validator: stateValidator,
-                    textEditingController: _stateController,
-                    context: context,
-                  ),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                    hintText: 'lbl_address',
-                    hintColor: Colors.grey,
-                    validator: addressValidator,
-                    textEditingController: _addressController,
-                    context: context,
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: Observer(
-                        builder: (_) {
-                          return MawahebButton(
-                            text: 'lbl_back',
-                            textColor: Colors.black,
-                            borderColor: Colors.black,
-                            buttonColor: WHITE,
-                            // isLoading: viewmodel.registerLoading,
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                // viewmodel.addAddressInfo(
-                                //     emirateModel: currentEmirate,
-                                //     address: _addressController.text,
-                                //     area: _addressController.text);
-                              }
-                            },
-                            context: context,
-                          );
-                        },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                child: Column(
+                  children: [
+                    mawhaebDropDown(
+                      hint: 'lbl_emirate',
+                      context: context,
+                      onChanged: (value) {
+                        currentEmirate = value;
+                      },
+                      items: viewmodel.emirates
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em.name),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 26),
+                    MawahebTextField(
+                      hintText: 'lbl_state/province/area',
+                      hintColor: Colors.grey,
+                      validator: stateValidator,
+                      textEditingController: stateController,
+                      context: context,
+                    ),
+                    const SizedBox(height: 26),
+                    MawahebTextField(
+                      hintText: 'lbl_address',
+                      hintColor: Colors.grey,
+                      validator: addressValidator,
+                      textEditingController: addressController,
+                      context: context,
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: Observer(
+                          builder: (_) {
+                            return MawahebButton(
+                              text: 'lbl_back',
+                              textColor: Colors.black,
+                              borderColor: Colors.black,
+                              buttonColor: WHITE,
+                              isLoading: viewmodel.playerLoading,
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  _formKey.currentState.save();
+                                  viewmodel.editAddressInfo(
+                                      emirateModel: currentEmirate,
+                                      address: addressController.text,
+                                      area: addressController.text);
+
+                                  context.navigator.pop();
+                                }
+                              },
+                              context: context,
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 34),
-                ],
+                    const SizedBox(height: 34),
+                  ],
+                ),
               ),
             );
           }),

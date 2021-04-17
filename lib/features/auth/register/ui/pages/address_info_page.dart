@@ -75,7 +75,7 @@ class _AddressInfoPageState
             child: Column(
               children: [
                 mawhaebDropDown(
-                  hint: 'lbl_emirates',
+                  hint: 'lbl_emirate',
                   context: context,
                   onChanged: (value) {
                     currentEmirate = value;

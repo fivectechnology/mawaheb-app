@@ -214,6 +214,67 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
+  void editPersonalInfo(
+      {String dateOfBirth,
+      String gender,
+      String name,
+      String phone,
+      CountryModel country,
+      CategoryModel categoryModel}) {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.editPersonalInfo');
+    try {
+      return super.editPersonalInfo(
+          dateOfBirth: dateOfBirth,
+          gender: gender,
+          name: name,
+          phone: phone,
+          country: country,
+          categoryModel: categoryModel);
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void editAddressInfo(
+      {String address, String area, EmirateModel emirateModel}) {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.editAddressInfo');
+    try {
+      return super.editAddressInfo(
+          address: address, area: area, emirateModel: emirateModel);
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void editSportInfo(
+      {int weight,
+      int height,
+      String hand,
+      String leg,
+      String brief,
+      SportModel sport,
+      SportPositionModel position}) {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.editSportInfo');
+    try {
+      return super.editSportInfo(
+          weight: weight,
+          height: height,
+          hand: hand,
+          leg: leg,
+          brief: brief,
+          sport: sport,
+          position: position);
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 playerFuture: ${playerFuture},

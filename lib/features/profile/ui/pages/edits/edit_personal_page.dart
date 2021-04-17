@@ -5,15 +5,15 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
-import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -38,9 +38,9 @@ class EditPersonalPage extends StatefulWidget {
 
 class _EditPersonalPageState
     extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _dateOfBirthController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _dateOfBirthController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   CountryModel currentCountry;
@@ -65,6 +65,10 @@ class _EditPersonalPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _nameController = TextEditingController(text: viewmodel.player.name);
+    _dateOfBirthController =
+        TextEditingController(text: viewmodel.player.dateOfBirth);
+    _phoneController = TextEditingController(text: viewmodel.player.phone);
 
     if (viewmodel?.categoryFuture == null) {
       viewmodel.getCategories();
@@ -116,98 +120,114 @@ class _EditPersonalPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WHITE,
+      appBar: customAppBar(
+          context: context, title: 'lbl_personal_info', withTitle: true),
       body: MawahebFutureBuilder(
           onRetry: viewmodel.getCategories,
           future: viewmodel.countryFuture,
           onSuccess: (country) {
             return Form(
               key: _formKey,
-              child: ListView(
-                children: [
-                  imageRow(),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                    hintText: 'lbl_full_name',
-                    hintColor: Colors.grey,
-                    textEditingController: _nameController,
-                    context: context,
-                    validator: nameValidator,
-                  ),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                      hintText: 'lbl_date_of_birth',
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                child: ListView(
+                  children: [
+                    imageRow(),
+                    const SizedBox(height: 26),
+                    MawahebTextField(
+                      hintText: 'lbl_full_name',
                       hintColor: Colors.grey,
-                      textEditingController: _dateOfBirthController,
-                      validator: dateValidator,
-                      context: context),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                      hintText: 'lbl_phone_num',
-                      hintColor: Colors.grey,
-                      textEditingController: _phoneController,
-                      validator: phoneValidator,
-                      context: context),
-                  const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    hint: 'lbl_nationality',
-                    context: context,
-                    onChanged: (value) {
-                      currentCountry = value;
-                    },
-                    items: viewmodel.countries
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.name),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    hint: 'lbl_category',
-                    context: context,
-                    onChanged: (value) {
-                      currentCategory = value;
-                    },
-                    items: viewmodel.categories
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.title),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    hint: 'lbl_gender',
-                    context: context,
-                    onChanged: (value) {
-                      gender = value;
-                    },
-                    items: ['MALE']
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 26),
-                  Observer(
-                    builder: (_) {
-                      return MawahebButton(
-                          context: context,
-                          text: 'lbl_back',
-                          textColor: Colors.black,
-                          borderColor: Colors.black,
-                          buttonColor: WHITE,
-                          // isLoading: viewmodel.registerLoading,
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
-                            }
-                          });
-                    },
-                  ),
-                  const SizedBox(height: 34),
-                ],
+                      textEditingController: _nameController,
+                      context: context,
+                      validator: nameValidator,
+                    ),
+                    const SizedBox(height: 26),
+                    MawahebTextField(
+                        hintText: 'lbl_date_of_birth',
+                        hintColor: Colors.grey,
+                        textEditingController: _dateOfBirthController,
+                        validator: dateValidator,
+                        context: context),
+                    const SizedBox(height: 26),
+                    MawahebTextField(
+                        hintText: 'lbl_phone_num',
+                        hintColor: Colors.grey,
+                        textEditingController: _phoneController,
+                        validator: phoneValidator,
+                        context: context),
+                    const SizedBox(height: 26),
+                    mawhaebDropDown(
+                      hint: 'lbl_nationality',
+                      context: context,
+                      onChanged: (value) {
+                        currentCountry = value;
+                      },
+                      items: viewmodel.countries
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em.name),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 26),
+                    mawhaebDropDown(
+                      hint: 'lbl_category',
+                      context: context,
+                      onChanged: (value) {
+                        currentCategory = value;
+                      },
+                      items: viewmodel.categories
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em.title),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 26),
+                    mawhaebDropDown(
+                      hint: 'lbl_gender',
+                      context: context,
+                      onChanged: (value) {
+                        gender = value;
+                      },
+                      items: ['MALE']
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 26),
+                    Observer(
+                      builder: (_) {
+                        return MawahebButton(
+                            context: context,
+                            text: 'lbl_back',
+                            textColor: Colors.black,
+                            borderColor: Colors.black,
+                            buttonColor: WHITE,
+                            isLoading: viewmodel.playerLoading,
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                viewmodel.editPersonalInfo(
+                                  phone: _phoneController.text,
+                                  name: _nameController.text,
+                                  gender: gender,
+                                  dateOfBirth: _dateOfBirthController.text,
+                                  categoryModel: currentCategory,
+                                  country: currentCountry,
+                                );
+                                context.navigator.pop();
+                              }
+                            });
+                      },
+                    ),
+                    const SizedBox(height: 34),
+                  ],
+                ),
               ),
             );
           }),
