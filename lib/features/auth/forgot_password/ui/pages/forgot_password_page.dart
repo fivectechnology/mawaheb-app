@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -30,6 +28,7 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState
     extends ProviderMobxState<ForgotPasswordPage, AuthViewmodel> {
   final TextEditingController _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -45,9 +44,9 @@ class _ForgotPasswordPageState
   String emailValidator(String email) {
     const Pattern pattern =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = new RegExp(pattern);
+        r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
+        r'{0,253}[a-zA-Z0-9])?)*$';
+    final RegExp regex = RegExp(pattern);
 
     if (!regex.hasMatch(email) || email == null)
       return 'Enter a valid email address';
@@ -63,43 +62,50 @@ class _ForgotPasswordPageState
       appBar: customAppBar(context: context, withTitle: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-                padding: EdgeInsets.only(
-                    top: context.fullHeight * 0.02,
-                    bottom: context.fullHeight * 0.1),
-                child: Text(
-                  context.translate('msg_recover_account'),
-                  style: context.textTheme.headline2
-                      .copyWith(color: Colors.black, fontSize: 40),
-                )),
-            MawahebTextField(
-              hintText: 'lbl_email_username',
-              hintColor: Colors.grey,
-              validator: emailValidator,
-              context: context,
-              textEditingController: _emailController,
-            ),
-            Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: context.fullHeight * 0.1),
-                child: Observer(
-                  builder: (context) {
-                    return MawahebButton(
-                      onPressed: () {
-                        viewmodel.sendOTP(email: _emailController.text);
-                      },
-                      context: context,
-                      text: 'lbl_next',
-                      buttonColor: Colors.white,
-                      textColor: Colors.black,
-                      borderColor: Colors.black,
-                    );
-                  },
-                ))
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(
+                      top: context.fullHeight * 0.02,
+                      bottom: context.fullHeight * 0.1),
+                  child: Text(
+                    context.translate('msg_recover_account'),
+                    style: context.textTheme.headline2
+                        .copyWith(color: Colors.black, fontSize: 40),
+                  )),
+              MawahebTextField(
+                hintText: 'lbl_email_username',
+                hintColor: Colors.grey,
+                validator: emailValidator,
+                context: context,
+                textEditingController: _emailController,
+              ),
+              Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: context.fullHeight * 0.1),
+                  child: Observer(
+                    builder: (context) {
+                      return MawahebButton(
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+
+                            viewmodel.sendOTP(email: _emailController.text);
+                          }
+                        },
+                        context: context,
+                        text: 'lbl_next',
+                        buttonColor: Colors.white,
+                        textColor: Colors.black,
+                        borderColor: Colors.black,
+                      );
+                    },
+                  ))
+            ],
+          ),
         ),
       ),
     );

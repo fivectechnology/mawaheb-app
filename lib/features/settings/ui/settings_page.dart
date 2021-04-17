@@ -1,6 +1,5 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/widgets/progress_bar.dart';
-import 'package:core_sdk/utils/widgets/switch_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';

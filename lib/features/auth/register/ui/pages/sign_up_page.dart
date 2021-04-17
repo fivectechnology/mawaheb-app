@@ -1,4 +1,3 @@
-import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,7 +10,8 @@ class SignUpPage extends StatefulWidget {
 
   static const String route = '/signUp';
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const SignUpPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const SignUpPage());
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -55,10 +55,11 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
   }
 
   String emailValidator(String email) {
-    const Pattern pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = new RegExp(pattern);
+    const Pattern pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
+        r'{0,253}[a-zA-Z0-9])?)*$';
+    final RegExp regex = RegExp(pattern);
 
     if (!regex.hasMatch(email) || email == null)
       return 'Enter a valid email address';
@@ -104,23 +105,22 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
                 context: context,
                 text: 'lbl_sign_up_player',
                 isLoading: viewmodel.otpLoading,
-                // onPressed: () {
-                //   if (_formKey.currentState.validate()) {
-                //     _formKey.currentState.save();
-                //
-                //     viewmodel.registerFuture = ObservableFuture.value(
-                //         PlayerModel(
-                //             name: _userNameController.text,
-                //             email: _emailController.text,
-                //             password: _passwordController.text));
-                //     viewmodel.sendOTP(email: _emailController.text);
-                //   }
-                // },
-                onPressed: () => viewmodel.sendOTP(
-                  name: _userNameController.text,
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                ),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+
+                    viewmodel.sendOTP(
+                      name: _userNameController.text,
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                  }
+                },
+                // onPressed: () => viewmodel.sendOTP(
+                //   name: _userNameController.text,
+                //   email: _emailController.text,
+                //   password: _passwordController.text,
+                // ),
                 // TODO(ahmad): use this for test
               );
             })

@@ -11,9 +11,6 @@ import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:injectable/injectable.dart';
-import 'package:core_sdk/utils/Fimber/Logger.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 
 part 'profile_viewmodel.g.dart';
 

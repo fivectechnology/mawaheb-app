@@ -18,15 +18,19 @@ import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
-  const AuthRepositoryImpl(this.authDataSource, this._prefsRepository) : super(authDataSource);
+  const AuthRepositoryImpl(this.authDataSource, this._prefsRepository)
+      : super(authDataSource);
 
   final AuthDataSource authDataSource;
   final PrefsRepository _prefsRepository;
 
   @override
-  Future<NetworkResult<bool>> login({@required String userName, @required String password}) => authDataSource
-      .login(userName: userName, password: password)
-      .whenSuccessWrapped((_) => _prefsRepository.setUser(UserModel(userName: userName, password: password)));
+  Future<NetworkResult<bool>> login(
+          {@required String userName, @required String password}) =>
+      authDataSource
+          .login(userName: userName, password: password)
+          .whenSuccessWrapped((_) => _prefsRepository
+              .setUser(UserModel(userName: userName, password: password)));
 
   @override
   Future<bool> logout() =>
@@ -55,7 +59,12 @@ class AuthRepositoryImpl extends AuthRepository {
     @required String area,
     @required String address,
   }) =>
-      authDataSource.addAddressInfo(id: id, version: version, emirateModel: emirateModel, area: area, address: address);
+      authDataSource.addAddressInfo(
+          id: id,
+          version: version,
+          emirateModel: emirateModel,
+          area: area,
+          address: address);
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addPersonalInfo({
@@ -103,24 +112,35 @@ class AuthRepositoryImpl extends AuthRepository {
       );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CategoryModel>>> getCategories() => authDataSource.getCategories();
+  Future<NetworkResult<ListBaseResponseModel<CategoryModel>>> getCategories() =>
+      authDataSource.getCategories();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries() => authDataSource.getCountries();
+  Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries() =>
+      authDataSource.getCountries();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates() => authDataSource.getEmirates();
+  Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates() =>
+      authDataSource.getEmirates();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions() => authDataSource.getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
+      getPositions() => authDataSource.getPositions();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() => authDataSource.getSports();
+  Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() =>
+      authDataSource.getSports();
 
   @override
-  Future<NetworkResult<bool>> sendOTP({String email}) => authDataSource.sendOTP(email: email);
+  Future<NetworkResult<bool>> sendOTP({String email}) =>
+      authDataSource.sendOTP(email: email);
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({String email, int code}) =>
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
+          {String email, int code}) =>
       authDataSource.verifyOTP(email: email, code: code);
+
+  @override
+  Future<int> getPlayerId({String token}) =>
+      authDataSource.getPlayerId(token: token);
 }

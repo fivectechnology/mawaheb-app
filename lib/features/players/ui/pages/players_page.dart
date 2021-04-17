@@ -1,7 +1,6 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/user_list_tile.dart';

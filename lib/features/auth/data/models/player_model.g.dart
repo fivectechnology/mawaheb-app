@@ -24,6 +24,21 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
     phone: json['phone'] as String,
     area: json['area'] as String,
     password: json['password'] as String,
+    position: json['position'] == null
+        ? null
+        : SportPositionModel.fromJson(json['position'] as Map<String, dynamic>),
+    sport: json['sport'] == null
+        ? null
+        : SportModel.fromJson(json['sport'] as Map<String, dynamic>),
+    emirate: json['emirate'] == null
+        ? null
+        : EmirateModel.fromJson(json['emirate'] as Map<String, dynamic>),
+    country: json['country'] == null
+        ? null
+        : CountryModel.fromJson(json['country'] as Map<String, dynamic>),
+    category: json['category'] == null
+        ? null
+        : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -49,4 +64,9 @@ Map<String, dynamic> _$PlayerModelToJson(PlayerModel instance) =>
       'phone': instance.phone,
       'area': instance.area,
       'password': instance.password,
+      'position': instance.position,
+      'sport': instance.sport,
+      'category': instance.category,
+      'emirate': instance.emirate,
+      'country': instance.country,
     };

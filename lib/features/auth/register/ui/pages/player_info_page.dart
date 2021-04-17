@@ -82,8 +82,8 @@ class _PlayerInfoPageState
   }
 
   String phoneValidator(String phone) {
-    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(patttern);
+    const String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    final RegExp regExp = RegExp(pattern);
     if (phone.isEmpty) {
       return 'Please enter mobile number';
     } else if (!regExp.hasMatch(phone)) {

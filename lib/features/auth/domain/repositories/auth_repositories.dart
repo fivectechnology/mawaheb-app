@@ -15,7 +15,8 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 abstract class AuthRepository extends BaseRepository {
   const AuthRepository(AuthDataSource authDataSource) : super(authDataSource);
 
-  Future<NetworkResult<bool>> login({@required String userName, @required String password});
+  Future<NetworkResult<bool>> login(
+      {@required String userName, @required String password});
 
   Future<bool> logout();
 
@@ -59,7 +60,8 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
+      getPositions();
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -75,4 +77,5 @@ abstract class AuthRepository extends BaseRepository {
     @required String email,
     @required int code,
   });
+  Future<int> getPlayerId({String token});
 }

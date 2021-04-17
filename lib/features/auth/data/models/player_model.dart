@@ -2,6 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mawaheb_app/base/data/models/version_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 
 part 'player_model.g.dart';
 
@@ -24,6 +29,11 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.phone,
     @required this.area,
     @required this.password,
+    @required this.position,
+    @required this.sport,
+    @required this.emirate,
+    @required this.country,
+    @required this.category,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -44,6 +54,11 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final String phone;
   final String area;
   final String password;
+  final SportPositionModel position;
+  final SportModel sport;
+  final CategoryModel category;
+  final EmirateModel emirate;
+  final CountryModel country;
 
   PlayerModel copyWith({
     String code,
@@ -65,6 +80,11 @@ class PlayerModel extends VersionModel with EquatableMixin {
     int id,
     int version,
     String password,
+    SportPositionModel position,
+    SportModel sport,
+    CategoryModel category,
+    EmirateModel emirate,
+    CountryModel country,
   }) {
     return PlayerModel(
       code: code ?? this.code,
@@ -83,6 +103,11 @@ class PlayerModel extends VersionModel with EquatableMixin {
       phone: phone ?? this.phone,
       area: area ?? this.area,
       password: password ?? this.password,
+      position: position ?? this.position,
+      sport: sport ?? this.sport,
+      category: category ?? this.category,
+      emirate: emirate ?? this.emirate,
+      country: country ?? this.country,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -110,6 +135,11 @@ class PlayerModel extends VersionModel with EquatableMixin {
       id,
       version,
       password,
+      position,
+      sport,
+      category,
+      emirate,
+      country,
     ];
   }
 
@@ -139,6 +169,11 @@ class PlayerModel extends VersionModel with EquatableMixin {
         area: null,
         id: null,
         version: null,
+        country: null,
+        position: null,
+        sport: null,
+        category: null,
+        emirate: null,
       );
 
   Map<String, dynamic> toJson() => _$PlayerModelToJson(this);

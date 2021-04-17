@@ -7,9 +7,8 @@ import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/player_info_page.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
-import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
-import '../../../auth/register/ui/pages/add_sport_page.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import '../../../auth/register/ui/pages/add_sport_page.dart';
 
 import '../../../auth/register/ui/pages/address_info_page.dart';
 
@@ -80,26 +79,31 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
               cardInfoPlayer(context: context, rows: [
                 infoRow(
                     title: 'lbl_sport_name',
-                    value: viewmodel?.player.name,
+                    value: viewmodel.player.sport?.name ?? 'N/A',
                     context: context),
                 infoRow(
-                    title: 'lbl_position', value: 'Football', context: context),
+                    title: 'lbl_position',
+                    value: viewmodel.player.position?.name ?? 'N/A',
+                    context: context),
                 infoRow(
-                    title: 'lbl_weight', value: 'Football', context: context),
+                    title: 'lbl_weight',
+                    value: viewmodel.player.weight,
+                    context: context),
                 infoRow(
-                    title: 'lbl_hight', value: 'Football', context: context),
+                    title: 'lbl_hight',
+                    value: viewmodel.player.height,
+                    context: context),
                 infoRow(
                     title: 'lbl_prefer_hand',
-                    value: 'Football',
+                    value: viewmodel.player.hand,
                     context: context),
                 infoRow(
                     title: 'lbl_prefer_leg',
-                    value: 'Football',
+                    value: viewmodel.player.leg,
                     context: context),
                 infoRow(
                     title: 'lbl_brief',
-                    value:
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis risus mi. Ut ….',
+                    value: viewmodel.player.brief,
                     context: context),
               ]),
               const SizedBox(height: 26),
@@ -131,24 +135,28 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
               cardInfoPlayer(context: context, rows: [
                 infoRow(
                     title: 'lbl_full_name',
-                    value: 'Football',
+                    value: viewmodel.player.name,
                     context: context),
                 infoRow(
                     title: 'lbl_date_of_birth',
-                    value: 'Football',
+                    value: viewmodel.player.dateOfBirth,
                     context: context),
                 infoRow(
                     title: 'lbl_phone_num',
-                    value: 'Football',
+                    value: viewmodel.player.phone,
                     context: context),
                 infoRow(
                     title: 'lbl_nationality',
-                    value: 'Football',
+                    value: viewmodel.player.country.name,
                     context: context),
                 infoRow(
-                    title: 'lbl_category', value: 'Football', context: context),
+                    title: 'lbl_category',
+                    value: viewmodel.player.category.title,
+                    context: context),
                 infoRow(
-                    title: 'lbl_gender', value: 'Football', context: context),
+                    title: 'lbl_gender',
+                    value: viewmodel.player.gender,
+                    context: context),
               ]),
               const SizedBox(height: 26),
               Padding(
@@ -178,13 +186,17 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
               ),
               cardInfoPlayer(context: context, rows: [
                 infoRow(
-                    title: 'lbl_country', value: 'Football', context: context),
-                infoRow(
-                    title: 'lbl_state/province/area',
-                    value: 'Football',
+                    title: 'lbl_country',
+                    value: viewmodel.player.country?.name ?? 'N/A',
                     context: context),
                 infoRow(
-                    title: 'lbl_address', value: 'Football', context: context),
+                    title: 'lbl_state/province/area',
+                    value: viewmodel.player.area,
+                    context: context),
+                infoRow(
+                    title: 'lbl_address',
+                    value: viewmodel.player.address,
+                    context: context),
               ]),
               SizedBox(height: context.fullHeight * 0.04),
             ],
