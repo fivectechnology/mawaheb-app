@@ -120,13 +120,6 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     context.pushNamed(RegisterPage.route, arguments: viewmodel),
                 context: context,
               ),
-              MawahebGradientButton(
-                text: 'lbl_sign_up_player',
-                onPressed: () async {
-                  await AuthDataSourceImpl().getPlayerId();
-                },
-                context: context,
-              ),
             ],
           ),
         ),

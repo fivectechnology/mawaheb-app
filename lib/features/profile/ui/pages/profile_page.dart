@@ -53,7 +53,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
     return Observer(builder: (_) {
       return SafeArea(
         child: viewmodel.player == null
-            ? MawahebLoader()
+            ? const Center(child: MawahebLoader())
             : Scaffold(
                 backgroundColor: Colors.white,
                 body: Column(

@@ -104,8 +104,6 @@ Future<GetIt> $inject(
       ));
   gh.lazySingleton<ProfileRepository>(() =>
       ProfileRepositoryImpl(get<ProfileDataSource>(), get<PrefsRepository>()));
-  gh.factory<ProfileViewmodel>(
-      () => ProfileViewmodel(get<Logger>(), get<ProfileRepository>()));
   gh.lazySingleton<PublicInfoDataSource>(() => PublicInfoDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -147,6 +145,11 @@ Future<GetIt> $inject(
         get<Logger>(),
         get<AuthRepository>(),
         get<PrefsRepository>(),
+      ));
+  gh.factory<ProfileViewmodel>(() => ProfileViewmodel(
+        get<Logger>(),
+        get<ProfileRepository>(),
+        get<AuthRepository>(),
       ));
   gh.factory<SettingsViewmodel>(() => SettingsViewmodel(
         get<Logger>(),
