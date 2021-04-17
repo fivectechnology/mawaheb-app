@@ -3,6 +3,8 @@ import 'package:core_sdk/utils/widgets/progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/features/settings/ui/change_email_page.dart';
+import 'package:mawaheb_app/features/settings/ui/change_password_page.dart';
 import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
 import 'package:mawaheb_app/features/settings/viewmodels/settings_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -61,8 +63,18 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                     ],
                   ),
                 ),
-                settingRow(text: 'lbl_change_password'),
-                settingRow(text: 'lbl_change_email'),
+                settingRow(
+                    text: 'lbl_change_password',
+                    onPress: () {
+                      // context.navigator
+                      //     .push(ChangePasswordPage.pageRoute(viewmodel));
+                    }),
+                settingRow(
+                    text: 'lbl_change_email',
+                    onPress: () {
+                      context.navigator
+                          .push(ChangeEmailPage.pageRoute(viewmodel));
+                    }),
                 settingRow(text: 'lbl_term_of_service'),
                 Observer(builder: (_) {
                   return settingRow(

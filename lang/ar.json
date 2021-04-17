@@ -79,6 +79,11 @@
   "lbl_value": "قيمتنا",
   "lbl_sign_up": "تسجيل جديد",
   "lbl_otp": "OTP",
+  "lbl_new_email": "البريد الالكتروني الجديد",
+
+
+  "lbl_old_password": "كلمة المرور القديمة",
+  "lbl_new_password": "كلمة المرور الجديدة",
 
 
 

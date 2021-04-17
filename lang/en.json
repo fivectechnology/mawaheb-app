@@ -75,12 +75,16 @@
   "lbl_videos": "Videos",
   "lbl_sign_up": "Sign up",
   "lbl_otp": "OTP",
-
-
   "lbl_summary": "Summary",
   "lbl_mission": "Mission",
   "lbl_vision": "Vision",
   "lbl_value": "Value",
+  "lbl_new_email": "New email",
+
+
+  "lbl_old_password": "Old password",
+  "lbl_new_password": "New Password",
+
 
 
 

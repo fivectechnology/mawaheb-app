@@ -181,7 +181,7 @@ class _AddSportPageState
                     ),
                   ),
                 ),
-                uploadSpace(onPress: () {}),
+                // uploadSpace(onPress: () {}),
                 const SizedBox(height: 26),
                 Observer(
                   builder: (_) {
