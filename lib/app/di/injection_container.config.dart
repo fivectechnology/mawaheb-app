@@ -150,11 +150,13 @@ Future<GetIt> $inject(
         get<Logger>(),
         get<ProfileRepository>(),
         get<AuthRepository>(),
+        get<PrefsRepository>(),
       ));
   gh.factory<SettingsViewmodel>(() => SettingsViewmodel(
         get<Logger>(),
         get<SettingsRepository>(),
         get<AuthRepository>(),
+        get<PrefsRepository>(),
       ));
 
   // Eager singletons must be registered in the right order

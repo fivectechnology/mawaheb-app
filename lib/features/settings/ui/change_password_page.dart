@@ -90,8 +90,9 @@ class _ChangePasswordPageState
                   child: MawahebGradientButton(
                     text: 'lbl_change_password',
                     onPressed: () {
-                      context.navigator
-                          .push(SettingOtpPage.pageRoute(viewmodel));
+                      viewmodel.changePassword(
+                          currentPassword: _oldPasswordController.text,
+                          newPassword: _newPasswordController.text);
                     },
                     context: context,
                   ),

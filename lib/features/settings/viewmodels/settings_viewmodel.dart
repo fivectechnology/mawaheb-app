@@ -7,6 +7,7 @@ import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/app/app.dart';
+import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
@@ -21,21 +22,18 @@ part 'settings_viewmodel.g.dart';
 @injectable
 class SettingsViewmodel extends _SettingsViewmodelBase
     with _$SettingsViewmodel {
-  SettingsViewmodel(
-    Logger logger,
-    SettingsRepository settingsRepository,
-    AuthRepository authRepository,
-  ) : super(logger, settingsRepository, authRepository);
+  SettingsViewmodel(Logger logger, SettingsRepository settingsRepository,
+      AuthRepository authRepository, PrefsRepository prefsRepository)
+      : super(logger, settingsRepository, authRepository, prefsRepository);
 }
 
 abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
-  _SettingsViewmodelBase(
-    Logger logger,
-    this._settingsRepository,
-    this._authRepository,
-  ) : super(logger);
+  _SettingsViewmodelBase(Logger logger, this._settingsRepository,
+      this._authRepository, this._prefsRepository)
+      : super(logger);
   final SettingsRepository _settingsRepository;
   final AuthRepository _authRepository;
+  final PrefsRepository _prefsRepository;
 
   //* OBSERVERS *//
   @observable
@@ -163,12 +161,12 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     changeEmailFuture = futureWrapper(
       () => _settingsRepository
           .changePassword(
-            newPassword: newPassword,
-            currentPassword: currentPassword,
-          )
+              newPassword: newPassword,
+              currentPassword: currentPassword,
+              id: _prefsRepository.player.id)
           .whenSuccess(
             (res) => res.apply(() async {
-              await _authRepository.logout();
+              logout();
               logger.d('change password success with res: $res');
             }),
           ),
