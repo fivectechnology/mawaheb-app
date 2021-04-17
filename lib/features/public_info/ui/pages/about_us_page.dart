@@ -71,7 +71,7 @@ class _AboutUsPageState
                     aboutUsTile(
                       title: 'lbl_value',
                       image: 'assets/images/ic_value.png',
-                      text: aboutUs.ourValues,
+                      text: aboutUs.coreValues,
                     )
                   ],
                 ),

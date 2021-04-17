@@ -11,7 +11,7 @@ AboutUsModel _$AboutUsModelFromJson(Map<String, dynamic> json) {
     summary: json['summary'] as String,
     vision: json['vision'] as String,
     mission: json['mission'] as String,
-    ourValues: json['ourValues'] as String,
+    coreValues: json['coreValues'] as String,
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -24,5 +24,5 @@ Map<String, dynamic> _$AboutUsModelToJson(AboutUsModel instance) =>
       'summary': instance.summary,
       'vision': instance.vision,
       'mission': instance.mission,
-      'ourValues': instance.ourValues,
+      'coreValues': instance.coreValues,
     };

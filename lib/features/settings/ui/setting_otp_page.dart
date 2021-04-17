@@ -6,22 +6,30 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/features/settings/viewmodels/settings_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 
-class OtpPage extends StatefulWidget {
-  const OtpPage({Key key}) : super(key: key);
+class SettingOtpPage extends StatefulWidget {
+  const SettingOtpPage({Key key}) : super(key: key);
 
-  static const String route = '/otp';
+  static const String route = '/setting_otp';
 
-  static MaterialPageRoute pageRoute() =>
-      MaterialPageRoute(builder: (context) => const OtpPage());
+  static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) =>
+      MaterialPageRoute(
+        builder: (context) => Provider.value(
+          value: settingsViewmodel,
+          child: const SettingOtpPage(),
+        ),
+      );
 
   @override
-  _OtpPageState createState() => _OtpPageState();
+  _SettingOtpPageState createState() => _SettingOtpPageState();
 }
 
-class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
+class _SettingOtpPageState
+    extends ProviderMobxState<SettingOtpPage, SettingsViewmodel> {
   final TextEditingController _otpController = TextEditingController();
   final FocusNode otpFocusNode = FocusNode()..requestFocus();
 
@@ -62,12 +70,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
           SizedBox(
             height: context.fullHeight * 0.08,
           ),
-          // PinCodeTextField(
-          //   autofocus: true,
-          //   pinTextStyle: context.textTheme.headline2.copyWith(fontSize: 26),
-          //   pinBoxDecoration: ProvidedPinBoxDecoration.underlinedPinBoxDecoration,
-          //   controller: _otpController,
-          // ),
+
           codeField(true),
           Padding(
             padding: EdgeInsets.only(
@@ -75,8 +78,6 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 bottom: context.fullHeight * 0.04),
             child: MawahebButton(
               onPressed: () => viewmodel.sendOTP(resend: true),
-              // _otpBottomSheet(context, viewmodel?.player?.email ?? '');
-
               context: context,
               text: 'lbl_resend_otp',
               buttonColor: Colors.white,
@@ -86,8 +87,8 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
           ),
           // Observer(builder: (_) {
           //   return MawahebButton(
-          //     onPressed: () =>
-          //         viewmodel.verifyOTP(email: viewmodel?.player?.email, code: int.parse(_otpController.text)),
+          //     onPressed: () => viewmodel.verifyOTP(
+          //         code: int.parse(_otpController.text)),
           //     context: context,
           //     text: 'lbl_next',
           //     buttonColor: const Color(0xFF9F9F9F),
@@ -98,30 +99,6 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
         ],
       ),
     );
-  }
-
-  void _otpBottomSheet(BuildContext context, String email) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: SvgPicture.asset('assets/icons/ic_otp.svg'),
-                title: Text(
-                  context.translate('msg_check_otp'),
-                  style:
-                      context.textTheme.bodyText1.copyWith(color: Colors.grey),
-                ),
-                subtitle: Text(
-                  email,
-                  style:
-                      context.textTheme.bodyText1.copyWith(color: Colors.black),
-                ),
-              ),
-            ],
-          );
-        });
   }
 
   void verifyCode(String code) {

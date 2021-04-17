@@ -13,7 +13,7 @@
   "lbl_download_center": "مركز التنزيل",
   "lbl_phone": "رقم الهاتف",
   "lbl_address": "العنوان",
-  "lbl_emirates": "الإمارات",
+  "lbl_emirate": "الإمارة",
   "lbl_country": "البلد",
   "lbl_state/province/area": "الولاية/المقاطعة/المنطقة",
   "lbl_back": "رجوع",
@@ -79,6 +79,11 @@
   "lbl_value": "قيمتنا",
   "lbl_sign_up": "تسجيل جديد",
   "lbl_otp": "OTP",
+  "lbl_new_email": "البريد الالكتروني الجديد",
+
+
+  "lbl_old_password": "كلمة المرور القديمة",
+  "lbl_new_password": "كلمة المرور الجديدة",
 
 
 

@@ -4,12 +4,13 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/app/base_page.dart';
+import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
@@ -38,13 +39,16 @@ class AuthViewmodel extends _AuthViewmodelBase with _$AuthViewmodel {
   AuthViewmodel(
     Logger logger,
     AuthRepository authRepository,
-  ) : super(logger, authRepository);
+    PrefsRepository prefsRepository,
+  ) : super(logger, authRepository, prefsRepository);
 }
 
 abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
-  _AuthViewmodelBase(Logger logger, this._authRepository) : super(logger);
+  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository)
+      : super(logger);
 
   final AuthRepository _authRepository;
+  final PrefsRepository _prefsRepository;
 
   //* OBSERVERS *//
 
@@ -53,6 +57,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<bool> loginFuture;
+
+  @observable
+  ObservableFuture<bool> sendOtp;
 
   @observable
   ObservableFuture<PlayerModel> registerFuture;
@@ -73,10 +80,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<List<EmirateModel>> emirateFuture;
 
   @observable
-  ObservableFuture<String> otpFuture;
-
-  @observable
-  ObservableFuture<int> verifyOTPFuture;
+  ObservableFuture<OTPResponseModel> verifyOTPFuture;
 
   //* COMPUTED *//
 
@@ -85,6 +89,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get loginError => loginFuture?.isFailure ?? false;
+
+  @computed
+  bool get otpLoading => sendOtp?.isPending ?? false;
+
+  @computed
+  bool get otpError => sendOtp?.isFailure ?? false;
 
   @computed
   PlayerModel get player => registerFuture?.value;
@@ -108,13 +118,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   List<EmirateModel> get emirates => emirateFuture?.value;
 
   @computed
-  bool get otpLoading => otpFuture?.isPending ?? false;
-
-  @computed
-  bool get otpError => otpFuture?.isFailure ?? false;
-
-  @computed
-  int get otpCode => verifyOTPFuture?.value ?? false;
+  OTPResponseModel get otpCode => verifyOTPFuture?.value ?? false;
 
   @computed
   bool get verifyOTPLoading => verifyOTPFuture?.isPending ?? false;
@@ -154,12 +158,18 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   void login({String userName, String password}) {
     loginFuture = futureWrapper(
-      () => _authRepository.login(userName: userName, password: password).whenSuccess(
-            (res) => res.apply(
-              () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
-              ),
-            ),
+      () => _authRepository
+          .login(userName: userName, password: password)
+          .whenSuccess(
+            (res) => res.apply(() async {
+              int id = await _authRepository.getPlayerId(
+                  token: _prefsRepository.token);
+              await _prefsRepository.setPlayer(PlayerModel(id: id));
+              getContext(
+                (context) => context.pushNamedAndRemoveUntil(
+                    BasePage.route, (_) => false),
+              );
+            }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
@@ -173,11 +183,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     bool resend = false,
   }) {
     if (!resend) {
-      registerFuture = ObservableFuture.value(PlayerModel.fromUi(email: email, name: name, password: password));
+      registerFuture = ObservableFuture.value(
+          PlayerModel.fromUi(email: email, name: name, password: password));
     }
-    otpFuture = futureWrapper(
+    sendOtp = futureWrapper(
       () => _authRepository.sendOTP(email: player.email).whenSuccess(
-            (res) => res.data.apply(() {
+            (res) => res.apply(() {
               logger.d('otp success with res: $res');
               if (!resend) {
                 changeRegisterSlider(const PageSliderForawardModel());
@@ -193,21 +204,47 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void verifyOTP({int code}) {
-    print('my debug asdfasdfasf');
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess(
-            (res) => res.apply(() async {
+      () => _authRepository
+          .verifyOTP(email: player.email, code: code)
+          .whenSuccess(
+            (res) => res.data.apply(() async {
               logger.d('otp verify success with res: $res');
-              await _authRepository.signUp(
-                displayName: player.name,
-                email: player.email,
-                password: player.password,
-                code: res.data.toString(),
-              );
-              await _authRepository.login(userName: player.email, password: player.password);
-              changeRegisterSlider(const PageSliderForawardModel());
+              await _authRepository
+                  .signUp(
+                    displayName: player.name,
+                    email: player.email,
+                    password: player.password,
+                    code: res.data.data,
+                  )
+                  .whenSuccess((res) => res.data.first.apply(() async {
+                        logger.d('signUp success with res: $res');
+                        // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
+                        await _prefsRepository.setPlayer(res.data.first);
+                        await _authRepository.login(
+                            userName: player.email, password: player.password);
+                        changeRegisterSlider(const PageSliderForawardModel());
+                      }));
+
+              // await _authRepository.signUp(
+              //     displayName: player.name,
+              //     email: player.email,
+              //     password: player.password,
+              //     code: player.email,
+              //     otp: res.data.data);
+
+              // signUp(
+              //   displayName: player.name,
+              //   email: player.email,
+              //   password: player.password,
+              //   code: player.email,
+              //   otp: otpCode.data,
+              // );
+
+              // print("aaaaaa");
+              // print(player);
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -216,18 +253,25 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void signUp({String displayName, String email, String password, String code}) {
+  void signUp({
+    String displayName,
+    String email,
+    String password,
+  }) {
     registerFuture = futureWrapper(
       () => _authRepository
           .signUp(
-            displayName: displayName,
-            email: email,
-            password: password,
-            code: code,
-          )
+              displayName: displayName,
+              email: email,
+              password: password,
+              code: verifyOTPFuture.value.data)
           .whenSuccess(
-            (res) => res.data.first.apply(() {
+            (res) => res.data.first.apply(() async {
               logger.d('signUp success with res: $res');
+              // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
+              await _prefsRepository.setPlayer(res.data.first);
+              await _authRepository.login(
+                  userName: player.email, password: player.password);
               changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),
@@ -236,7 +280,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changeRegisterSlider(PageSliderModel pageSliderModel) => registerSliderModel = pageSliderModel;
+  void changeRegisterSlider(PageSliderModel pageSliderModel) =>
+      registerSliderModel = pageSliderModel;
 
   @action
   void addPersonalInfo({
@@ -250,8 +295,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     registerFuture = futureWrapper(
       () => _authRepository
           .addPersonalInfo(
-              version: registerFuture.value.version,
-              id: registerFuture.value.id,
+              version: _prefsRepository.player.version,
+              id: _prefsRepository.player.id,
               dateOfBirth: dateOfBirth,
               gender: gender,
               name: name,
@@ -269,7 +314,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void addAddressInfo({String address, String area, EmirateModel emirateModel}) {
+  void addAddressInfo(
+      {String address, String area, EmirateModel emirateModel}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -291,7 +337,13 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void addSportInfo(
-      {int weight, int height, String hand, String leg, String brief, SportModel sport, SportPositionModel position}) {
+      {int weight,
+      int height,
+      String hand,
+      String leg,
+      String brief,
+      SportModel sport,
+      SportPositionModel position}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addSportInfo(
@@ -307,7 +359,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(
               () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(
+                    BasePage.route, (_) => false),
               ),
             ),
           ),

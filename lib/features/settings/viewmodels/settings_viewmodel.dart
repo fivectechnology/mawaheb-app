@@ -1,13 +1,18 @@
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
+import 'package:core_sdk/utils/extensions/future.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
+import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/settings/domain/repositories/settings_repository.dart';
+import 'package:mawaheb_app/features/settings/ui/setting_otp_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -36,9 +41,54 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<bool> logoutFuture;
 
+  @observable
+  ObservableFuture<bool> sendOtp;
+
+  @observable
+  ObservableFuture<bool> changePasswordFuture;
+
+  @observable
+  ObservableFuture<PlayerModel> playerEmailFuture;
+
+  @observable
+  ObservableFuture<OTPResponseModel> verifyOTPFuture;
+
+  @observable
+  ObservableFuture<OTPResponseModel> changeEmailFuture;
+
   //* COMPUTED *//
   @computed
   bool get logoutLoading => logoutFuture?.isPending ?? false;
+
+  @computed
+  bool get otpLoading => sendOtp?.isPending ?? false;
+
+  @computed
+  bool get otpError => sendOtp?.isFailure ?? false;
+
+  @computed
+  bool get passwordLoading => changePasswordFuture?.isPending ?? false;
+
+  @computed
+  bool get passwordError => changePasswordFuture?.isFailure ?? false;
+
+  @computed
+  bool get changeEmailLoading => changeEmailFuture?.isPending ?? false;
+
+  @computed
+  bool get changeEmailError => changeEmailFuture?.isFailure ?? false;
+
+  @computed
+  PlayerModel get player => playerEmailFuture?.value;
+
+  @computed
+  bool get playerEmailLoading => playerEmailFuture?.isPending ?? false;
+
+  @computed
+  OTPResponseModel get otpCode => verifyOTPFuture?.value ?? false;
+
+  @computed
+  bool get verifyOTPLoading => verifyOTPFuture?.isPending ?? false;
 
   //* ACTIONS *//
   @action
@@ -53,6 +103,77 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
                 ),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  void sendOTP({
+    String email,
+    String password,
+    bool resend = false,
+  }) {
+    if (!resend) {
+      playerEmailFuture = ObservableFuture.value(
+          PlayerModel.fromUi(email: email, password: password));
+    }
+    sendOtp = futureWrapper(
+      () => _settingsRepository
+          .sendOTP(email: player.email, password: password)
+          .whenSuccess(
+            (res) => res.apply(() {
+              logger.d('otp success with res: $res');
+              // if (!resend) {
+              //   getContext((context) => context
+              //     ..pushNamedAndRemoveUntil(
+              //         SettingOtpPage.route, (_) => false));
+              // } else {
+              //   //showSnack()
+              // }
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
+    );
+  }
+
+  @action
+  void verifyOTP({int code}) {
+    logger.d('otp verify enterre');
+
+    verifyOTPFuture = futureWrapper(
+      () => _settingsRepository
+          .verifyOTP(email: player.email, code: code)
+          .whenSuccess(
+            (res) => res.data.apply(() async {
+              logger.d('otp verify success with res: $res');
+              await _settingsRepository
+                  .changeEmail(email: player.email, code: res.data.data)
+                  .whenSuccess((res) => res.apply(() {
+                        logout();
+                      }));
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
+    );
+  }
+
+  @action
+  void changePassword({String newPassword, String currentPassword}) {
+    changeEmailFuture = futureWrapper(
+      () => _settingsRepository
+          .changePassword(
+            newPassword: newPassword,
+            currentPassword: currentPassword,
+          )
+          .whenSuccess(
+            (res) => res.apply(() async {
+              await _authRepository.logout();
+              logger.d('change password success with res: $res');
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
     );
   }
 }

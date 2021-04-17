@@ -4,6 +4,7 @@ import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
+import 'package:mawaheb_app/features/settings/ui/settings_page.dart';
 import 'package:provider/provider.dart';
 
 class AuthPage extends StatefulWidget {

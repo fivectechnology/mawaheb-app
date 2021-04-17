@@ -20,7 +20,7 @@ Widget infoRow({BuildContext context, String title, String value}) {
         context.translate(title),
         style: context.textTheme.subtitle1.copyWith(color: Colors.grey),
       ),
-      subtitle: Text(value,
+      subtitle: Text(value ?? 'N/A',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: context.textTheme.subtitle1),

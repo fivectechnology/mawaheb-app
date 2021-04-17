@@ -3,23 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/features/home/ui/pages/renew_subscription_page.dart';
-import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
-import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
 import 'package:mawaheb_app/features/profile/ui/widgets/profile_detail_row.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
-
-import 'my_info_page.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
 
-  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
-
   static MaterialPageRoute<dynamic> get pageRoute =>
       MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
+
+  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -42,64 +41,73 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (viewmodel?.player == null) {
+      viewmodel.fetchPlayer();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: EdgeInsets.only(top: context.fullHeight * 0.01),
-          child: Column(
-            children: [
-              profileActivationRow(isPending: true),
-              profileDetails(context: context),
-              Container(
-                height: context.fullHeight * 0.07,
-                decoration: const BoxDecoration(
-                    border:
-                        Border(bottom: BorderSide(width: 1.0, color: GREY))),
-                child: TabBar(
-                  indicator: UnderlineTabIndicator(
-                      borderSide: const BorderSide(width: 3.0, color: RED),
-                      insets: EdgeInsets.symmetric(
-                          horizontal: context.fullWidth * 0.1)),
-                  tabs: [
-                    Text(
-                      'my info',
-                      style: textTheme.headline2
-                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+    return Observer(builder: (_) {
+      return SafeArea(
+        child: viewmodel.player == null
+            ? const Center(child: MawahebLoader())
+            : Scaffold(
+                backgroundColor: Colors.white,
+                body: Column(
+                  children: [
+                    profileActivationRow(isPending: true),
+                    profileDetails(
+                        context: context, name: viewmodel.player.name),
+                    Container(
+                      height: context.fullHeight * 0.07,
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(width: 1.0, color: GREY))),
+                      child: TabBar(
+                        indicator: UnderlineTabIndicator(
+                            borderSide:
+                                const BorderSide(width: 3.0, color: RED),
+                            insets: EdgeInsets.symmetric(
+                                horizontal: context.fullWidth * 0.1)),
+                        tabs: [
+                          Text(
+                            'my info',
+                            style: textTheme.headline2.copyWith(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Videos',
+                            style: textTheme.headline2.copyWith(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Views',
+                            style: textTheme.headline2.copyWith(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                        unselectedLabelColor: GREY,
+                        labelColor: Colors.black,
+                        labelStyle: textTheme.subtitle1,
+                        controller: _tabController,
+                      ),
                     ),
-                    Text(
-                      'Videos',
-                      style: textTheme.headline2
-                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Views',
-                      style: textTheme.headline2
-                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
+                    Expanded(
+                      child: Provider(
+                        create: (_) => viewmodel,
+                        child: TabBarView(
+                            controller: _tabController,
+                            children: viewmodel.pages),
+                      ),
+                    )
                   ],
-                  unselectedLabelColor: GREY,
-                  labelColor: Colors.black,
-                  labelStyle: textTheme.subtitle1,
-                  labelPadding: const EdgeInsets.symmetric(
-                    vertical: 15,
-                  ),
-                  controller: _tabController,
                 ),
               ),
-              Expanded(
-                child: TabBarView(controller: _tabController, children: const [
-                  MyInfoPage(),
-                  VideosPage(),
-                  ViewsPage(),
-                ]),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+      );
+    });
   }
 
   Widget profileActivationRow({bool isPending}) {

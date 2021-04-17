@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
@@ -13,18 +15,22 @@ import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:dio/dio.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<bool>> login({@required String userName, @required String password});
+  Future<NetworkResult<bool>> login(
+      {@required String userName, @required String password});
 
   Future<NetworkResult<BaseResponseModel<String>>> logout();
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
+      getPositions();
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -34,7 +40,7 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
     @required String displayName,
-    @required String code,
+    @required int code,
     @required String email,
     @required String password,
   });
@@ -70,18 +76,21 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
     @required SportPositionModel sportPositionModel,
   });
 
-  Future<NetworkResult<BaseResponseModel<String>>> sendOTP({
+  Future<NetworkResult<bool>> sendOTP({
     @required String email,
   });
 
-  Future<NetworkResult<BaseResponseModel<int>>> verifyOTP({
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({
     @required String email,
     @required int code,
   });
+
+  Future<int> getPlayerId({String token});
 }
 
 @LazySingleton(as: AuthDataSource)
-class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSource {
+class AuthDataSourceImpl extends MawahebRemoteDataSource
+    implements AuthDataSource {
   AuthDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -119,7 +128,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
     @required String displayName,
-    @required String code,
+    @required int code,
     @required String email,
     @required String password,
   }) {
@@ -141,7 +150,8 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
           'language': prefsRepository.languageCode,
           'blocked': false,
           'type': 'PLAYER',
-          'status': 'INACTIVE'
+          'status': 'INACTIVE',
+          'otp': code,
         }
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
@@ -163,7 +173,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       method: METHOD.POST,
       withAuth: true,
       mawahebModel: false,
-      modelName: 'auth.db.User/',
+      modelName: 'auth.db.User',
       id: id,
       data: {
         'data': {
@@ -190,10 +200,10 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }) {
     return mawahebRequest(
       method: METHOD.POST,
-      withAuth: true,
       mawahebModel: false,
-      modelName: 'auth.db.User/',
+      modelName: 'auth.db.User',
       id: id,
+      withAuth: true,
       data: {
         'data': {
           'version': version,
@@ -222,7 +232,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       method: METHOD.POST,
       withAuth: true,
       mawahebModel: false,
-      modelName: 'auth.db.User/',
+      modelName: 'auth.db.User',
       id: id,
       data: {
         'data': {
@@ -293,7 +303,8 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions() {
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
+      getPositions() {
     return mawahebRequest(
       modelName: 'SportPosition',
       method: METHOD.POST,
@@ -306,20 +317,17 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }
 
   @override
-  Future<NetworkResult<BaseResponseModel<String>>> sendOTP({String email}) {
+  Future<NetworkResult<bool>> sendOTP({String email}) {
     return mawahebRequest(
       endpoint: OTP_SEND_ENDPOINT,
       method: METHOD.POST,
       data: {'data': email},
-      mapper: BaseResponseModel.fromJson((obj) {
-        logger.d('my debug sendOTP mapper $obj');
-        return obj as String;
-      }),
     );
   }
 
   @override
-  Future<NetworkResult<BaseResponseModel<int>>> verifyOTP({String email, int code}) {
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
+      {String email, int code}) {
     return mawahebRequest(
       endpoint: OTP_VERIFY_ENDPOINT,
       method: METHOD.POST,
@@ -329,7 +337,26 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
           'code': code,
         }
       },
-      mapper: BaseResponseModel.fromJson((obj) => obj as int),
+      mapper: BaseResponseModel.fromJson(OTPResponseModel.fromJson),
     );
+  }
+
+  @override
+  Future<int> getPlayerId({String token}) async {
+    Dio dio = Dio();
+    int id;
+    Response response = await dio.get(
+        'http://54.237.125.179:8080/mawaheb/ws/app/info',
+        options: (Options(headers: {'Authorization': 'Basic $token'})));
+
+    if (response.statusCode == 200) {
+      print(response.data);
+      var data = response.data;
+      id = data['user.id'] as int;
+      print(id);
+    }
+
+    return id;
+    // return response.data['user.id'] as int;
   }
 }

@@ -143,7 +143,7 @@ class _AddSportPageState
                             ))
                         .toList(),
                     onChanged: (v) {
-                      print(v);
+                      hand = v;
                     }),
                 const SizedBox(height: 26),
                 mawhaebDropDown(
@@ -157,6 +157,8 @@ class _AddSportPageState
                         .toList(),
                     onChanged: (v) {
                       print(v);
+                      print(leg);
+                      leg = v;
                     }),
                 Padding(
                   padding:
@@ -179,7 +181,7 @@ class _AddSportPageState
                     ),
                   ),
                 ),
-                uploadSpace(onPress: () {}),
+                // uploadSpace(onPress: () {}),
                 const SizedBox(height: 26),
                 Observer(
                   builder: (_) {
