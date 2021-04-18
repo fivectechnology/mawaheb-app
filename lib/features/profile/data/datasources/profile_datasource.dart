@@ -11,9 +11,14 @@ import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
+import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 
 abstract class ProfileDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchProfile({
+    @required int id,
+  });
+
+  Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews({
     @required int id,
   });
 }
@@ -70,6 +75,27 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
         ]
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+    );
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews(
+      {int id}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      // endpoint: BASE_REST_API + BASE_REST_API,
+      modelName: 'ProfileView',
+      action: EndPointAction.search,
+      data: {
+        'data': {
+          'criteria': [
+            {'fieldName': 'player.id', 'value': id, 'operator': '='}
+          ],
+          'operator': 'and'
+        },
+        'fields': ['player', 'partner']
+      },
+      mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
     );
   }
 }

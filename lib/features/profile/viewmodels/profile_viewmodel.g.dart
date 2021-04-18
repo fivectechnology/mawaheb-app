@@ -144,6 +144,21 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
     });
   }
 
+  final _$viewsFutureAtom = Atom(name: '_ProfileViewmodelBase.viewsFuture');
+
+  @override
+  ObservableFuture<List<ViewModel>> get viewsFuture {
+    _$viewsFutureAtom.reportRead();
+    return super.viewsFuture;
+  }
+
+  @override
+  set viewsFuture(ObservableFuture<List<ViewModel>> value) {
+    _$viewsFutureAtom.reportWrite(value, super.viewsFuture, () {
+      super.viewsFuture = value;
+    });
+  }
+
   final _$_ProfileViewmodelBaseActionController =
       ActionController(name: '_ProfileViewmodelBase');
 
@@ -197,6 +212,17 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
         name: '_ProfileViewmodelBase.getEmirates');
     try {
       return super.getEmirates();
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void playerViews() {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.playerViews');
+    try {
+      return super.playerViews();
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -283,6 +309,7 @@ sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
 countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
+viewsFuture: ${viewsFuture},
 player: ${player},
 playerLoading: ${playerLoading},
 categories: ${categories},

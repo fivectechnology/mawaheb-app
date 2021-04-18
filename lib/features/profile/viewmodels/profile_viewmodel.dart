@@ -11,6 +11,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
+import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
@@ -62,6 +63,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<List<EmirateModel>> emirateFuture;
 
+  @observable
+  ObservableFuture<List<ViewModel>> viewsFuture;
+
   //* COMPUTED *//
   @computed
   PlayerModel get player => playerFuture?.value;
@@ -82,6 +86,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   List<SportPositionModel> get positions => positionFuture?.value;
 
   List<EmirateModel> get emirates => emirateFuture?.value;
+
+  List<ViewModel> get views => viewsFuture?.value;
 
   //* ACTIONS *//
 
@@ -112,6 +118,12 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @action
   void getEmirates() => emirateFuture = futureWrapper(
         () => _authRepository.getEmirates().whenSuccess((res) => res.data),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
+
+  @action
+  void playerViews() => viewsFuture = futureWrapper(
+        () => _profileRepository.playerViews().whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
