@@ -29,7 +29,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool showPassword = false;
-  String type;
+  String type = 'PLAYER';
   @override
   void initState() {
     super.initState();
@@ -83,6 +83,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
               mawhaebDropDown(
                   hint: context.translate('lbl_type'),
                   context: context,
+                  value: 'PLAYER',
                   items: [
                     'PLAYER',
                     'CLUB',

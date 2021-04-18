@@ -82,6 +82,13 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
     @required int code,
   });
 
+  Future<NetworkResult<bool>> forgetPassword({
+    @required String email,
+  });
+
+  Future<NetworkResult<bool>> resetPassword(
+      {@required String email, @required String password, @required int code});
+
   Future<int> getPlayerId({String token});
 }
 
@@ -113,7 +120,6 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
     );
   }
 
-  // TODO(ahmad): need test
   @override
   Future<NetworkResult<BaseResponseModel<String>>> logout() {
     return mawahebRequest(
@@ -356,5 +362,30 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
 
     return id;
     // return response.data['user.id'] as int;
+  }
+
+  @override
+  Future<NetworkResult<bool>> forgetPassword({String email}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      endpoint:
+          BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
+      data: {'data': email},
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> resetPassword(
+      {String email, String password, int code}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      endpoint: BASE_API +
+          WEB_SERVICE +
+          PUBLIC_SERVICE +
+          '/auth/password/forgot/update',
+      data: {
+        'data': {'username': email, 'password': password, 'code': code}
+      },
+    );
   }
 }

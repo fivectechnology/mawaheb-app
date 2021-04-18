@@ -15,9 +15,10 @@ class ResetPasswordPagee extends StatefulWidget {
 
   static const String route = '/change_password';
 
-  static MaterialPageRoute pageRoute(AuthViewmodel auth) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
-          value: auth,
+          value: authViewmodel,
           child: const ResetPasswordPagee(),
         ),
       );
@@ -114,7 +115,8 @@ class _ResetPasswordPageeState
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
-
+                          viewmodel.resetPassword(
+                              password: _confirmPasswordController.text);
                           print('match');
                         }
                       },

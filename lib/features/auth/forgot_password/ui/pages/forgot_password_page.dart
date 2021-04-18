@@ -5,6 +5,7 @@ import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
+import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -91,13 +92,16 @@ class _ForgotPasswordPageState
                     builder: (context) {
                       return MawahebButton(
                         onPressed: () {
-                          context.navigator
-                              .push(ResetPasswordPagee.pageRoute(viewmodel));
-                          // if (_formKey.currentState.validate()) {
-                          //   _formKey.currentState.save();
-                          //
-                          //   viewmodel.sendOTP(email: _emailController.text);
-                          // }
+                          // context.navigator
+                          //     .push(ResetPasswordPagee.pageRoute(viewmodel));
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+
+                            viewmodel.forgetPassword(
+                                email: _emailController.text);
+                            context.navigator
+                                .push(OtpPage.pageRoute(viewmodel));
+                          }
                         },
                         context: context,
                         text: 'lbl_next',

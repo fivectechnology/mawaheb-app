@@ -77,5 +77,11 @@ abstract class AuthRepository extends BaseRepository {
     @required String email,
     @required int code,
   });
+
   Future<int> getPlayerId({String token});
+
+  Future<NetworkResult<bool>> forgetPassword({String email});
+
+  Future<NetworkResult<bool>> resetPassword(
+      {String email, String password, int code});
 }
