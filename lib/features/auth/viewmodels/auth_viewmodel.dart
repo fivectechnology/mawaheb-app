@@ -44,8 +44,7 @@ class AuthViewmodel extends _AuthViewmodelBase with _$AuthViewmodel {
 }
 
 abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
-  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository)
-      : super(logger);
+  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository) : super(logger);
 
   final AuthRepository _authRepository;
   final PrefsRepository _prefsRepository;
@@ -159,19 +158,16 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   void login({String userName, String password, String type}) {
     loginFuture = futureWrapper(() async {
       await _prefsRepository.setType(type);
-      await _authRepository
-          .login(userName: userName, password: password, type: type)
-          .whenSuccess(
+
+      logger.d('my debug user role in login is ${_prefsRepository?.type}');
+      await _authRepository.login(userName: userName, password: password, type: type).whenSuccess(
             (res) => apply(() async {
               print('ttttt');
 
-              final int id = await _authRepository.getPlayerId(
-                  token: _prefsRepository.token);
-              await _prefsRepository
-                  .setPlayer(PlayerModel.loggedPlayerId(id: id));
+              final int id = await _authRepository.getPlayerId(token: _prefsRepository.token);
+              await _prefsRepository.setPlayer(PlayerModel.loggedPlayerId(id: id));
               getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               );
             }),
           );
@@ -197,8 +193,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     bool resend = false,
   }) {
     if (!resend) {
-      registerFuture = ObservableFuture.value(
-          PlayerModel.fromUi(email: email, name: name, password: password));
+      registerFuture = ObservableFuture.value(PlayerModel.fromUi(email: email, name: name, password: password));
     }
     sendOtp = futureWrapper(
       () => _authRepository.sendOTP(email: player.email).whenSuccess(
@@ -221,9 +216,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _authRepository
-          .verifyOTP(email: player.email, code: code)
-          .whenSuccess(
+      () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess(
             (res) => res.data.apply(() async {
               await _prefsRepository.setType('PLAYER');
               logger.d('otp verify success with res: $res');
@@ -238,8 +231,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
                         logger.d('signUp success with res: $res');
                         // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
                         await _prefsRepository.setPlayer(res.data.first);
-                        await _authRepository.login(
-                            userName: player.email, password: player.password);
+                        await _authRepository.login(userName: player.email, password: player.password);
                         changeRegisterSlider(const PageSliderForawardModel());
                       }));
 
@@ -275,20 +267,13 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }) {
     registerFuture = futureWrapper(
       () => _authRepository
-          .signUp(
-              displayName: displayName,
-              email: email,
-              password: password,
-              code: verifyOTPFuture.value.data)
+          .signUp(displayName: displayName, email: email, password: password, code: verifyOTPFuture.value.data)
           .whenSuccess(
             (res) => res.data.first.apply(() async {
               logger.d('signUp success with res: $res');
               // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
               await _prefsRepository.setPlayer(res.data.first);
-              await _authRepository.login(
-                  userName: player.email,
-                  password: player.password,
-                  type: 'PL');
+              await _authRepository.login(userName: player.email, password: player.password, type: 'PL');
               changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),
@@ -297,8 +282,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changeRegisterSlider(PageSliderModel pageSliderModel) =>
-      registerSliderModel = pageSliderModel;
+  void changeRegisterSlider(PageSliderModel pageSliderModel) => registerSliderModel = pageSliderModel;
 
   @action
   void addPersonalInfo({
@@ -331,8 +315,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void addAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void addAddressInfo({String address, String area, EmirateModel emirateModel}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -354,13 +337,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void addSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int weight, int height, String hand, String leg, String brief, SportModel sport, SportPositionModel position}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addSportInfo(
@@ -376,8 +353,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(
               () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               ),
             ),
           ),

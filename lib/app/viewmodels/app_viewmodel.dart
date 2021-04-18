@@ -20,18 +20,18 @@ enum PageIndex {
 // TODO(ahmad): you should add profile info here and handle subscribe logics
 @injectable
 class AppViewmodel extends _AppViewmodelBase with _$AppViewmodel {
-  AppViewmodel(Logger logger) : super(logger);
+  AppViewmodel(Logger logger, PrefsRepository prefsRepository) : super(logger, prefsRepository);
 }
 
 abstract class _AppViewmodelBase extends BaseViewmodel with Store {
-  _AppViewmodelBase(Logger logger) : super(logger) {
+  _AppViewmodelBase(Logger logger, this.prefsRepository) : super(logger) {
     appBarParams = AppBarParams.initial(isPlayer);
   }
 
+  final PrefsRepository prefsRepository;
   NavStack<AppBarParams> appBarHistory = NavStack<AppBarParams>();
-  PrefsRepository prefsRepository;
 
-  String get userRole => prefsRepository?.type ?? 'PLAYER';
+  String get userRole => prefsRepository?.type /* ?? 'PLAYER' */;
 
   bool get isPlayer => userRole == 'PLAYER';
 

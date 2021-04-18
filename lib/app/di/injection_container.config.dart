@@ -61,11 +61,12 @@ Future<GetIt> $inject(
   final appModule = _$AppModule();
   gh.lazySingleton<DataConnectionChecker>(() => appModule.getChecker());
   gh.factory<String>(() => appModule.baseUrl, instanceName: 'ApiBaseUrl');
-  gh.factory<AppViewmodel>(() => AppViewmodel(get<Logger>()));
   gh.factory<BaseOptions>(
       () => appModule.dioOption(get<String>(instanceName: 'ApiBaseUrl')));
   gh.factory<SplashViewmodel>(
       () => SplashViewmodel(get<Logger>(), get<PrefsRepository>()));
+  gh.factory<AppViewmodel>(
+      () => AppViewmodel(get<Logger>(), get<PrefsRepository>()));
   gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
