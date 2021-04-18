@@ -1,16 +1,9 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
-import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mawaheb_app/app/app.dart';
-import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
-import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
-import 'package:mawaheb_app/features/settings/ui/setting_otp_page.dart';
 import 'package:mawaheb_app/features/settings/viewmodels/settings_viewmodel.dart';
 import 'package:provider/provider.dart';
 

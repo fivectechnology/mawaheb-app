@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
@@ -19,7 +17,6 @@ import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
-import 'package:dio/dio.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<bool>> login(
@@ -343,11 +340,12 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
 
   @override
   Future<int> getPlayerId({String token}) async {
-    Dio dio = Dio();
+    final Dio dio = Dio();
     int id;
-    Response response = await dio.get(
-        'http://54.237.125.179:8080/mawaheb/ws/app/info',
-        options: (Options(headers: {'Authorization': 'Basic $token'})));
+    final Response response =
+        await dio.get('http://54.237.125.179:8080/mawaheb/ws/app/info',
+            // ignore: unnecessary_parenthesis
+            options: Options(headers: {'Authorization': 'Basic $token'}));
 
     if (response.statusCode == 200) {
       print(response.data);

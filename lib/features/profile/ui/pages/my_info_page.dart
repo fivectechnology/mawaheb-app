@@ -5,14 +5,9 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/card_info_player.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/player_info_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/edits/edit_address_page.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:provider/provider.dart';
-import '../../../auth/register/ui/pages/add_sport_page.dart';
-
-import '../../../auth/register/ui/pages/address_info_page.dart';
 import 'edits/edit_personal_page.dart';
 import 'edits/edit_sport_page.dart';
 

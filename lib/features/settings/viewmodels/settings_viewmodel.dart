@@ -1,8 +1,6 @@
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
-
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:injectable/injectable.dart';
@@ -13,7 +11,6 @@ import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/settings/domain/repositories/settings_repository.dart';
-import 'package:mawaheb_app/features/settings/ui/setting_otp_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -111,8 +108,10 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     bool resend = false,
   }) {
     if (!resend) {
-      playerEmailFuture = ObservableFuture.value(
-          PlayerModel.fromUi(email: email, password: password));
+      playerEmailFuture = ObservableFuture.value(PlayerModel.fromUi(
+          email: email,
+          password: password,
+          name: _prefsRepository.player.name));
     }
     sendOtp = futureWrapper(
       () => _settingsRepository

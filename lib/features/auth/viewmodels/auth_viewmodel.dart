@@ -165,9 +165,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
             (res) => apply(() async {
               print('ttttt');
 
-              int id = await _authRepository.getPlayerId(
+              final int id = await _authRepository.getPlayerId(
                   token: _prefsRepository.token);
-              await _prefsRepository.setPlayer(PlayerModel(id: id));
+              await _prefsRepository
+                  .setPlayer(PlayerModel.loggedPlayerId(id: id));
               getContext(
                 (context) => context.pushNamedAndRemoveUntil(
                     BasePage.route, (_) => false),
@@ -224,6 +225,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .verifyOTP(email: player.email, code: code)
           .whenSuccess(
             (res) => res.data.apply(() async {
+              await _prefsRepository.setType('PLAYER');
               logger.d('otp verify success with res: $res');
               await _authRepository
                   .signUp(
@@ -284,7 +286,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
               await _prefsRepository.setPlayer(res.data.first);
               await _authRepository.login(
-                  userName: player.email, password: player.password);
+                  userName: player.email,
+                  password: player.password,
+                  type: 'PL');
               changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),

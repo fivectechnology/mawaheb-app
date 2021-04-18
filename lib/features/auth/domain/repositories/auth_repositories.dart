@@ -16,9 +16,7 @@ abstract class AuthRepository extends BaseRepository {
   const AuthRepository(AuthDataSource authDataSource) : super(authDataSource);
 
   Future<NetworkResult<bool>> login(
-      {@required String userName,
-      @required String password,
-      @required String type});
+      {@required String userName, @required String password, String type});
 
   Future<bool> logout();
 
