@@ -80,6 +80,17 @@
   "lbl_vision": "Vision",
   "lbl_value": "Value",
   "lbl_new_email": "New email",
+  "lbl_type": "Type",
+  "lbl_profile": "Profile",
+  "lbl_players": "Players",
+  "lbl_available_players": "Available Players",
+
+  "lbl_confirm_password": "Confirm password",
+  "lbl_Reset_password": "Reset password",
+
+
+
+
 
 
   "lbl_old_password": "Old password",

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
@@ -19,7 +17,6 @@ import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
-import 'package:dio/dio.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<bool>> login(
@@ -85,6 +82,13 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
     @required int code,
   });
 
+  Future<NetworkResult<bool>> forgetPassword({
+    @required String email,
+  });
+
+  Future<NetworkResult<bool>> resetPassword(
+      {@required String email, @required String password, @required int code});
+
   Future<int> getPlayerId({String token});
 }
 
@@ -111,12 +115,11 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: LOGIN_ENDPOINT,
-      withAuth: false,
+      withAuth: true,
       data: {'username': userName, 'password': password},
     );
   }
 
-  // TODO(ahmad): need test
   @override
   Future<NetworkResult<BaseResponseModel<String>>> logout() {
     return mawahebRequest(
@@ -343,11 +346,12 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
 
   @override
   Future<int> getPlayerId({String token}) async {
-    Dio dio = Dio();
+    final Dio dio = Dio();
     int id;
-    Response response = await dio.get(
-        'http://54.237.125.179:8080/mawaheb/ws/app/info',
-        options: (Options(headers: {'Authorization': 'Basic $token'})));
+    final Response response =
+        await dio.get('http://54.237.125.179:8080/mawaheb/ws/app/info',
+            // ignore: unnecessary_parenthesis
+            options: Options(headers: {'Authorization': 'Basic $token'}));
 
     if (response.statusCode == 200) {
       print(response.data);
@@ -358,5 +362,30 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
 
     return id;
     // return response.data['user.id'] as int;
+  }
+
+  @override
+  Future<NetworkResult<bool>> forgetPassword({String email}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      endpoint:
+          BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
+      data: {'data': email},
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> resetPassword(
+      {String email, String password, int code}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      endpoint: BASE_API +
+          WEB_SERVICE +
+          PUBLIC_SERVICE +
+          '/auth/password/forgot/update',
+      data: {
+        'data': {'username': email, 'password': password, 'code': code}
+      },
+    );
   }
 }

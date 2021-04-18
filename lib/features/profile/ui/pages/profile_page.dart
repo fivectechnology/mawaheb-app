@@ -15,17 +15,15 @@ import 'package:provider/provider.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
 
-  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+  // static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
-    with TickerProviderStateMixin {
+class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with TickerProviderStateMixin {
   TabController _tabController;
 
   @override
@@ -59,34 +57,26 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                 body: Column(
                   children: [
                     profileActivationRow(isPending: true),
-                    profileDetails(
-                        context: context, name: viewmodel.player.name),
+                    profileDetails(context: context, name: viewmodel.player.name),
                     Container(
                       height: context.fullHeight * 0.07,
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(width: 1.0, color: GREY))),
+                      decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1.0, color: GREY))),
                       child: TabBar(
                         indicator: UnderlineTabIndicator(
-                            borderSide:
-                                const BorderSide(width: 3.0, color: RED),
-                            insets: EdgeInsets.symmetric(
-                                horizontal: context.fullWidth * 0.1)),
+                            borderSide: const BorderSide(width: 3.0, color: RED),
+                            insets: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.1)),
                         tabs: [
                           Text(
                             'my info',
-                            style: textTheme.headline2.copyWith(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                            style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             'Videos',
-                            style: textTheme.headline2.copyWith(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                            style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             'Views',
-                            style: textTheme.headline2.copyWith(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                            style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                         ],
                         unselectedLabelColor: GREY,
@@ -98,9 +88,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                     Expanded(
                       child: Provider(
                         create: (_) => viewmodel,
-                        child: TabBarView(
-                            controller: _tabController,
-                            children: viewmodel.pages),
+                        child: TabBarView(controller: _tabController, children: viewmodel.pages),
                       ),
                     )
                   ],

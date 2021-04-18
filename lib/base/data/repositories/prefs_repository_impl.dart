@@ -20,11 +20,24 @@ class PrefsRepositoryImpl implements PrefsRepository {
   String get token =>
       _prefs.getString(PreferencesKeys.USER_TOKEN) ??
       base64Encode(utf8.encode('$DEFAULT_USER_NAME:$DEFAULT_PASSWORD'));
+
   //base64Encode(utf8.encode('${user.userName}:${user.password}'));
 
   @override
   Future<bool> setToken() => _prefs.setString(PreferencesKeys.USER_TOKEN,
       base64Encode(utf8.encode('${user.userName}:${user.password}')));
+
+  @override
+  String get type => _prefs.getString(PreferencesKeys.USER_GENDER);
+
+  //base64Encode(utf8.encode('${user.userName}:${user.password}'));
+
+  @override
+  Future<bool> setType(String userType) async {
+    await _prefs.setString(PreferencesKeys.USER_GENDER, userType);
+
+    return true;
+  }
 
   @override
   String get fbToken => _prefs.getString(PreferencesKeys.FB_USER_TOKEN);
@@ -68,6 +81,8 @@ class PrefsRepositoryImpl implements PrefsRepository {
     await _prefs.remove(PreferencesKeys.FB_USER_TOKEN);
     await _prefs.remove(PreferencesKeys.APP_LANGUAGE);
     await _prefs.remove(PreferencesKeys.CUSTOMER_PROFILE);
+    await _prefs.remove(PreferencesKeys.USER_GENDER);
+
     return true;
   }
 

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
-Widget mawhaebDropDown(
+Widget mawhaebDropDown<T>(
     {String hint,
     BuildContext context,
     Color textColor,
     List items,
+    T value,
     Function onChanged}) {
   return DropdownButtonFormField(
+    value: value,
     decoration: const InputDecoration(
       enabledBorder:
           UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),

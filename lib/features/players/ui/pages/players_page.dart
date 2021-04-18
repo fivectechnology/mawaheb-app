@@ -12,8 +12,9 @@ import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
+
+  // static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
   @override
   _PlayersPageState createState() => _PlayersPageState();
@@ -60,8 +61,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                           ),
                         ),
                       ),
-                      hintStyle: context.textTheme.bodyText1
-                          .copyWith(color: Colors.grey),
+                      hintStyle: context.textTheme.bodyText1.copyWith(color: Colors.grey),
                       hintText: 'Search by name',
                       fillColor: Colors.white,
                       filled: true,
@@ -72,9 +72,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: context.fullHeight * 0.01,
-                  horizontal: context.fullWidth * 0.05),
+              padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01, horizontal: context.fullWidth * 0.05),
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.start,
                 children: [
@@ -102,45 +100,31 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
         builder: (context) => Wrap(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
+                  padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(context.translate('lbl_filter'),
-                          style: context.textTheme.headline2.copyWith(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
+                          style: context.textTheme.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
                       mawhaebDropDown(
-                          textColor: Colors.black,
-                          hint: context.translate('lbl_nationality'),
-                          context: context),
+                          textColor: Colors.black, hint: context.translate('lbl_nationality'), context: context),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(textColor: Colors.black, hint: context.translate('lbl_sport'), context: context),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          textColor: Colors.black,
-                          hint: context.translate('lbl_sport'),
-                          context: context),
+                          textColor: Colors.black, hint: context.translate('lbl_position'), context: context),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          textColor: Colors.black,
-                          hint: context.translate('lbl_position'),
-                          context: context),
+                          textColor: Colors.black, hint: context.translate('lbl_prefer_hand'), context: context),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          textColor: Colors.black,
-                          hint: context.translate('lbl_prefer_hand'),
-                          context: context),
-                      const SizedBox(height: 26),
-                      mawhaebDropDown(
-                          textColor: Colors.black,
-                          hint: context.translate('lbl_prefer_hand'),
-                          context: context),
+                          textColor: Colors.black, hint: context.translate('lbl_prefer_hand'), context: context),
                       const SizedBox(height: 26),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_confirmed_by_us'),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                           const NotificationButton(),
                         ],
                       ),
@@ -148,8 +132,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_booked_by_us'),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                           const NotificationButton()
                         ],
                       ),

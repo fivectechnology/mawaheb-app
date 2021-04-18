@@ -16,7 +16,7 @@ abstract class AuthRepository extends BaseRepository {
   const AuthRepository(AuthDataSource authDataSource) : super(authDataSource);
 
   Future<NetworkResult<bool>> login(
-      {@required String userName, @required String password});
+      {@required String userName, @required String password, String type});
 
   Future<bool> logout();
 
@@ -77,5 +77,11 @@ abstract class AuthRepository extends BaseRepository {
     @required String email,
     @required int code,
   });
+
   Future<int> getPlayerId({String token});
+
+  Future<NetworkResult<bool>> forgetPassword({String email});
+
+  Future<NetworkResult<bool>> resetPassword(
+      {String email, String password, int code});
 }

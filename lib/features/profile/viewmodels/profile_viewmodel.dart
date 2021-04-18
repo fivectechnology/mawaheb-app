@@ -2,7 +2,7 @@ import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mawaheb_app/app/base_page.dart';
+import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
@@ -13,32 +13,29 @@ import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.
 import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 
 part 'profile_viewmodel.g.dart';
 
 @injectable
 class ProfileViewmodel extends _ProfileViewmodelBase with _$ProfileViewmodel {
-  ProfileViewmodel(
-    Logger logger,
-    ProfileRepository profileRepository,
-    AuthRepository authRepository,
-  ) : super(logger, profileRepository, authRepository);
+  ProfileViewmodel(Logger logger, ProfileRepository profileRepository,
+      AuthRepository authRepository, PrefsRepository prefsRepository)
+      : super(logger, profileRepository, authRepository, prefsRepository);
 }
 
 abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
-  _ProfileViewmodelBase(
-      Logger logger, this._profileRepository, this._authRepository)
+  _ProfileViewmodelBase(Logger logger, this._profileRepository,
+      this._authRepository, this._prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
+  final PrefsRepository _prefsRepository;
 
   List<Widget> pages = const [
     MyInfoPage(),
@@ -122,7 +119,11 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   void fetchPlayer() => playerFuture = futureWrapper(
         () => _profileRepository
             .fetchPlayer()
-            .whenSuccess((res) => res.data.first),
+            .whenSuccess((res) => res.data.first.apply(() async {
+                  if (_prefsRepository.player == null) {
+                    await _prefsRepository.setPlayer(res.data.first);
+                  }
+                })),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 

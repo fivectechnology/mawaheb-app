@@ -5,6 +5,7 @@ import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
@@ -15,8 +16,12 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
+import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../auth_page.dart';
 
 part 'auth_viewmodel.g.dart';
 
@@ -52,6 +57,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   //* OBSERVERS *//
 
+  String forgetPasswordEmail;
+
   @observable
   PageSliderModel registerSliderModel;
 
@@ -81,6 +88,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<OTPResponseModel> verifyOTPFuture;
+
+  @observable
+  ObservableFuture<bool> forgetPasswordFuture;
+
+  // @observable
+  // ObservableFuture<bool> reset;
 
   //* COMPUTED *//
 
@@ -123,6 +136,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get verifyOTPLoading => verifyOTPFuture?.isPending ?? false;
 
+  @computed
+  bool get forgetPasswordLoading => forgetPasswordFuture?.isPending ?? false;
+
+  @computed
+  bool get forgetPasswordError => forgetPasswordFuture?.isFailure ?? false;
+
   //* ACTIONS *//
 
   @action
@@ -156,23 +175,30 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void login({String userName, String password}) {
-    loginFuture = futureWrapper(
-      () => _authRepository
-          .login(userName: userName, password: password)
+  void login({String userName, String password, String type}) {
+    loginFuture = futureWrapper(() async {
+      await _prefsRepository.setType(type);
+
+      logger.d('my debug user role in login is ${_prefsRepository?.type}');
+      await _authRepository
+          .login(userName: userName, password: password, type: type)
           .whenSuccess(
-            (res) => res.apply(() async {
-              int id = await _authRepository.getPlayerId(
+            (res) => apply(() async {
+              print('ttttt');
+
+              final int id = await _authRepository.getPlayerId(
                   token: _prefsRepository.token);
-              await _prefsRepository.setPlayer(PlayerModel(id: id));
+              await _prefsRepository
+                  .setPlayer(PlayerModel.loggedPlayerId(id: id));
               getContext(
                 (context) => context.pushNamedAndRemoveUntil(
                     BasePage.route, (_) => false),
               );
             }),
-          ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
-    );
+          );
+
+      return loginFuture;
+    });
   }
 
   @action
@@ -211,6 +237,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .verifyOTP(email: player.email, code: code)
           .whenSuccess(
             (res) => res.data.apply(() async {
+              await _prefsRepository.setType('PLAYER');
               logger.d('otp verify success with res: $res');
               await _authRepository
                   .signUp(
@@ -271,7 +298,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
               await _prefsRepository.setPlayer(res.data.first);
               await _authRepository.login(
-                  userName: player.email, password: player.password);
+                  userName: player.email,
+                  password: player.password,
+                  type: 'PL');
               changeRegisterSlider(const PageSliderForawardModel());
             }),
           ),
@@ -366,5 +395,58 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
+  }
+
+  @action
+  void forgetPassword({String email}) {
+    forgetPasswordFuture = futureWrapper(
+      () => _authRepository.forgetPassword(email: email).whenSuccess(
+            (res) => res.apply(() {
+              logger.d('otp success with res: $res');
+              forgetPasswordEmail = email;
+
+              // if (!resend) {
+              //   getContext((context) => context
+              //     ..pushNamedAndRemoveUntil(
+              //         SettingOtpPage.route, (_) => false));
+              // } else {
+              //   //showSnack()
+              // }
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
+    );
+  }
+
+  @action
+  void verifyOTPPassword({int code}) {
+    logger.d('otp verify enterre');
+
+    verifyOTPFuture = futureWrapper(
+      () => _authRepository
+          .verifyOTP(email: forgetPasswordEmail, code: code)
+          .whenSuccess(
+            (res) => res.data.apply(() async {
+              getContext((context) =>
+                  context.navigator.push(ResetPasswordPagee.pageRoute(this)));
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
+    );
+  }
+
+  @action
+  void resetPassword({String password, String email, int code}) {
+    forgetPasswordFuture = futureWrapper(() => _authRepository
+        .resetPassword(
+            email: forgetPasswordEmail,
+            code: verifyOTPFuture.value.data,
+            password: password)
+        .whenSuccess((res) => apply(() {
+              getContext((context) => App.navKey.currentState
+                  .pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
+            })));
   }
 }

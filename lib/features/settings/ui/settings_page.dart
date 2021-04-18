@@ -66,8 +66,8 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                 settingRow(
                     text: 'lbl_change_password',
                     onPress: () {
-                      // context.navigator
-                      //     .push(ChangePasswordPage.pageRoute(viewmodel));
+                      context.navigator
+                          .push(ChangePasswordPage.pageRoute(viewmodel));
                     }),
                 settingRow(
                     text: 'lbl_change_email',

@@ -100,6 +100,20 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
           () => super.verifyOTPLoading,
           name: '_AuthViewmodelBase.verifyOTPLoading'))
       .value;
+  Computed<bool> _$forgetPasswordLoadingComputed;
+
+  @override
+  bool get forgetPasswordLoading => (_$forgetPasswordLoadingComputed ??=
+          Computed<bool>(() => super.forgetPasswordLoading,
+              name: '_AuthViewmodelBase.forgetPasswordLoading'))
+      .value;
+  Computed<bool> _$forgetPasswordErrorComputed;
+
+  @override
+  bool get forgetPasswordError => (_$forgetPasswordErrorComputed ??=
+          Computed<bool>(() => super.forgetPasswordError,
+              name: '_AuthViewmodelBase.forgetPasswordError'))
+      .value;
 
   final _$registerSliderModelAtom =
       Atom(name: '_AuthViewmodelBase.registerSliderModel');
@@ -253,6 +267,23 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     });
   }
 
+  final _$forgetPasswordFutureAtom =
+      Atom(name: '_AuthViewmodelBase.forgetPasswordFuture');
+
+  @override
+  ObservableFuture<bool> get forgetPasswordFuture {
+    _$forgetPasswordFutureAtom.reportRead();
+    return super.forgetPasswordFuture;
+  }
+
+  @override
+  set forgetPasswordFuture(ObservableFuture<bool> value) {
+    _$forgetPasswordFutureAtom.reportWrite(value, super.forgetPasswordFuture,
+        () {
+      super.forgetPasswordFuture = value;
+    });
+  }
+
   final _$_AuthViewmodelBaseActionController =
       ActionController(name: '_AuthViewmodelBase');
 
@@ -312,11 +343,11 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void login({String userName, String password}) {
+  void login({String userName, String password, String type}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.login');
     try {
-      return super.login(userName: userName, password: password);
+      return super.login(userName: userName, password: password, type: type);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -431,6 +462,39 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
+  void forgetPassword({String email}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.forgetPassword');
+    try {
+      return super.forgetPassword(email: email);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void verifyOTPPassword({int code}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.verifyOTPPassword');
+    try {
+      return super.verifyOTPPassword(code: code);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetPassword({String password, String email, int code}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.resetPassword');
+    try {
+      return super.resetPassword(password: password, email: email, code: code);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 registerSliderModel: ${registerSliderModel},
@@ -443,6 +507,7 @@ categoryFuture: ${categoryFuture},
 countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
 verifyOTPFuture: ${verifyOTPFuture},
+forgetPasswordFuture: ${forgetPasswordFuture},
 loginLoading: ${loginLoading},
 loginError: ${loginError},
 otpLoading: ${otpLoading},
@@ -455,7 +520,9 @@ positions: ${positions},
 categories: ${categories},
 emirates: ${emirates},
 otpCode: ${otpCode},
-verifyOTPLoading: ${verifyOTPLoading}
+verifyOTPLoading: ${verifyOTPLoading},
+forgetPasswordLoading: ${forgetPasswordLoading},
+forgetPasswordError: ${forgetPasswordError}
     ''';
   }
 }

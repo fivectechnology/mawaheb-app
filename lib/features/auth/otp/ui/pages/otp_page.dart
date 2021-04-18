@@ -7,6 +7,7 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 
 class OtpPage extends StatefulWidget {
@@ -14,8 +15,13 @@ class OtpPage extends StatefulWidget {
 
   static const String route = '/otp';
 
-  static MaterialPageRoute pageRoute() =>
-      MaterialPageRoute(builder: (context) => const OtpPage());
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
+      MaterialPageRoute(
+        builder: (context) => Provider.value(
+          value: authViewmodel,
+          child: const OtpPage(),
+        ),
+      );
 
   @override
   _OtpPageState createState() => _OtpPageState();
@@ -39,63 +45,61 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: context.fullHeight * 0.02,
-              ),
-              child: Text(
-                context.translate('msg_enter_otp'),
-                style: context.textTheme.headline1.copyWith(
-                    color: Colors.black, fontSize: 22, wordSpacing: 0.5),
-              )),
-          Observer(builder: (_) {
-            return Text(
-              viewmodel?.player?.email ?? '',
-              style: context.textTheme.bodyText1
-                  .copyWith(color: Colors.black, fontSize: 16),
-            );
-          }),
-          SizedBox(
-            height: context.fullHeight * 0.08,
-          ),
-          // PinCodeTextField(
-          //   autofocus: true,
-          //   pinTextStyle: context.textTheme.headline2.copyWith(fontSize: 26),
-          //   pinBoxDecoration: ProvidedPinBoxDecoration.underlinedPinBoxDecoration,
-          //   controller: _otpController,
-          // ),
-          codeField(true),
-          Padding(
-            padding: EdgeInsets.only(
-                top: context.fullHeight * 0.08,
-                bottom: context.fullHeight * 0.04),
-            child: MawahebButton(
-              onPressed: () => viewmodel.sendOTP(resend: true),
-              // _otpBottomSheet(context, viewmodel?.player?.email ?? '');
-
-              context: context,
-              text: 'lbl_resend_otp',
-              buttonColor: Colors.white,
-              textColor: Colors.black,
-              borderColor: Colors.black,
+    return Scaffold(
+      backgroundColor: WHITE,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: context.fullHeight * 0.02,
+                ),
+                child: Text(
+                  context.translate('msg_enter_otp'),
+                  style: context.textTheme.headline1.copyWith(
+                      color: Colors.black, fontSize: 22, wordSpacing: 0.5),
+                )),
+            Observer(builder: (_) {
+              return Text(
+                viewmodel?.player?.email ?? '',
+                style: context.textTheme.bodyText1
+                    .copyWith(color: Colors.black, fontSize: 16),
+              );
+            }),
+            SizedBox(
+              height: context.fullHeight * 0.08,
             ),
-          ),
-          // Observer(builder: (_) {
-          //   return MawahebButton(
-          //     onPressed: () =>
-          //         viewmodel.verifyOTP(email: viewmodel?.player?.email, code: int.parse(_otpController.text)),
-          //     context: context,
-          //     text: 'lbl_next',
-          //     buttonColor: const Color(0xFF9F9F9F),
-          //     textColor: Colors.white,
-          //     borderColor: Colors.white,
-          //   );
-          // }),
-        ],
+
+            codeField(true),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: context.fullHeight * 0.08,
+                  bottom: context.fullHeight * 0.04),
+              child: MawahebButton(
+                onPressed: () => viewmodel.sendOTP(resend: true),
+                // _otpBottomSheet(context, viewmodel?.player?.email ?? '');
+
+                context: context,
+                text: 'lbl_resend_otp',
+                buttonColor: Colors.white,
+                textColor: Colors.black,
+                borderColor: Colors.black,
+              ),
+            ),
+            // Observer(builder: (_) {
+            //   return MawahebButton(
+            //     onPressed: () =>
+            //         viewmodel.verifyOTP(email: viewmodel?.player?.email, code: int.parse(_otpController.text)),
+            //     context: context,
+            //     text: 'lbl_next',
+            //     buttonColor: const Color(0xFF9F9F9F),
+            //     textColor: Colors.white,
+            //     borderColor: Colors.white,
+            //   );
+            // }),
+          ],
+        ),
       ),
     );
   }
@@ -126,8 +130,12 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
 
   void verifyCode(String code) {
     print('my deubg enter verifyCode $code ${viewmodel?.player}');
+    if (viewmodel.registerFuture == null) {
+      viewmodel.verifyOTPPassword(code: code.toInt());
+    } else {
+      viewmodel.verifyOTP(code: code.toInt());
+    }
 
-    viewmodel.verifyOTP(code: code.toInt());
     FocusScope.of(context).unfocus();
   }
 

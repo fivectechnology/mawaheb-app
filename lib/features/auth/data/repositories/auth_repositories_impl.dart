@@ -26,7 +26,9 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<NetworkResult<bool>> login(
-          {@required String userName, @required String password}) =>
+          {@required String userName,
+          @required String password,
+          String type}) =>
       authDataSource
           .login(userName: userName, password: password)
           .whenSuccessWrapped((_) => _prefsRepository
@@ -143,4 +145,14 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<int> getPlayerId({String token}) =>
       authDataSource.getPlayerId(token: token);
+
+  @override
+  Future<NetworkResult<bool>> forgetPassword({String email}) =>
+      authDataSource.forgetPassword(email: email);
+
+  @override
+  Future<NetworkResult<bool>> resetPassword(
+          {String email, String password, int code}) =>
+      authDataSource.resetPassword(
+          email: email, password: password, code: code);
 }
