@@ -89,6 +89,8 @@
 
   "lbl_old_password": "كلمة المرور القديمة",
   "lbl_new_password": "كلمة المرور الجديدة",
+  "lbl_confirm_password": "تأكيد كلمة المرور",
+  "lbl_Reset_password": "إعادة تعيين كلمة المرور",
 
 
 
