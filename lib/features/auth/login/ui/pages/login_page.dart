@@ -4,6 +4,7 @@ import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
@@ -28,6 +29,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool showPassword = false;
+  String type;
   @override
   void initState() {
     super.initState();
@@ -51,8 +53,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.fullHeight * 0.1,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 50,
                 ),
                 child: GradientText(
                   text: context.translate('lbl_welcome_to_mawaheb'),
@@ -67,9 +69,9 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                 textEditingController: _userNameController,
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    top: context.fullHeight * 0.04,
-                    bottom: context.fullHeight * 0.02),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 26,
+                ),
                 child: MawahebTextField(
                   textEditingController: _passwordController,
                   context: context,
@@ -78,6 +80,23 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   useObscure: true,
                 ),
               ),
+              mawhaebDropDown(
+                  hint: context.translate('lbl_type'),
+                  context: context,
+                  items: [
+                    'PLAYER',
+                    'CLUB',
+                  ]
+                      .map((e) => DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          ))
+                      .toList(),
+                  onChanged: (v) {
+                    type = v;
+                    print(type);
+                  }),
+              const SizedBox(height: 26),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -105,10 +124,15 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     // enable: !_userNameController.text.isNullOrEmpty && !_passwordController.text.isNullOrEmpty,
                     isLoading: viewmodel.loginLoading,
                     text: 'lbl_login',
-                    onPressed: () => viewmodel.login(
-                      userName: _userNameController.text,
-                      password: _passwordController.text,
-                    ),
+                    onPressed: () {
+                      print('aaaa');
+                      print(type);
+                      viewmodel.login(
+                        type: type,
+                        userName: _userNameController.text,
+                        password: _passwordController.text,
+                      );
+                    },
                     context: context,
                   ),
                 );

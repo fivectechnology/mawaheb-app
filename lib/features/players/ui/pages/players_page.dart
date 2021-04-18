@@ -15,6 +15,8 @@ class PlayersPage extends StatefulWidget {
   static MaterialPageRoute<dynamic> get pageRoute =>
       MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
 
+  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+
   @override
   _PlayersPageState createState() => _PlayersPageState();
 }

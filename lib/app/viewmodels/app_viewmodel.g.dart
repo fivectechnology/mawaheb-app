@@ -87,6 +87,17 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
+  void checkType() {
+    final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
+        name: '_AppViewmodelBase.checkType');
+    try {
+      return super.checkType();
+    } finally {
+      _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 appBarParams: ${appBarParams},

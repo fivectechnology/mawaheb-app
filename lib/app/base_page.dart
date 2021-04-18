@@ -20,25 +20,35 @@ class BasePage extends StatefulWidget {
 
   static const String route = '/base';
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
 
   @override
   _BasePageState createState() => _BasePageState();
 }
 
 class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
-  final List<Widget> pages = <Widget>[
-    Navigator(key: ProfilePage.navKey, onGenerateRoute: (RouteSettings route) => ProfilePage.pageRoute),
-    Navigator(key: NotificationsPage.navKey, onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
-    Navigator(key: PublicInfoPage.navKey, onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
-    Navigator(key: SettingsPage.navKey, onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
-  ];
+  // final List<Widget> pages = <Widget>[
+  //   Navigator(
+  //       key: ProfilePage.navKey,
+  //       onGenerateRoute: (RouteSettings route) => ProfilePage.pageRoute),
+  //   Navigator(
+  //       key: NotificationsPage.navKey,
+  //       onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
+  //   Navigator(
+  //       key: PublicInfoPage.navKey,
+  //       onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
+  //   Navigator(
+  //       key: SettingsPage.navKey,
+  //       onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
+  // ];
 
   AppViewmodel appViewmodel;
 
   @override
   void didChangeDependencies() {
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
+    appViewmodel.checkType();
     super.didChangeDependencies();
   }
 
@@ -51,9 +61,11 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
         body: buildBaseScreenBody,
         bottomNavigationBar: Container(
           height: 60.0 + context.mediaQuery.padding.bottom,
-          decoration: const BoxDecoration(color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
+          decoration: const BoxDecoration(
+              color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
           child: Column(children: <Widget>[
-            Expanded(child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
+            Expanded(
+                child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
           ]),
         ),
       ),
@@ -77,7 +89,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
                     animation: animation,
                     child: child,
                   ),
-                  child: pages[appViewmodel.pageIndex.index],
+                  child: appViewmodel.pages[appViewmodel.pageIndex.index],
                 ),
               ),
             ],
@@ -86,7 +98,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
       );
 
   Future<bool> onWillPop() async {
-    if (appViewmodel.pageIndex == PageIndex.home) {
+    if (appViewmodel.pageIndex == PageIndex.profile) {
       bool exitConfirmed = false;
       await showConfirmDialog(
         context,
@@ -95,7 +107,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
       );
       return exitConfirmed;
     } else {
-      appViewmodel.navigateTo(PageIndex.home);
+      appViewmodel.navigateTo(PageIndex.profile);
       return Future<bool>.value(false);
     }
   }

@@ -156,12 +156,15 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void login({String userName, String password}) {
-    loginFuture = futureWrapper(
-      () => _authRepository
-          .login(userName: userName, password: password)
+  void login({String userName, String password, String type}) {
+    loginFuture = futureWrapper(() async {
+      await _prefsRepository.setType(type);
+      await _authRepository
+          .login(userName: userName, password: password, type: type)
           .whenSuccess(
-            (res) => res.apply(() async {
+            (res) => apply(() async {
+              print('ttttt');
+
               int id = await _authRepository.getPlayerId(
                   token: _prefsRepository.token);
               await _prefsRepository.setPlayer(PlayerModel(id: id));
@@ -170,10 +173,20 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
                     BasePage.route, (_) => false),
               );
             }),
-          ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
-    );
+          );
+
+      return loginFuture;
+    });
   }
+
+  // @action
+  // void login({String userName, String password, String type}) {
+  //   loginFuture = futureWrapper(() {
+  //     return loginFuture;
+  //   };}
+
+  // });
+  //   () =>
 
   @action
   void sendOTP({

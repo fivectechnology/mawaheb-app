@@ -80,6 +80,11 @@
   "lbl_sign_up": "تسجيل جديد",
   "lbl_otp": "OTP",
   "lbl_new_email": "البريد الالكتروني الجديد",
+  "lbl_type": "نوع الحساب",
+  "lbl_profile": "الحساب الشخصي",
+  "lbl_players": "اللاعبون",
+  "lbl_available_players": "اللاعبون المتاحون",
+
 
 
   "lbl_old_password": "كلمة المرور القديمة",

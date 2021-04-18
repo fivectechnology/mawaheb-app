@@ -7,6 +7,9 @@ abstract class PrefsRepository {
   String get token;
   Future<bool> setToken();
 
+  String get type;
+  Future<bool> setType(String type);
+
   String get fbToken;
   Future<bool> setFbToken(String fbToken);
 

@@ -6,7 +6,8 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 
 class MawahebBottomNavigationBar extends StatelessWidget {
-  const MawahebBottomNavigationBar({Key key, @required this.appViewModel}) : super(key: key);
+  const MawahebBottomNavigationBar({Key key, @required this.appViewModel})
+      : super(key: key);
 
   final AppViewmodel appViewModel;
 
@@ -19,15 +20,16 @@ class MawahebBottomNavigationBar extends StatelessWidget {
           elevation: 0,
           backgroundColor: WHITE,
           currentIndex: appViewModel.pageIndex.index,
-          onTap: (int index) => appViewModel.navigateTo(PageIndex.values[index]),
+          onTap: (int index) =>
+              appViewModel.navigateTo(PageIndex.values[index]),
           selectedLabelStyle: const TextStyle(fontSize: 12.0),
           unselectedLabelStyle: const TextStyle(fontSize: 10.0),
           showSelectedLabels: true,
           showUnselectedLabels: true,
           items: [
             bottomNavigationBarTile(
-              title: context.translate(getTitle(PageIndex.home)),
-              index: PageIndex.home.index,
+              title: context.translate(getTitle(PageIndex.profile)),
+              index: PageIndex.profile.index,
               icon: 'assets/icons/ic_home.svg',
               activeIcon: 'assets/icons/ic_home.svg',
             ),
@@ -90,12 +92,15 @@ class MawahebBottomNavigationBar extends StatelessWidget {
     );
   }
 
-  Widget addPadding(Widget child) => Padding(padding: const EdgeInsets.only(top: 2.0), child: child);
+  Widget addPadding(Widget child) =>
+      Padding(padding: const EdgeInsets.only(top: 2.0), child: child);
 
   String getTitle(PageIndex pageIndex) {
     switch (pageIndex) {
-      case PageIndex.home:
-        return 'lbl_home';
+      case PageIndex.profile:
+        return 'lbl_profile';
+      case PageIndex.player:
+        return 'lbl_players';
       case PageIndex.notifications:
         return 'lbl_notifications';
       case PageIndex.public_info:

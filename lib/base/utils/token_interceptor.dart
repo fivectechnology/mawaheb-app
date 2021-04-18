@@ -30,9 +30,12 @@ class TokenInterceptor extends Interceptor {
   @override
   Future<RequestOptions> onRequest(RequestOptions options) async {
     if (TokenOption.needToken(options)) {
+      options.headers['type'] = prefsRepository.type;
+
       options.headers['Authorization'] = 'Basic ' + prefsRepository.token;
     }
-    options.headers['type'] = 'PLAYER';
+
+    // options.headers['type'] = prefsRepository.type;
 
     return options;
   }

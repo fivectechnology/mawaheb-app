@@ -111,7 +111,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: LOGIN_ENDPOINT,
-      withAuth: false,
+      withAuth: true,
       data: {'username': userName, 'password': password},
     );
   }

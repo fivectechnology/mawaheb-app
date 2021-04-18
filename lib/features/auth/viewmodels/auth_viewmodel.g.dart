@@ -312,11 +312,11 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void login({String userName, String password}) {
+  void login({String userName, String password, String type}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.login');
     try {
-      return super.login(userName: userName, password: password);
+      return super.login(userName: userName, password: password, type: type);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }

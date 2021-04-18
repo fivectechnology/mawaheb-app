@@ -26,7 +26,9 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<NetworkResult<bool>> login(
-          {@required String userName, @required String password}) =>
+          {@required String userName,
+          @required String password,
+          @required String type}) =>
       authDataSource
           .login(userName: userName, password: password)
           .whenSuccessWrapped((_) => _prefsRepository

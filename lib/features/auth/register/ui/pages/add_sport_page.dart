@@ -156,8 +156,6 @@ class _AddSportPageState
                             ))
                         .toList(),
                     onChanged: (v) {
-                      print(v);
-                      print(leg);
                       leg = v;
                     }),
                 Padding(
