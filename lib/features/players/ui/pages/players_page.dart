@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/user_list_tile.dart';
+import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/filter_chip_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
 
   // static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -21,7 +28,14 @@ class PlayersPage extends StatefulWidget {
 }
 
 class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
-  bool noti = false;
+  SportModel currentSport;
+  SportPositionModel position;
+  CountryModel currentCountry;
+  String hand;
+  String leg;
+  bool booked = false;
+  bool confirmed = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,64 +47,115 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (viewmodel?.players == null) {
+      viewmodel.searchPlayers();
+    }
+
+    if (viewmodel?.sports == null) {
+      viewmodel.getSports();
+    }
+    if (viewmodel?.positions == null) {
+      viewmodel.getPositions();
+    }
+    if (viewmodel?.countries == null) {
+      viewmodel.getCountries();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Card(
-                elevation: 10,
-                child: TextField(
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          filterBottomSheet();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(
-                            'assets/icons/ic_filter.svg',
-                          ),
+    return Observer(builder: (_) {
+      return viewmodel.players == null
+          ? const Center(child: MawahebLoader())
+          : Scaffold(
+              backgroundColor: Colors.white,
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Card(
+                        elevation: 10,
+                        child: TextField(
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  viewmodel.sport = null;
+                                  viewmodel.country = null;
+                                  viewmodel.position = null;
+                                  viewmodel.leg = null;
+                                  viewmodel.hand = null;
+                                  currentSport = null;
+                                  currentCountry = null;
+                                  hand = null;
+                                  leg = null;
+                                  position = null;
+
+                                  filterBottomSheet();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/ic_filter.svg',
+                                  ),
+                                ),
+                              ),
+                              hintStyle: context.textTheme.bodyText1
+                                  .copyWith(color: Colors.grey),
+                              hintText: 'Search by name',
+                              fillColor: Colors.white,
+                              filled: true,
+                              contentPadding:
+                                  EdgeInsets.all(context.fullWidth * 0.03),
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none),
                         ),
                       ),
-                      hintStyle: context.textTheme.bodyText1.copyWith(color: Colors.grey),
-                      hintText: 'Search by name',
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: EdgeInsets.all(context.fullWidth * 0.03),
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: context.fullHeight * 0.01,
+                          horizontal: context.fullWidth * 0.05),
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.start,
+                        children: [
+                          if (viewmodel.sport != null)
+                            filterChip(
+                                context: context, text: viewmodel.sport.name),
+                          if (viewmodel.country != null)
+                            filterChip(
+                                context: context, text: viewmodel.country.name),
+                          if (viewmodel.position != null)
+                            filterChip(
+                                context: context,
+                                text: viewmodel.position.name),
+                          if (viewmodel.hand != null)
+                            filterChip(context: context, text: viewmodel.hand),
+                          if (viewmodel.leg != null)
+                            filterChip(context: context, text: viewmodel.leg),
+                        ],
+                      ),
+                    ),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: viewmodel.players.length,
+                        itemBuilder: (context, index) {
+                          return userListTile(
+                              name: viewmodel.players[index].name);
+                        }),
+                  ],
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01, horizontal: context.fullWidth * 0.05),
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.start,
-                children: [
-                  filterChip(context: context, text: 'football'),
-                ],
-              ),
-            ),
-            ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return userListTile();
-                })
-          ],
-        ),
-      ),
-    );
+            );
+    });
   }
 
   void filterBottomSheet() {
@@ -100,40 +165,107 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
         builder: (context) => Wrap(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(context.translate('lbl_filter'),
-                          style: context.textTheme.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+                          style: context.textTheme.headline2.copyWith(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
                       mawhaebDropDown(
-                          textColor: Colors.black, hint: context.translate('lbl_nationality'), context: context),
-                      const SizedBox(height: 26),
-                      mawhaebDropDown(textColor: Colors.black, hint: context.translate('lbl_sport'), context: context),
+                        hint: 'lbl_nationality',
+                        context: context,
+                        onChanged: (value) {
+                          currentCountry = value;
+                        },
+                        items: viewmodel.countries
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em.name),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          textColor: Colors.black, hint: context.translate('lbl_position'), context: context),
+                        hint: context.translate('lbl_sport_name'),
+                        context: context,
+                        onChanged: (value) {
+                          currentSport = value;
+                        },
+                        items: viewmodel.sports
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em.name),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          textColor: Colors.black, hint: context.translate('lbl_prefer_hand'), context: context),
+                        hint: context.translate('lbl_position'),
+                        context: context,
+                        onChanged: (value) {
+                          position = value;
+                        },
+                        items: viewmodel.positions
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em.name),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          textColor: Colors.black, hint: context.translate('lbl_prefer_hand'), context: context),
+                          hint: context.translate('lbl_prefer_hand'),
+                          context: context,
+                          items: ['RIGHT', 'LEFT', 'BOTH']
+                              .map((e) => DropdownMenuItem(
+                                    child: Text(e),
+                                    value: e,
+                                  ))
+                              .toList(),
+                          onChanged: (v) {
+                            hand = v;
+                          }),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                          hint: context.translate('lbl_prefer_leg'),
+                          context: context,
+                          items: ['RIGHT', 'LEFT', 'BOTH']
+                              .map((e) => DropdownMenuItem(
+                                    child: Text(e),
+                                    value: e,
+                                  ))
+                              .toList(),
+                          onChanged: (v) {
+                            print(v);
+                            print(leg);
+                            leg = v;
+                          }),
                       const SizedBox(height: 26),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_confirmed_by_us'),
-                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                          const NotificationButton(),
+                              style: textTheme.subtitle1.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                          NotificationButton(
+                            isSelected: viewmodel.confirmed,
+                            onChanged: (val) {
+                              viewmodel.confirmed = val;
+                            },
+                          ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_booked_by_us'),
-                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                          const NotificationButton()
+                              style: textTheme.subtitle1.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                          NotificationButton(
+                            isSelected: booked,
+                          )
                         ],
                       ),
                       const SizedBox(height: 26),
@@ -143,7 +275,17 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         textColor: Colors.black,
                         borderColor: Colors.black,
                         text: 'lbl_filter',
-                        onPressed: () {},
+                        onPressed: () {
+                          viewmodel.sport = currentSport;
+                          viewmodel.country = currentCountry;
+                          viewmodel.position = position;
+                          viewmodel.leg = leg;
+                          viewmodel.hand = hand;
+                          context.pop();
+
+                          // print(confirmed);
+                          // print(booked);
+                        },
                       )
                     ],
                   ),

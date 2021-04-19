@@ -45,6 +45,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   ];
 
   //* OBSERVERS *//
+
   @observable
   ObservableFuture<PlayerModel> playerFuture;
 

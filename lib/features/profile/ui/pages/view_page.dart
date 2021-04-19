@@ -59,7 +59,7 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
                     itemCount: viewmodel.views.length,
                     itemBuilder: (context, index) {
                       return userListTile(
-                          clubName: viewmodel.views[index].partner.name);
+                          name: viewmodel.views[index].partner.name);
                     })
               ],
             ),
