@@ -96,7 +96,8 @@ class _ForgotPasswordPageState
                           //     .push(ResetPasswordPagee.pageRoute(viewmodel));
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-
+                            viewmodel.forgetPasswordEmail =
+                                _emailController.text;
                             viewmodel.forgetPassword(
                                 email: _emailController.text);
                             context.navigator

@@ -2,6 +2,8 @@ import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
@@ -48,6 +50,15 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<PlayerModel> playerFuture;
+
+  @observable
+  ObservableFuture<PlayerModel> editAddressPlayerFuture;
+
+  @observable
+  ObservableFuture<PlayerModel> editPersonalPlayerFuture;
+
+  @observable
+  ObservableFuture<PlayerModel> editSportPlayerFuture;
 
   @observable
   ObservableFuture<List<CategoryModel>> categoryFuture;
@@ -148,12 +159,13 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
     String phone,
     CountryModel country,
     CategoryModel categoryModel,
+    int id,
   }) {
-    playerFuture = futureWrapper(
+    editPersonalPlayerFuture = futureWrapper(
       () => _authRepository
           .addPersonalInfo(
               version: player.version,
-              id: player.id,
+              id: id,
               dateOfBirth: dateOfBirth,
               gender: gender,
               name: name,
@@ -170,7 +182,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @action
   void editAddressInfo(
       {String address, String area, EmirateModel emirateModel}) {
-    playerFuture = futureWrapper(
+    editAddressPlayerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
             version: player.version,
@@ -180,7 +192,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
             address: address,
           )
           .whenSuccess(
-            (res) => res.data.first.apply(() {}),
+            (res) => res.data.first.apply(() {
+              getContext((context) => context.pushNamedAndRemoveUntil(
+                  BasePage.route, (_) => false));
+            }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );

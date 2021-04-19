@@ -35,9 +35,9 @@ class EditSportPage extends StatefulWidget {
 
 class _EditSportPageState
     extends ProviderMobxState<EditSportPage, ProfileViewmodel> {
-  TextEditingController hightController = TextEditingController();
-  TextEditingController weightController = TextEditingController();
-  TextEditingController briefController = TextEditingController();
+  TextEditingController hightController;
+  TextEditingController weightController;
+  TextEditingController briefController;
   final _formKey = GlobalKey<FormState>();
 
   SportModel currentSport;
@@ -136,9 +136,12 @@ class _EditSportPageState
                     MawahebTextField(
                       hintText: context.translate('lbl_weight'),
                       hintColor: Colors.grey,
-                      context: context,
                       validator: weightValidator,
+                      onChanged: (value) {
+                        hightController = value;
+                      },
                       textEditingController: hightController,
+                      context: context,
                     ),
                     const SizedBox(height: 26),
                     MawahebTextField(
@@ -146,6 +149,9 @@ class _EditSportPageState
                       hintColor: Colors.grey,
                       context: context,
                       validator: hightValidator,
+                      onChanged: (value) {
+                        weightController = value;
+                      },
                       textEditingController: weightController,
                     ),
                     const SizedBox(height: 26),
@@ -211,13 +217,16 @@ class _EditSportPageState
                               _formKey.currentState.save();
 
                               viewmodel.editSportInfo(
-                                height: int.parse(hightController.text),
-                                weight: int.parse(weightController.text),
-                                hand: hand,
-                                leg: leg,
-                                brief: briefController.text,
-                                sport: currentSport,
-                                position: position,
+                                height: int.parse(hightController.text) ??
+                                    viewmodel.player.height,
+                                weight: int.parse(weightController.text) ??
+                                    viewmodel.player.weight,
+                                hand: hand ?? viewmodel.player.hand,
+                                leg: leg ?? viewmodel.player.leg,
+                                brief: briefController.text ??
+                                    viewmodel.player.brief,
+                                sport: currentSport ?? viewmodel.player.sport,
+                                position: position ?? viewmodel.player.position,
                               );
                               context.navigator.pop();
                             }

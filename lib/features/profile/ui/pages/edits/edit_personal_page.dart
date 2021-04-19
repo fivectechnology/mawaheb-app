@@ -37,9 +37,9 @@ class EditPersonalPage extends StatefulWidget {
 
 class _EditPersonalPageState
     extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _dateOfBirthController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _nameController;
+  TextEditingController _dateOfBirthController;
+  TextEditingController _phoneController;
   final _formKey = GlobalKey<FormState>();
 
   CountryModel currentCountry;
@@ -64,10 +64,6 @@ class _EditPersonalPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _nameController = TextEditingController(text: viewmodel.player.name);
-    _dateOfBirthController =
-        TextEditingController(text: viewmodel.player.dateOfBirth);
-    _phoneController = TextEditingController(text: viewmodel.player.phone);
 
     if (viewmodel?.categoryFuture == null) {
       viewmodel.getCategories();
@@ -75,6 +71,10 @@ class _EditPersonalPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
+    _nameController = TextEditingController(text: viewmodel.player.name);
+    _dateOfBirthController =
+        TextEditingController(text: viewmodel.player.dateOfBirth);
+    _phoneController = TextEditingController(text: viewmodel.player.phone);
   }
 
   String nameValidator(String name) {
@@ -140,6 +140,9 @@ class _EditPersonalPageState
                       hintColor: Colors.grey,
                       textEditingController: _nameController,
                       context: context,
+                      onChanged: (value) {
+                        _nameController = value;
+                      },
                       validator: nameValidator,
                     ),
                     const SizedBox(height: 26),
@@ -148,6 +151,9 @@ class _EditPersonalPageState
                         hintColor: Colors.grey,
                         textEditingController: _dateOfBirthController,
                         validator: dateValidator,
+                        onChanged: (value) {
+                          _dateOfBirthController = value;
+                        },
                         context: context),
                     const SizedBox(height: 26),
                     MawahebTextField(
@@ -155,6 +161,9 @@ class _EditPersonalPageState
                         hintColor: Colors.grey,
                         textEditingController: _phoneController,
                         validator: phoneValidator,
+                        onChanged: (value) {
+                          _phoneController = value;
+                        },
                         context: context),
                     const SizedBox(height: 26),
                     mawhaebDropDown(
@@ -212,12 +221,17 @@ class _EditPersonalPageState
                               if (_formKey.currentState.validate()) {
                                 _formKey.currentState.save();
                                 viewmodel.editPersonalInfo(
-                                  phone: _phoneController.text,
-                                  name: _nameController.text,
-                                  gender: gender,
-                                  dateOfBirth: _dateOfBirthController.text,
-                                  categoryModel: currentCategory,
-                                  country: currentCountry,
+                                  phone: _phoneController.text ??
+                                      viewmodel.player.phone,
+                                  name:
+                                      _nameController.text ?? viewmodel.player,
+                                  gender: gender ?? viewmodel.player.gender,
+                                  dateOfBirth: _dateOfBirthController.text ??
+                                      viewmodel.player.dateOfBirth,
+                                  categoryModel: currentCategory ??
+                                      viewmodel.player.category,
+                                  country: currentCountry ??
+                                      viewmodel.player.country,
                                 );
                                 context.navigator.pop();
                               }

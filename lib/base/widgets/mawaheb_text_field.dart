@@ -5,7 +5,9 @@ class MawahebTextField extends StatefulWidget {
   const MawahebTextField(
       {Key key,
       this.hintText,
+      this.onChanged,
       this.isSuffixIcon,
+      this.initialValue,
       this.context,
       this.hintColor,
       this.textEditingController,
@@ -18,8 +20,10 @@ class MawahebTextField extends StatefulWidget {
   final bool isSuffixIcon;
   final BuildContext context;
   final Color hintColor;
+  final Function onChanged;
   final String Function(String) validator;
   final TextEditingController textEditingController;
+  final String initialValue;
 
   @override
   _MawahebTextFieldState createState() => _MawahebTextFieldState();
@@ -34,6 +38,8 @@ class _MawahebTextFieldState extends State<MawahebTextField> {
       // ignore: avoid_bool_literals_in_conditional_expressions
       obscureText: widget.useObscure ? !showPassword : false,
       validator: widget.validator,
+      onChanged: widget.onChanged,
+      initialValue: widget.initialValue,
       controller: widget.textEditingController,
       decoration: InputDecoration(
         enabledBorder: const UnderlineInputBorder(

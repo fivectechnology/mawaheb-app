@@ -5,7 +5,6 @@ import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -33,8 +32,8 @@ class EditAddressPage extends StatefulWidget {
 
 class _EditAddressPageState
     extends ProviderMobxState<EditAddressPage, ProfileViewmodel> {
-  TextEditingController stateController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController stateController;
+  TextEditingController addressController;
   final _formKey = GlobalKey<FormState>();
 
   EmirateModel currentEmirate;
@@ -110,6 +109,9 @@ class _EditAddressPageState
                       hintText: 'lbl_state/province/area',
                       hintColor: Colors.grey,
                       validator: stateValidator,
+                      onChanged: (value) {
+                        stateController = value;
+                      },
                       textEditingController: stateController,
                       context: context,
                     ),
@@ -119,6 +121,9 @@ class _EditAddressPageState
                       hintColor: Colors.grey,
                       validator: addressValidator,
                       textEditingController: addressController,
+                      onChanged: (value) {
+                        addressController = value;
+                      },
                       context: context,
                     ),
                     Expanded(
@@ -135,12 +140,16 @@ class _EditAddressPageState
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
-                                  viewmodel.editAddressInfo(
-                                      emirateModel: currentEmirate,
-                                      address: addressController.text,
-                                      area: addressController.text);
+                                  print(viewmodel.player.emirate);
+                                  print(currentEmirate);
 
-                                  context.navigator.pop();
+                                  viewmodel.editAddressInfo(
+                                      emirateModel: currentEmirate ??
+                                          viewmodel.player.emirate,
+                                      address: addressController.text ??
+                                          viewmodel.player.address,
+                                      area: stateController.text ??
+                                          viewmodel.player.area);
                                 }
                               },
                               context: context,

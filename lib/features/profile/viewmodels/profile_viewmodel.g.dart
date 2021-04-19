@@ -67,6 +67,57 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
     });
   }
 
+  final _$editAddressPlayerFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.editAddressPlayerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get editAddressPlayerFuture {
+    _$editAddressPlayerFutureAtom.reportRead();
+    return super.editAddressPlayerFuture;
+  }
+
+  @override
+  set editAddressPlayerFuture(ObservableFuture<PlayerModel> value) {
+    _$editAddressPlayerFutureAtom
+        .reportWrite(value, super.editAddressPlayerFuture, () {
+      super.editAddressPlayerFuture = value;
+    });
+  }
+
+  final _$editPersonalPlayerFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.editPersonalPlayerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get editPersonalPlayerFuture {
+    _$editPersonalPlayerFutureAtom.reportRead();
+    return super.editPersonalPlayerFuture;
+  }
+
+  @override
+  set editPersonalPlayerFuture(ObservableFuture<PlayerModel> value) {
+    _$editPersonalPlayerFutureAtom
+        .reportWrite(value, super.editPersonalPlayerFuture, () {
+      super.editPersonalPlayerFuture = value;
+    });
+  }
+
+  final _$editSportPlayerFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.editSportPlayerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get editSportPlayerFuture {
+    _$editSportPlayerFutureAtom.reportRead();
+    return super.editSportPlayerFuture;
+  }
+
+  @override
+  set editSportPlayerFuture(ObservableFuture<PlayerModel> value) {
+    _$editSportPlayerFutureAtom.reportWrite(value, super.editSportPlayerFuture,
+        () {
+      super.editSportPlayerFuture = value;
+    });
+  }
+
   final _$categoryFutureAtom =
       Atom(name: '_ProfileViewmodelBase.categoryFuture');
 
@@ -246,7 +297,8 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
       String name,
       String phone,
       CountryModel country,
-      CategoryModel categoryModel}) {
+      CategoryModel categoryModel,
+      int id}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
         name: '_ProfileViewmodelBase.editPersonalInfo');
     try {
@@ -256,7 +308,8 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           name: name,
           phone: phone,
           country: country,
-          categoryModel: categoryModel);
+          categoryModel: categoryModel,
+          id: id);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -304,6 +357,9 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   String toString() {
     return '''
 playerFuture: ${playerFuture},
+editAddressPlayerFuture: ${editAddressPlayerFuture},
+editPersonalPlayerFuture: ${editPersonalPlayerFuture},
+editSportPlayerFuture: ${editSportPlayerFuture},
 categoryFuture: ${categoryFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
