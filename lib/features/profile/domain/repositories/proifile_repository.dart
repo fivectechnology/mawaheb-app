@@ -9,7 +9,8 @@ abstract class ProfileRepository extends BaseRepository {
   const ProfileRepository(ProfileDataSource profileDataSource)
       : super(profileDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchPlayer();
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchPlayer(
+      {int id});
 
   Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews();
 }

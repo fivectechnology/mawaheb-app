@@ -229,11 +229,11 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
-  void fetchPlayer() {
+  void fetchPlayer({int id}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
         name: '_ProfileViewmodelBase.fetchPlayer');
     try {
-      return super.fetchPlayer();
+      return super.fetchPlayer(id: id);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }

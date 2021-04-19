@@ -12,16 +12,21 @@ import 'edits/edit_personal_page.dart';
 import 'edits/edit_sport_page.dart';
 
 class MyInfoPage extends StatefulWidget {
-  const MyInfoPage({Key key}) : super(key: key);
+  const MyInfoPage({Key key, this.id})
+      : super(
+          key: key,
+        );
+
+  final int id;
 
   static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const MyInfoPage());
+      MaterialPageRoute<dynamic>(builder: (_) => MyInfoPage());
 
   @override
   _MyInfoPageState createState() => _MyInfoPageState();
 }
 
-class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
+class _MyInfoPageState extends MobxState<MyInfoPage, ProfileViewmodel> {
   bool isPlayer = true;
 
   @override
@@ -37,9 +42,8 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.player == null) {
-      viewmodel.fetchPlayer();
-    }
+
+    viewmodel.fetchPlayer(id: widget.id);
   }
 
   @override
@@ -65,13 +69,14 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                           style: context.textTheme.subtitle1.copyWith(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
-                    IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: DARK_GREY,
-                        ),
-                        onPressed: () => App.navKey.currentState
-                            .push(EditSportPage.pageRoute(viewmodel))),
+                    if (viewmodel.prefsRepository.type == 'PLAYER')
+                      IconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: DARK_GREY,
+                          ),
+                          onPressed: () => App.navKey.currentState
+                              .push(EditSportPage.pageRoute(viewmodel))),
                   ],
                 ),
               ),
@@ -119,13 +124,14 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                           style: context.textTheme.subtitle1.copyWith(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
-                    IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: DARK_GREY,
-                        ),
-                        onPressed: () => App.navKey.currentState
-                            .push(EditPersonalPage.pageRoute(viewmodel))),
+                    if (viewmodel.prefsRepository.type == 'PLAYER')
+                      IconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: DARK_GREY,
+                          ),
+                          onPressed: () => App.navKey.currentState
+                              .push(EditPersonalPage.pageRoute(viewmodel))),
                   ],
                 ),
               ),
@@ -169,13 +175,14 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                           style: context.textTheme.subtitle1.copyWith(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
-                    IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: DARK_GREY,
-                        ),
-                        onPressed: () => App.navKey.currentState
-                            .push(EditAddressPage.pageRoute(viewmodel))),
+                    if (viewmodel.prefsRepository.type == 'PLAYER')
+                      IconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: DARK_GREY,
+                          ),
+                          onPressed: () => App.navKey.currentState
+                              .push(EditAddressPage.pageRoute(viewmodel))),
                   ],
                 ),
               ),

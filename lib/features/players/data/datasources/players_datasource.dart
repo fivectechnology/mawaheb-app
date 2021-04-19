@@ -52,10 +52,10 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {
           'criteria': [
-            {'fieldName': 'type', 'operator': '=', 'value': 'PLAYER'},
-            {'fieldName': 'blocked', 'operator': '=', 'value': false},
-            {'fieldName': 'status', 'operator': '=', 'value': 'INACTIVE'},
-            {'fieldName': 'availability', 'operator': '=', 'value': 'RELEASED'}
+            // {'fieldName': 'type', 'operator': '=', 'value': 'PLAYER'},
+            // {'fieldName': 'blocked', 'operator': '=', 'value': false},
+            // {'fieldName': 'status', 'operator': '=', 'value': 'INACTIVE'},
+            // {'fieldName': 'availability', 'operator': '=', 'value': 'RELEASED'}
             // {'fieldName': 'country', 'operator': '=', 'value': ''},
             // {'fieldName': 'sport', 'operator': '=', 'value': ''},
             // {'fieldName': 'position', 'operator': '=', 'value': ''},
@@ -64,9 +64,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        'fields': [
-          'name',
-        ]
+        'fields': ['name', 'id']
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
     );

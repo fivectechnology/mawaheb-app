@@ -15,8 +15,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
   final PrefsRepository _prefsRepository;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchPlayer() =>
-      profileDataSource.fetchProfile(id: _prefsRepository.player.id);
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchPlayer(
+          {int id}) =>
+      profileDataSource.fetchProfile(id: id);
 
   @override
   Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews() =>

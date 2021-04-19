@@ -58,6 +58,50 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
           Computed<List<SportPositionModel>>(() => super.positions,
               name: '_PlayersViewmodelBase.positions'))
       .value;
+  Computed<PlayerModel> _$playerComputed;
+
+  @override
+  PlayerModel get player =>
+      (_$playerComputed ??= Computed<PlayerModel>(() => super.player,
+              name: '_PlayersViewmodelBase.player'))
+          .value;
+  Computed<bool> _$playerLoadingComputed;
+
+  @override
+  bool get playerLoading =>
+      (_$playerLoadingComputed ??= Computed<bool>(() => super.playerLoading,
+              name: '_PlayersViewmodelBase.playerLoading'))
+          .value;
+
+  final _$playerIdAtom = Atom(name: '_PlayersViewmodelBase.playerId');
+
+  @override
+  int get playerId {
+    _$playerIdAtom.reportRead();
+    return super.playerId;
+  }
+
+  @override
+  set playerId(int value) {
+    _$playerIdAtom.reportWrite(value, super.playerId, () {
+      super.playerId = value;
+    });
+  }
+
+  final _$playerNameAtom = Atom(name: '_PlayersViewmodelBase.playerName');
+
+  @override
+  String get playerName {
+    _$playerNameAtom.reportRead();
+    return super.playerName;
+  }
+
+  @override
+  set playerName(String value) {
+    _$playerNameAtom.reportWrite(value, super.playerName, () {
+      super.playerName = value;
+    });
+  }
 
   final _$sportAtom = Atom(name: '_PlayersViewmodelBase.sport');
 
@@ -210,6 +254,21 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
     });
   }
 
+  final _$playerFutureAtom = Atom(name: '_PlayersViewmodelBase.playerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get playerFuture {
+    _$playerFutureAtom.reportRead();
+    return super.playerFuture;
+  }
+
+  @override
+  set playerFuture(ObservableFuture<PlayerModel> value) {
+    _$playerFutureAtom.reportWrite(value, super.playerFuture, () {
+      super.playerFuture = value;
+    });
+  }
+
   final _$_PlayersViewmodelBaseActionController =
       ActionController(name: '_PlayersViewmodelBase');
 
@@ -270,6 +329,8 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   @override
   String toString() {
     return '''
+playerId: ${playerId},
+playerName: ${playerName},
 sport: ${sport},
 country: ${country},
 position: ${position},
@@ -280,13 +341,16 @@ playersFuture: ${playersFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
 countryFuture: ${countryFuture},
+playerFuture: ${playerFuture},
 isConfirmed: ${isConfirmed},
 filterCountry: ${filterCountry},
 filterPosition: ${filterPosition},
 players: ${players},
 sports: ${sports},
 countries: ${countries},
-positions: ${positions}
+positions: ${positions},
+player: ${player},
+playerLoading: ${playerLoading}
     ''';
   }
 }

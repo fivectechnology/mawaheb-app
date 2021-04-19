@@ -12,6 +12,7 @@ import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
+import 'package:core_sdk/utils/extensions/mobx.dart';
 
 part 'players_viewmodel.g.dart';
 
@@ -32,6 +33,12 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   final AuthRepository _authRepository;
 
   //* OBSERVERS *//
+
+  @observable
+  int playerId;
+
+  @observable
+  String playerName;
 
   @observable
   SportModel sport;
@@ -63,6 +70,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<List<CountryModel>> countryFuture;
 
+  @observable
+  ObservableFuture<PlayerModel> playerFuture;
+
   //* COMPUTED *//
 
   @computed
@@ -86,10 +96,27 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @computed
   List<SportPositionModel> get positions => positionFuture?.value;
 
+  @computed
+  PlayerModel get player => playerFuture?.value;
+
+  @computed
+  bool get playerLoading => playerFuture?.isPending ?? false;
+
   // @computed
   // bool get playerLoading => playersFuture?.value ?? false;
 
   //* ACTIONS *//
+  // @action
+  // void fetchPlayer() => playerFuture = futureWrapper(
+  //       () => _profileRepository
+  //       .fetchPlayer()
+  //       .whenSuccess((res) => res.data.first.apply(() async {
+  //     if (_prefsRepository.player == null) {
+  //       await _prefsRepository.setPlayer(res.data.first);
+  //     }
+  //   })),
+  //   catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  // );
 
   @action
   void getSports() => sportFuture = futureWrapper(

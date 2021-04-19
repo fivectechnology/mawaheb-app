@@ -1,6 +1,7 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
@@ -8,6 +9,7 @@ import 'package:mawaheb_app/base/widgets/user_list_tile.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:mawaheb_app/features/players/ui/pages/view_player_profile.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/filter_chip_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -148,8 +150,20 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         shrinkWrap: true,
                         itemCount: viewmodel.players.length,
                         itemBuilder: (context, index) {
-                          return userListTile(
-                              name: viewmodel.players[index].name);
+                          return InkWell(
+                            onTap: () {
+                              viewmodel.playerName =
+                                  viewmodel.players[index].name;
+
+                              viewmodel.playerId = viewmodel.players[index].id;
+
+                              App.navKey.currentState.push(ViewPlayerProfile(
+                                id: viewmodel.players[index].id,
+                              ).pageRoute(viewmodel));
+                            },
+                            child: userListTile(
+                                name: viewmodel.players[index].name),
+                          );
                         }),
                   ],
                 ),

@@ -32,13 +32,13 @@ class ProfileViewmodel extends _ProfileViewmodelBase with _$ProfileViewmodel {
 
 abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   _ProfileViewmodelBase(Logger logger, this._profileRepository,
-      this._authRepository, this._prefsRepository)
+      this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
-  final PrefsRepository _prefsRepository;
+  final PrefsRepository prefsRepository;
 
-  List<Widget> pages = const [
+  List<Widget> pages = [
     MyInfoPage(),
     VideosPage(),
     ViewsPage(),
@@ -129,12 +129,12 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void fetchPlayer() => playerFuture = futureWrapper(
+  void fetchPlayer({int id}) => playerFuture = futureWrapper(
         () => _profileRepository
-            .fetchPlayer()
+            .fetchPlayer(id: id)
             .whenSuccess((res) => res.data.first.apply(() async {
-                  if (_prefsRepository.player == null) {
-                    await _prefsRepository.setPlayer(res.data.first);
+                  if (prefsRepository.player == null) {
+                    await prefsRepository.setPlayer(res.data.first);
                   }
                 })),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
