@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key key}) : super(key: key);
@@ -34,37 +35,6 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  String nameValidator(String name) {
-    if (name.isEmpty) {
-      return 'Name is empty';
-    } else if (name.length < 3) {
-      return 'name is too short';
-    }
-    return null;
-  }
-
-  String passwordValidator(String password) {
-    if (password.isEmpty) {
-      return 'Password empty';
-    } else if (password.length < 3) {
-      return 'Password is too short';
-    }
-    return null;
-  }
-
-  String emailValidator(String email) {
-    const Pattern pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
-        r'{0,253}[a-zA-Z0-9])?)*$';
-    final RegExp regex = RegExp(pattern);
-
-    if (!regex.hasMatch(email) || email == null)
-      return 'Enter a valid email address';
-    else
-      return null;
   }
 
   @override

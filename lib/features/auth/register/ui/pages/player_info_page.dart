@@ -4,6 +4,7 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
@@ -63,33 +64,6 @@ class _PlayerInfoPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
-  }
-
-  String nameValidator(String name) {
-    if (name.isEmpty) {
-      return 'FullName is empty';
-    } else if (name.length < 3) {
-      return 'FullName must be more than 2 character';
-    }
-    return null;
-  }
-
-  String dateValidator(String date) {
-    if (date.isEmpty) {
-      return 'date is empty';
-    }
-    return null;
-  }
-
-  String phoneValidator(String phone) {
-    const String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    final RegExp regExp = RegExp(pattern);
-    if (phone.isEmpty) {
-      return 'Please enter mobile number';
-    } else if (!regExp.hasMatch(phone)) {
-      return 'Please enter valid mobile number (10 digits)';
-    }
-    return null;
   }
 
   Future getImage() async {

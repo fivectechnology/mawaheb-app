@@ -5,6 +5,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
@@ -63,20 +64,6 @@ class _AddSportPageState
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
     }
-  }
-
-  String hightValidator(String value) {
-    if (value.isEmpty) {
-      return 'State is empty';
-    }
-    return null;
-  }
-
-  String weightValidator(String value) {
-    if (value.isEmpty) {
-      return 'State is empty';
-    }
-    return null;
   }
 
   @override

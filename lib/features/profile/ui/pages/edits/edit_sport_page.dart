@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
@@ -72,20 +73,6 @@ class _EditSportPageState
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
     }
-  }
-
-  String hightValidator(String value) {
-    if (value.isEmpty) {
-      return 'Height is empty';
-    }
-    return null;
-  }
-
-  String weightValidator(String value) {
-    if (value.isEmpty) {
-      return 'Weight is empty';
-    }
-    return null;
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
@@ -41,19 +42,6 @@ class _ForgotPasswordPageState
   void dispose() {
     _emailController.dispose();
     super.dispose();
-  }
-
-  String emailValidator(String email) {
-    const Pattern pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
-        r'{0,253}[a-zA-Z0-9])?)*$';
-    final RegExp regex = RegExp(pattern);
-
-    if (!regex.hasMatch(email) || email == null)
-      return 'Enter a valid email address';
-    else
-      return null;
   }
 
   @override
