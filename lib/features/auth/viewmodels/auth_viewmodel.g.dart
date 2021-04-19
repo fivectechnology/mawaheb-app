@@ -23,6 +23,20 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       (_$loginErrorComputed ??= Computed<bool>(() => super.loginError,
               name: '_AuthViewmodelBase.loginError'))
           .value;
+  Computed<bool> _$otpLoadingComputed;
+
+  @override
+  bool get otpLoading =>
+      (_$otpLoadingComputed ??= Computed<bool>(() => super.otpLoading,
+              name: '_AuthViewmodelBase.otpLoading'))
+          .value;
+  Computed<bool> _$otpErrorComputed;
+
+  @override
+  bool get otpError =>
+      (_$otpErrorComputed ??= Computed<bool>(() => super.otpError,
+              name: '_AuthViewmodelBase.otpError'))
+          .value;
   Computed<PlayerModel> _$playerComputed;
 
   @override
@@ -72,32 +86,33 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       (_$emiratesComputed ??= Computed<List<EmirateModel>>(() => super.emirates,
               name: '_AuthViewmodelBase.emirates'))
           .value;
-  Computed<bool> _$otpLoadingComputed;
+  Computed<OTPResponseModel> _$otpCodeComputed;
 
   @override
-  bool get otpLoading =>
-      (_$otpLoadingComputed ??= Computed<bool>(() => super.otpLoading,
-              name: '_AuthViewmodelBase.otpLoading'))
+  OTPResponseModel get otpCode =>
+      (_$otpCodeComputed ??= Computed<OTPResponseModel>(() => super.otpCode,
+              name: '_AuthViewmodelBase.otpCode'))
           .value;
-  Computed<bool> _$otpErrorComputed;
-
-  @override
-  bool get otpError =>
-      (_$otpErrorComputed ??= Computed<bool>(() => super.otpError,
-              name: '_AuthViewmodelBase.otpError'))
-          .value;
-  Computed<int> _$otpCodeComputed;
-
-  @override
-  int get otpCode => (_$otpCodeComputed ??= Computed<int>(() => super.otpCode,
-          name: '_AuthViewmodelBase.otpCode'))
-      .value;
   Computed<bool> _$verifyOTPLoadingComputed;
 
   @override
   bool get verifyOTPLoading => (_$verifyOTPLoadingComputed ??= Computed<bool>(
           () => super.verifyOTPLoading,
           name: '_AuthViewmodelBase.verifyOTPLoading'))
+      .value;
+  Computed<bool> _$forgetPasswordLoadingComputed;
+
+  @override
+  bool get forgetPasswordLoading => (_$forgetPasswordLoadingComputed ??=
+          Computed<bool>(() => super.forgetPasswordLoading,
+              name: '_AuthViewmodelBase.forgetPasswordLoading'))
+      .value;
+  Computed<bool> _$forgetPasswordErrorComputed;
+
+  @override
+  bool get forgetPasswordError => (_$forgetPasswordErrorComputed ??=
+          Computed<bool>(() => super.forgetPasswordError,
+              name: '_AuthViewmodelBase.forgetPasswordError'))
       .value;
 
   final _$registerSliderModelAtom =
@@ -128,6 +143,21 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   set loginFuture(ObservableFuture<bool> value) {
     _$loginFutureAtom.reportWrite(value, super.loginFuture, () {
       super.loginFuture = value;
+    });
+  }
+
+  final _$sendOtpAtom = Atom(name: '_AuthViewmodelBase.sendOtp');
+
+  @override
+  ObservableFuture<bool> get sendOtp {
+    _$sendOtpAtom.reportRead();
+    return super.sendOtp;
+  }
+
+  @override
+  set sendOtp(ObservableFuture<bool> value) {
+    _$sendOtpAtom.reportWrite(value, super.sendOtp, () {
+      super.sendOtp = value;
     });
   }
 
@@ -221,34 +251,36 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     });
   }
 
-  final _$otpFutureAtom = Atom(name: '_AuthViewmodelBase.otpFuture');
-
-  @override
-  ObservableFuture<String> get otpFuture {
-    _$otpFutureAtom.reportRead();
-    return super.otpFuture;
-  }
-
-  @override
-  set otpFuture(ObservableFuture<String> value) {
-    _$otpFutureAtom.reportWrite(value, super.otpFuture, () {
-      super.otpFuture = value;
-    });
-  }
-
   final _$verifyOTPFutureAtom =
       Atom(name: '_AuthViewmodelBase.verifyOTPFuture');
 
   @override
-  ObservableFuture<int> get verifyOTPFuture {
+  ObservableFuture<OTPResponseModel> get verifyOTPFuture {
     _$verifyOTPFutureAtom.reportRead();
     return super.verifyOTPFuture;
   }
 
   @override
-  set verifyOTPFuture(ObservableFuture<int> value) {
+  set verifyOTPFuture(ObservableFuture<OTPResponseModel> value) {
     _$verifyOTPFutureAtom.reportWrite(value, super.verifyOTPFuture, () {
       super.verifyOTPFuture = value;
+    });
+  }
+
+  final _$forgetPasswordFutureAtom =
+      Atom(name: '_AuthViewmodelBase.forgetPasswordFuture');
+
+  @override
+  ObservableFuture<bool> get forgetPasswordFuture {
+    _$forgetPasswordFutureAtom.reportRead();
+    return super.forgetPasswordFuture;
+  }
+
+  @override
+  set forgetPasswordFuture(ObservableFuture<bool> value) {
+    _$forgetPasswordFutureAtom.reportWrite(value, super.forgetPasswordFuture,
+        () {
+      super.forgetPasswordFuture = value;
     });
   }
 
@@ -311,11 +343,11 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void login({String userName, String password}) {
+  void login({String userName, String password, String type}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.login');
     try {
-      return super.login(userName: userName, password: password);
+      return super.login(userName: userName, password: password, type: type);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -346,16 +378,12 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void signUp(
-      {String displayName, String email, String password, String code}) {
+  void signUp({String displayName, String email, String password}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.signUp');
     try {
-      return super.signUp(
-          displayName: displayName,
-          email: email,
-          password: password,
-          code: code);
+      return super
+          .signUp(displayName: displayName, email: email, password: password);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -434,20 +462,56 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
+  void forgetPassword({String email}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.forgetPassword');
+    try {
+      return super.forgetPassword(email: email);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void verifyOTPPassword({int code}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.verifyOTPPassword');
+    try {
+      return super.verifyOTPPassword(code: code);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetPassword({String password, String email, int code}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.resetPassword');
+    try {
+      return super.resetPassword(password: password, email: email, code: code);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 registerSliderModel: ${registerSliderModel},
 loginFuture: ${loginFuture},
+sendOtp: ${sendOtp},
 registerFuture: ${registerFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
 categoryFuture: ${categoryFuture},
 countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
-otpFuture: ${otpFuture},
 verifyOTPFuture: ${verifyOTPFuture},
+forgetPasswordFuture: ${forgetPasswordFuture},
 loginLoading: ${loginLoading},
 loginError: ${loginError},
+otpLoading: ${otpLoading},
+otpError: ${otpError},
 player: ${player},
 registerLoading: ${registerLoading},
 sports: ${sports},
@@ -455,10 +519,10 @@ countries: ${countries},
 positions: ${positions},
 categories: ${categories},
 emirates: ${emirates},
-otpLoading: ${otpLoading},
-otpError: ${otpError},
 otpCode: ${otpCode},
-verifyOTPLoading: ${verifyOTPLoading}
+verifyOTPLoading: ${verifyOTPLoading},
+forgetPasswordLoading: ${forgetPasswordLoading},
+forgetPasswordError: ${forgetPasswordError}
     ''';
   }
 }

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'otp_response_model.g.dart';
 
@@ -10,22 +9,22 @@ class OTPResponseModel with EquatableMixin {
   const OTPResponseModel({
     @required this.message,
     @required this.data,
-    @required this.code,
+    @required this.status,
   });
 
   final String message;
-  final String data;
-  final int code;
+  final int data;
+  final int status;
 
   OTPResponseModel copyWith({
     String message,
-    String data,
-    String code,
+    int data,
+    String status,
   }) {
     return OTPResponseModel(
       message: message ?? this.message,
       data: data ?? this.data,
-      code: code ?? this.code,
+      status: status ?? this.status,
     );
   }
 
@@ -36,7 +35,7 @@ class OTPResponseModel with EquatableMixin {
   List<Object> get props {
     return [
       message,
-      code,
+      status,
       data,
     ];
   }

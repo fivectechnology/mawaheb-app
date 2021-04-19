@@ -14,7 +14,8 @@ part 'splash_viewmodel.g.dart';
 
 @injectable
 class SplashViewmodel extends _SplashViewmodelBase with _$SplashViewmodel {
-  SplashViewmodel(Logger logger, PrefsRepository prefsRepository) : super(logger, prefsRepository);
+  SplashViewmodel(Logger logger, PrefsRepository prefsRepository)
+      : super(logger, prefsRepository);
 }
 
 abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
@@ -22,6 +23,8 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
     Future.delayed(2.seconds).then((_) {
       // TODO(ahmad): use this when you want to test base pages without login
       // getContext((context) => context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
+      // print(prefsRepository.user.userName);
+      // print(prefsRepository.type);
 
       // TODO(ahmad): use this in release
       getContext((context) {
@@ -34,10 +37,10 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
 
   final PrefsRepository prefsRepository;
 
-  //* OBSERVERS *//
+//* OBSERVERS *//
 
-  //* COMPUTED *//
+//* COMPUTED *//
 
-  //* ACTIONS *//
+//* ACTIONS *//
 
 }

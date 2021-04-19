@@ -23,8 +23,11 @@ class AppBarParams extends Equatable {
   final VoidCallback onBackPressed;
   final PreferredSizeWidget bottom;
 
-  static AppBarParams initial() {
-    return const AppBarParams(title: 'lbl_home', onBackPressed: null);
+  static AppBarParams initial(bool isPlayer) {
+    return AppBarParams(
+      title: isPlayer ? 'lbl_profile' : 'lbl_available_players',
+      onBackPressed: null,
+    );
   }
 
   AppBarParams copyWith({

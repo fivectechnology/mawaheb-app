@@ -20,7 +20,8 @@ class RegisterPage extends StatefulWidget {
   }) : super(key: key);
 
   static const String route = '/register';
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
@@ -31,7 +32,8 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState
+    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
 
   String pageTitle = 'lbl_sign_up';
@@ -47,7 +49,8 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.registerSliderModel,
+          (PageSliderModel sliderModel) {
         slidePage(sliderModel);
         viewmodel.registerSliderModel = null;
       }),
@@ -124,53 +127,9 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(
+            duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(
+            duration: 400.milliseconds, curve: Curves.easeOut);
   }
-
-  // TODO(ahmad): put this in seperate file
-  // Widget setp1(BuildContext context) {
-  //   return SingleChildScrollView(
-  //     child: Column(
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.symmetric(vertical: 42),
-  //           child: MawahebTextField(
-  //             context: context,
-  //             hintText: 'lbl_name',
-  //             textEditingController: _userNameController,
-  //           ),
-  //         ),
-  //         MawahebTextField(
-  //             context: context,
-  //             hintText: 'lbl_email',
-  //             textEditingController: _emailController),
-  //         Padding(
-  //           padding: const EdgeInsets.only(top: 45, bottom: 70),
-  //           child: MawahebTextField(
-  //             context: context,
-  //             hintText: 'lbl_password',
-  //             textEditingController: _passwordController,
-  //             isSuffixIcon: true,
-  //             useObscure: true,
-  //           ),
-  //         ),
-  //         Observer(builder: (_) {
-  //           return MawahebGradientButton(
-  //             context: context,
-  //             text: 'lbl_sign_up',
-  //             isLoading: viewmodel.registerLoading,
-  //             // onPressed: () => viewmodel.signUp(
-  //             //   username: _userNameController.text,
-  //             //   email: _emailController.text,
-  //             //   password: _passwordController.text,
-  //             // ),
-  // TODO(ahmad): use this for test
-  //             onPressed: () => slidePage(const PageSliderForawardModel()),
-  //           );
-  //         })
-  //       ],
-  //     ),
-  //   );
-  // }
 }

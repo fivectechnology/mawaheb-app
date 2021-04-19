@@ -2,7 +2,6 @@ import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:flutter/material.dart';
-import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/login/ui/pages/login_page.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';

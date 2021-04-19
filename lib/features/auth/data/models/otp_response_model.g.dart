@@ -9,8 +9,8 @@ part of 'otp_response_model.dart';
 OTPResponseModel _$OTPResponseModelFromJson(Map<String, dynamic> json) {
   return OTPResponseModel(
     message: json['message'] as String,
-    data: json['data'] as String,
-    code: json['code'] as int,
+    data: json['data'] as int,
+    status: json['status'] as int,
   );
 }
 
@@ -18,5 +18,5 @@ Map<String, dynamic> _$OTPResponseModelToJson(OTPResponseModel instance) =>
     <String, dynamic>{
       'message': instance.message,
       'data': instance.data,
-      'code': instance.code,
+      'status': instance.status,
     };

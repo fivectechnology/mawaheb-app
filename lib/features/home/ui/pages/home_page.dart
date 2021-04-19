@@ -1,7 +1,8 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
-import 'package:mawaheb_app/app/theme/colors.dart';
-import 'package:mawaheb_app/features/home/viewmodels/home_viewmodel.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
+import 'package:mawaheb_app/features/players/ui/pages/players_page.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -16,7 +17,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends MobxState<HomePage, HomeViewmodel> {
+class _HomePageState extends ProviderMobxState<HomePage, AppViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -29,7 +30,6 @@ class _HomePageState extends MobxState<HomePage, HomeViewmodel> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(ahmad): show [ProfilePage] or [PlayersPage] depends on  user role from AppViewmodel
-    return Container(color: PRIMARY);
+    return viewmodel.isPlayer ? const ProfilePage() : const PlayersPage();
   }
 }

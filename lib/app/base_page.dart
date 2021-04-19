@@ -7,8 +7,8 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_bottom_nav.dart';
+import 'package:mawaheb_app/features/home/ui/pages/home_page.dart';
 import 'package:mawaheb_app/features/notifications/ui/pages/notifications_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mawaheb_app/features/settings/ui/settings_page.dart';
 import 'package:supercharged/supercharged.dart';
@@ -28,7 +28,7 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   final List<Widget> pages = <Widget>[
-    Navigator(key: ProfilePage.navKey, onGenerateRoute: (RouteSettings route) => ProfilePage.pageRoute),
+    Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
     Navigator(key: NotificationsPage.navKey, onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
     Navigator(key: PublicInfoPage.navKey, onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
     Navigator(key: SettingsPage.navKey, onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
@@ -38,8 +38,9 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
 
   @override
   void didChangeDependencies() {
-    appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
     super.didChangeDependencies();
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
+    print('my debug user role is ${appViewmodel.userRole}');
   }
 
   @override

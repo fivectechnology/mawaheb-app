@@ -51,7 +51,14 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       action: EndPointAction.search,
       method: METHOD.POST,
       data: {
-        'fields': ['id', 'version', 'summary', 'vision', 'mission', 'ourValues']
+        'fields': [
+          'id',
+          'version',
+          'summary',
+          'vision',
+          'mission',
+          'coreValues'
+        ]
       },
       mapper: ListBaseResponseModel.fromJson(AboutUsModel.fromJson),
     );
