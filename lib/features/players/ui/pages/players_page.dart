@@ -155,6 +155,9 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                               viewmodel.playerName =
                                   viewmodel.players[index].name;
 
+                              viewmodel.viewProfilePlayer(
+                                  id: viewmodel.players[index].id);
+
                               viewmodel.playerId = viewmodel.players[index].id;
 
                               App.navKey.currentState.push(ViewPlayerProfile(

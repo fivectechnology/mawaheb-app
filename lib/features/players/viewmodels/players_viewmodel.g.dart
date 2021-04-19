@@ -9,6 +9,20 @@ part of 'players_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
+  Computed<bool> _$viewProfileLoadingComputed;
+
+  @override
+  bool get viewProfileLoading => (_$viewProfileLoadingComputed ??=
+          Computed<bool>(() => super.viewProfileLoading,
+              name: '_PlayersViewmodelBase.viewProfileLoading'))
+      .value;
+  Computed<bool> _$viewProfileErrorComputed;
+
+  @override
+  bool get viewProfileError => (_$viewProfileErrorComputed ??= Computed<bool>(
+          () => super.viewProfileError,
+          name: '_PlayersViewmodelBase.viewProfileError'))
+      .value;
   Computed<bool> _$isConfirmedComputed;
 
   @override
@@ -72,6 +86,22 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       (_$playerLoadingComputed ??= Computed<bool>(() => super.playerLoading,
               name: '_PlayersViewmodelBase.playerLoading'))
           .value;
+
+  final _$viewProfileFutureAtom =
+      Atom(name: '_PlayersViewmodelBase.viewProfileFuture');
+
+  @override
+  ObservableFuture<bool> get viewProfileFuture {
+    _$viewProfileFutureAtom.reportRead();
+    return super.viewProfileFuture;
+  }
+
+  @override
+  set viewProfileFuture(ObservableFuture<bool> value) {
+    _$viewProfileFutureAtom.reportWrite(value, super.viewProfileFuture, () {
+      super.viewProfileFuture = value;
+    });
+  }
 
   final _$playerIdAtom = Atom(name: '_PlayersViewmodelBase.playerId');
 
@@ -327,8 +357,20 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
+  void viewProfilePlayer({@required int id}) {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.viewProfilePlayer');
+    try {
+      return super.viewProfilePlayer(id: id);
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+viewProfileFuture: ${viewProfileFuture},
 playerId: ${playerId},
 playerName: ${playerName},
 sport: ${sport},
@@ -342,6 +384,8 @@ sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
 countryFuture: ${countryFuture},
 playerFuture: ${playerFuture},
+viewProfileLoading: ${viewProfileLoading},
+viewProfileError: ${viewProfileError},
 isConfirmed: ${isConfirmed},
 filterCountry: ${filterCountry},
 filterPosition: ${filterPosition},

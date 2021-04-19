@@ -16,4 +16,6 @@ abstract class PlayersRepository extends BaseRepository {
     @required String hand,
     @required String leg,
   });
+
+  Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
 }

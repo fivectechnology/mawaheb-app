@@ -43,27 +43,38 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
         return SingleChildScrollView(
           physics: const ScrollPhysics(),
           child: Container(
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(26),
-                  child: Text(context.translate('Clubs view profile'),
-                      style: textTheme.subtitle1
-                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                ),
-                ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: viewmodel.views.length,
-                    itemBuilder: (context, index) {
-                      return userListTile(
-                          name: viewmodel.views[index].partner.name);
-                    })
-              ],
-            ),
-          ),
+              color: Colors.white,
+              child: viewmodel.views != null
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(26),
+                          child: Text(context.translate('Clubs view profile'),
+                              style: textTheme.subtitle1.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                        ),
+                        ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: viewmodel.views.length,
+                            itemBuilder: (context, index) {
+                              return userListTile(
+                                  name: viewmodel.views[index].partner.name);
+                            })
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: Center(
+                        child: Text(
+                          context.translate(
+                            'msg_no_views',
+                          ),
+                          style: textTheme.headline2.copyWith(fontSize: 18),
+                        ),
+                      ),
+                    )),
         );
       },
     );

@@ -21,4 +21,8 @@ class PlayersRepositoryImpl extends PlayersRepository {
     @required String leg,
   }) =>
       playersDataSource.searchPlayers();
+
+  @override
+  Future<NetworkResult<bool>> viewPlayerProfile({int id}) =>
+      playersDataSource.viewPlayerProfile(id: id);
 }

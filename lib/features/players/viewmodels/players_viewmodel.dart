@@ -33,6 +33,8 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   final AuthRepository _authRepository;
 
   //* OBSERVERS *//
+  @observable
+  ObservableFuture<bool> viewProfileFuture;
 
   @observable
   int playerId;
@@ -72,6 +74,12 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<PlayerModel> playerFuture;
+
+  @computed
+  bool get viewProfileLoading => viewProfileFuture?.isPending ?? false;
+
+  @computed
+  bool get viewProfileError => viewProfileFuture?.isFailure ?? false;
 
   //* COMPUTED *//
 
@@ -155,4 +163,16 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
             .whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
+
+  @action
+  void viewProfilePlayer({@required int id}) {
+    viewProfileFuture = futureWrapper(
+      () => _playersRepository.viewPlayerProfile(id: id).then(
+            (res) => res.apply(() {
+              print('view profile');
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
 }

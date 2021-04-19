@@ -19,6 +19,8 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
     @required String hand,
     @required String leg,
   });
+
+  Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
 }
 
 @LazySingleton(as: PlayersDataSource)
@@ -52,7 +54,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {
           'criteria': [
-            // {'fieldName': 'type', 'operator': '=', 'value': 'PLAYER'},
+            {'fieldName': 'type', 'operator': '=', 'value': 'PLAYER'},
             // {'fieldName': 'blocked', 'operator': '=', 'value': false},
             // {'fieldName': 'status', 'operator': '=', 'value': 'INACTIVE'},
             // {'fieldName': 'availability', 'operator': '=', 'value': 'RELEASED'}
@@ -68,5 +70,23 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
     );
+  }
+
+  @override
+  Future<NetworkResult<bool>> viewPlayerProfile({@required int id}) {
+    return mawahebRequest(
+        method: METHOD.POST,
+        mawahebModel: false,
+        modelName: 'auth.db.User',
+        action: EndPointAction.fetch,
+        id: id,
+        data: {
+          'data': {
+            'criteria': [],
+            'operator': 'and',
+            'operation': 'VIEW_PLAYER_PROFILE',
+          },
+          'fields': ['name', 'id']
+        });
   }
 }
