@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 
 class NotificationButton extends StatefulWidget {
-  const NotificationButton({
-    this.onChange,
+  NotificationButton({
+    this.isSelected,
+    this.onChanged,
     Key key,
   }) : super(key: key);
 
-  final Function onChange;
+  Function onChanged;
+  bool isSelected;
 
   @override
   _NotificationButtonState createState() => _NotificationButtonState();
 }
 
 class _NotificationButtonState extends State<NotificationButton> {
-  bool noti = false;
   @override
   Widget build(BuildContext context) {
     return Switch(
-      value: noti,
-      onChanged: (value) => setState(() => noti = !noti),
+      value: widget.isSelected,
+      onChanged: widget.onChanged,
       activeTrackColor: RED,
       activeColor: Colors.white,
       inactiveTrackColor: Colors.grey,

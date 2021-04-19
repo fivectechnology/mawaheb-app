@@ -11,6 +11,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
+import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
@@ -31,19 +32,20 @@ class ProfileViewmodel extends _ProfileViewmodelBase with _$ProfileViewmodel {
 
 abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   _ProfileViewmodelBase(Logger logger, this._profileRepository,
-      this._authRepository, this._prefsRepository)
+      this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
-  final PrefsRepository _prefsRepository;
+  final PrefsRepository prefsRepository;
 
-  List<Widget> pages = const [
+  List<Widget> pages = [
     MyInfoPage(),
     VideosPage(),
     ViewsPage(),
   ];
 
   //* OBSERVERS *//
+
   @observable
   ObservableFuture<PlayerModel> playerFuture;
 
@@ -61,6 +63,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<List<EmirateModel>> emirateFuture;
+
+  @observable
+  ObservableFuture<List<ViewModel>> viewsFuture;
 
   //* COMPUTED *//
   @computed
@@ -82,6 +87,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   List<SportPositionModel> get positions => positionFuture?.value;
 
   List<EmirateModel> get emirates => emirateFuture?.value;
+
+  List<ViewModel> get views => viewsFuture?.value;
 
   //* ACTIONS *//
 
@@ -116,12 +123,18 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void fetchPlayer() => playerFuture = futureWrapper(
+  void playerViews() => viewsFuture = futureWrapper(
+        () => _profileRepository.playerViews().whenSuccess((res) => res.data),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
+
+  @action
+  void fetchPlayer({int id}) => playerFuture = futureWrapper(
         () => _profileRepository
-            .fetchPlayer()
+            .fetchPlayer(id: id)
             .whenSuccess((res) => res.data.first.apply(() async {
-                  if (_prefsRepository.player == null) {
-                    await _prefsRepository.setPlayer(res.data.first);
+                  if (prefsRepository.player == null) {
+                    await prefsRepository.setPlayer(res.data.first);
                   }
                 })),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),

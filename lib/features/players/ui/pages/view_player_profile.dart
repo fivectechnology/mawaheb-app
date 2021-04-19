@@ -1,20 +1,33 @@
+import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
+import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:mawaheb_app/features/profile/ui/widgets/profile_detail_row.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:provider/provider.dart';
 
-import 'my_info_page.dart';
+import '../../../profile/ui/pages/my_info_page.dart';
 
 class ViewPlayerProfile extends StatefulWidget {
-  const ViewPlayerProfile({Key key}) : super(key: key);
+  const ViewPlayerProfile({Key key, this.id}) : super(key: key);
+
+  final int id;
+  MaterialPageRoute pageRoute(PlayersViewmodel playersViewmodel) =>
+      MaterialPageRoute(
+        builder: (context) => Provider.value(
+          value: playersViewmodel,
+          child: const ViewPlayerProfile(),
+        ),
+      );
 
   @override
   _ViewPlayerProfileState createState() => _ViewPlayerProfileState();
 }
 
-class _ViewPlayerProfileState extends State<ViewPlayerProfile>
+class _ViewPlayerProfileState
+    extends ProviderMobxState<ViewPlayerProfile, PlayersViewmodel>
     with TickerProviderStateMixin {
   TabController _tabController;
 
@@ -32,7 +45,7 @@ class _ViewPlayerProfileState extends State<ViewPlayerProfile>
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          profileDetails(context: context),
+          profileDetails(context: context, name: viewmodel.playerName),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             height: context.fullHeight * 0.07,
@@ -67,9 +80,11 @@ class _ViewPlayerProfileState extends State<ViewPlayerProfile>
           ),
           const SizedBox(height: 26),
           Expanded(
-            child: TabBarView(controller: _tabController, children: const [
-              MyInfoPage(),
-              VideosPage(),
+            child: TabBarView(controller: _tabController, children: [
+              MyInfoPage(
+                id: viewmodel.playerId,
+              ),
+              const VideosPage(),
             ]),
           )
         ],

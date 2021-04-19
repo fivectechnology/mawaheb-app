@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget userListTile() {
+Widget userListTile({String name}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
     child: ListTile(
@@ -17,8 +17,7 @@ Widget userListTile() {
               )),
         ),
       ),
-      title: const Text('Club name'),
-      subtitle: const Text('Club'),
+      title: Text(name),
     ),
   );
 }

@@ -27,6 +27,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
   Lang _lang = Lang.english;
+  bool noti = false;
 
   @override
   void initState() {
@@ -59,7 +60,9 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                       Text(context.translate('lbl_app_notification'),
                           style: textTheme.subtitle1.copyWith(
                               fontSize: 14, fontWeight: FontWeight.bold)),
-                      const NotificationButton(),
+                      NotificationButton(
+                        isSelected: noti,
+                      ),
                     ],
                   ),
                 ),
