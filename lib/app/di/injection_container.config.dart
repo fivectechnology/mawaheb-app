@@ -93,8 +93,8 @@ Future<GetIt> $inject(
         connectionChecker: get<DataConnectionChecker>(),
         logger: get<Logger>(),
       ));
-  gh.lazySingleton<PlayersRepository>(
-      () => PlayersRepositoryImpl(get<PlayersDataSource>()));
+  gh.lazySingleton<PlayersRepository>(() =>
+      PlayersRepositoryImpl(get<PlayersDataSource>(), get<PrefsRepository>()));
   gh.lazySingleton<ProfileDataSource>(() => ProfileDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -149,6 +149,7 @@ Future<GetIt> $inject(
         get<Logger>(),
         get<PlayersRepository>(),
         get<AuthRepository>(),
+        get<ProfileRepository>(),
       ));
   gh.factory<ProfileViewmodel>(() => ProfileViewmodel(
         get<Logger>(),

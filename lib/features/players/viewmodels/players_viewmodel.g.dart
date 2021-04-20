@@ -23,6 +23,20 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
           () => super.viewProfileError,
           name: '_PlayersViewmodelBase.viewProfileError'))
       .value;
+  Computed<bool> _$bookPlayerLoadingComputed;
+
+  @override
+  bool get bookPlayerLoading => (_$bookPlayerLoadingComputed ??= Computed<bool>(
+          () => super.bookPlayerLoading,
+          name: '_PlayersViewmodelBase.bookPlayerLoading'))
+      .value;
+  Computed<bool> _$bookPlayerErrorComputed;
+
+  @override
+  bool get bookPlayerError =>
+      (_$bookPlayerErrorComputed ??= Computed<bool>(() => super.bookPlayerError,
+              name: '_PlayersViewmodelBase.bookPlayerError'))
+          .value;
   Computed<bool> _$isConfirmedComputed;
 
   @override
@@ -100,6 +114,22 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   set viewProfileFuture(ObservableFuture<bool> value) {
     _$viewProfileFutureAtom.reportWrite(value, super.viewProfileFuture, () {
       super.viewProfileFuture = value;
+    });
+  }
+
+  final _$bookPlayerFutureAtom =
+      Atom(name: '_PlayersViewmodelBase.bookPlayerFuture');
+
+  @override
+  ObservableFuture<bool> get bookPlayerFuture {
+    _$bookPlayerFutureAtom.reportRead();
+    return super.bookPlayerFuture;
+  }
+
+  @override
+  set bookPlayerFuture(ObservableFuture<bool> value) {
+    _$bookPlayerFutureAtom.reportWrite(value, super.bookPlayerFuture, () {
+      super.bookPlayerFuture = value;
     });
   }
 
@@ -318,6 +348,17 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       ActionController(name: '_PlayersViewmodelBase');
 
   @override
+  void fetchPlayer({int id}) {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.fetchPlayer');
+    try {
+      return super.fetchPlayer(id: id);
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void getSports() {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.getSports');
@@ -385,9 +426,21 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
+  void bookPlayer({@required int playerId}) {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.bookPlayer');
+    try {
+      return super.bookPlayer(playerId: playerId);
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 viewProfileFuture: ${viewProfileFuture},
+bookPlayerFuture: ${bookPlayerFuture},
 playerId: ${playerId},
 playerName: ${playerName},
 searchName: ${searchName},
@@ -404,6 +457,8 @@ countryFuture: ${countryFuture},
 playerFuture: ${playerFuture},
 viewProfileLoading: ${viewProfileLoading},
 viewProfileError: ${viewProfileError},
+bookPlayerLoading: ${bookPlayerLoading},
+bookPlayerError: ${bookPlayerError},
 isConfirmed: ${isConfirmed},
 filterCountry: ${filterCountry},
 filterPosition: ${filterPosition},

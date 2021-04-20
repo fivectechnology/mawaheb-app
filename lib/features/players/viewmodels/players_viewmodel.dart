@@ -8,6 +8,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/players/domain/repositiories/players_repository.dart';
+import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:supercharged/supercharged.dart';
@@ -18,23 +19,25 @@ part 'players_viewmodel.g.dart';
 
 @injectable
 class PlayersViewmodel extends _PlayersViewmodelBase with _$PlayersViewmodel {
-  PlayersViewmodel(
-    Logger logger,
-    PlayersRepository playersRepository,
-    AuthRepository authRepository,
-  ) : super(logger, playersRepository, authRepository);
+  PlayersViewmodel(Logger logger, PlayersRepository playersRepository,
+      AuthRepository authRepository, ProfileRepository profileRepository)
+      : super(logger, playersRepository, authRepository, profileRepository);
 }
 
 abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
-  _PlayersViewmodelBase(
-      Logger logger, this._playersRepository, this._authRepository)
+  _PlayersViewmodelBase(Logger logger, this._playersRepository,
+      this._authRepository, this._profileRepository)
       : super(logger);
   final PlayersRepository _playersRepository;
   final AuthRepository _authRepository;
+  final ProfileRepository _profileRepository;
 
   //* OBSERVERS *//
   @observable
   ObservableFuture<bool> viewProfileFuture;
+
+  @observable
+  ObservableFuture<bool> bookPlayerFuture;
 
   @observable
   int playerId;
@@ -84,6 +87,12 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get viewProfileError => viewProfileFuture?.isFailure ?? false;
 
+  @computed
+  bool get bookPlayerLoading => bookPlayerFuture?.isPending ?? false;
+
+  @computed
+  bool get bookPlayerError => bookPlayerFuture?.isFailure ?? false;
+
   //* COMPUTED *//
 
   @computed
@@ -117,17 +126,13 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   // bool get playerLoading => playersFuture?.value ?? false;
 
   //* ACTIONS *//
-  // @action
-  // void fetchPlayer() => playerFuture = futureWrapper(
-  //       () => _profileRepository
-  //       .fetchPlayer()
-  //       .whenSuccess((res) => res.data.first.apply(() async {
-  //     if (_prefsRepository.player == null) {
-  //       await _prefsRepository.setPlayer(res.data.first);
-  //     }
-  //   })),
-  //   catchBlock: (err) => showSnack(err, duration: 2.seconds),
-  // );
+  @action
+  void fetchPlayer({int id}) => playerFuture = futureWrapper(
+        () => _profileRepository
+            .fetchPlayer(id: id)
+            .whenSuccess((res) => res.data.first.apply(() async {})),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
 
   @action
   void getSports() => sportFuture = futureWrapper(
@@ -175,6 +180,18 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
       () => _playersRepository.viewPlayerProfile(id: id).then(
             (res) => res.apply(() {
               print('view profile');
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  void bookPlayer({@required int playerId}) {
+    bookPlayerFuture = futureWrapper(
+      () => _playersRepository.bookPlayer(playerId: playerId).then(
+            (res) => res.apply(() {
+              print('player ${player.name} booked');
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),

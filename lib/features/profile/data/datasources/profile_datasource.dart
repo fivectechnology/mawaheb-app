@@ -71,7 +71,8 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'emirate',
           'category',
           'sport',
-          'viewers'
+          'viewers',
+          'availability'
         ]
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),

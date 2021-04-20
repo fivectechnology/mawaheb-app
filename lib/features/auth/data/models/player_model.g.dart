@@ -39,6 +39,8 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
     category: json['category'] == null
         ? null
         : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
+    status: json['status'] as String,
+    availability: json['availability'] as String,
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -69,4 +71,6 @@ Map<String, dynamic> _$PlayerModelToJson(PlayerModel instance) =>
       'category': instance.category,
       'emirate': instance.emirate,
       'country': instance.country,
+      'status': instance.status,
+      'availability': instance.availability,
     };

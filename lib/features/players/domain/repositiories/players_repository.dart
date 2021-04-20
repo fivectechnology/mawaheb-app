@@ -18,4 +18,5 @@ abstract class PlayersRepository extends BaseRepository {
       @required String name});
 
   Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
+  Future<NetworkResult<bool>> bookPlayer({int playerId});
 }

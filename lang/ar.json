@@ -84,7 +84,8 @@
   "lbl_profile": "الحساب الشخصي",
   "lbl_players": "اللاعبون",
   "lbl_available_players": "اللاعبون المتاحون",
-
+  "lbl_confirm_player": "تأكيد اللاعب",
+  "lbl_book_player": "حجز اللاعب",
 
 
   "lbl_old_password": "كلمة المرور القديمة",

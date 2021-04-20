@@ -84,17 +84,15 @@
   "lbl_profile": "Profile",
   "lbl_players": "Players",
   "lbl_available_players": "Available Players",
-
   "lbl_confirm_password": "Confirm password",
   "lbl_Reset_password": "Reset password",
-
-
-
-
-
-
   "lbl_old_password": "Old password",
   "lbl_new_password": "New Password",
+  "lbl_confirm_player": "Confirm Player",
+  "lbl_book_player": "Book Player",
+
+
+
 
 
 

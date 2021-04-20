@@ -158,9 +158,8 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
 
                           viewmodel.playerId = viewmodel.players[index].id;
 
-                          App.navKey.currentState.push(ViewPlayerProfile(
-                            id: viewmodel.players[index].id,
-                          ).pageRoute(viewmodel));
+                          App.navKey.currentState
+                              .push(ViewPlayerProfile.pageRoute(viewmodel));
                         },
                         child:
                             userListTile(name: viewmodel.players[index].name),
