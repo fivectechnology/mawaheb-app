@@ -16,6 +16,7 @@ import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class EditPersonalPage extends StatefulWidget {
   const EditPersonalPage({
@@ -42,10 +43,13 @@ class _EditPersonalPageState
   TextEditingController _dateOfBirthController;
   TextEditingController _phoneController;
   final _formKey = GlobalKey<FormState>();
+  final FocusNode dateFocusNode = FocusNode()..unfocus();
 
   CountryModel currentCountry;
   CategoryModel currentCategory;
   String gender;
+  String dateOfBirth;
+
   File _image;
   final picker = ImagePicker();
 
@@ -56,6 +60,7 @@ class _EditPersonalPageState
 
   @override
   void dispose() {
+    dateFocusNode.dispose();
     _phoneController.dispose();
     _dateOfBirthController.dispose();
     _nameController.dispose();
@@ -72,10 +77,10 @@ class _EditPersonalPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
-    _nameController = TextEditingController(text: viewmodel.player.name);
-    _dateOfBirthController =
-        TextEditingController(text: viewmodel.player.dateOfBirth);
-    _phoneController = TextEditingController(text: viewmodel.player.phone);
+    // _nameController = TextEditingController(text: viewmodel.player.name);
+    // _dateOfBirthController =
+    //     TextEditingController(text: viewmodel.player.dateOfBirth);
+    // _phoneController = TextEditingController(text: viewmodel.player.phone);
   }
 
   Future getImage() async {
@@ -88,6 +93,24 @@ class _EditPersonalPageState
         print('No image selected.');
       }
     });
+  }
+
+  DateTime _selectedDate;
+
+  _selectDate(BuildContext context) async {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+    DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedDate)
+      setState(() {
+        _selectedDate = picked;
+        dateOfBirth = formatter.format(_selectedDate);
+      });
   }
 
   @override
@@ -120,15 +143,34 @@ class _EditPersonalPageState
                       validator: nameValidator,
                     ),
                     const SizedBox(height: 26),
-                    MawahebTextField(
-                        hintText: 'lbl_date_of_birth',
-                        hintColor: Colors.grey,
-                        textEditingController: _dateOfBirthController,
-                        validator: dateValidator,
-                        onChanged: (value) {
-                          _dateOfBirthController = value;
-                        },
-                        context: context),
+                    Row(
+                      children: [
+                        RaisedButton(
+                          color: Colors.white,
+                          onPressed: () => _selectDate(context),
+                          child: Text('Select Date of Birth',
+                              style: textTheme.bodyText1
+                                  .copyWith(color: TEXT_COLOR)),
+                        ),
+                        if (dateOfBirth != null)
+                          Text('  ' + dateOfBirth,
+                              style: textTheme.bodyText1
+                                  .copyWith(color: TEXT_COLOR))
+                      ],
+                    ),
+                    // MawahebTextField(
+                    //     focusNode: dateFocusNode,
+                    //     onTab: () {
+                    //       _selectDate(context);
+                    //     },
+                    //     hintText: 'lbl_date_of_birth',
+                    //     hintColor: Colors.grey,
+                    //     textEditingController: _dateOfBirthController,
+                    //     validator: dateValidator,
+                    //     onChanged: (value) {
+                    //       _dateOfBirthController = value;
+                    //     },
+                    //     context: context),
                     const SizedBox(height: 26),
                     MawahebTextField(
                         hintText: 'lbl_phone_num',
@@ -192,23 +234,24 @@ class _EditPersonalPageState
                             buttonColor: WHITE,
                             isLoading: viewmodel.playerLoading,
                             onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                viewmodel.editPersonalInfo(
-                                  phone: _phoneController.text ??
-                                      viewmodel.player.phone,
-                                  name:
-                                      _nameController.text ?? viewmodel.player,
-                                  gender: gender ?? viewmodel.player.gender,
-                                  dateOfBirth: _dateOfBirthController.text ??
-                                      viewmodel.player.dateOfBirth,
-                                  categoryModel: currentCategory ??
-                                      viewmodel.player.category,
-                                  country: currentCountry ??
-                                      viewmodel.player.country,
-                                );
-                                context.navigator.pop();
-                              }
+                              print(_selectedDate);
+                              // if (_formKey.currentState.validate()) {
+                              //   _formKey.currentState.save();
+                              //   viewmodel.editPersonalInfo(
+                              //     phone: _phoneController.text ??
+                              //         viewmodel.player.phone,
+                              //     name:
+                              //         _nameController.text ?? viewmodel.player,
+                              //     gender: gender ?? viewmodel.player.gender,
+                              //     dateOfBirth: _dateOfBirthController.text ??
+                              //         viewmodel.player.dateOfBirth,
+                              //     categoryModel: currentCategory ??
+                              //         viewmodel.player.category,
+                              //     country: currentCountry ??
+                              //         viewmodel.player.country,
+                              //   );
+                              //   context.navigator.pop();
+                              // }
                             });
                       },
                     ),

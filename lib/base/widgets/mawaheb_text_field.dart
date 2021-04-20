@@ -12,6 +12,8 @@ class MawahebTextField extends StatefulWidget {
       this.hintColor,
       this.textEditingController,
       this.useObscure = false,
+      this.onTab,
+      this.focusNode,
       this.validator})
       : super(key: key);
 
@@ -24,6 +26,8 @@ class MawahebTextField extends StatefulWidget {
   final String Function(String) validator;
   final TextEditingController textEditingController;
   final String initialValue;
+  final Function onTab;
+  final FocusNode focusNode;
 
   @override
   _MawahebTextFieldState createState() => _MawahebTextFieldState();
@@ -35,6 +39,8 @@ class _MawahebTextFieldState extends State<MawahebTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: widget.focusNode,
+      onTap: widget.onTab,
       // ignore: avoid_bool_literals_in_conditional_expressions
       obscureText: widget.useObscure ? !showPassword : false,
       validator: widget.validator,

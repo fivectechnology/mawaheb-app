@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:core_sdk/utils/colors.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,6 +14,7 @@ import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:intl/intl.dart';
 
 class PlayerInfoPage extends StatefulWidget {
   const PlayerInfoPage({
@@ -31,7 +33,6 @@ class PlayerInfoPage extends StatefulWidget {
 class _PlayerInfoPageState
     extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _dateOfBirthController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -40,6 +41,8 @@ class _PlayerInfoPageState
   String gender;
   File _image;
   final picker = ImagePicker();
+  DateTime _selectedDate;
+  String dateOfBirth;
 
   @override
   void initState() {
@@ -49,7 +52,6 @@ class _PlayerInfoPageState
   @override
   void dispose() {
     _phoneController.dispose();
-    _dateOfBirthController.dispose();
     _nameController.dispose();
     super.dispose();
   }
@@ -78,6 +80,22 @@ class _PlayerInfoPageState
     });
   }
 
+  _selectDate(BuildContext context) async {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+    DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedDate)
+      setState(() {
+        _selectedDate = picked;
+        dateOfBirth = formatter.format(_selectedDate);
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MawahebFutureBuilder(
@@ -98,12 +116,28 @@ class _PlayerInfoPageState
                   validator: nameValidator,
                 ),
                 const SizedBox(height: 26),
-                MawahebTextField(
-                    hintText: 'lbl_date_of_birth',
-                    hintColor: Colors.grey,
-                    textEditingController: _dateOfBirthController,
-                    validator: dateValidator,
-                    context: context),
+                Row(
+                  children: [
+                    RaisedButton(
+                      color: Colors.white,
+                      onPressed: () => _selectDate(context),
+                      child: Text('Select Date of Birth',
+                          style:
+                              textTheme.bodyText1.copyWith(color: TEXT_COLOR)),
+                    ),
+                    if (dateOfBirth != null)
+                      Text('  ' + dateOfBirth,
+                          style:
+                              textTheme.bodyText1.copyWith(color: TEXT_COLOR))
+                  ],
+                ),
+
+                // MawahebTextField(
+                //     hintText: 'lbl_date_of_birth',
+                //     hintColor: Colors.grey,
+                //     textEditingController: _dateOfBirthController,
+                //     validator: dateValidator,
+                //     context: context),
                 const SizedBox(height: 26),
                 MawahebTextField(
                     hintText: 'lbl_phone_num',
@@ -177,7 +211,7 @@ class _PlayerInfoPageState
                               phone: _phoneController.text,
                               name: _nameController.text,
                               gender: gender,
-                              dateOfBirth: _dateOfBirthController.text,
+                              dateOfBirth: dateOfBirth,
                               categoryModel: currentCategory,
                               country: currentCountry,
                             );
