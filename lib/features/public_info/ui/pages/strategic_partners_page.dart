@@ -52,7 +52,9 @@ class _StrategicPartnersPageState
                   itemCount: partners.length,
                   itemBuilder: (context, index) {
                     return imageRow(
-                        context: context, title: partners[index].title);
+                        context: context,
+                        title: partners[index].title,
+                        idSource: partners[index].source.id);
                   });
             }));
   }
