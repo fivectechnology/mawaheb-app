@@ -133,6 +133,21 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
     });
   }
 
+  final _$searchNameAtom = Atom(name: '_PlayersViewmodelBase.searchName');
+
+  @override
+  String get searchName {
+    _$searchNameAtom.reportRead();
+    return super.searchName;
+  }
+
+  @override
+  set searchName(String value) {
+    _$searchNameAtom.reportWrite(value, super.searchName, () {
+      super.searchName = value;
+    });
+  }
+
   final _$sportAtom = Atom(name: '_PlayersViewmodelBase.sport');
 
   @override
@@ -341,6 +356,7 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       @required String sport,
       @required String position,
       @required String hand,
+      @required String name,
       @required String leg}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.searchPlayers');
@@ -350,6 +366,7 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
           sport: sport,
           position: position,
           hand: hand,
+          name: name,
           leg: leg);
     } finally {
       _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
@@ -373,6 +390,7 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
 viewProfileFuture: ${viewProfileFuture},
 playerId: ${playerId},
 playerName: ${playerName},
+searchName: ${searchName},
 sport: ${sport},
 country: ${country},
 position: ${position},

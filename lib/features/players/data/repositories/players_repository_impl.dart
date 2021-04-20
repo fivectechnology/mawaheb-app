@@ -13,14 +13,19 @@ class PlayersRepositoryImpl extends PlayersRepository {
   final PlayersDataSource playersDataSource;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required String country,
-    @required String sport,
-    @required String position,
-    @required String hand,
-    @required String leg,
-  }) =>
-      playersDataSource.searchPlayers();
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers(
+          {@required String country,
+          @required String sport,
+          @required String position,
+          @required String hand,
+          @required String leg,
+          @required String name}) =>
+      playersDataSource.searchPlayers(
+          hand: hand,
+          leg: leg,
+          sport: sport,
+          country: country,
+          position: position);
 
   @override
   Future<NetworkResult<bool>> viewPlayerProfile({int id}) =>

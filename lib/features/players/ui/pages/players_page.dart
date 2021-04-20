@@ -30,6 +30,7 @@ class PlayersPage extends StatefulWidget {
 }
 
 class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
+  TextEditingController nameController = TextEditingController();
   SportModel currentSport;
   SportPositionModel position;
   CountryModel currentCountry;
@@ -45,6 +46,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
 
   @override
   void dispose() {
+    nameController.dispose();
     super.dispose();
   }
 
@@ -69,109 +71,109 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return viewmodel.players == null
-          ? const Center(child: MawahebLoader())
-          : Scaffold(
-              backgroundColor: Colors.white,
-              body: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Card(
-                        elevation: 10,
-                        child: TextField(
-                          decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              ),
-                              suffixIcon: InkWell(
-                                onTap: () {
-                                  viewmodel.sport = null;
-                                  viewmodel.country = null;
-                                  viewmodel.position = null;
-                                  viewmodel.leg = null;
-                                  viewmodel.hand = null;
-                                  currentSport = null;
-                                  currentCountry = null;
-                                  hand = null;
-                                  leg = null;
-                                  position = null;
-
-                                  filterBottomSheet();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/ic_filter.svg',
-                                  ),
-                                ),
-                              ),
-                              hintStyle: context.textTheme.bodyText1
-                                  .copyWith(color: Colors.grey),
-                              hintText: 'Search by name',
-                              fillColor: Colors.white,
-                              filled: true,
-                              contentPadding:
-                                  EdgeInsets.all(context.fullWidth * 0.03),
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none),
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Card(
+                  elevation: 10,
+                  child: TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: context.fullHeight * 0.01,
-                          horizontal: context.fullWidth * 0.05),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.start,
-                        children: [
-                          if (viewmodel.sport != null)
-                            filterChip(
-                                context: context, text: viewmodel.sport.name),
-                          if (viewmodel.country != null)
-                            filterChip(
-                                context: context, text: viewmodel.country.name),
-                          if (viewmodel.position != null)
-                            filterChip(
-                                context: context,
-                                text: viewmodel.position.name),
-                          if (viewmodel.hand != null)
-                            filterChip(context: context, text: viewmodel.hand),
-                          if (viewmodel.leg != null)
-                            filterChip(context: context, text: viewmodel.leg),
-                        ],
-                      ),
-                    ),
-                    ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: viewmodel.players.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              viewmodel.playerName =
-                                  viewmodel.players[index].name;
-
-                              viewmodel.viewProfilePlayer(
-                                  id: viewmodel.players[index].id);
-
-                              viewmodel.playerId = viewmodel.players[index].id;
-
-                              App.navKey.currentState.push(ViewPlayerProfile(
-                                id: viewmodel.players[index].id,
-                              ).pageRoute(viewmodel));
-                            },
-                            child: userListTile(
-                                name: viewmodel.players[index].name),
-                          );
-                        }),
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            viewmodel.sport = null;
+                            viewmodel.country = null;
+                            viewmodel.position = null;
+                            viewmodel.leg = null;
+                            viewmodel.hand = null;
+                            currentSport = null;
+                            currentCountry = null;
+                            hand = null;
+                            leg = null;
+                            position = null;
+                            filterBottomSheet();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset(
+                              'assets/icons/ic_filter.svg',
+                            ),
+                          ),
+                        ),
+                        hintStyle: context.textTheme.bodyText1
+                            .copyWith(color: Colors.grey),
+                        hintText: 'Search by name',
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding:
+                            EdgeInsets.all(context.fullWidth * 0.03),
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: context.fullHeight * 0.01,
+                    horizontal: context.fullWidth * 0.05),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  children: [
+                    if (viewmodel.sport != null)
+                      filterChip(context: context, text: viewmodel.sport.name),
+                    if (viewmodel.country != null)
+                      filterChip(
+                          context: context, text: viewmodel.country.name),
+                    if (viewmodel.position != null)
+                      filterChip(
+                          context: context, text: viewmodel.position.name),
+                    if (viewmodel.hand != null)
+                      filterChip(context: context, text: viewmodel.hand),
+                    if (viewmodel.leg != null)
+                      filterChip(context: context, text: viewmodel.leg),
                   ],
                 ),
               ),
-            );
+              if (viewmodel.players != null)
+                ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: viewmodel.players.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          viewmodel.playerName = viewmodel.players[index].name;
+
+                          viewmodel.viewProfilePlayer(
+                              id: viewmodel.players[index].id);
+
+                          viewmodel.playerId = viewmodel.players[index].id;
+
+                          App.navKey.currentState.push(ViewPlayerProfile(
+                            id: viewmodel.players[index].id,
+                          ).pageRoute(viewmodel));
+                        },
+                        child:
+                            userListTile(name: viewmodel.players[index].name),
+                      );
+                    }),
+              if (viewmodel.players == null)
+                Center(
+                    child: Text(context.translate('msg_no_match_players'),
+                        style: textTheme.headline2.copyWith(fontSize: 20)))
+            ],
+          ),
+        ),
+      );
     });
   }
 
@@ -268,9 +270,6 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                           NotificationButton(
                             isSelected: viewmodel.confirmed,
-                            onChanged: (val) {
-                              viewmodel.confirmed = val;
-                            },
                           ),
                         ],
                       ),
@@ -293,6 +292,13 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         borderColor: Colors.black,
                         text: 'lbl_filter',
                         onPressed: () {
+                          viewmodel.searchPlayers(
+                              country: currentCountry?.name ?? '',
+                              sport: currentSport?.name ?? '',
+                              position: position?.name ?? '',
+                              hand: hand ?? '',
+                              name: nameController.text ?? '',
+                              leg: leg ?? '');
                           viewmodel.sport = currentSport;
                           viewmodel.country = currentCountry;
                           viewmodel.position = position;
@@ -300,7 +306,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                           viewmodel.hand = hand;
                           context.pop();
 
-                          // print(confirmed);
+                          // print(viewmodel.confirmed);
                           // print(booked);
                         },
                       )

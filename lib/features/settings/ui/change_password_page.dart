@@ -31,6 +31,9 @@ class _ChangePasswordPageState
     extends ProviderMobxState<ChangePasswordPage, SettingsViewmodel> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   bool showPassword = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -43,6 +46,7 @@ class _ChangePasswordPageState
   void dispose() {
     _oldPasswordController.dispose();
     _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -93,7 +97,7 @@ class _ChangePasswordPageState
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 26),
                   child: MawahebTextField(
-                    textEditingController: _newPasswordController,
+                    textEditingController: _confirmPasswordController,
                     context: context,
                     hintText: 'lbl_confirm_password',
                     validator: confirmPasswordValidator,

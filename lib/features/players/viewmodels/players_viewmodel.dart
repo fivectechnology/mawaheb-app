@@ -43,6 +43,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   String playerName;
 
   @observable
+  String searchName;
+
+  @observable
   SportModel sport;
 
   @observable
@@ -150,11 +153,13 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
     @required String sport,
     @required String position,
     @required String hand,
+    @required String name,
     @required String leg,
   }) =>
       playersFuture = futureWrapper(
         () => _playersRepository
             .searchPlayers(
+                name: name,
                 position: position,
                 country: country,
                 sport: sport,

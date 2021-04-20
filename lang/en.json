@@ -121,7 +121,9 @@
   "msg_check_otp": "OTP sent please check your email",
   "msg_brief": "write a brief about your self",
   "msg_accepted": "I have read and accepted the",
-  "msg_no_views": "There are no views"
+  "msg_no_views": "There are no views",
+  "msg_no_match_players": "There are no matching results"
+
 
 
 
