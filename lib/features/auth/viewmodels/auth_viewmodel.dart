@@ -17,6 +17,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
+import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
@@ -67,6 +68,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<bool> sendOtp;
+
+  @observable
+  ObservableFuture<bool> validateEmailFuture;
 
   @observable
   ObservableFuture<PlayerModel> registerFuture;
@@ -198,19 +202,22 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           );
 
       return loginFuture;
+    }, catchBlock: (err) {
+      getContext((context) {
+        showSnack(context.translate('msg_login_error'), duration: 2.seconds);
+      });
     });
   }
 
   @action
   void sendOTP({
-    String name,
     String email,
     String password,
     bool resend = false,
   }) {
     if (!resend) {
       registerFuture = ObservableFuture.value(
-          PlayerModel.fromUi(email: email, name: name, password: password));
+          PlayerModel.fromUi(email: email, password: password));
     }
     sendOtp = futureWrapper(
       () => _authRepository.sendOTP(email: player.email).whenSuccess(
@@ -224,6 +231,26 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
+    );
+  }
+
+  @action
+  void validateEmail({
+    String email,
+    String password,
+  }) {
+    validateEmailFuture = futureWrapper(
+      () => _authRepository.validateEmail(email: email).whenSuccess(
+            (res) => res.apply(() {
+              logger.d('otp success with res: $res');
+              sendOTP(
+                email: email,
+                password: password,
+              );
+            }),
+          ),
+      catchBlock: (err) => showSnack('email exist', duration: 2.seconds),
       useLoader: true,
     );
   }
@@ -246,35 +273,24 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
                     password: player.password,
                     code: res.data.data,
                   )
-                  .whenSuccess((res) => res.data.first.apply(() async {
-                        logger.d('signUp success with res: $res');
-                        // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
-                        await _prefsRepository.setPlayer(res.data.first);
-                        await _authRepository.login(
-                            userName: player.email, password: player.password);
-                        changeRegisterSlider(const PageSliderForawardModel());
-                      }));
-
-              // await _authRepository.signUp(
-              //     displayName: player.name,
-              //     email: player.email,
-              //     password: player.password,
-              //     code: player.email,
-              //     otp: res.data.data);
-
-              // signUp(
-              //   displayName: player.name,
-              //   email: player.email,
-              //   password: player.password,
-              //   code: player.email,
-              //   otp: otpCode.data,
-              // );
-
-              // print("aaaaaa");
-              // print(player);
+                  .whenSuccess((res) => res.data.first.apply(
+                        () async {
+                          logger.d('signUp success with res: $res');
+                          // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
+                          await _prefsRepository.setPlayer(res.data.first);
+                          await _authRepository.login(
+                              userName: player.email,
+                              password: player.password);
+                          changeRegisterSlider(const PageSliderForawardModel());
+                        },
+                      ));
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) {
+        getContext((context) {
+          showSnack(context.translate('msg_otp_error'), duration: 2.seconds);
+        });
+      },
       useLoader: true,
     );
   }
@@ -286,26 +302,28 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     String password,
   }) {
     registerFuture = futureWrapper(
-      () => _authRepository
-          .signUp(
-              displayName: displayName,
-              email: email,
-              password: password,
-              code: verifyOTPFuture.value.data)
-          .whenSuccess(
-            (res) => res.data.first.apply(() async {
-              logger.d('signUp success with res: $res');
-              // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
-              await _prefsRepository.setPlayer(res.data.first);
-              await _authRepository.login(
-                  userName: player.email,
-                  password: player.password,
-                  type: 'PL');
-              changeRegisterSlider(const PageSliderForawardModel());
-            }),
-          ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
-    );
+        () => _authRepository
+            .signUp(
+                displayName: displayName,
+                email: email,
+                password: password,
+                code: verifyOTPFuture.value.data)
+            .whenSuccess(
+              (res) => res.data.first.apply(() async {
+                logger.d('signUp success with res: $res');
+                // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
+                await _prefsRepository.setPlayer(res.data.first);
+                await _authRepository.login(
+                    userName: player.email,
+                    password: player.password,
+                    type: 'PL');
+                changeRegisterSlider(const PageSliderForawardModel());
+              }),
+            ), catchBlock: (err) {
+      getContext((context) {
+        showSnack(context.translate('msg_signUp_error'), duration: 2.seconds);
+      });
+    });
   }
 
   @action
@@ -405,16 +423,16 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               logger.d('otp success with res: $res');
               forgetPasswordEmail = email;
 
-              // if (!resend) {
-              //   getContext((context) => context
-              //     ..pushNamedAndRemoveUntil(
-              //         SettingOtpPage.route, (_) => false));
-              // } else {
-              //   //showSnack()
-              // }
+              getContext(
+                  (context) => context.navigator.push(OtpPage.pageRoute(this)));
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) {
+        getContext((context) {
+          showSnack(context.translate('msg_email_not_reg'),
+              duration: 2.seconds);
+        });
+      },
       useLoader: true,
     );
   }
@@ -432,7 +450,11 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
                   context.navigator.push(ResetPasswordPagee.pageRoute(this)));
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) {
+        getContext((context) {
+          showSnack(context.translate('msg_otp_error'), duration: 2.seconds);
+        });
+      },
       useLoader: true,
     );
   }

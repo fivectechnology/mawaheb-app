@@ -156,12 +156,11 @@ class PlayerModel extends VersionModel with EquatableMixin {
   static PlayerModel fromJson(Object json) => _$PlayerModelFromJson(json);
 
   static PlayerModel fromUi({
-    @required String name,
     @required String email,
     @required String password,
   }) =>
       PlayerModel(
-          name: name,
+          name: null,
           email: email,
           password: password,
           code: null,

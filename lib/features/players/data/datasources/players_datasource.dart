@@ -24,6 +24,14 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<bool>> bookPlayer(
       {@required int playerId, @required int partnerId});
+
+//   Future<NetworkResult<bool>> confirmPlayer({
+//     @required int playerId,
+//   });
+//
+//   Future<NetworkResult<bool>> releasePlayer({
+//     @required int playerId,
+//   });
 }
 
 @LazySingleton(as: PlayersDataSource)
@@ -118,4 +126,28 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
       },
     );
   }
+
+//   @override
+//   Future<NetworkResult<bool>> confirmPlayer({int playerId}) {
+//     return mawahebRequest(
+//         method: METHOD.POST,
+//         id: playerId,
+//         modelName: 'Membership',
+//         data: {
+//           'data': {'status': 'Confirmed'},
+//           'fields': ['partner', 'player', 'status', 'version']
+//         });
+//   }
+//
+//   @override
+//   Future<NetworkResult<bool>> releasePlayer({int playerId}) {
+//     return mawahebRequest(
+//         method: METHOD.POST,
+//         id: playerId,
+//         modelName: 'Membership',
+//         data: {
+//           'data': {'status': 'Confirmed'},
+//           'fields': ['partner', 'player', 'status', 'version']
+//         });
+//   }
 }

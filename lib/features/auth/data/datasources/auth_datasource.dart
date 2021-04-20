@@ -24,6 +24,8 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<BaseResponseModel<String>>> logout();
 
+  Future<NetworkResult<bool>> validateEmail({@required String email});
+
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
   Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
@@ -367,11 +369,11 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   @override
   Future<NetworkResult<bool>> forgetPassword({String email}) {
     return mawahebRequest(
-      method: METHOD.POST,
-      endpoint:
-          BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
-      data: {'data': email},
-    );
+        method: METHOD.POST,
+        endpoint:
+            BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
+        data: {'data': email},
+        mapper: BaseResponseModel.successMapper);
   }
 
   @override
@@ -379,13 +381,20 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       {String email, String password, int code}) {
     return mawahebRequest(
       method: METHOD.POST,
-      endpoint: BASE_API +
-          WEB_SERVICE +
-          PUBLIC_SERVICE +
-          '/auth/password/forgot/update',
+      endpoint: BASE_PUBLIC_API + '/auth/password/forgot/update',
       data: {
         'data': {'username': email, 'password': password, 'code': code}
       },
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> validateEmail({String email}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      endpoint: BASE_PUBLIC_API + '/auth/email/validate/unique',
+      data: {'data': email},
+      mapper: BaseResponseModel.successMapper,
     );
   }
 }

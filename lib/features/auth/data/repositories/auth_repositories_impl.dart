@@ -155,4 +155,8 @@ class AuthRepositoryImpl extends AuthRepository {
           {String email, String password, int code}) =>
       authDataSource.resetPassword(
           email: email, password: password, code: code);
+
+  @override
+  Future<NetworkResult<bool>> validateEmail({String email}) =>
+      authDataSource.validateEmail(email: email);
 }

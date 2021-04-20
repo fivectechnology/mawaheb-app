@@ -84,4 +84,6 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<bool>> resetPassword(
       {String email, String password, int code});
+
+  Future<NetworkResult<bool>> validateEmail({String email});
 }

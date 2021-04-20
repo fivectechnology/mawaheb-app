@@ -88,8 +88,6 @@ class _ForgotPasswordPageState
                                 _emailController.text;
                             viewmodel.forgetPassword(
                                 email: _emailController.text);
-                            context.navigator
-                                .push(OtpPage.pageRoute(viewmodel));
                           }
                         },
                         context: context,
