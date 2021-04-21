@@ -22,8 +22,7 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState
-    extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -52,8 +51,8 @@ class _DownLoadCenterPageState
             onRetry: viewmodel.getDownloads,
             onSuccess: (downloads) {
               return ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: context.fullWidth * 0.02),
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
                   itemCount: downloads.length,
                   itemBuilder: (context, index) {
                     return downloadButton(
@@ -80,9 +79,7 @@ class _DownLoadCenterPageState
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Expanded(
-                  child: Text(fileName,
-                      style: textTheme.subtitle1.copyWith(fontSize: 16)))
+              Expanded(child: Text(fileName, style: textTheme.subtitle1.copyWith(fontSize: 16)))
             ],
           ),
           Row(

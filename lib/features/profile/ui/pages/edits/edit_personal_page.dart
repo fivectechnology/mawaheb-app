@@ -23,8 +23,7 @@ class EditPersonalPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
-      MaterialPageRoute(
+  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: profileViewmodel,
           child: const EditPersonalPage(),
@@ -37,10 +36,9 @@ class EditPersonalPage extends StatefulWidget {
   _EditPersonalPageState createState() => _EditPersonalPageState();
 }
 
-class _EditPersonalPageState
-    extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
-  TextEditingController _nameController;
-  TextEditingController _phoneController;
+class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   CountryModel currentCountry;
@@ -54,6 +52,7 @@ class _EditPersonalPageState
   @override
   void initState() {
     super.initState();
+    print('my debug initState1');
   }
 
   @override
@@ -66,6 +65,7 @@ class _EditPersonalPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    print('my debug didChangeDependencies1');
 
     if (viewmodel?.categoryFuture == null) {
       viewmodel.getCategories();
@@ -73,9 +73,9 @@ class _EditPersonalPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
-    _nameController = TextEditingController(text: viewmodel.player.name);
+    // _nameController.text = viewmodel.player.name;
 
-    _phoneController = TextEditingController(text: viewmodel.player.phone);
+    // _phoneController.text = viewmodel.player.phone;
   }
 
   Future getImage() async {
@@ -111,8 +111,7 @@ class _EditPersonalPageState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WHITE,
-      appBar: customAppBar(
-          context: context, title: 'lbl_personal_info', withTitle: true),
+      appBar: customAppBar(context: context, title: 'lbl_personal_info', withTitle: true),
       body: MawahebFutureBuilder(
           onRetry: viewmodel.getCategories,
           future: viewmodel.countryFuture,
@@ -120,8 +119,7 @@ class _EditPersonalPageState
             return Form(
               key: _formKey,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
                 child: ListView(
                   children: [
                     imageRow(),
@@ -132,7 +130,8 @@ class _EditPersonalPageState
                       textEditingController: _nameController,
                       context: context,
                       onChanged: (value) {
-                        _nameController = value;
+                        _nameController.text = value;
+                        // viewmodel.player = viewmodel.player.copyWith(name: name);
                       },
                       validator: nameValidator,
                     ),
@@ -142,14 +141,11 @@ class _EditPersonalPageState
                         RaisedButton(
                           color: Colors.white,
                           onPressed: () => _selectDate(context),
-                          child: Text('Select Date of Birth',
-                              style: textTheme.bodyText1
-                                  .copyWith(color: TEXT_COLOR)),
+                          child: Text('Select Date of Birth', style: textTheme.bodyText1.copyWith(color: TEXT_COLOR)),
                         ),
                         if (viewmodel.player.dateOfBirth != null)
                           Text('  ' + viewmodel.player.dateOfBirth,
-                              style: textTheme.bodyText1
-                                  .copyWith(color: TEXT_COLOR))
+                              style: textTheme.bodyText1.copyWith(color: TEXT_COLOR))
                       ],
                     ),
                     // MawahebTextField(
@@ -172,7 +168,7 @@ class _EditPersonalPageState
                         textEditingController: _phoneController,
                         validator: phoneValidator,
                         onChanged: (value) {
-                          _phoneController = value;
+                          _phoneController.text = value;
                         },
                         context: context),
                     const SizedBox(height: 26),
@@ -231,17 +227,12 @@ class _EditPersonalPageState
                               if (_formKey.currentState.validate()) {
                                 _formKey.currentState.save();
                                 viewmodel.editPersonalInfo(
-                                  phone: _phoneController.text ??
-                                      viewmodel.player.phone,
-                                  name:
-                                      _nameController.text ?? viewmodel.player,
+                                  phone: _phoneController.text ?? viewmodel.player.phone,
+                                  name: _nameController.text ?? viewmodel.player,
                                   gender: gender ?? viewmodel.player.gender,
-                                  dateOfBirth: dateOfBirth ??
-                                      viewmodel.player.dateOfBirth,
-                                  categoryModel: currentCategory ??
-                                      viewmodel.player.category,
-                                  country: currentCountry ??
-                                      viewmodel.player.country,
+                                  dateOfBirth: dateOfBirth ?? viewmodel.player.dateOfBirth,
+                                  categoryModel: currentCategory ?? viewmodel.player.category,
+                                  country: currentCountry ?? viewmodel.player.country,
                                 );
                               }
                             });

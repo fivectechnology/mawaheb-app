@@ -62,7 +62,10 @@ class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel
         ),
         body: Provider(
           create: (_) => viewmodel,
-          child: TabBarView(children: viewmodel.pages),
+          child: TabBarView(
+            children: viewmodel.pages,
+            physics: const BouncingScrollPhysics(),
+          ),
         ),
       ),
     );
