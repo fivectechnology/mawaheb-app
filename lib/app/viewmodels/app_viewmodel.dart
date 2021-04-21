@@ -1,6 +1,8 @@
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
+import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/nav_stack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
@@ -9,6 +11,8 @@ import 'package:mawaheb_app/base/utils/app_bar_params.dart';
 import 'package:mobx/mobx.dart';
 
 part 'app_viewmodel.g.dart';
+
+const String defaultLanguage = LANGUAGE_ARABIC;
 
 enum PageIndex {
   home,
@@ -42,7 +46,16 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   @observable
   PageIndex pageIndex = PageIndex.home;
 
+  @observable
+  ObservableFuture<String> languageFuture;
+
   //* COMPUTED *//
+
+  @computed
+  String get language => languageFuture?.value ?? defaultLanguage;
+
+  @computed
+  bool get languageLoading => languageFuture?.isPending ?? false;
 
   //* ACTIONS *//
 
@@ -70,6 +83,16 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
       appBarHistory.clear();
       pushRoute(AppBarParams(title: getAppBarTitle(pageIndex, isPlayer), onBackPressed: null));
     }
+  }
+
+  @action
+  void changeLanguage(String locale) {
+    if (locale == language) {
+      return;
+    }
+    languageFuture = ObservableFuture(prefsRepository.setApplicationLanguage(locale).then((success) {
+      return locale;
+    }));
   }
 }
 

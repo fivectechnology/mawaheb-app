@@ -20,8 +20,7 @@ class StrategicPartnersPage extends StatefulWidget {
   _StrategicPartnersPageState createState() => _StrategicPartnersPageState();
 }
 
-class _StrategicPartnersPageState
-    extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
+class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -49,12 +48,11 @@ class _StrategicPartnersPageState
             onSuccess: (partners) {
               return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: partners.length,
                   itemBuilder: (context, index) {
                     return imageRow(
-                        context: context,
-                        title: partners[index].title,
-                        idSource: partners[index].source.id);
+                        context: context, title: partners[index].title, idSource: partners[index].source.id);
                   });
             }));
   }

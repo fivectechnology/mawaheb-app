@@ -45,6 +45,7 @@ class _VideosPageState extends MobxState<VideosPage, ProfileViewmodel> {
         ),
         backgroundColor: Colors.white,
         body: ListView.builder(
+            physics: const BouncingScrollPhysics(),
             itemCount: 5,
             itemBuilder: (context, index) {
               return videoRow();

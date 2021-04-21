@@ -30,21 +30,20 @@ part 'profile_viewmodel.g.dart';
 
 @injectable
 class ProfileViewmodel extends _ProfileViewmodelBase with _$ProfileViewmodel {
-  ProfileViewmodel(Logger logger, ProfileRepository profileRepository,
-      AuthRepository authRepository, PrefsRepository prefsRepository)
+  ProfileViewmodel(Logger logger, ProfileRepository profileRepository, AuthRepository authRepository,
+      PrefsRepository prefsRepository)
       : super(logger, profileRepository, authRepository, prefsRepository);
 }
 
 abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
-  _ProfileViewmodelBase(Logger logger, this._profileRepository,
-      this._authRepository, this.prefsRepository)
+  _ProfileViewmodelBase(Logger logger, this._profileRepository, this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
   final PrefsRepository prefsRepository;
 
   List<Widget> pages = [
-    MyInfoPage(),
+    const MyInfoPage(),
     const VideosPage(),
     const ViewsPage(),
   ];
@@ -158,13 +157,11 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository
-            .fetchPlayer(id: id)
-            .whenSuccess((res) => res.data.first.apply(() async {
-                  if (prefsRepository.player == null) {
-                    await prefsRepository.setPlayer(res.data.first);
-                  }
-                })),
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res.data.first.apply(() async {
+              if (prefsRepository.player == null) {
+                await prefsRepository.setPlayer(res.data.first);
+              }
+            })),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
@@ -191,8 +188,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               phone: phone)
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              getContext(
+                  (context) => App.navKey.currentState.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -200,8 +197,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void editAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void editAddressInfo({String address, String area, EmirateModel emirateModel}) {
     editAddressPlayerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -213,8 +209,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              getContext(
+                  (context) => App.navKey.currentState.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -223,13 +219,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void editSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int weight, int height, String hand, String leg, String brief, SportModel sport, SportPositionModel position}) {
     playerFuture = futureWrapper(
       () => _authRepository
           .addSportInfo(
@@ -244,8 +234,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               sportPositionModel: position)
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              getContext(
+                  (context) => App.navKey.currentState.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),

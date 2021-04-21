@@ -8,8 +8,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 class ViewsPage extends StatefulWidget {
   const ViewsPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
 
   @override
   _ViewsPageState createState() => _ViewsPageState();
@@ -41,7 +40,7 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
       onRetry: viewmodel.playerViews,
       onSuccess: (view) {
         return SingleChildScrollView(
-          physics: const ScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Container(
               color: Colors.white,
               child: viewmodel.views != null
@@ -51,16 +50,14 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
                         Padding(
                           padding: const EdgeInsets.all(26),
                           child: Text(context.translate('Clubs view profile'),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                         ),
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: viewmodel.views.length,
                             itemBuilder: (context, index) {
-                              return userListTile(
-                                  name: viewmodel.views[index].partner.name);
+                              return userListTile(name: viewmodel.views[index].partner.name);
                             })
                       ],
                     )
