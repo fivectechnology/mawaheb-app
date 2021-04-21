@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget imageRow({BuildContext context, String title, int idSource}) {
   return Padding(

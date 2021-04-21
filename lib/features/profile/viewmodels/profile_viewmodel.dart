@@ -42,8 +42,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   List<Widget> pages = [
     MyInfoPage(),
-    VideosPage(),
-    ViewsPage(),
+    const VideosPage(),
+    const ViewsPage(),
   ];
 
   //* OBSERVERS *//

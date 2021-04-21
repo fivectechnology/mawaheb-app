@@ -393,12 +393,12 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
 
   @override
   void searchPlayers(
-      {@required String country,
-      @required String sport,
-      @required String position,
-      @required String hand,
-      @required String name,
-      @required String leg}) {
+      {String country,
+      String sport,
+      String position,
+      String hand,
+      String name,
+      String leg}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.searchPlayers');
     try {

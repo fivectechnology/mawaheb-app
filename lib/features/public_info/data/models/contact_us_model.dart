@@ -17,7 +17,8 @@ class ContactUsModel extends VersionModel with EquatableMixin {
     @required this.emirate,
     @required this.address,
     @required this.phone,
-    @required this.googleMapsCoordination,
+    @required this.latitude,
+    @required this.longitude,
     @required this.email,
   }) : super(id, version);
 
@@ -25,19 +26,22 @@ class ContactUsModel extends VersionModel with EquatableMixin {
   final EmirateModel emirate;
   final String address;
   final String phone;
-  final String googleMapsCoordination;
+  final String longitude;
+  final String latitude;
+
   final String email;
 
-  ContactUsModel copyWith({
-    int id,
-    int version,
-    CountryModel country,
-    EmirateModel emirate,
-    String address,
-    String phone,
-    String googleMapsCoordination,
-    String email,
-  }) {
+  ContactUsModel copyWith(
+      {int id,
+      int version,
+      CountryModel country,
+      EmirateModel emirate,
+      String address,
+      String phone,
+      String googleMapsCoordination,
+      String email,
+      String longitude,
+      String latitude}) {
     return ContactUsModel(
       id: id ?? this.id,
       version: version ?? this.version,
@@ -45,8 +49,8 @@ class ContactUsModel extends VersionModel with EquatableMixin {
       emirate: emirate ?? this.emirate,
       address: address ?? this.address,
       phone: phone ?? this.phone,
-      googleMapsCoordination:
-          googleMapsCoordination ?? this.googleMapsCoordination,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
       email: email ?? this.email,
     );
   }
@@ -61,7 +65,8 @@ class ContactUsModel extends VersionModel with EquatableMixin {
       emirate,
       address,
       phone,
-      googleMapsCoordination,
+      longitude,
+      latitude,
       email,
     ];
   }

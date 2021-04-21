@@ -154,12 +154,12 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void searchPlayers({
-    @required String country,
-    @required String sport,
-    @required String position,
-    @required String hand,
-    @required String name,
-    @required String leg,
+    String country,
+    String sport,
+    String position,
+    String hand,
+    String name,
+    String leg,
   }) =>
       playersFuture = futureWrapper(
         () => _playersRepository

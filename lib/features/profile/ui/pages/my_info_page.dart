@@ -20,7 +20,7 @@ class MyInfoPage extends StatefulWidget {
   final int id;
 
   static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => MyInfoPage());
+      MaterialPageRoute<dynamic>(builder: (_) => const MyInfoPage());
 
   @override
   _MyInfoPageState createState() => _MyInfoPageState();

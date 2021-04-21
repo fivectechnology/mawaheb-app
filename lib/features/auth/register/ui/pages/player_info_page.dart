@@ -80,10 +80,11 @@ class _PlayerInfoPageState
     });
   }
 
+  // ignore: always_declare_return_types
   _selectDate(BuildContext context) async {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-    DateTime picked = await showDatePicker(
+    final DateTime picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
