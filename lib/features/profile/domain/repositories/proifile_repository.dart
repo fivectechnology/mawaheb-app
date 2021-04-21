@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core_sdk/data/repositories/base_repository.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
@@ -13,4 +15,17 @@ abstract class ProfileRepository extends BaseRepository {
       {int id});
 
   Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews();
+
+  Future<NetworkResult<bool>> updateImageProfile({
+    int id,
+    int version,
+    String image,
+  });
+
+  Future<int> uploadFile({
+    File file,
+    int fileSize,
+    String fileName,
+    String fileType,
+  });
 }

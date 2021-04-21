@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:core_sdk/utils/colors.dart';
@@ -47,8 +48,13 @@ class _EditPersonalPageState
   CategoryModel currentCategory;
   String gender;
   String dateOfBirth;
+  DateTime _selectedDate;
 
   File _image;
+  String fileType;
+  String fileName;
+  int fileSize;
+
   final picker = ImagePicker();
 
   @override
@@ -81,16 +87,22 @@ class _EditPersonalPageState
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      fileName = _image.path.split('/').last;
+      fileType = fileName.split('.').last;
+      fileSize = await _image.length();
+    } else {
+      print('No image selected.');
+    }
   }
 
-  DateTime _selectedDate;
+  Future<String> imgToBase64(File image) async {
+    final bytes = image.readAsBytesSync();
+    final base64Str = base64Encode(bytes);
+
+    return base64Str;
+  }
 
   _selectDate(BuildContext context) async {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -227,23 +239,33 @@ class _EditPersonalPageState
                             borderColor: Colors.black,
                             buttonColor: WHITE,
                             isLoading: viewmodel.playerLoading,
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                viewmodel.editPersonalInfo(
-                                  phone: _phoneController.text ??
-                                      viewmodel.player.phone,
-                                  name:
-                                      _nameController.text ?? viewmodel.player,
-                                  gender: gender ?? viewmodel.player.gender,
-                                  dateOfBirth: dateOfBirth ??
-                                      viewmodel.player.dateOfBirth,
-                                  categoryModel: currentCategory ??
-                                      viewmodel.player.category,
-                                  country: currentCountry ??
-                                      viewmodel.player.country,
-                                );
-                              }
+                            onPressed: () async {
+                              print(fileType);
+                              print(fileName);
+                              print(fileSize);
+                              // viewmodel.updateProfileImage(image: base64Image);
+                              viewmodel.uploadFile(
+                                  file: _image,
+                                  fileName: fileName,
+                                  fileSize: fileSize,
+                                  fileType: fileType);
+
+                              // if (_formKey.currentState.validate()) {
+                              //   _formKey.currentState.save();
+                              //   viewmodel.editPersonalInfo(
+                              //     phone: _phoneController.text ??
+                              //         viewmodel.player.phone,
+                              //     name:
+                              //         _nameController.text ?? viewmodel.player,
+                              //     gender: gender ?? viewmodel.player.gender,
+                              //     dateOfBirth: dateOfBirth ??
+                              //         viewmodel.player.dateOfBirth,
+                              //     categoryModel: currentCategory ??
+                              //         viewmodel.player.category,
+                              //     country: currentCountry ??
+                              //         viewmodel.player.country,
+                              //   );
+                              // }
                             });
                       },
                     ),
@@ -267,13 +289,18 @@ class _EditPersonalPageState
             shape: BoxShape.circle,
             border: Border.all(color: Colors.grey, width: 2.0),
           ),
-          child: IconButton(
-            onPressed: getImage,
-            icon: const Icon(
-              Icons.camera_alt,
-              color: Colors.grey,
-            ),
-          ),
+          child: _image == null
+              ? IconButton(
+                  onPressed: getImage,
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.grey,
+                  ),
+                )
+              : CircleAvatar(
+                  backgroundImage: FileImage(_image),
+                  radius: 200.0,
+                ),
         ),
         Text(
           context.translate('lbl_add_image'),

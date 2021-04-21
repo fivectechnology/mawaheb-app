@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +52,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   //* OBSERVERS *//
 
   @observable
+  Future<int> imageId;
+
+  @observable
   ObservableFuture<PlayerModel> playerFuture;
 
   @observable
@@ -79,6 +84,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<List<ViewModel>> viewsFuture;
 
+  @observable
+  ObservableFuture<bool> uploadImageFuture;
+
   //* COMPUTED *//
   @computed
   PlayerModel get player => playerFuture?.value;
@@ -98,9 +106,17 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @computed
   List<SportPositionModel> get positions => positionFuture?.value;
 
+  @computed
   List<EmirateModel> get emirates => emirateFuture?.value;
 
+  @computed
   List<ViewModel> get views => viewsFuture?.value;
+
+  @computed
+  bool get uploadImageLoading => uploadImageFuture?.isPending ?? false;
+
+  @computed
+  bool get uploadImageError => uploadImageFuture?.isFailure ?? false;
 
   //* ACTIONS *//
 
@@ -234,5 +250,45 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
+  }
+
+  @action
+  void updateProfileImage({int id, int version, String image}) {
+    editPersonalPlayerFuture = futureWrapper(
+      () => _profileRepository
+          .updateImageProfile(
+              version: player.version, id: player.id, image: image)
+          .whenSuccess(
+            (res) => res.apply(() {
+              print('image updated');
+              getContext((context) => App.navKey.currentState.context
+                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  Future<int> uploadFile({
+    File file,
+    int fileSize,
+    String fileName,
+    String fileType,
+  }) async {
+    imageId = _profileRepository
+        .uploadFile(
+            file: file,
+            fileSize: fileSize,
+            fileType: fileType,
+            fileName: fileName)
+        .whenComplete(() {
+      print('file upoladed');
+      print(imageId);
+      getContext((context) => App.navKey.currentState.context
+          .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+    });
+
+    return imageId;
   }
 }

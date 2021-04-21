@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
@@ -20,6 +22,19 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews({
     @required int id,
+  });
+
+  Future<NetworkResult<bool>> updateImageProfile({
+    @required int id,
+    @required int version,
+    @required String image,
+  });
+
+  Future<int> uploadFile({
+    @required File file,
+    int fileSize,
+    String fileName,
+    String fileType,
   });
 }
 
@@ -84,7 +99,6 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
       {int id}) {
     return mawahebRequest(
       method: METHOD.POST,
-      // endpoint: BASE_REST_API + BASE_REST_API,
       modelName: 'ProfileView',
       action: EndPointAction.search,
       data: {
@@ -98,5 +112,67 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
       },
       mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
     );
+  }
+
+  @override
+  Future<NetworkResult<bool>> updateImageProfile({
+    int id,
+    int version,
+    String image,
+  }) {
+    return mawahebRequest(
+        method: METHOD.POST,
+        mawahebModel: false,
+        modelName: 'auth.db.User',
+        withAuth: true,
+        data: {
+          'data': {'id': id, 'version': version, 'image': image}
+        });
+  }
+
+  @override
+  Future<int> uploadFile({
+    File file,
+    int fileSize,
+    String fileName,
+    String fileType,
+  }) async {
+    final Dio dio = Dio();
+    int id;
+    final Response response =
+        await dio.post(BASE_API + WEB_SERVICE + '/files/upload',
+            data: file.openRead(),
+            options: Options(headers: {
+              'Authorization': 'Basic ${prefsRepository.token}',
+              'Content-Type': 'application/octet-stream',
+              'X-File-Offset': 0,
+              'X-File-Size': fileSize,
+              'Content-Length': fileSize,
+              'X-File-Name': fileName,
+              'X-File-Type': 'image/' + fileType
+            }));
+
+    if (response.statusCode == 200) {
+      print(response.data);
+      var data = response.data;
+      id = data['id'] as int;
+      print(id);
+    }
+
+    return id;
+
+    // return mawahebRequest(
+    //     mawahebModel: false,
+    //     method: METHOD.POST,
+    //     endpoint: BASE_API + WEB_SERVICE + '/files/upload',
+    //     data: file,
+    //     headers: {
+    //       'Content-Type': 'application/octet-stream',
+    //       'X-File-Offset': 0,
+    //       'X-File-Size': fileSize,
+    //       'Content-Length': fileSize,
+    //       'X-File-Name': fileName,
+    //       'X-File-Type': 'image/' + fileType
+    //     });
   }
 }
