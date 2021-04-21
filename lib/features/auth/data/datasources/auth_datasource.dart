@@ -38,7 +38,6 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates();
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
-    @required String displayName,
     @required int code,
     @required String email,
     @required String password,
@@ -132,7 +131,6 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
-    @required String displayName,
     @required int code,
     @required String email,
     @required String password,
@@ -147,8 +145,8 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
         'data': {
           'group': {'id': 5, 'code': 'players'},
           'oldPassword': 'admin',
+          'name': '',
           'code': email,
-          'name': displayName,
           'email': email,
           'newPassword': password,
           'chkPassword': password,

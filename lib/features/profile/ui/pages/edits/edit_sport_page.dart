@@ -204,9 +204,11 @@ class _EditSportPageState
                               _formKey.currentState.save();
 
                               viewmodel.editSportInfo(
-                                height: int.parse(hightController.text) ??
+                                height: double.parse(hightController.text)
+                                        .toInt() ??
                                     viewmodel.player.height,
-                                weight: int.parse(weightController.text) ??
+                                weight: double.parse(weightController.text)
+                                        .toInt() ??
                                     viewmodel.player.weight,
                                 hand: hand ?? viewmodel.player.hand,
                                 leg: leg ?? viewmodel.player.leg,
@@ -215,7 +217,6 @@ class _EditSportPageState
                                 sport: currentSport ?? viewmodel.player.sport,
                                 position: position ?? viewmodel.player.position,
                               );
-                              context.navigator.pop();
                             }
                           },
                           context: context,

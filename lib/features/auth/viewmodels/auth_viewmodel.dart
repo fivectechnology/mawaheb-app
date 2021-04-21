@@ -268,7 +268,6 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               logger.d('otp verify success with res: $res');
               await _authRepository
                   .signUp(
-                    displayName: player.name,
                     email: player.email,
                     password: player.password,
                     code: res.data.data,
@@ -304,7 +303,6 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     registerFuture = futureWrapper(
         () => _authRepository
             .signUp(
-                displayName: displayName,
                 email: email,
                 password: password,
                 code: verifyOTPFuture.value.data)

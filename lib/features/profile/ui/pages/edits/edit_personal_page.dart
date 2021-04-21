@@ -40,10 +40,8 @@ class EditPersonalPage extends StatefulWidget {
 class _EditPersonalPageState
     extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
   TextEditingController _nameController;
-  TextEditingController _dateOfBirthController;
   TextEditingController _phoneController;
   final _formKey = GlobalKey<FormState>();
-  final FocusNode dateFocusNode = FocusNode()..unfocus();
 
   CountryModel currentCountry;
   CategoryModel currentCategory;
@@ -60,9 +58,7 @@ class _EditPersonalPageState
 
   @override
   void dispose() {
-    dateFocusNode.dispose();
     _phoneController.dispose();
-    _dateOfBirthController.dispose();
     _nameController.dispose();
     super.dispose();
   }
@@ -77,10 +73,9 @@ class _EditPersonalPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
-    // _nameController = TextEditingController(text: viewmodel.player.name);
-    // _dateOfBirthController =
-    //     TextEditingController(text: viewmodel.player.dateOfBirth);
-    // _phoneController = TextEditingController(text: viewmodel.player.phone);
+    _nameController = TextEditingController(text: viewmodel.player.name);
+
+    _phoneController = TextEditingController(text: viewmodel.player.phone);
   }
 
   Future getImage() async {
@@ -106,11 +101,10 @@ class _EditPersonalPageState
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
-    if (picked != null && picked != _selectedDate)
-      setState(() {
-        _selectedDate = picked;
-        dateOfBirth = formatter.format(_selectedDate);
-      });
+    if (picked != null && picked != _selectedDate) {
+      _selectedDate = picked;
+      dateOfBirth = formatter.format(_selectedDate);
+    }
   }
 
   @override
@@ -152,8 +146,8 @@ class _EditPersonalPageState
                               style: textTheme.bodyText1
                                   .copyWith(color: TEXT_COLOR)),
                         ),
-                        if (dateOfBirth != null)
-                          Text('  ' + dateOfBirth,
+                        if (viewmodel.player.dateOfBirth != null)
+                          Text('  ' + viewmodel.player.dateOfBirth,
                               style: textTheme.bodyText1
                                   .copyWith(color: TEXT_COLOR))
                       ],
@@ -234,24 +228,22 @@ class _EditPersonalPageState
                             buttonColor: WHITE,
                             isLoading: viewmodel.playerLoading,
                             onPressed: () {
-                              print(_selectedDate);
-                              // if (_formKey.currentState.validate()) {
-                              //   _formKey.currentState.save();
-                              //   viewmodel.editPersonalInfo(
-                              //     phone: _phoneController.text ??
-                              //         viewmodel.player.phone,
-                              //     name:
-                              //         _nameController.text ?? viewmodel.player,
-                              //     gender: gender ?? viewmodel.player.gender,
-                              //     dateOfBirth: _dateOfBirthController.text ??
-                              //         viewmodel.player.dateOfBirth,
-                              //     categoryModel: currentCategory ??
-                              //         viewmodel.player.category,
-                              //     country: currentCountry ??
-                              //         viewmodel.player.country,
-                              //   );
-                              //   context.navigator.pop();
-                              // }
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                viewmodel.editPersonalInfo(
+                                  phone: _phoneController.text ??
+                                      viewmodel.player.phone,
+                                  name:
+                                      _nameController.text ?? viewmodel.player,
+                                  gender: gender ?? viewmodel.player.gender,
+                                  dateOfBirth: dateOfBirth ??
+                                      viewmodel.player.dateOfBirth,
+                                  categoryModel: currentCategory ??
+                                      viewmodel.player.category,
+                                  country: currentCountry ??
+                                      viewmodel.player.country,
+                                );
+                              }
                             });
                       },
                     ),

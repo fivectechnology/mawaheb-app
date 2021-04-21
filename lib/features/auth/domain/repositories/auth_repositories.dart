@@ -21,7 +21,6 @@ abstract class AuthRepository extends BaseRepository {
   Future<bool> logout();
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
-    @required String displayName,
     @required String email,
     @required String password,
     @required int code,

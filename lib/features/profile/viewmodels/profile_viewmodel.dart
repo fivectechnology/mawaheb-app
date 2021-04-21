@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
@@ -165,7 +166,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       () => _authRepository
           .addPersonalInfo(
               version: player.version,
-              id: id,
+              id: player.id,
               dateOfBirth: dateOfBirth,
               gender: gender,
               name: name,
@@ -173,7 +174,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               categoryModel: categoryModel,
               phone: phone)
           .whenSuccess(
-            (res) => res.data.first.apply(() {}),
+            (res) => res.data.first.apply(() {
+              getContext((context) => App.navKey.currentState.context
+                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+            }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
@@ -193,8 +197,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => context.pushNamedAndRemoveUntil(
-                  BasePage.route, (_) => false));
+              getContext((context) => App.navKey.currentState.context
+                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -223,7 +227,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               sport: sport,
               sportPositionModel: position)
           .whenSuccess(
-            (res) => res.data.first.apply(() {}),
+            (res) => res.data.first.apply(() {
+              getContext((context) => App.navKey.currentState.context
+                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+            }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
