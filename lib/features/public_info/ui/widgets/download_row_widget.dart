@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/widgets/network_image_widget.dart';
 
-Widget imageRow({BuildContext context, String title, int idSource}) {
+Widget imageRow(
+    {BuildContext context, String title, int idSource, String token}) {
   return Padding(
     padding: const EdgeInsets.only(top: 26),
     child: Column(
@@ -15,11 +17,7 @@ Widget imageRow({BuildContext context, String title, int idSource}) {
         const SizedBox(height: 5),
         ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(
-              'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$idSource/download2',
-              // ignore: prefer_const_literals_to_create_immutables
-              headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='},
-            )),
+            child: networkImageCached(sourceId: idSource, token: token))
       ],
     ),
   );

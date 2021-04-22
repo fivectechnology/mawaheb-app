@@ -90,6 +90,10 @@
   "lbl_new_password": "New Password",
   "lbl_confirm_player": "Confirm Player",
   "lbl_book_player": "Book Player",
+  "lbl_select_birth": "Date of birth",
+  "lbl_my_info": "My info",
+  "lbl_my_views": "Views",
+
 
 
 
@@ -126,5 +130,4 @@
   "msg_otp_error": "Incorrect OTP",
   "msg_signUp_error": "Email already exist",
   "msg_email_not_reg": "Email not registered"
-
 }

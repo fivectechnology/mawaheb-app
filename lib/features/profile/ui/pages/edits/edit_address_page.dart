@@ -97,7 +97,7 @@ class _EditAddressPageState
                       hintColor: Colors.grey,
                       validator: stateValidator,
                       onChanged: (value) {
-                        stateController = value;
+                        stateController.text = value;
                       },
                       textEditingController: stateController,
                       context: context,
@@ -109,7 +109,7 @@ class _EditAddressPageState
                       validator: addressValidator,
                       textEditingController: addressController,
                       onChanged: (value) {
-                        addressController = value;
+                        addressController.text = value;
                       },
                       context: context,
                     ),

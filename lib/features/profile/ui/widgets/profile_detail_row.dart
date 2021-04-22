@@ -2,7 +2,10 @@ import 'package:core_sdk/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
-Widget profileDetails({BuildContext context, String name}) {
+Widget profileDetails({
+  BuildContext context,
+  String name,
+}) {
   return Padding(
     padding: const EdgeInsets.only(top: 10, bottom: 40, left: 16),
     child: Row(

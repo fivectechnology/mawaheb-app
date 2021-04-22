@@ -86,13 +86,13 @@
   "lbl_available_players": "اللاعبون المتاحون",
   "lbl_confirm_player": "تأكيد اللاعب",
   "lbl_book_player": "حجز اللاعب",
-
-
   "lbl_old_password": "كلمة المرور القديمة",
   "lbl_new_password": "كلمة المرور الجديدة",
   "lbl_confirm_password": "تأكيد كلمة المرور",
   "lbl_Reset_password": "إعادة تعيين كلمة المرور",
-
+  "lbl_select_birth": "تاريخ الميلاد",
+  "lbl_my_info": "معلوماتي",
+  "lbl_my_views": "المشاهدات",
 
 
 
@@ -109,7 +109,11 @@
   "msg_brief": "نبذة مختصرة عن نفسك",
   "msg_accepted": "لقد قرأت ووافقت على",
   "msg_no_views": "لا يوجد مشاهدات",
-  "msg_no_match_players": "لا يوجد نتائج مطابقة"
+  "msg_no_match_players": "لا يوجد نتائج مطابقة",
+  "msg_login_error": "خطأ بكلمة المرور او البريد الالكتروني",
+  "msg_otp_error": "غير صحيح OTP",
+  "msg_signUp_error": "البريد الالكتروني موجود مسبقا",
+  "msg_email_not_reg": "البريد الاكلتروني غير موجود"
 
 
 

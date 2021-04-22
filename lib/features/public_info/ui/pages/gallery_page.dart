@@ -54,6 +54,7 @@ class _GalleryPageState
                   itemBuilder: (context, index) {
                     return imageRow(
                         context: context,
+                        token: viewmodel.prefsRepository.token,
                         title: gallery[index].title,
                         idSource: gallery[index].source.id);
                   });

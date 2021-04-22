@@ -4,13 +4,12 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
-import 'package:mawaheb_app/features/players/ui/pages/videos_page.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:mawaheb_app/features/profile/ui/widgets/profile_detail_row.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-
+import 'package:mawaheb_app/features/profile/ui/pages/videos_page.dart';
 import '../../../profile/ui/pages/my_info_page.dart';
 
 class ViewPlayerProfile extends StatefulWidget {
@@ -95,9 +94,7 @@ class _ViewPlayerProfileState
                   const SizedBox(height: 26),
                   Expanded(
                     child: TabBarView(controller: _tabController, children: [
-                      MyInfoPage(
-                        id: viewmodel.playerId,
-                      ),
+                      const MyInfoPage(),
                       const VideosPage(),
                     ]),
                   ),

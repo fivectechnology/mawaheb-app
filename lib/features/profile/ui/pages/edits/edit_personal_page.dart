@@ -12,6 +12,7 @@ import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
@@ -40,8 +41,9 @@ class EditPersonalPage extends StatefulWidget {
 
 class _EditPersonalPageState
     extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
-  TextEditingController _nameController;
-  TextEditingController _phoneController;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   CountryModel currentCountry;
@@ -72,6 +74,7 @@ class _EditPersonalPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    print('my debug didChangeDependencies1');
 
     if (viewmodel?.categoryFuture == null) {
       viewmodel.getCategories();
@@ -79,9 +82,6 @@ class _EditPersonalPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
-    _nameController = TextEditingController(text: viewmodel.player.name);
-
-    _phoneController = TextEditingController(text: viewmodel.player.phone);
   }
 
   Future getImage() async {
@@ -125,156 +125,151 @@ class _EditPersonalPageState
       backgroundColor: WHITE,
       appBar: customAppBar(
           context: context, title: 'lbl_personal_info', withTitle: true),
-      body: MawahebFutureBuilder(
-          onRetry: viewmodel.getCategories,
-          future: viewmodel.countryFuture,
-          onSuccess: (country) {
-            return Form(
-              key: _formKey,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
-                child: ListView(
-                  children: [
-                    imageRow(),
-                    const SizedBox(height: 26),
-                    MawahebTextField(
-                      hintText: 'lbl_full_name',
-                      hintColor: Colors.grey,
-                      textEditingController: _nameController,
-                      context: context,
-                      onChanged: (value) {
-                        _nameController = value;
-                      },
-                      validator: nameValidator,
-                    ),
-                    const SizedBox(height: 26),
-                    Row(
-                      children: [
-                        RaisedButton(
-                          color: Colors.white,
-                          onPressed: () => _selectDate(context),
-                          child: Text('Select Date of Birth',
-                              style: textTheme.bodyText1
-                                  .copyWith(color: TEXT_COLOR)),
-                        ),
-                        if (viewmodel.player.dateOfBirth != null)
-                          Text('  ' + viewmodel.player.dateOfBirth,
-                              style: textTheme.bodyText1
-                                  .copyWith(color: TEXT_COLOR))
-                      ],
-                    ),
-                    // MawahebTextField(
-                    //     focusNode: dateFocusNode,
-                    //     onTab: () {
-                    //       _selectDate(context);
-                    //     },
-                    //     hintText: 'lbl_date_of_birth',
-                    //     hintColor: Colors.grey,
-                    //     textEditingController: _dateOfBirthController,
-                    //     validator: dateValidator,
-                    //     onChanged: (value) {
-                    //       _dateOfBirthController = value;
-                    //     },
-                    //     context: context),
-                    const SizedBox(height: 26),
-                    MawahebTextField(
-                        hintText: 'lbl_phone_num',
+      body: Observer(builder: (_) {
+        return viewmodel.countries == null || viewmodel.categories == null
+            ? const Center(child: MawahebLoader())
+            : Form(
+                key: _formKey,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                  child: ListView(
+                    children: [
+                      imageRow(),
+                      const SizedBox(height: 26),
+                      MawahebTextField(
+                        hintText: 'lbl_full_name',
                         hintColor: Colors.grey,
-                        textEditingController: _phoneController,
-                        validator: phoneValidator,
+                        textEditingController: _nameController,
+                        context: context,
+                        // onChanged: (value) {
+                        //   _nameController.text = value;
+                        // },
+                        validator: nameValidator,
+                      ),
+                      const SizedBox(height: 26),
+                      Row(
+                        children: [
+                          RaisedButton(
+                            color: Colors.white,
+                            onPressed: () => _selectDate(context),
+                            child: Text(context.translate('lbl_select_birth'),
+                                style: textTheme.bodyText1
+                                    .copyWith(color: TEXT_COLOR)),
+                          ),
+                          if (viewmodel.player.dateOfBirth != null)
+                            Text('  ' + viewmodel.player.dateOfBirth,
+                                style: textTheme.bodyText1
+                                    .copyWith(color: TEXT_COLOR))
+                        ],
+                      ),
+                      // MawahebTextField(
+                      //     focusNode: dateFocusNode,
+                      //     onTab: () {
+                      //       _selectDate(context);
+                      //     },
+                      //     hintText: 'lbl_date_of_birth',
+                      //     hintColor: Colors.grey,
+                      //     textEditingController: _dateOfBirthController,
+                      //     validator: dateValidator,
+                      //     onChanged: (value) {
+                      //       _dateOfBirthController = value;
+                      //     },
+                      //     context: context),
+                      const SizedBox(height: 26),
+                      MawahebTextField(
+                          hintText: 'lbl_phone_num',
+                          hintColor: Colors.grey,
+                          textEditingController: _phoneController,
+                          validator: phoneValidator,
+                          // onChanged: (value) {
+                          //   _phoneController.text = value;
+                          // },
+                          context: context),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                        hint: 'lbl_nationality',
+                        context: context,
                         onChanged: (value) {
-                          _phoneController = value;
+                          currentCountry = value;
                         },
-                        context: context),
-                    const SizedBox(height: 26),
-                    mawhaebDropDown(
-                      hint: 'lbl_nationality',
-                      context: context,
-                      onChanged: (value) {
-                        currentCountry = value;
-                      },
-                      items: viewmodel.countries
-                          .map((em) => DropdownMenuItem(
-                                child: Text(em.name),
-                                value: em,
-                              ))
-                          .toList(),
-                    ),
-                    const SizedBox(height: 26),
-                    mawhaebDropDown(
-                      hint: 'lbl_category',
-                      context: context,
-                      onChanged: (value) {
-                        currentCategory = value;
-                      },
-                      items: viewmodel.categories
-                          .map((em) => DropdownMenuItem(
-                                child: Text(em.title),
-                                value: em,
-                              ))
-                          .toList(),
-                    ),
-                    const SizedBox(height: 26),
-                    mawhaebDropDown(
-                      hint: 'lbl_gender',
-                      context: context,
-                      onChanged: (value) {
-                        gender = value;
-                      },
-                      items: ['MALE']
-                          .map((em) => DropdownMenuItem(
-                                child: Text(em),
-                                value: em,
-                              ))
-                          .toList(),
-                    ),
-                    const SizedBox(height: 26),
-                    Observer(
-                      builder: (_) {
-                        return MawahebButton(
-                            context: context,
-                            text: 'lbl_back',
-                            textColor: Colors.black,
-                            borderColor: Colors.black,
-                            buttonColor: WHITE,
-                            isLoading: viewmodel.playerLoading,
-                            onPressed: () async {
-                              print(fileType);
-                              print(fileName);
-                              print(fileSize);
-                              // viewmodel.updateProfileImage(image: base64Image);
-                              viewmodel.uploadFile(
-                                  file: _image,
-                                  fileName: fileName,
-                                  fileSize: fileSize,
-                                  fileType: fileType);
+                        items: viewmodel.countries
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em.name),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                        hint: 'lbl_category',
+                        context: context,
+                        onChanged: (value) {
+                          currentCategory = value;
+                        },
+                        items: viewmodel.categories
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em.title),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                        hint: 'lbl_gender',
+                        context: context,
+                        onChanged: (value) {
+                          gender = value;
+                        },
+                        items: ['MALE']
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
+                      const SizedBox(height: 26),
+                      Observer(
+                        builder: (_) {
+                          return MawahebButton(
+                              context: context,
+                              text: 'lbl_back',
+                              textColor: Colors.black,
+                              borderColor: Colors.black,
+                              buttonColor: WHITE,
+                              isLoading: viewmodel.playerLoading,
+                              onPressed: () async {
+                                // viewmodel.uploadFile(
+                                //     file: _image,
+                                //     fileName: fileName,
+                                //     fileSize: fileSize,
+                                //     fileType: fileType);
 
-                              // if (_formKey.currentState.validate()) {
-                              //   _formKey.currentState.save();
-                              //   viewmodel.editPersonalInfo(
-                              //     phone: _phoneController.text ??
-                              //         viewmodel.player.phone,
-                              //     name:
-                              //         _nameController.text ?? viewmodel.player,
-                              //     gender: gender ?? viewmodel.player.gender,
-                              //     dateOfBirth: dateOfBirth ??
-                              //         viewmodel.player.dateOfBirth,
-                              //     categoryModel: currentCategory ??
-                              //         viewmodel.player.category,
-                              //     country: currentCountry ??
-                              //         viewmodel.player.country,
-                              //   );
-                              // }
-                            });
-                      },
-                    ),
-                    const SizedBox(height: 34),
-                  ],
+                                if (_formKey.currentState.validate()) {
+                                  _formKey.currentState.save();
+                                  viewmodel.editPersonalInfo(
+                                    phone: _phoneController.text ??
+                                        viewmodel.player.phone,
+                                    name: _nameController.text ??
+                                        viewmodel.player,
+                                    gender: gender ?? viewmodel.player.gender,
+                                    dateOfBirth: dateOfBirth ??
+                                        viewmodel.player.dateOfBirth,
+                                    categoryModel: currentCategory ??
+                                        viewmodel.player.category,
+                                    country: currentCountry ??
+                                        viewmodel.player.country,
+                                  );
+                                }
+                              });
+                        },
+                      ),
+                      const SizedBox(height: 34),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+      }),
     );
   }
 
@@ -282,7 +277,7 @@ class _EditPersonalPageState
     return Row(
       children: [
         Container(
-          margin: EdgeInsets.only(right: context.fullWidth * 0.03),
+          margin: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.03),
           height: context.fullHeight * 0.12,
           width: context.fullHeight * 0.12,
           decoration: BoxDecoration(
@@ -291,7 +286,9 @@ class _EditPersonalPageState
           ),
           child: _image == null
               ? IconButton(
-                  onPressed: getImage,
+                  onPressed: () async {
+                    await getImage();
+                  },
                   icon: const Icon(
                     Icons.camera_alt,
                     color: Colors.grey,

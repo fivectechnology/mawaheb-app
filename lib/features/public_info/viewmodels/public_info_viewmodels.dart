@@ -81,6 +81,7 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   // @observable
   // PublicInfoTabs tabsIndex = PublicInfoTabs.about_us;
   //
+
   @observable
   ObservableFuture<AboutUsModel> aboutUsFuture;
 

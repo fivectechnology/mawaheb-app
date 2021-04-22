@@ -8,7 +8,6 @@ import 'package:mawaheb_app/app/theme/mawaheb_light_theme.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/splash/ui/pages/splash_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -17,7 +16,8 @@ import 'package:provider/provider.dart';
 class App extends StatefulWidget {
   const App({Key key}) : super(key: key);
 
-  static final GlobalKey<NavigatorState> navKey = GlobalKey(debugLabel: 'Main_Mawahib_Navigator');
+  static final GlobalKey<NavigatorState> navKey =
+      GlobalKey(debugLabel: 'Main_Mawahib_Navigator');
 
   @override
   _AppState createState() => _AppState();
@@ -34,7 +34,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     if (prefs.languageCode == null) {
-      prefs.setApplicationLanguage(LANGUAGE_ARABIC);
+      prefs.setApplicationLanguage(LANGUAGE_ENGLISH);
     }
     // TODO(abd): add firebase
     // appViewModel.configFirebase();
@@ -66,9 +66,11 @@ class _AppState extends State<App> {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+          localeResolutionCallback:
+              (Locale locale, Iterable<Locale> supportedLocales) {
             for (final Locale supportedLocale in supportedLocales) {
-              if (locale != null && supportedLocale.languageCode == locale.languageCode) {
+              if (locale != null &&
+                  supportedLocale.languageCode == locale.languageCode) {
                 return supportedLocale;
               }
             }
