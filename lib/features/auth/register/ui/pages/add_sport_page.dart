@@ -77,6 +77,7 @@ class _AddSportPageState
               child: ListView(
                 children: [
                   mawhaebDropDown(
+                    value: viewmodel.sports.first,
                     hint: context.translate('lbl_sport_name'),
                     context: context,
                     onChanged: (value) {
@@ -91,6 +92,7 @@ class _AddSportPageState
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                    value: viewmodel.positions.first,
                     hint: context.translate('lbl_position'),
                     context: context,
                     onChanged: (value) {
@@ -109,7 +111,7 @@ class _AddSportPageState
                     hintColor: Colors.grey,
                     context: context,
                     validator: weightValidator,
-                    textEditingController: _hightController,
+                    textEditingController: _weightController,
                   ),
                   const SizedBox(height: 26),
                   MawahebTextField(
@@ -117,10 +119,11 @@ class _AddSportPageState
                     hintColor: Colors.grey,
                     context: context,
                     validator: hightValidator,
-                    textEditingController: _weightController,
+                    textEditingController: _hightController,
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                      value: 'RIGHT',
                       hint: context.translate('lbl_prefer_hand'),
                       context: context,
                       items: ['RIGHT', 'LEFT', 'BOTH']
@@ -134,6 +137,7 @@ class _AddSportPageState
                       }),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                      value: 'RIGHT',
                       hint: context.translate('lbl_prefer_leg'),
                       context: context,
                       items: ['RIGHT', 'LEFT', 'BOTH']
@@ -179,11 +183,11 @@ class _AddSportPageState
                             viewmodel.addSportInfo(
                               height: int.parse(_hightController.text),
                               weight: int.parse(_weightController.text),
-                              hand: hand,
-                              leg: leg,
+                              hand: hand ?? 'RIGHT',
+                              leg: leg ?? 'RIGHT',
                               brief: _briefController.text,
-                              sport: currentSport,
-                              position: position,
+                              sport: currentSport ?? viewmodel.sports.first,
+                              position: position ?? viewmodel.positions.first,
                             );
                           }
                         },

@@ -148,6 +148,7 @@ class _PlayerInfoPageState
                       context: context),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                    value: viewmodel.countries.first,
                     hint: 'lbl_nationality',
                     context: context,
                     onChanged: (value) {
@@ -162,6 +163,7 @@ class _PlayerInfoPageState
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                    value: viewmodel.categories.first,
                     hint: 'lbl_category',
                     context: context,
                     onChanged: (value) {
@@ -176,6 +178,7 @@ class _PlayerInfoPageState
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                    value: 'MALE',
                     hint: 'lbl_gender',
                     context: context,
                     onChanged: (value) {
@@ -211,10 +214,12 @@ class _PlayerInfoPageState
                               viewmodel.addPersonalInfo(
                                 phone: _phoneController.text,
                                 name: _nameController.text,
-                                gender: gender,
+                                gender: gender ?? 'MALE',
                                 dateOfBirth: dateOfBirth,
-                                categoryModel: currentCategory,
-                                country: currentCountry,
+                                categoryModel: currentCategory ??
+                                    viewmodel.categories.first,
+                                country:
+                                    currentCountry ?? viewmodel.countries.first,
                               );
                             }
                           });
@@ -231,7 +236,7 @@ class _PlayerInfoPageState
     return Row(
       children: [
         Container(
-          margin: EdgeInsets.only(right: context.fullWidth * 0.03),
+          margin: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.03),
           height: context.fullHeight * 0.12,
           width: context.fullHeight * 0.12,
           decoration: BoxDecoration(

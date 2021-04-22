@@ -44,8 +44,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   final PrefsRepository prefsRepository;
 
   List<Widget> pages = [
-    const VideosPage(),
     const MyInfoPage(),
+    const VideosPage(),
     const ViewsPage(),
   ];
 

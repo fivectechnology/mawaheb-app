@@ -59,9 +59,17 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                 backgroundColor: Colors.white,
                 body: Column(
                   children: [
-                    profileActivationRow(isPending: true),
+                    profileActivationRow(
+                        isPending:
+                            // ignore: avoid_bool_literals_in_conditional_expressions
+                            viewmodel.player.status == 'INACTIVE'
+                                ? true
+                                : false),
                     profileDetails(
-                        context: context, name: viewmodel.player.name),
+                        context: context,
+                        name: viewmodel.player.name,
+                        photo: viewmodel.player.photo,
+                        token: viewmodel.prefsRepository.token),
                     Container(
                       height: context.fullHeight * 0.07,
                       decoration: const BoxDecoration(
@@ -130,12 +138,12 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
           ),
           if (!isPending)
             Text(
-              'Profile Active till march 3, 2022',
+              context.translate('lbl_active_account'),
               style: textTheme.subtitle1,
             )
           else
             Text(
-              'Profile pending, payment required',
+              context.translate('lbl_pending_account'),
               style: textTheme.subtitle1,
             ),
           Visibility(

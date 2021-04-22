@@ -145,7 +145,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
         'data': {
           'group': {'id': 5, 'code': 'players'},
           'oldPassword': 'admin',
-          'name': '',
+          'name': email.split('@').first,
           'code': email,
           'email': email,
           'newPassword': password,

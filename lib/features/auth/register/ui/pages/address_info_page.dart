@@ -62,6 +62,7 @@ class _AddressInfoPageState
             child: Column(
               children: [
                 mawhaebDropDown(
+                  value: viewmodel.emirates.first,
                   hint: 'lbl_emirate',
                   context: context,
                   onChanged: (value) {
@@ -102,7 +103,8 @@ class _AddressInfoPageState
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
                               viewmodel.addAddressInfo(
-                                  emirateModel: currentEmirate,
+                                  emirateModel: currentEmirate ??
+                                      viewmodel.emirates.first,
                                   address: _addressController.text,
                                   area: _addressController.text);
                             }

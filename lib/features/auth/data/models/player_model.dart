@@ -8,6 +8,7 @@ import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
+import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 
 part 'player_model.g.dart';
 
@@ -38,6 +39,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.status,
     @required this.availability,
     @required this.videos,
+    @required this.photo,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -66,6 +68,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final String status;
   final String availability;
   final List<VideoModel> videos;
+  final SourceModel photo;
 
   PlayerModel copyWith(
       {String code,
@@ -94,6 +97,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       CountryModel country,
       String status,
       String availability,
+      SourceModel photo,
       List<VideoModel> videos}) {
     return PlayerModel(
       code: code ?? this.code,
@@ -119,6 +123,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       country: country ?? this.country,
       status: status ?? this.status,
       availability: availability ?? this.availability,
+      photo: photo ?? this.photo,
       videos: videos ?? this.videos,
       id: id ?? this.id,
       version: version ?? this.version,
@@ -155,6 +160,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       status,
       availability,
       videos,
+      photo
     ];
   }
 

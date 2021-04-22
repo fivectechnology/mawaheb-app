@@ -45,6 +45,9 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : VideoModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    photo: json['photo'] == null
+        ? null
+        : SourceModel.fromJson(json['photo'] as Map<String, dynamic>),
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -78,4 +81,5 @@ Map<String, dynamic> _$PlayerModelToJson(PlayerModel instance) =>
       'status': instance.status,
       'availability': instance.availability,
       'videos': instance.videos,
+      'photo': instance.photo,
     };
