@@ -68,7 +68,7 @@ class _EditPersonalPageState
   void dispose() {
     _phoneController.dispose();
     _nameController.dispose();
-    super.dispose();
+    super.dispose(); 
   }
 
   @override

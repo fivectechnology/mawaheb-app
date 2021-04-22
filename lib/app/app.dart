@@ -16,8 +16,7 @@ import 'package:provider/provider.dart';
 class App extends StatefulWidget {
   const App({Key key}) : super(key: key);
 
-  static final GlobalKey<NavigatorState> navKey =
-      GlobalKey(debugLabel: 'Main_Mawahib_Navigator');
+  static final GlobalKey<NavigatorState> navKey = GlobalKey(debugLabel: 'Main_Mawahib_Navigator');
 
   @override
   _AppState createState() => _AppState();
@@ -34,7 +33,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     if (prefs.languageCode == null) {
-      prefs.setApplicationLanguage(LANGUAGE_ENGLISH);
+      prefs.setApplicationLanguage(defaultLanguage);
     }
     // TODO(abd): add firebase
     // appViewModel.configFirebase();
@@ -66,11 +65,9 @@ class _AppState extends State<App> {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          localeResolutionCallback:
-              (Locale locale, Iterable<Locale> supportedLocales) {
+          localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
             for (final Locale supportedLocale in supportedLocales) {
-              if (locale != null &&
-                  supportedLocale.languageCode == locale.languageCode) {
+              if (locale != null && supportedLocale.languageCode == locale.languageCode) {
                 return supportedLocale;
               }
             }
