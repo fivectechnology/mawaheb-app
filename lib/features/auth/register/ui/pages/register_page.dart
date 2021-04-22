@@ -20,8 +20,8 @@ class RegisterPage extends StatefulWidget {
   }) : super(key: key);
 
   static const String route = '/register';
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
-      MaterialPageRoute(
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
@@ -32,8 +32,7 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState
-    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
 
   String pageTitle = 'lbl_sign_up';
@@ -49,8 +48,7 @@ class _RegisterPageState
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel,
-          (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel sliderModel) {
         slidePage(sliderModel);
         viewmodel.registerSliderModel = null;
       }),
@@ -69,6 +67,7 @@ class _RegisterPageState
       viewmodel: viewmodel,
       loadingWidget: const Center(child: MawahebLoader()),
       child: Scaffold(
+        key: RegisterPage.scaffoldKey,
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true,
         appBar: customAppBar(
@@ -127,9 +126,7 @@ class _RegisterPageState
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(
-            duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(
-            duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
   }
 }

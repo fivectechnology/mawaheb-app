@@ -18,6 +18,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
@@ -243,8 +244,16 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               );
             }),
           ),
-      catchBlock: (err) => showSnack('email exist', duration: 2.seconds),
-      unknownErrorHandler: (err) => showSnack('email exist', duration: 2.seconds),
+      catchBlock: (err) => getContext((context) => showSnack(
+            context.translate('msg_email_exist'),
+            duration: 2.seconds,
+            scaffoldKey: RegisterPage.scaffoldKey,
+          )),
+      unknownErrorHandler: (err) => getContext((context) => showSnack(
+            context.translate('msg_email_exist'),
+            duration: 2.seconds,
+            scaffoldKey: RegisterPage.scaffoldKey,
+          )),
       useLoader: true,
     );
   }
