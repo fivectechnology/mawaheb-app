@@ -19,7 +19,7 @@ abstract class ProfileRepository extends BaseRepository {
   Future<NetworkResult<bool>> updateImageProfile({
     int id,
     int version,
-    String image,
+    int imageId,
   });
 
   Future<int> uploadFile({

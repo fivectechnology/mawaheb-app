@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -50,6 +51,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   ];
 
   //* OBSERVERS *//
+  @observable
+  File image;
 
   @observable
   Future<int> imageId;
@@ -117,6 +120,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get uploadImageError => uploadImageFuture?.isFailure ?? false;
+
+  @computed
+  File get imageFile => image;
 
   //* ACTIONS *//
 
@@ -191,8 +197,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               phone: phone)
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              // getContext((context) => App.navKey.currentState.context
+              //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -253,11 +259,11 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void updateProfileImage({int id, int version, String image}) {
+  void updateProfileImage({int id, int version, int imageId}) {
     editPersonalPlayerFuture = futureWrapper(
       () => _profileRepository
           .updateImageProfile(
-              version: player.version, id: player.id, image: image)
+              version: player.version, id: player.id, imageId: imageId)
           .whenSuccess(
             (res) => res.apply(() {
               print('image updated');
@@ -275,20 +281,26 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
     int fileSize,
     String fileName,
     String fileType,
-  }) async {
+  }) {
     imageId = _profileRepository
         .uploadFile(
             file: file,
             fileSize: fileSize,
             fileType: fileType,
             fileName: fileName)
-        .whenComplete(() {
+        .then((res) async {
       print('file upoladed');
-      print(imageId);
-      getContext((context) => App.navKey.currentState.context
-          .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
-    });
 
-    return imageId;
+      await _profileRepository
+          .updateImageProfile(imageId: res, version: 1, id: player.id)
+          .whenSuccess((res) => apply(() {
+                print('image updated');
+                getContext((context) => App.navKey.currentState.context
+                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              }));
+      // updateProfileImage(
+      //     id: player.id, version: player.version, imageId: await imageId);
+      return res;
+    });
   }
 }

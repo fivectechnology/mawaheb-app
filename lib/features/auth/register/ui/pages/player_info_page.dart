@@ -44,6 +44,9 @@ class _PlayerInfoPageState
   final picker = ImagePicker();
   DateTime _selectedDate;
   String dateOfBirth;
+  String fileType;
+  String fileName;
+  int fileSize;
 
   @override
   void initState() {
@@ -67,18 +70,10 @@ class _PlayerInfoPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
-  }
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (viewmodel.image != null) {
+      viewmodel.imageFile;
+    }
   }
 
   // ignore: always_declare_return_types
@@ -96,6 +91,19 @@ class _PlayerInfoPageState
         _selectedDate = picked;
         dateOfBirth = formatter.format(_selectedDate);
       });
+  }
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      viewmodel.image = File(pickedFile.path);
+      fileName = viewmodel.image.path.split('/').last;
+      fileType = fileName.split('.').last;
+      fileSize = await viewmodel.image.length();
+    } else {
+      print('No image selected.');
+    }
   }
 
   @override
@@ -204,10 +212,15 @@ class _PlayerInfoPageState
                           context: context,
                           text: 'lbl_next',
                           isLoading: viewmodel.registerLoading,
-                          // onPressed: () {
-                          //   viewmodel.changeRegisterSlider(PageSliderForawardModel());
-                          // },
-                          onPressed: () {
+                          onPressed: () async {
+                            if (viewmodel.image != null) {
+                              viewmodel.uploadFile(
+                                  file: viewmodel.image,
+                                  fileType: fileType,
+                                  fileName: fileName,
+                                  fileSize: fileSize);
+                            }
+
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
 
@@ -243,17 +256,30 @@ class _PlayerInfoPageState
             shape: BoxShape.circle,
             border: Border.all(color: Colors.grey, width: 2.0),
           ),
-          child: IconButton(
-            onPressed: getImage,
-            icon: const Icon(
-              Icons.camera_alt,
-              color: Colors.grey,
-            ),
-          ),
+          child: viewmodel.imageFile == null
+              ? IconButton(
+                  onPressed: () async {
+                    await getImage();
+                  },
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.grey,
+                  ),
+                )
+              : CircleAvatar(
+                  backgroundImage: FileImage(viewmodel.imageFile),
+                  radius: 200.0,
+                ),
         ),
-        Text(
-          context.translate('lbl_add_image'),
-          style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+        InkWell(
+          onTap: () async {
+            await getImage();
+          },
+          child: Text(
+            context.translate('lbl_add_image'),
+            style:
+                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+          ),
         )
       ],
     );

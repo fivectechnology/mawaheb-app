@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:core_sdk/utils/colors.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
@@ -82,26 +80,22 @@ class _EditPersonalPageState
     if (viewmodel?.countryFuture == null) {
       viewmodel.getCountries();
     }
+    if (viewmodel.image != null) {
+      viewmodel.imageFile;
+    }
   }
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      fileName = _image.path.split('/').last;
+      viewmodel.image = File(pickedFile.path);
+      fileName = viewmodel.image.path.split('/').last;
       fileType = fileName.split('.').last;
-      fileSize = await _image.length();
+      fileSize = await viewmodel.image.length();
     } else {
       print('No image selected.');
     }
-  }
-
-  Future<String> imgToBase64(File image) async {
-    final bytes = image.readAsBytesSync();
-    final base64Str = base64Encode(bytes);
-
-    return base64Str;
   }
 
   _selectDate(BuildContext context) async {
@@ -157,7 +151,11 @@ class _EditPersonalPageState
                                 style: textTheme.bodyText1
                                     .copyWith(color: TEXT_COLOR)),
                           ),
-                          if (viewmodel.player.dateOfBirth != null)
+                          if (dateOfBirth != null)
+                            Text('  ' + dateOfBirth,
+                                style: textTheme.bodyText1
+                                    .copyWith(color: TEXT_COLOR))
+                          else if (viewmodel.player.dateOfBirth != null)
                             Text('  ' + viewmodel.player.dateOfBirth,
                                 style: textTheme.bodyText1
                                     .copyWith(color: TEXT_COLOR))
@@ -239,12 +237,13 @@ class _EditPersonalPageState
                               buttonColor: WHITE,
                               isLoading: viewmodel.playerLoading,
                               onPressed: () async {
-                                // viewmodel.uploadFile(
-                                //     file: _image,
-                                //     fileName: fileName,
-                                //     fileSize: fileSize,
-                                //     fileType: fileType);
-
+                                if (viewmodel.image != null) {
+                                  viewmodel.uploadFile(
+                                      file: viewmodel.image,
+                                      fileType: fileType,
+                                      fileName: fileName,
+                                      fileSize: fileSize);
+                                }
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
                                   viewmodel.editPersonalInfo(
@@ -284,7 +283,7 @@ class _EditPersonalPageState
             shape: BoxShape.circle,
             border: Border.all(color: Colors.grey, width: 2.0),
           ),
-          child: _image == null
+          child: viewmodel.imageFile == null
               ? IconButton(
                   onPressed: () async {
                     await getImage();
@@ -295,13 +294,19 @@ class _EditPersonalPageState
                   ),
                 )
               : CircleAvatar(
-                  backgroundImage: FileImage(_image),
+                  backgroundImage: FileImage(viewmodel.imageFile),
                   radius: 200.0,
                 ),
         ),
-        Text(
-          context.translate('lbl_add_image'),
-          style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+        InkWell(
+          onTap: () async {
+            await getImage();
+          },
+          child: Text(
+            context.translate('lbl_add_image'),
+            style:
+                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+          ),
         )
       ],
     );
