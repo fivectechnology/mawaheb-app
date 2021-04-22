@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -259,24 +258,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void updateProfileImage({int id, int version, int imageId}) {
-    editPersonalPlayerFuture = futureWrapper(
-      () => _profileRepository
-          .updateImageProfile(
-              version: player.version, id: player.id, imageId: imageId)
-          .whenSuccess(
-            (res) => res.apply(() {
-              print('image updated');
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
-            }),
-          ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
-    );
-  }
-
-  @action
-  Future<int> uploadFile({
+  // ignore: missing_return
+  Future<int> uploadImage({
     File file,
     int fileSize,
     String fileName,
@@ -297,6 +280,34 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
                 print('image updated');
                 getContext((context) => App.navKey.currentState.context
                     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              }));
+      // updateProfileImage(
+      //     id: player.id, version: player.version, imageId: await imageId);
+      return res;
+    });
+  }
+
+  @action
+  // ignore: missing_return
+  Future<int> uploadVideo({
+    File file,
+    int fileSize,
+    String fileName,
+    String fileType,
+  }) {
+    imageId = _profileRepository
+        .uploadFile(
+            file: file,
+            fileSize: fileSize,
+            fileType: fileType,
+            fileName: fileName)
+        .then((res) async {
+      await _profileRepository
+          .uploadVideoPlayer(playerId: player.id, videoId: res)
+          .whenSuccess((res) => apply(() {
+                print('video added');
+                // getContext((context) => App.navKey.currentState.context
+                //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
               }));
       // updateProfileImage(
       //     id: player.id, version: player.version, imageId: await imageId);

@@ -43,4 +43,8 @@ class ProfileRepositoryImpl extends ProfileRepository {
           fileName: fileName,
           fileType: fileType,
           fileSize: fileSize);
+
+  @override
+  Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId}) =>
+      profileDataSource.uploadVideoPlayer(playerId: playerId, videoId: videoId);
 }

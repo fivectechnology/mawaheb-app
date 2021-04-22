@@ -36,6 +36,11 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
     String fileName,
     String fileType,
   });
+
+  Future<NetworkResult<bool>> uploadVideoPlayer({
+    @required int playerId,
+    @required int videoId,
+  });
 }
 
 @LazySingleton(as: ProfileDataSource)
@@ -165,5 +170,21 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
     }
 
     return id;
+  }
+
+  @override
+  Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      mawahebModel: true,
+      modelName: 'PartnerVideo',
+      data: {
+        'data': {
+          'partner': {'id': playerId},
+          'video': {'id': videoId},
+          'status': 'PENDING'
+        },
+      },
+    );
   }
 }

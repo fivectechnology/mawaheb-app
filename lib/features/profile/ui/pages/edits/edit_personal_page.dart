@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:core_sdk/utils/colors.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
@@ -238,7 +237,7 @@ class _EditPersonalPageState
                               isLoading: viewmodel.playerLoading,
                               onPressed: () async {
                                 if (viewmodel.image != null) {
-                                  viewmodel.uploadFile(
+                                  viewmodel.uploadImage(
                                       file: viewmodel.image,
                                       fileType: fileType,
                                       fileName: fileName,

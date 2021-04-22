@@ -28,4 +28,6 @@ abstract class ProfileRepository extends BaseRepository {
     String fileName,
     String fileType,
   });
+
+  Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId});
 }

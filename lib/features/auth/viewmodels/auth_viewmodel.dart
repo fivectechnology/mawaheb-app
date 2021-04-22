@@ -21,7 +21,6 @@ import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
-import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -486,6 +485,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
+  // ignore: missing_return
   Future<int> uploadFile({
     File file,
     int fileSize,

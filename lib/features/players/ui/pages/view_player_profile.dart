@@ -93,9 +93,10 @@ class _ViewPlayerProfileState
                   ),
                   const SizedBox(height: 26),
                   Expanded(
-                    child: TabBarView(controller: _tabController, children: [
-                      const MyInfoPage(),
-                      const VideosPage(),
+                    child:
+                        TabBarView(controller: _tabController, children: const [
+                      MyInfoPage(),
+                      VideosPage(),
                     ]),
                   ),
                   Container(

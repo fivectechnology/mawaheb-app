@@ -435,24 +435,28 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
-  void updateProfileImage({int id, int version, int imageId}) {
+  Future<int> uploadImage(
+      {File file, int fileSize, String fileName, String fileType}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
-        name: '_ProfileViewmodelBase.updateProfileImage');
+        name: '_ProfileViewmodelBase.uploadImage');
     try {
-      return super
-          .updateProfileImage(id: id, version: version, imageId: imageId);
+      return super.uploadImage(
+          file: file,
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  Future<int> uploadFile(
+  Future<int> uploadVideo(
       {File file, int fileSize, String fileName, String fileType}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
-        name: '_ProfileViewmodelBase.uploadFile');
+        name: '_ProfileViewmodelBase.uploadVideo');
     try {
-      return super.uploadFile(
+      return super.uploadVideo(
           file: file,
           fileSize: fileSize,
           fileName: fileName,
