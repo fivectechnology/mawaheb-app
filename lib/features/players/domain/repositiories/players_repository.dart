@@ -9,11 +9,14 @@ abstract class PlayersRepository extends BaseRepository {
   const PlayersRepository(PlayersDataSource playersDataSource)
       : super(playersDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required String country,
-    @required String sport,
-    @required String position,
-    @required String hand,
-    @required String leg,
-  });
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers(
+      {@required String country,
+      @required String sport,
+      @required String position,
+      @required String hand,
+      @required String leg,
+      @required String name});
+
+  Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
+  Future<NetworkResult<bool>> bookPlayer({int playerId});
 }

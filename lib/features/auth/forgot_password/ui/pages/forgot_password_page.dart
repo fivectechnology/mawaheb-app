@@ -1,11 +1,10 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
-import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -41,19 +40,6 @@ class _ForgotPasswordPageState
   void dispose() {
     _emailController.dispose();
     super.dispose();
-  }
-
-  String emailValidator(String email) {
-    const Pattern pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
-        r'{0,253}[a-zA-Z0-9])?)*$';
-    final RegExp regex = RegExp(pattern);
-
-    if (!regex.hasMatch(email) || email == null)
-      return 'Enter a valid email address';
-    else
-      return null;
   }
 
   @override
@@ -96,11 +82,10 @@ class _ForgotPasswordPageState
                           //     .push(ResetPasswordPagee.pageRoute(viewmodel));
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-
+                            viewmodel.forgetPasswordEmail =
+                                _emailController.text;
                             viewmodel.forgetPassword(
                                 email: _emailController.text);
-                            context.navigator
-                                .push(OtpPage.pageRoute(viewmodel));
                           }
                         },
                         context: context,

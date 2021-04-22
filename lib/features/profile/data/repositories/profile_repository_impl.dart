@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
@@ -22,4 +24,23 @@ class ProfileRepositoryImpl extends ProfileRepository {
   @override
   Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews() =>
       profileDataSource.playerViews(id: _prefsRepository.player.id);
+
+  @override
+  Future<NetworkResult<bool>> updateImageProfile(
+          {int id, int version, String image}) =>
+      profileDataSource.updateImageProfile(
+          id: id, version: version, image: image);
+
+  @override
+  Future<int> uploadFile({
+    File file,
+    int fileSize,
+    String fileName,
+    String fileType,
+  }) =>
+      profileDataSource.uploadFile(
+          file: file,
+          fileName: fileName,
+          fileType: fileType,
+          fileSize: fileSize);
 }

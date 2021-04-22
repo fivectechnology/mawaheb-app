@@ -161,6 +161,22 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     });
   }
 
+  final _$validateEmailFutureAtom =
+      Atom(name: '_AuthViewmodelBase.validateEmailFuture');
+
+  @override
+  ObservableFuture<bool> get validateEmailFuture {
+    _$validateEmailFutureAtom.reportRead();
+    return super.validateEmailFuture;
+  }
+
+  @override
+  set validateEmailFuture(ObservableFuture<bool> value) {
+    _$validateEmailFutureAtom.reportWrite(value, super.validateEmailFuture, () {
+      super.validateEmailFuture = value;
+    });
+  }
+
   final _$registerFutureAtom = Atom(name: '_AuthViewmodelBase.registerFuture');
 
   @override
@@ -354,13 +370,22 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void sendOTP(
-      {String name, String email, String password, bool resend = false}) {
+  void sendOTP({String email, String password, bool resend = false}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.sendOTP');
     try {
-      return super.sendOTP(
-          name: name, email: email, password: password, resend: resend);
+      return super.sendOTP(email: email, password: password, resend: resend);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateEmail({String email, String password}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.validateEmail');
+    try {
+      return super.validateEmail(email: email, password: password);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -500,6 +525,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
 registerSliderModel: ${registerSliderModel},
 loginFuture: ${loginFuture},
 sendOtp: ${sendOtp},
+validateEmailFuture: ${validateEmailFuture},
 registerFuture: ${registerFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},

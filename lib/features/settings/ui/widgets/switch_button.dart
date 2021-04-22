@@ -8,7 +8,7 @@ class NotificationButton extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  Function onChanged;
+  final Function onChanged;
   bool isSelected;
 
   @override
@@ -20,7 +20,12 @@ class _NotificationButtonState extends State<NotificationButton> {
   Widget build(BuildContext context) {
     return Switch(
       value: widget.isSelected,
-      onChanged: widget.onChanged,
+      onChanged: (value) {
+        setState(() {
+          widget.isSelected = value;
+          print(widget.isSelected);
+        });
+      },
       activeTrackColor: RED,
       activeColor: Colors.white,
       inactiveTrackColor: Colors.grey,

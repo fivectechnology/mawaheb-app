@@ -18,7 +18,8 @@ ContactUsModel _$ContactUsModelFromJson(Map<String, dynamic> json) {
         : EmirateModel.fromJson(json['emirate'] as Map<String, dynamic>),
     address: json['address'] as String,
     phone: json['phone'] as String,
-    googleMapsCoordination: json['googleMapsCoordination'] as String,
+    latitude: json['latitude'] as String,
+    longitude: json['longitude'] as String,
     email: json['email'] as String,
   );
 }
@@ -31,6 +32,7 @@ Map<String, dynamic> _$ContactUsModelToJson(ContactUsModel instance) =>
       'emirate': instance.emirate,
       'address': instance.address,
       'phone': instance.phone,
-      'googleMapsCoordination': instance.googleMapsCoordination,
+      'longitude': instance.longitude,
+      'latitude': instance.latitude,
       'email': instance.email,
     };

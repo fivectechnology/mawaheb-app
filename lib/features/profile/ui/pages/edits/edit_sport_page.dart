@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
@@ -62,9 +64,9 @@ class _EditSportPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    hightController = TextEditingController(text: viewmodel.player.height);
-    weightController = TextEditingController(text: viewmodel.player.weight);
-    briefController = TextEditingController(text: viewmodel.player.brief);
+    // hightController = TextEditingController(text: viewmodel.player.height);
+    // weightController = TextEditingController(text: viewmodel.player.weight);
+    // briefController = TextEditingController(text: viewmodel.player.brief);
 
     if (viewmodel?.positionFuture == null) {
       viewmodel.getPostions();
@@ -74,164 +76,160 @@ class _EditSportPageState
     }
   }
 
-  String hightValidator(String value) {
-    if (value.isEmpty) {
-      return 'Height is empty';
-    }
-    return null;
-  }
-
-  String weightValidator(String value) {
-    if (value.isEmpty) {
-      return 'Weight is empty';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WHITE,
       appBar:
           customAppBar(context: context, title: 'lbl_sport', withTitle: true),
-      body: MawahebFutureBuilder(
-          onRetry: viewmodel.getSports,
-          future: viewmodel.sportFuture,
-          onSuccess: (sport) {
-            return Form(
-              key: _formKey,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
-                child: ListView(
-                  children: [
-                    mawhaebDropDown(
-                      hint: context.translate('lbl_sport_name'),
-                      context: context,
-                      onChanged: (value) {
-                        currentSport = value;
-                      },
-                      items: viewmodel.sports
-                          .map((em) => DropdownMenuItem(
-                                child: Text(em.name),
-                                value: em,
-                              ))
-                          .toList(),
-                    ),
-                    const SizedBox(height: 26),
-                    mawhaebDropDown(
-                      hint: context.translate('lbl_position'),
-                      context: context,
-                      onChanged: (value) {
-                        position = value;
-                      },
-                      items: viewmodel.positions
-                          .map((em) => DropdownMenuItem(
-                                child: Text(em.name),
-                                value: em,
-                              ))
-                          .toList(),
-                    ),
-                    const SizedBox(height: 26),
-                    MawahebTextField(
-                      hintText: context.translate('lbl_weight'),
-                      hintColor: Colors.grey,
-                      context: context,
-                      validator: weightValidator,
-                      textEditingController: hightController,
-                    ),
-                    const SizedBox(height: 26),
-                    MawahebTextField(
-                      hintText: context.translate('lbl_hight'),
-                      hintColor: Colors.grey,
-                      context: context,
-                      validator: hightValidator,
-                      textEditingController: weightController,
-                    ),
-                    const SizedBox(height: 26),
-                    mawhaebDropDown(
-                        hint: context.translate('lbl_prefer_hand'),
+      body: Observer(builder: (_) {
+        return viewmodel.sports == null || viewmodel.positions == null
+            ? const Center(child: MawahebLoader())
+            : Form(
+                key: _formKey,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                  child: ListView(
+                    children: [
+                      mawhaebDropDown(
+                        hint: context.translate('lbl_sport_name'),
                         context: context,
-                        items: ['RIGHT', 'LEFT', 'BOTH']
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
+                        onChanged: (value) {
+                          currentSport = value;
+                        },
+                        items: viewmodel.sports
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em.name),
+                                  value: em,
                                 ))
                             .toList(),
-                        onChanged: (v) {
-                          hand = v;
-                        }),
-                    const SizedBox(height: 26),
-                    mawhaebDropDown(
-                        hint: context.translate('lbl_prefer_leg'),
+                      ),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                        hint: context.translate('lbl_position'),
                         context: context,
-                        items: ['RIGHT', 'LEFT', 'BOTH']
-                            .map((e) => DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
+                        onChanged: (value) {
+                          position = value;
+                        },
+                        items: viewmodel.positions
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em.name),
+                                  value: em,
                                 ))
                             .toList(),
-                        onChanged: (v) {
-                          print(v);
-                          print(leg);
-                          leg = v;
-                        }),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: context.fullHeight * 0.03),
-                      child: SizedBox(
-                        height: context.fullHeight * 0.15,
-                        child: TextFormField(
-                          controller: briefController,
-                          maxLines: 10,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey)),
-                            hintText: context.translate('msg_brief'),
-                            hintStyle: const TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w200,
-                                fontFamily: 'Poppins'),
+                      ),
+                      const SizedBox(height: 26),
+                      MawahebTextField(
+                        hintText: context.translate('lbl_weight'),
+                        hintColor: Colors.grey,
+                        validator: weightValidator,
+                        // onChanged: (value) {
+                        //   weightController.text = value;
+                        // },
+                        textEditingController: hightController,
+                        context: context,
+                      ),
+                      const SizedBox(height: 26),
+                      MawahebTextField(
+                        hintText: context.translate('lbl_hight'),
+                        hintColor: Colors.grey,
+                        context: context,
+                        validator: hightValidator,
+                        // onChanged: (value) {
+                        //   hightController.text = value;
+                        // },
+                        textEditingController: weightController,
+                      ),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                          hint: context.translate('lbl_prefer_hand'),
+                          context: context,
+                          items: ['RIGHT', 'LEFT', 'BOTH']
+                              .map((e) => DropdownMenuItem(
+                                    child: Text(e),
+                                    value: e,
+                                  ))
+                              .toList(),
+                          onChanged: (v) {
+                            hand = v;
+                          }),
+                      const SizedBox(height: 26),
+                      mawhaebDropDown(
+                          hint: context.translate('lbl_prefer_leg'),
+                          context: context,
+                          items: ['RIGHT', 'LEFT', 'BOTH']
+                              .map((e) => DropdownMenuItem(
+                                    child: Text(e),
+                                    value: e,
+                                  ))
+                              .toList(),
+                          onChanged: (v) {
+                            print(v);
+                            print(leg);
+                            leg = v;
+                          }),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: context.fullHeight * 0.03),
+                        child: SizedBox(
+                          height: context.fullHeight * 0.15,
+                          child: TextFormField(
+                            controller: briefController,
+                            maxLines: 10,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  borderSide:
+                                      const BorderSide(color: Colors.grey)),
+                              hintText: context.translate('msg_brief'),
+                              hintStyle: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w200,
+                                  fontFamily: 'Poppins'),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 26),
-                    Observer(
-                      builder: (_) {
-                        return MawahebButton(
-                          text: 'lbl_back',
-                          textColor: Colors.black,
-                          borderColor: Colors.black,
-                          buttonColor: WHITE,
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                      const SizedBox(height: 26),
+                      Observer(
+                        builder: (_) {
+                          return MawahebButton(
+                            text: 'lbl_back',
+                            textColor: Colors.black,
+                            borderColor: Colors.black,
+                            buttonColor: WHITE,
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
 
-                              viewmodel.editSportInfo(
-                                height: int.parse(hightController.text),
-                                weight: int.parse(weightController.text),
-                                hand: hand,
-                                leg: leg,
-                                brief: briefController.text,
-                                sport: currentSport,
-                                position: position,
-                              );
-                              context.navigator.pop();
-                            }
-                          },
-                          context: context,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 34),
-                  ],
+                                viewmodel.editSportInfo(
+                                  height: double.parse(hightController.text)
+                                          .toInt() ??
+                                      viewmodel.player.height,
+                                  weight: double.parse(weightController.text)
+                                          .toInt() ??
+                                      viewmodel.player.weight,
+                                  hand: hand ?? viewmodel.player.hand,
+                                  leg: leg ?? viewmodel.player.leg,
+                                  brief: briefController.text ??
+                                      viewmodel.player.brief,
+                                  sport: currentSport ?? viewmodel.player.sport,
+                                  position:
+                                      position ?? viewmodel.player.position,
+                                );
+                              }
+                            },
+                            context: context,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 34),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+      }),
     );
   }
 }

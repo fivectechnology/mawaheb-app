@@ -46,15 +46,6 @@ class _ResetPasswordPageeState
     super.dispose();
   }
 
-  String passwordValidator(String password) {
-    if (password.isEmpty) {
-      return 'Password empty';
-    } else if (password.length < 3) {
-      return 'Password is too short';
-    }
-    return null;
-  }
-
   String confirmPasswordValidator(String password) {
     if (password.isEmpty) {
       return 'Password empty';

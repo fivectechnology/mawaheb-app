@@ -51,6 +51,49 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           Computed<List<SportPositionModel>>(() => super.positions,
               name: '_ProfileViewmodelBase.positions'))
       .value;
+  Computed<List<EmirateModel>> _$emiratesComputed;
+
+  @override
+  List<EmirateModel> get emirates =>
+      (_$emiratesComputed ??= Computed<List<EmirateModel>>(() => super.emirates,
+              name: '_ProfileViewmodelBase.emirates'))
+          .value;
+  Computed<List<ViewModel>> _$viewsComputed;
+
+  @override
+  List<ViewModel> get views =>
+      (_$viewsComputed ??= Computed<List<ViewModel>>(() => super.views,
+              name: '_ProfileViewmodelBase.views'))
+          .value;
+  Computed<bool> _$uploadImageLoadingComputed;
+
+  @override
+  bool get uploadImageLoading => (_$uploadImageLoadingComputed ??=
+          Computed<bool>(() => super.uploadImageLoading,
+              name: '_ProfileViewmodelBase.uploadImageLoading'))
+      .value;
+  Computed<bool> _$uploadImageErrorComputed;
+
+  @override
+  bool get uploadImageError => (_$uploadImageErrorComputed ??= Computed<bool>(
+          () => super.uploadImageError,
+          name: '_ProfileViewmodelBase.uploadImageError'))
+      .value;
+
+  final _$imageIdAtom = Atom(name: '_ProfileViewmodelBase.imageId');
+
+  @override
+  Future<int> get imageId {
+    _$imageIdAtom.reportRead();
+    return super.imageId;
+  }
+
+  @override
+  set imageId(Future<int> value) {
+    _$imageIdAtom.reportWrite(value, super.imageId, () {
+      super.imageId = value;
+    });
+  }
 
   final _$playerFutureAtom = Atom(name: '_ProfileViewmodelBase.playerFuture');
 
@@ -64,6 +107,57 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   set playerFuture(ObservableFuture<PlayerModel> value) {
     _$playerFutureAtom.reportWrite(value, super.playerFuture, () {
       super.playerFuture = value;
+    });
+  }
+
+  final _$editAddressPlayerFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.editAddressPlayerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get editAddressPlayerFuture {
+    _$editAddressPlayerFutureAtom.reportRead();
+    return super.editAddressPlayerFuture;
+  }
+
+  @override
+  set editAddressPlayerFuture(ObservableFuture<PlayerModel> value) {
+    _$editAddressPlayerFutureAtom
+        .reportWrite(value, super.editAddressPlayerFuture, () {
+      super.editAddressPlayerFuture = value;
+    });
+  }
+
+  final _$editPersonalPlayerFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.editPersonalPlayerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get editPersonalPlayerFuture {
+    _$editPersonalPlayerFutureAtom.reportRead();
+    return super.editPersonalPlayerFuture;
+  }
+
+  @override
+  set editPersonalPlayerFuture(ObservableFuture<PlayerModel> value) {
+    _$editPersonalPlayerFutureAtom
+        .reportWrite(value, super.editPersonalPlayerFuture, () {
+      super.editPersonalPlayerFuture = value;
+    });
+  }
+
+  final _$editSportPlayerFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.editSportPlayerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get editSportPlayerFuture {
+    _$editSportPlayerFutureAtom.reportRead();
+    return super.editSportPlayerFuture;
+  }
+
+  @override
+  set editSportPlayerFuture(ObservableFuture<PlayerModel> value) {
+    _$editSportPlayerFutureAtom.reportWrite(value, super.editSportPlayerFuture,
+        () {
+      super.editSportPlayerFuture = value;
     });
   }
 
@@ -159,6 +253,35 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
     });
   }
 
+  final _$uploadImageFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.uploadImageFuture');
+
+  @override
+  ObservableFuture<bool> get uploadImageFuture {
+    _$uploadImageFutureAtom.reportRead();
+    return super.uploadImageFuture;
+  }
+
+  @override
+  set uploadImageFuture(ObservableFuture<bool> value) {
+    _$uploadImageFutureAtom.reportWrite(value, super.uploadImageFuture, () {
+      super.uploadImageFuture = value;
+    });
+  }
+
+  final _$uploadFileAsyncAction =
+      AsyncAction('_ProfileViewmodelBase.uploadFile');
+
+  @override
+  Future<int> uploadFile(
+      {File file, int fileSize, String fileName, String fileType}) {
+    return _$uploadFileAsyncAction.run(() => super.uploadFile(
+        file: file,
+        fileSize: fileSize,
+        fileName: fileName,
+        fileType: fileType));
+  }
+
   final _$_ProfileViewmodelBaseActionController =
       ActionController(name: '_ProfileViewmodelBase');
 
@@ -246,7 +369,8 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
       String name,
       String phone,
       CountryModel country,
-      CategoryModel categoryModel}) {
+      CategoryModel categoryModel,
+      int id}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
         name: '_ProfileViewmodelBase.editPersonalInfo');
     try {
@@ -256,7 +380,8 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           name: name,
           phone: phone,
           country: country,
-          categoryModel: categoryModel);
+          categoryModel: categoryModel,
+          id: id);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -301,21 +426,41 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
+  void updateProfileImage({int id, int version, String image}) {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.updateProfileImage');
+    try {
+      return super.updateProfileImage(id: id, version: version, image: image);
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+imageId: ${imageId},
 playerFuture: ${playerFuture},
+editAddressPlayerFuture: ${editAddressPlayerFuture},
+editPersonalPlayerFuture: ${editPersonalPlayerFuture},
+editSportPlayerFuture: ${editSportPlayerFuture},
 categoryFuture: ${categoryFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
 countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
 viewsFuture: ${viewsFuture},
+uploadImageFuture: ${uploadImageFuture},
 player: ${player},
 playerLoading: ${playerLoading},
 categories: ${categories},
 sports: ${sports},
 countries: ${countries},
-positions: ${positions}
+positions: ${positions},
+emirates: ${emirates},
+views: ${views},
+uploadImageLoading: ${uploadImageLoading},
+uploadImageError: ${uploadImageError}
     ''';
   }
 }

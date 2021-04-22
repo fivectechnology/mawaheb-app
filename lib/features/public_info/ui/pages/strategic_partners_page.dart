@@ -44,16 +44,42 @@ class _StrategicPartnersPageState
   Widget build(BuildContext context) {
     return Scaffold(
         body: MawahebFutureBuilder<List<StrategicPartnersModel>>(
-            future: viewmodel.partnersFuture,
-            onRetry: viewmodel.getPartners,
-            onSuccess: (partners) {
-              return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: partners.length,
-                  itemBuilder: (context, index) {
-                    return imageRow(
-                        context: context, title: partners[index].title);
-                  });
-            }));
+      future: viewmodel.partnersFuture,
+      onRetry: viewmodel.getPartners,
+      onSuccess: (partners) {
+        return ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            physics: const BouncingScrollPhysics(),
+            itemCount: partners.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 26),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      partners[index].title,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins'),
+                    ),
+                    const SizedBox(height: 5),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${partners[index].source.id}/download2',
+                          headers: {
+                            'Authorization':
+                                'Basic ${viewmodel.prefsRepository.token}'
+                          },
+                        ))
+                  ],
+                ),
+              );
+            });
+      },
+    ));
   }
 }

@@ -12,21 +12,16 @@ import 'edits/edit_personal_page.dart';
 import 'edits/edit_sport_page.dart';
 
 class MyInfoPage extends StatefulWidget {
-  const MyInfoPage({Key key, this.id})
-      : super(
-          key: key,
-        );
-
-  final int id;
+  const MyInfoPage({Key key}) : super(key: key);
 
   static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => MyInfoPage());
+      MaterialPageRoute<dynamic>(builder: (_) => const MyInfoPage());
 
   @override
   _MyInfoPageState createState() => _MyInfoPageState();
 }
 
-class _MyInfoPageState extends MobxState<MyInfoPage, ProfileViewmodel> {
+class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
   bool isPlayer = true;
 
   @override
@@ -42,8 +37,6 @@ class _MyInfoPageState extends MobxState<MyInfoPage, ProfileViewmodel> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    viewmodel.fetchPlayer(id: widget.id);
   }
 
   @override
@@ -55,6 +48,7 @@ class _MyInfoPageState extends MobxState<MyInfoPage, ProfileViewmodel> {
         return Scaffold(
           backgroundColor: WHITE,
           body: ListView(
+            physics: const BouncingScrollPhysics(),
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -65,7 +59,7 @@ class _MyInfoPageState extends MobxState<MyInfoPage, ProfileViewmodel> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 26, bottom: 12),
-                      child: Text(context.translate('Sport'),
+                      child: Text(context.translate('lbl_sport'),
                           style: context.textTheme.subtitle1.copyWith(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                     ),

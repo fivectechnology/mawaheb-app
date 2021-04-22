@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/base/widgets/network_image_widget.dart';
 
-Widget imageRow({BuildContext context, String title, String image}) {
+Widget imageRow(
+    {BuildContext context, String title, int idSource, String token}) {
   return Padding(
     padding: const EdgeInsets.only(top: 26),
     child: Column(
@@ -15,15 +16,8 @@ Widget imageRow({BuildContext context, String title, String image}) {
         ),
         const SizedBox(height: 5),
         ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            'assets/images/gallery_image.png',
-            width: context.fullWidth,
-          ),
-
-          //           Image.network(
-          //                 'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/4/content/download?v=0')
-        ),
+            borderRadius: BorderRadius.circular(8.0),
+            child: networkImageCached(sourceId: idSource, token: token))
       ],
     ),
   );

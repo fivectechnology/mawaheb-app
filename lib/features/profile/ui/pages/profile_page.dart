@@ -47,7 +47,6 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
     if (viewmodel?.player == null) {
       viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player.id);
     }
-    viewmodel.pages[0] = MyInfoPage(id: viewmodel.prefsRepository.player.id);
   }
 
   @override
@@ -60,9 +59,17 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                 backgroundColor: Colors.white,
                 body: Column(
                   children: [
-                    profileActivationRow(isPending: true),
+                    profileActivationRow(
+                        isPending:
+                            // ignore: avoid_bool_literals_in_conditional_expressions
+                            viewmodel.player.status == 'INACTIVE'
+                                ? true
+                                : false),
                     profileDetails(
-                        context: context, name: viewmodel.player.name),
+                        context: context,
+                        name: viewmodel.player.name,
+                        photo: viewmodel.player.photo,
+                        token: viewmodel.prefsRepository.token),
                     Container(
                       height: context.fullHeight * 0.07,
                       decoration: const BoxDecoration(
@@ -76,17 +83,17 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                                 horizontal: context.fullWidth * 0.1)),
                         tabs: [
                           Text(
-                            'my info',
+                            context.translate('lbl_my_info'),
                             style: textTheme.headline2.copyWith(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            'Videos',
+                            context.translate('lbl_videos'),
                             style: textTheme.headline2.copyWith(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            'Views',
+                            context.translate('lbl_my_views'),
                             style: textTheme.headline2.copyWith(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
@@ -101,8 +108,10 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                       child: Provider(
                         create: (_) => viewmodel,
                         child: TabBarView(
-                            controller: _tabController,
-                            children: viewmodel.pages),
+                          controller: _tabController,
+                          children: viewmodel.pages,
+                          physics: const BouncingScrollPhysics(),
+                        ),
                       ),
                     )
                   ],
@@ -129,12 +138,12 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
           ),
           if (!isPending)
             Text(
-              'Profile Active till march 3, 2022',
+              context.translate('lbl_active_account'),
               style: textTheme.subtitle1,
             )
           else
             Text(
-              'Profile pending, payment required',
+              context.translate('lbl_pending_account'),
               style: textTheme.subtitle1,
             ),
           Visibility(

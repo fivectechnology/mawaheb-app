@@ -41,13 +41,11 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
-    @required String displayName,
     @required int code,
     @required String email,
     @required String password,
   }) =>
       authDataSource.signUp(
-        displayName: displayName,
         code: code,
         email: email,
         password: password,
@@ -155,4 +153,8 @@ class AuthRepositoryImpl extends AuthRepository {
           {String email, String password, int code}) =>
       authDataSource.resetPassword(
           email: email, password: password, code: code);
+
+  @override
+  Future<NetworkResult<bool>> validateEmail({String email}) =>
+      authDataSource.validateEmail(email: email);
 }

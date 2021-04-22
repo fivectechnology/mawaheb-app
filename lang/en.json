@@ -84,17 +84,23 @@
   "lbl_profile": "Profile",
   "lbl_players": "Players",
   "lbl_available_players": "Available Players",
-
   "lbl_confirm_password": "Confirm password",
   "lbl_Reset_password": "Reset password",
-
-
-
-
-
-
   "lbl_old_password": "Old password",
   "lbl_new_password": "New Password",
+  "lbl_confirm_player": "Confirm Player",
+  "lbl_book_player": "Book Player",
+  "lbl_select_birth": "Date of birth",
+  "lbl_my_info": "My info",
+  "lbl_my_views": "Views",
+  "lbl_active_account": "Profile active",
+  "lbl_pending_account": "Profile pending",
+
+
+
+
+
+
 
 
 
@@ -120,9 +126,12 @@
   "msg_enter_otp": "Enter OTP sent to your Email",
   "msg_check_otp": "OTP sent please check your email",
   "msg_brief": "write a brief about your self",
-  "msg_accepted": "I have read and accepted the"
+  "msg_accepted": "I have read and accepted the",
+  "msg_no_views": "There are no views",
+  "msg_no_match_players": "There are no matching results",
 
-
-
-
+  "msg_login_error": "Email or password is incorrect",
+  "msg_otp_error": "Incorrect OTP",
+  "msg_signUp_error": "Email already exist",
+  "msg_email_not_reg": "Email not registered"
 }

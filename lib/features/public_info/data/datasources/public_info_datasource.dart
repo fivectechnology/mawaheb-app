@@ -79,7 +79,8 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
           'country',
           'emirate',
           'address',
-          'googleMapsCoordination',
+          'longitude',
+          'latitude'
         ]
       },
       mapper: ListBaseResponseModel.fromJson(ContactUsModel.fromJson),

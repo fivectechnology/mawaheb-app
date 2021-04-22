@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key key}) : super(key: key);
@@ -18,7 +19,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
-  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -30,41 +32,21 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
 
   @override
   void dispose() {
-    _userNameController.dispose();
+    _confirmPasswordController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  String nameValidator(String name) {
-    if (name.isEmpty) {
-      return 'Name is empty';
-    } else if (name.length < 3) {
-      return 'name is too short';
-    }
-    return null;
-  }
-
-  String passwordValidator(String password) {
+  String confirmPasswordValidator(String password) {
     if (password.isEmpty) {
       return 'Password empty';
     } else if (password.length < 3) {
       return 'Password is too short';
+    } else if (password != _passwordController.text) {
+      return 'password not match';
     }
     return null;
-  }
-
-  String emailValidator(String email) {
-    const Pattern pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
-        r'{0,253}[a-zA-Z0-9])?)*$';
-    final RegExp regex = RegExp(pattern);
-
-    if (!regex.hasMatch(email) || email == null)
-      return 'Enter a valid email address';
-    else
-      return null;
   }
 
   @override
@@ -78,25 +60,27 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
               padding: const EdgeInsets.symmetric(vertical: 42),
               child: MawahebTextField(
                 context: context,
-                hintText: 'lbl_name',
-                textEditingController: _userNameController,
-                validator: nameValidator,
+                hintText: 'lbl_email',
+                validator: emailValidator,
+                textEditingController: _emailController,
               ),
             ),
             MawahebTextField(
               context: context,
-              hintText: 'lbl_email',
-              validator: emailValidator,
-              textEditingController: _emailController,
+              hintText: 'lbl_password',
+              textEditingController: _passwordController,
+              isSuffixIcon: true,
+              validator: passwordValidator,
+              useObscure: true,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 45, bottom: 70),
               child: MawahebTextField(
                 context: context,
-                hintText: 'lbl_password',
-                textEditingController: _passwordController,
+                hintText: 'lbl_confirm_password',
+                textEditingController: _confirmPasswordController,
                 isSuffixIcon: true,
-                validator: passwordValidator,
+                validator: confirmPasswordValidator,
                 useObscure: true,
               ),
             ),
@@ -109,11 +93,13 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
 
-                    viewmodel.sendOTP(
-                      name: _userNameController.text,
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    );
+                    viewmodel.validateEmail(
+                        email: _emailController.text,
+                        password: _passwordController.text);
+                    // viewmodel.sendOTP(
+                    //   email: _emailController.text,
+                    //   password: _passwordController.text,
+                    // );
                   }
                 },
                 // onPressed: () => viewmodel.sendOTP(

@@ -10,8 +10,7 @@ class AboutUsPage extends StatefulWidget {
 
   static const String route = '/about_us';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -19,8 +18,7 @@ class AboutUsPage extends StatefulWidget {
   _AboutUsPageState createState() => _AboutUsPageState();
 }
 
-class _AboutUsPageState
-    extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
+class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -50,6 +48,7 @@ class _AboutUsPageState
             onRetry: viewmodel.getaboutUs,
             onSuccess: (aboutUs) {
               return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

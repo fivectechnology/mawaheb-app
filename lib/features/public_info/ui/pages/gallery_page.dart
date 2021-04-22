@@ -53,7 +53,10 @@ class _GalleryPageState
                   itemCount: gallery.length,
                   itemBuilder: (context, index) {
                     return imageRow(
-                        context: context, title: gallery[index].title);
+                        context: context,
+                        token: viewmodel.prefsRepository.token,
+                        title: gallery[index].title,
+                        idSource: gallery[index].source.id);
                   });
             }));
   }

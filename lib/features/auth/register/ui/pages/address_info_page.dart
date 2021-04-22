@@ -1,5 +1,6 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
@@ -50,20 +51,6 @@ class _AddressInfoPageState
     }
   }
 
-  String stateValidator(String value) {
-    if (value.isEmpty) {
-      return 'State is empty';
-    }
-    return null;
-  }
-
-  String addressValidator(String value) {
-    if (value.isEmpty) {
-      return 'Address is empty';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return MawahebFutureBuilder<List<EmirateModel>>(
@@ -75,6 +62,7 @@ class _AddressInfoPageState
             child: Column(
               children: [
                 mawhaebDropDown(
+                  value: viewmodel.emirates.first,
                   hint: 'lbl_emirate',
                   context: context,
                   onChanged: (value) {
@@ -115,7 +103,8 @@ class _AddressInfoPageState
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
                               viewmodel.addAddressInfo(
-                                  emirateModel: currentEmirate,
+                                  emirateModel: currentEmirate ??
+                                      viewmodel.emirates.first,
                                   address: _addressController.text,
                                   area: _addressController.text);
                             }

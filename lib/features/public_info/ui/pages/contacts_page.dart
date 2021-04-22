@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/public_info/data/models/contact_us_model.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
@@ -51,13 +52,30 @@ class _ContactsPageState
             future: viewmodel.contactsFuture,
             onRetry: viewmodel.getcontactUs,
             onSuccess: (contacts) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              return ListView(
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/logo_image.png'),
+                  Image.asset(
+                    'assets/images/logo_image.png',
+                    height: context.fullHeight * 0.3,
+                  ),
                   contactRow(title: 'lbl_address', text: contacts.address),
                   contactRow(title: 'lbl_email', text: contacts.email),
                   contactRow(title: 'lbl_phone', text: contacts.phone),
+                  SizedBox(
+                    height: context.fullHeight * 0.3,
+                    child: GoogleMap(
+                      myLocationEnabled: false,
+                      myLocationButtonEnabled: false,
+                      zoomControlsEnabled: false,
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                            double.parse(viewmodel.contacts.latitude),
+                            double.parse(viewmodel.contacts.longitude)),
+                        zoom: 11.0,
+                      ),
+                    ),
+                  )
                 ],
               );
             }),
@@ -87,17 +105,6 @@ class _ContactsPageState
                   ),
                 ),
               ),
-              // Text(
-              //   title,
-              //   style: textTheme.headline6.copyWith(fontSize: 14),
-              // ),
-              // Flexible(
-              //   child: Text(
-              //     text,
-              //     style:
-              //         textTheme.subtitle2.copyWith(fontWeight: FontWeight.w200),
-              //   ),
-              // )
             ],
           )
         ],

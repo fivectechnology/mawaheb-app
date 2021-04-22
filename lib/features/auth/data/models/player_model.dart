@@ -7,6 +7,8 @@ import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
+import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 
 part 'player_model.g.dart';
 
@@ -34,6 +36,10 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.emirate,
     @required this.country,
     @required this.category,
+    @required this.status,
+    @required this.availability,
+    @required this.videos,
+    @required this.photo,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -59,33 +65,40 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final CategoryModel category;
   final EmirateModel emirate;
   final CountryModel country;
+  final String status;
+  final String availability;
+  final List<VideoModel> videos;
+  final SourceModel photo;
 
-  PlayerModel copyWith({
-    String code,
-    String name,
-    String email,
-    String languag,
-    String type,
-    String leg,
-    String hand,
-    String brief,
-    int height,
-    int weight,
-    String gender,
-    String address,
-    String dateOfBirth,
-    String language,
-    String phone,
-    String area,
-    int id,
-    int version,
-    String password,
-    SportPositionModel position,
-    SportModel sport,
-    CategoryModel category,
-    EmirateModel emirate,
-    CountryModel country,
-  }) {
+  PlayerModel copyWith(
+      {String code,
+      String name,
+      String email,
+      String languag,
+      String type,
+      String leg,
+      String hand,
+      String brief,
+      int height,
+      int weight,
+      String gender,
+      String address,
+      String dateOfBirth,
+      String language,
+      String phone,
+      String area,
+      int id,
+      int version,
+      String password,
+      SportPositionModel position,
+      SportModel sport,
+      CategoryModel category,
+      EmirateModel emirate,
+      CountryModel country,
+      String status,
+      String availability,
+      SourceModel photo,
+      List<VideoModel> videos}) {
     return PlayerModel(
       code: code ?? this.code,
       name: name ?? this.name,
@@ -108,6 +121,10 @@ class PlayerModel extends VersionModel with EquatableMixin {
       category: category ?? this.category,
       emirate: emirate ?? this.emirate,
       country: country ?? this.country,
+      status: status ?? this.status,
+      availability: availability ?? this.availability,
+      photo: photo ?? this.photo,
+      videos: videos ?? this.videos,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -140,70 +157,77 @@ class PlayerModel extends VersionModel with EquatableMixin {
       category,
       emirate,
       country,
+      status,
+      availability,
+      videos,
+      photo
     ];
   }
 
   static PlayerModel fromJson(Object json) => _$PlayerModelFromJson(json);
 
   static PlayerModel fromUi({
-    @required String name,
     @required String email,
     @required String password,
   }) =>
       PlayerModel(
-        name: name,
-        email: email,
-        password: password,
-        code: null,
-        language: null,
-        type: null,
-        leg: null,
-        hand: null,
-        brief: null,
-        height: null,
-        weight: null,
-        gender: null,
-        address: null,
-        dateOfBirth: null,
-        phone: null,
-        area: null,
-        id: null,
-        version: null,
-        country: null,
-        position: null,
-        sport: null,
-        category: null,
-        emirate: null,
-      );
+          name: null,
+          email: email,
+          password: password,
+          code: null,
+          language: null,
+          type: null,
+          leg: null,
+          hand: null,
+          brief: null,
+          height: null,
+          weight: null,
+          gender: null,
+          address: null,
+          dateOfBirth: null,
+          phone: null,
+          area: null,
+          id: null,
+          version: null,
+          country: null,
+          position: null,
+          sport: null,
+          category: null,
+          emirate: null,
+          status: null,
+          videos: null,
+          availability: null);
 
   static PlayerModel loggedPlayerId({
     @required int id,
   }) =>
       PlayerModel(
-        id: id,
-        name: null,
-        email: null,
-        password: null,
-        code: null,
-        language: null,
-        type: null,
-        leg: null,
-        hand: null,
-        brief: null,
-        height: null,
-        weight: null,
-        gender: null,
-        address: null,
-        dateOfBirth: null,
-        phone: null,
-        area: null,
-        version: null,
-        country: null,
-        position: null,
-        sport: null,
-        category: null,
-        emirate: null,
-      );
+          id: id,
+          name: null,
+          email: null,
+          password: null,
+          code: null,
+          language: null,
+          type: null,
+          leg: null,
+          hand: null,
+          brief: null,
+          height: null,
+          weight: null,
+          gender: null,
+          address: null,
+          dateOfBirth: null,
+          phone: null,
+          area: null,
+          version: null,
+          country: null,
+          position: null,
+          sport: null,
+          category: null,
+          emirate: null,
+          status: null,
+          videos: null,
+          availability: null);
 
   Map<String, dynamic> toJson() => _$PlayerModelToJson(this);
 }

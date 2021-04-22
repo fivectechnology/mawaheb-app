@@ -109,9 +109,9 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   }) {
     if (!resend) {
       playerEmailFuture = ObservableFuture.value(PlayerModel.fromUi(
-          email: email,
-          password: password,
-          name: _prefsRepository.player.name));
+        email: email,
+        password: password,
+      ));
     }
     sendOtp = futureWrapper(
       () => _settingsRepository
