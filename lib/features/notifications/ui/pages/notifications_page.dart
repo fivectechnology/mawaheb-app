@@ -17,8 +17,7 @@ class NotificationsPage extends StatefulWidget {
   _NotificationsPageState createState() => _NotificationsPageState();
 }
 
-class _NotificationsPageState
-    extends MobxState<NotificationsPage, NotificationsViewmodel> {
+class _NotificationsPageState extends MobxState<NotificationsPage, NotificationsViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -34,6 +33,7 @@ class _NotificationsPageState
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView.builder(
+          physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.all(context.fullHeight * 0.01),
           itemCount: 10,
           itemBuilder: (context, index) {
@@ -49,13 +49,11 @@ class _NotificationsPageState
         children: [
           Text(
             'club Name',
-            style:
-                textTheme.headline1.copyWith(fontSize: 12, letterSpacing: 0.3),
+            style: textTheme.headline1.copyWith(fontSize: 12, letterSpacing: 0.3),
           ),
           Text(
             '9:45AM',
-            style:
-                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 10),
+            style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 10),
           )
         ],
       ),

@@ -2,6 +2,8 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
+import 'package:mawaheb_app/base/utils/app_bar_params.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
@@ -18,8 +20,7 @@ class ChangeEmailPage extends StatefulWidget {
 
   static const String route = '/change_email';
 
-  static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) =>
-      MaterialPageRoute(
+  static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const ChangeEmailPage(),
@@ -30,8 +31,7 @@ class ChangeEmailPage extends StatefulWidget {
   _ChangeEmailPageState createState() => _ChangeEmailPageState();
 }
 
-class _ChangeEmailPageState
-    extends ProviderMobxState<ChangeEmailPage, SettingsViewmodel> {
+class _ChangeEmailPageState extends ProviderMobxState<ChangeEmailPage, SettingsViewmodel> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -41,6 +41,13 @@ class _ChangeEmailPageState
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AppViewmodel>(context, listen: false).pushRoute(AppBarParams(
+        title: 'lbl_change_email',
+        showBackButton: true,
+        onBackPressed: () => context.pop(),
+      ));
+    });
   }
 
   @override
@@ -71,9 +78,7 @@ class _ChangeEmailPageState
                   validator: emailValidator,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: context.fullHeight * 0.04,
-                      bottom: context.fullHeight * 0.02),
+                  padding: EdgeInsets.only(top: context.fullHeight * 0.04, bottom: context.fullHeight * 0.02),
                   child: MawahebTextField(
                     textEditingController: _passwordController,
                     context: context,
@@ -85,9 +90,7 @@ class _ChangeEmailPageState
                 ),
                 Observer(builder: (_) {
                   return Padding(
-                    padding: EdgeInsets.only(
-                        top: context.fullHeight * 0.05,
-                        bottom: context.fullHeight * 0.04),
+                    padding: EdgeInsets.only(top: context.fullHeight * 0.05, bottom: context.fullHeight * 0.04),
                     child: MawahebGradientButton(
                       text: 'lbl_change_email',
                       onPressed: () {
@@ -98,8 +101,7 @@ class _ChangeEmailPageState
                             email: _emailController.text,
                             password: _passwordController.text,
                           );
-                          context.navigator
-                              .push(SettingOtpPage.pageRoute(viewmodel));
+                          context.navigator.push(SettingOtpPage.pageRoute(viewmodel));
                         }
                       },
                       context: context,
