@@ -25,13 +25,20 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<bool>> bookPlayer(
       {@required int playerId, @required int partnerId});
 
-//   Future<NetworkResult<bool>> confirmPlayer({
-//     @required int playerId,
-//   });
-//
-//   Future<NetworkResult<bool>> releasePlayer({
-//     @required int playerId,
-//   });
+  Future<NetworkResult<bool>> confirmPlayer({
+    @required int memberShipId,
+    @required int memberShipVersion,
+  });
+
+  Future<NetworkResult<bool>> releasePlayer({
+    @required int memberShipId,
+    @required int memberShipVersion,
+  });
+
+  // Future<NetworkResult<PartnerMemberModel>> getMemberShips({
+  //   @required int partnerId,
+  //
+  // });
 }
 
 @LazySingleton(as: PlayersDataSource)
@@ -88,7 +95,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        'fields': ['name', 'id']
+        'fields': ['name', 'id', 'photo']
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
     );
@@ -127,27 +134,33 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
     );
   }
 
-//   @override
-//   Future<NetworkResult<bool>> confirmPlayer({int playerId}) {
-//     return mawahebRequest(
-//         method: METHOD.POST,
-//         id: playerId,
-//         modelName: 'Membership',
-//         data: {
-//           'data': {'status': 'Confirmed'},
-//           'fields': ['partner', 'player', 'status', 'version']
-//         });
-//   }
-//
-//   @override
-//   Future<NetworkResult<bool>> releasePlayer({int playerId}) {
-//     return mawahebRequest(
-//         method: METHOD.POST,
-//         id: playerId,
-//         modelName: 'Membership',
-//         data: {
-//           'data': {'status': 'Confirmed'},
-//           'fields': ['partner', 'player', 'status', 'version']
-//         });
-//   }
+  @override
+  Future<NetworkResult<bool>> confirmPlayer({
+    @required int memberShipId,
+    @required int memberShipVersion,
+  }) {
+    return mawahebRequest(
+        method: METHOD.POST,
+        id: memberShipId,
+        modelName: 'Membership',
+        data: {
+          'data': {'version': memberShipVersion, 'status': 'CONFIRMED'},
+          'fields': ['partner', 'player', 'status', 'version']
+        });
+  }
+
+  @override
+  Future<NetworkResult<bool>> releasePlayer({
+    @required int memberShipId,
+    @required int memberShipVersion,
+  }) {
+    return mawahebRequest(
+        method: METHOD.POST,
+        id: memberShipId,
+        modelName: 'Membership',
+        data: {
+          'data': {'version': memberShipVersion, 'status': 'RELEASED'},
+          'fields': ['partner', 'player', 'status', 'version']
+        });
+  }
 }

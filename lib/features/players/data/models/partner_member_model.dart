@@ -1,34 +1,35 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 
 part 'partner_member_model.g.dart';
 
 @JsonSerializable()
-class PartnerMemberModel extends VersionModel with EquatableMixin {
+class PartnerMemberModel with EquatableMixin {
   const PartnerMemberModel({
     @required this.player,
     @required this.status,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.id,
+    @required this.$version,
+  });
 
   final PlayerModel player;
   final String status;
+  final int id;
+  final int $version;
 
   PartnerMemberModel copyWith({
     String status,
     PlayerModel player,
     int id,
-    int version,
+    int $version,
   }) {
     return PartnerMemberModel(
       player: player ?? this.player,
       status: status ?? this.status,
       id: id ?? this.id,
-      version: version ?? this.version,
+      $version: $version ?? this.$version,
     );
   }
 
@@ -41,7 +42,7 @@ class PartnerMemberModel extends VersionModel with EquatableMixin {
       player,
       status,
       id,
-      version,
+      $version,
     ];
   }
 

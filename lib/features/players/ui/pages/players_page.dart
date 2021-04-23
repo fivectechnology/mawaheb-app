@@ -34,8 +34,6 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
   CountryModel currentCountry;
   String hand;
   String leg;
-  bool booked = false;
-  bool confirmed = false;
 
   @override
   void initState() {
@@ -109,7 +107,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         ),
                         hintStyle: context.textTheme.bodyText1
                             .copyWith(color: Colors.grey),
-                        hintText: 'Search by name',
+                        hintText: context.translate('lbl_search_name'),
                         fillColor: Colors.white,
                         filled: true,
                         contentPadding:
@@ -159,8 +157,10 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                           App.navKey.currentState
                               .push(ViewPlayerProfile.pageRoute(viewmodel));
                         },
-                        child:
-                            userListTile(name: viewmodel.players[index].name),
+                        child: userListTile(
+                            name: viewmodel.players[index].name,
+                            photo: viewmodel.players[index].photo,
+                            token: viewmodel.prefsRepository.token),
                       );
                     }),
               if (viewmodel.players == null)
@@ -277,7 +277,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                               style: textTheme.subtitle1.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                           NotificationButton(
-                            isSelected: booked,
+                            isSelected: viewmodel.booked,
                           )
                         ],
                       ),
@@ -289,6 +289,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         borderColor: Colors.black,
                         text: 'lbl_filter',
                         onPressed: () {
+                          // print(viewmodel.confirmed);
                           viewmodel.searchPlayers(
                               country: currentCountry?.name ?? '',
                               sport: currentSport?.name ?? '',
@@ -302,9 +303,6 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                           viewmodel.leg = leg;
                           viewmodel.hand = hand;
                           context.pop();
-
-                          // print(viewmodel.confirmed);
-                          // print(booked);
                         },
                       )
                     ],

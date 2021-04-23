@@ -27,7 +27,7 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<bool>> updateImageProfile({
     @required int id,
     @required int version,
-    @required String image,
+    @required int imageId,
   });
 
   Future<int> uploadFile({
@@ -35,6 +35,11 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
     int fileSize,
     String fileName,
     String fileType,
+  });
+
+  Future<NetworkResult<bool>> uploadVideoPlayer({
+    @required int playerId,
+    @required int videoId,
   });
 }
 
@@ -88,7 +93,8 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'sport',
           'viewers',
           'availability',
-          'photo'
+          'photo',
+          'membership'
         ]
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
@@ -119,7 +125,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
   Future<NetworkResult<bool>> updateImageProfile({
     int id,
     int version,
-    String image,
+    int imageId,
   }) {
     return mawahebRequest(
         method: METHOD.POST,
@@ -127,7 +133,11 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
         modelName: 'auth.db.User',
         withAuth: true,
         data: {
-          'data': {'id': id, 'version': version, 'image': image}
+          'data': {
+            'id': id,
+            'version': version,
+            'photo': {'id': imageId},
+          },
         });
   }
 
@@ -161,19 +171,21 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
     }
 
     return id;
+  }
 
-    // return mawahebRequest(
-    //     mawahebModel: false,
-    //     method: METHOD.POST,
-    //     endpoint: BASE_API + WEB_SERVICE + '/files/upload',
-    //     data: file,
-    //     headers: {
-    //       'Content-Type': 'application/octet-stream',
-    //       'X-File-Offset': 0,
-    //       'X-File-Size': fileSize,
-    //       'Content-Length': fileSize,
-    //       'X-File-Name': fileName,
-    //       'X-File-Type': 'image/' + fileType
-    //     });
+  @override
+  Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      mawahebModel: true,
+      modelName: 'PartnerVideo',
+      data: {
+        'data': {
+          'partner': {'id': playerId},
+          'video': {'id': videoId},
+          'status': 'PENDING'
+        },
+      },
+    );
   }
 }

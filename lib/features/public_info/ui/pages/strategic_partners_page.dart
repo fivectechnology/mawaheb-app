@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/public_info/data/models/strategic_partners_model.dart';
-import 'package:mawaheb_app/features/public_info/ui/widgets/download_row_widget.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
 class StrategicPartnersPage extends StatefulWidget {

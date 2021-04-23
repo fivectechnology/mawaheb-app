@@ -28,7 +28,7 @@
   "lbl_welcome_to_mawaheb": "مرحباً بك في مواهب",
   "lbl_email": "البريد الالكتروني",
   "lbl_password": "كلمة المرور",
-  "lbl_forget_password": "هل نسيت المرور ",
+  "lbl_forget_password": "هل نسيت كلمة المرور ",
   "lbl_login": "تسجيل دخول",
   "lbl_sign_up_player": "التسجيل ك لاعب",
   "lbl_email_username": "ادخل البريد أو اسم المستخدم",
@@ -95,6 +95,17 @@
   "lbl_my_views": "المشاهدات",
   "lbl_active_account": "الحساب مفعل",
   "lbl_pending_account": "الحساب معلق",
+  "lbl_released_player": "تحرير اللاعب",
+  "lbl_confirmed_player": "لاعب مؤكد",
+  "lbl_filter": "فلتر",
+  "lbl_search_name": "البحث حسب الاسم",
+  "PLAYER": "لاعب",
+  "CLUB": "نادي",
+  "lbl_clubs_view": "الاندية التي شاهدت حسابك",
+
+
+
+
 
 
 
@@ -117,10 +128,13 @@
   "msg_signUp_error": "البريد الالكتروني موجود مسبقا",
   "msg_email_not_reg": "البريد الاكلتروني غير موجود",
   "msg_close_app": "هل أنت متأكد من الخروج؟",
-  "msg_app_exit_confirm": "هل أنت متأكد من تسجيل الخروج؟"
+  "msg_app_exit_confirm": "هل أنت متأكد من تسجيل الخروج؟",
 
 
 
 
 
+  "msg_player_booked": "تم حجز اللاعب بنجاح",
+  "msg_player_confirmed": "تم تأكيد اللاعب بنجاح",
+  "msg_player_released": "تم تحرير اللاعب بنجاح"
 }

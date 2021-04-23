@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -19,7 +21,7 @@ import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
-import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
+import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -47,18 +49,27 @@ class AuthViewmodel extends _AuthViewmodelBase with _$AuthViewmodel {
     Logger logger,
     AuthRepository authRepository,
     PrefsRepository prefsRepository,
-  ) : super(logger, authRepository, prefsRepository);
+    ProfileRepository profileRepository,
+  ) : super(logger, authRepository, prefsRepository, profileRepository);
 }
 
 abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
-  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository) : super(logger);
+  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository, this._profileRepository)
+      : super(logger);
 
   final AuthRepository _authRepository;
   final PrefsRepository _prefsRepository;
+  final ProfileRepository _profileRepository;
 
   //* OBSERVERS *//
 
+  @observable
+  File image;
+
   String forgetPasswordEmail;
+
+  @observable
+  Future<int> imageId;
 
   @observable
   PageSliderModel registerSliderModel;
@@ -145,6 +156,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get forgetPasswordError => forgetPasswordFuture?.isFailure ?? false;
+
+  @computed
+  File get imageFile => image;
 
   //* ACTIONS *//
 
@@ -441,5 +455,29 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
         .whenSuccess((res) => apply(() {
               getContext((context) => App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
             })));
+  }
+
+  @action
+  // ignore: missing_return
+  Future<int> uploadFile({
+    File file,
+    int fileSize,
+    String fileName,
+    String fileType,
+  }) {
+    imageId = _profileRepository
+        .uploadFile(file: file, fileSize: fileSize, fileType: fileType, fileName: fileName)
+        .then((res) async {
+      print('file upoladed');
+
+      await _profileRepository
+          .updateImageProfile(imageId: res, version: player.version, id: player.id)
+          .whenSuccess((res) => apply(() {
+                print('image updated');
+              }));
+      // updateProfileImage(
+      //     id: player.id, version: player.version, imageId: await imageId);
+      return res;
+    });
   }
 }

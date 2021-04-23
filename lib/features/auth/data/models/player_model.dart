@@ -7,6 +7,7 @@ import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 
@@ -40,6 +41,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.availability,
     @required this.videos,
     @required this.photo,
+    @required this.membership,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -69,6 +71,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final String availability;
   final List<VideoModel> videos;
   final SourceModel photo;
+  final PartnerMemberModel membership;
 
   PlayerModel copyWith(
       {String code,
@@ -98,6 +101,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       String status,
       String availability,
       SourceModel photo,
+      PartnerMemberModel membership,
       List<VideoModel> videos}) {
     return PlayerModel(
       code: code ?? this.code,
@@ -125,6 +129,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       availability: availability ?? this.availability,
       photo: photo ?? this.photo,
       videos: videos ?? this.videos,
+      membership: membership ?? this.membership,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -160,7 +165,8 @@ class PlayerModel extends VersionModel with EquatableMixin {
       status,
       availability,
       videos,
-      photo
+      photo,
+      membership
     ];
   }
 
@@ -175,8 +181,10 @@ class PlayerModel extends VersionModel with EquatableMixin {
           email: email,
           password: password,
           code: null,
+          membership: null,
           language: null,
           type: null,
+          photo: null,
           leg: null,
           hand: null,
           brief: null,
@@ -206,6 +214,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
           name: null,
           email: null,
           password: null,
+          membership: null,
           code: null,
           language: null,
           type: null,
@@ -221,6 +230,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
           area: null,
           version: null,
           country: null,
+          photo: null,
           position: null,
           sport: null,
           category: null,

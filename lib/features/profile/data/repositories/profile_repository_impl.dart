@@ -27,9 +27,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   @override
   Future<NetworkResult<bool>> updateImageProfile(
-          {int id, int version, String image}) =>
+          {int id, int version, int imageId}) =>
       profileDataSource.updateImageProfile(
-          id: id, version: version, image: image);
+          id: id, version: version, imageId: imageId);
 
   @override
   Future<int> uploadFile({
@@ -43,4 +43,8 @@ class ProfileRepositoryImpl extends ProfileRepository {
           fileName: fileName,
           fileType: fileType,
           fileSize: fileSize);
+
+  @override
+  Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId}) =>
+      profileDataSource.uploadVideoPlayer(playerId: playerId, videoId: videoId);
 }

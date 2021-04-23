@@ -114,6 +114,43 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
           Computed<bool>(() => super.forgetPasswordError,
               name: '_AuthViewmodelBase.forgetPasswordError'))
       .value;
+  Computed<File> _$imageFileComputed;
+
+  @override
+  File get imageFile =>
+      (_$imageFileComputed ??= Computed<File>(() => super.imageFile,
+              name: '_AuthViewmodelBase.imageFile'))
+          .value;
+
+  final _$imageAtom = Atom(name: '_AuthViewmodelBase.image');
+
+  @override
+  File get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(File value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
+
+  final _$imageIdAtom = Atom(name: '_AuthViewmodelBase.imageId');
+
+  @override
+  Future<int> get imageId {
+    _$imageIdAtom.reportRead();
+    return super.imageId;
+  }
+
+  @override
+  set imageId(Future<int> value) {
+    _$imageIdAtom.reportWrite(value, super.imageId, () {
+      super.imageId = value;
+    });
+  }
 
   final _$registerSliderModelAtom =
       Atom(name: '_AuthViewmodelBase.registerSliderModel');
@@ -520,8 +557,26 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
+  Future<int> uploadFile(
+      {File file, int fileSize, String fileName, String fileType}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.uploadFile');
+    try {
+      return super.uploadFile(
+          file: file,
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+image: ${image},
+imageId: ${imageId},
 registerSliderModel: ${registerSliderModel},
 loginFuture: ${loginFuture},
 sendOtp: ${sendOtp},
@@ -548,7 +603,8 @@ emirates: ${emirates},
 otpCode: ${otpCode},
 verifyOTPLoading: ${verifyOTPLoading},
 forgetPasswordLoading: ${forgetPasswordLoading},
-forgetPasswordError: ${forgetPasswordError}
+forgetPasswordError: ${forgetPasswordError},
+imageFile: ${imageFile}
     ''';
   }
 }

@@ -144,12 +144,14 @@ Future<GetIt> $inject(
         get<Logger>(),
         get<AuthRepository>(),
         get<PrefsRepository>(),
+        get<ProfileRepository>(),
       ));
   gh.factory<PlayersViewmodel>(() => PlayersViewmodel(
         get<Logger>(),
         get<PlayersRepository>(),
         get<AuthRepository>(),
         get<ProfileRepository>(),
+        get<PrefsRepository>(),
       ));
   gh.factory<ProfileViewmodel>(() => ProfileViewmodel(
         get<Logger>(),

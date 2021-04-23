@@ -37,13 +37,34 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       (_$bookPlayerErrorComputed ??= Computed<bool>(() => super.bookPlayerError,
               name: '_PlayersViewmodelBase.bookPlayerError'))
           .value;
-  Computed<bool> _$isConfirmedComputed;
+  Computed<bool> _$confirmPlayerLoadingComputed;
 
   @override
-  bool get isConfirmed =>
-      (_$isConfirmedComputed ??= Computed<bool>(() => super.isConfirmed,
-              name: '_PlayersViewmodelBase.isConfirmed'))
-          .value;
+  bool get confirmPlayerLoading => (_$confirmPlayerLoadingComputed ??=
+          Computed<bool>(() => super.confirmPlayerLoading,
+              name: '_PlayersViewmodelBase.confirmPlayerLoading'))
+      .value;
+  Computed<bool> _$confirmPlayerErrorComputed;
+
+  @override
+  bool get confirmPlayerError => (_$confirmPlayerErrorComputed ??=
+          Computed<bool>(() => super.confirmPlayerError,
+              name: '_PlayersViewmodelBase.confirmPlayerError'))
+      .value;
+  Computed<bool> _$releasePlayerLoadingComputed;
+
+  @override
+  bool get releasePlayerLoading => (_$releasePlayerLoadingComputed ??=
+          Computed<bool>(() => super.releasePlayerLoading,
+              name: '_PlayersViewmodelBase.releasePlayerLoading'))
+      .value;
+  Computed<bool> _$releasePlayerErrorComputed;
+
+  @override
+  bool get releasePlayerError => (_$releasePlayerErrorComputed ??=
+          Computed<bool>(() => super.releasePlayerError,
+              name: '_PlayersViewmodelBase.releasePlayerError'))
+      .value;
   Computed<SportModel> _$filterCountryComputed;
 
   @override
@@ -130,6 +151,68 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   set bookPlayerFuture(ObservableFuture<bool> value) {
     _$bookPlayerFutureAtom.reportWrite(value, super.bookPlayerFuture, () {
       super.bookPlayerFuture = value;
+    });
+  }
+
+  final _$confirmPlayerFutureAtom =
+      Atom(name: '_PlayersViewmodelBase.confirmPlayerFuture');
+
+  @override
+  ObservableFuture<bool> get confirmPlayerFuture {
+    _$confirmPlayerFutureAtom.reportRead();
+    return super.confirmPlayerFuture;
+  }
+
+  @override
+  set confirmPlayerFuture(ObservableFuture<bool> value) {
+    _$confirmPlayerFutureAtom.reportWrite(value, super.confirmPlayerFuture, () {
+      super.confirmPlayerFuture = value;
+    });
+  }
+
+  final _$releasePlayerFutureAtom =
+      Atom(name: '_PlayersViewmodelBase.releasePlayerFuture');
+
+  @override
+  ObservableFuture<bool> get releasePlayerFuture {
+    _$releasePlayerFutureAtom.reportRead();
+    return super.releasePlayerFuture;
+  }
+
+  @override
+  set releasePlayerFuture(ObservableFuture<bool> value) {
+    _$releasePlayerFutureAtom.reportWrite(value, super.releasePlayerFuture, () {
+      super.releasePlayerFuture = value;
+    });
+  }
+
+  final _$bookedAtom = Atom(name: '_PlayersViewmodelBase.booked');
+
+  @override
+  bool get booked {
+    _$bookedAtom.reportRead();
+    return super.booked;
+  }
+
+  @override
+  set booked(bool value) {
+    _$bookedAtom.reportWrite(value, super.booked, () {
+      super.booked = value;
+    });
+  }
+
+  final _$confirmedAtom = Atom(name: '_PlayersViewmodelBase.confirmed');
+
+  @override
+  bool get confirmed {
+    _$confirmedAtom.reportRead();
+    return super.confirmed;
+  }
+
+  @override
+  set confirmed(bool value) {
+    _$confirmedAtom.reportWrite(value, super.confirmed, () {
+      super.confirmed = value;
     });
   }
 
@@ -250,21 +333,6 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   set hand(String value) {
     _$handAtom.reportWrite(value, super.hand, () {
       super.hand = value;
-    });
-  }
-
-  final _$confirmedAtom = Atom(name: '_PlayersViewmodelBase.confirmed');
-
-  @override
-  bool get confirmed {
-    _$confirmedAtom.reportRead();
-    return super.confirmed;
-  }
-
-  @override
-  set confirmed(bool value) {
-    _$confirmedAtom.reportWrite(value, super.confirmed, () {
-      super.confirmed = value;
     });
   }
 
@@ -437,10 +505,36 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
+  void confirmPlayer() {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.confirmPlayer');
+    try {
+      return super.confirmPlayer();
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void releasePlayer() {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.releasePlayer');
+    try {
+      return super.releasePlayer();
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 viewProfileFuture: ${viewProfileFuture},
 bookPlayerFuture: ${bookPlayerFuture},
+confirmPlayerFuture: ${confirmPlayerFuture},
+releasePlayerFuture: ${releasePlayerFuture},
+booked: ${booked},
+confirmed: ${confirmed},
 playerId: ${playerId},
 playerName: ${playerName},
 searchName: ${searchName},
@@ -449,7 +543,6 @@ country: ${country},
 position: ${position},
 leg: ${leg},
 hand: ${hand},
-confirmed: ${confirmed},
 playersFuture: ${playersFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
@@ -459,7 +552,10 @@ viewProfileLoading: ${viewProfileLoading},
 viewProfileError: ${viewProfileError},
 bookPlayerLoading: ${bookPlayerLoading},
 bookPlayerError: ${bookPlayerError},
-isConfirmed: ${isConfirmed},
+confirmPlayerLoading: ${confirmPlayerLoading},
+confirmPlayerError: ${confirmPlayerError},
+releasePlayerLoading: ${releasePlayerLoading},
+releasePlayerError: ${releasePlayerError},
 filterCountry: ${filterCountry},
 filterPosition: ${filterPosition},
 players: ${players},

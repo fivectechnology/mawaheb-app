@@ -7,7 +7,6 @@ import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';

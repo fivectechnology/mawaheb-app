@@ -79,6 +79,28 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           () => super.uploadImageError,
           name: '_ProfileViewmodelBase.uploadImageError'))
       .value;
+  Computed<File> _$imageFileComputed;
+
+  @override
+  File get imageFile =>
+      (_$imageFileComputed ??= Computed<File>(() => super.imageFile,
+              name: '_ProfileViewmodelBase.imageFile'))
+          .value;
+
+  final _$imageAtom = Atom(name: '_ProfileViewmodelBase.image');
+
+  @override
+  File get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(File value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
 
   final _$imageIdAtom = Atom(name: '_ProfileViewmodelBase.imageId');
 
@@ -269,19 +291,6 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
     });
   }
 
-  final _$uploadFileAsyncAction =
-      AsyncAction('_ProfileViewmodelBase.uploadFile');
-
-  @override
-  Future<int> uploadFile(
-      {File file, int fileSize, String fileName, String fileType}) {
-    return _$uploadFileAsyncAction.run(() => super.uploadFile(
-        file: file,
-        fileSize: fileSize,
-        fileName: fileName,
-        fileType: fileType));
-  }
-
   final _$_ProfileViewmodelBaseActionController =
       ActionController(name: '_ProfileViewmodelBase');
 
@@ -426,11 +435,32 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
-  void updateProfileImage({int id, int version, String image}) {
+  Future<int> uploadImage(
+      {File file, int fileSize, String fileName, String fileType}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
-        name: '_ProfileViewmodelBase.updateProfileImage');
+        name: '_ProfileViewmodelBase.uploadImage');
     try {
-      return super.updateProfileImage(id: id, version: version, image: image);
+      return super.uploadImage(
+          file: file,
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType);
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<int> uploadVideo(
+      {File file, int fileSize, String fileName, String fileType}) {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.uploadVideo');
+    try {
+      return super.uploadVideo(
+          file: file,
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -439,6 +469,7 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   @override
   String toString() {
     return '''
+image: ${image},
 imageId: ${imageId},
 playerFuture: ${playerFuture},
 editAddressPlayerFuture: ${editAddressPlayerFuture},
@@ -460,7 +491,8 @@ positions: ${positions},
 emirates: ${emirates},
 views: ${views},
 uploadImageLoading: ${uploadImageLoading},
-uploadImageError: ${uploadImageError}
+uploadImageError: ${uploadImageError},
+imageFile: ${imageFile}
     ''';
   }
 }

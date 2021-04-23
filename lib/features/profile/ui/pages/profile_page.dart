@@ -6,7 +6,6 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/features/home/ui/pages/renew_subscription_page.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
 
 import 'package:mawaheb_app/features/profile/ui/widgets/profile_detail_row.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
@@ -67,6 +66,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                                 : false),
                     profileDetails(
                         context: context,
+                        isConfirmed: false,
                         name: viewmodel.player.name,
                         photo: viewmodel.player.photo,
                         token: viewmodel.prefsRepository.token),

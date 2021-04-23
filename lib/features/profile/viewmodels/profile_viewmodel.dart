@@ -50,6 +50,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   ];
 
   //* OBSERVERS *//
+  @observable
+  File image;
 
   @observable
   Future<int> imageId;
@@ -117,6 +119,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get uploadImageError => uploadImageFuture?.isFailure ?? false;
+
+  @computed
+  File get imageFile => image;
 
   //* ACTIONS *//
 
@@ -191,8 +196,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               phone: phone)
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              // getContext((context) => App.navKey.currentState.context
+              //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -253,42 +258,60 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void updateProfileImage({int id, int version, String image}) {
-    editPersonalPlayerFuture = futureWrapper(
-      () => _profileRepository
-          .updateImageProfile(
-              version: player.version, id: player.id, image: image)
-          .whenSuccess(
-            (res) => res.apply(() {
-              print('image updated');
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
-            }),
-          ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
-    );
-  }
-
-  @action
-  Future<int> uploadFile({
+  // ignore: missing_return
+  Future<int> uploadImage({
     File file,
     int fileSize,
     String fileName,
     String fileType,
-  }) async {
+  }) {
     imageId = _profileRepository
         .uploadFile(
             file: file,
             fileSize: fileSize,
             fileType: fileType,
             fileName: fileName)
-        .whenComplete(() {
+        .then((res) async {
       print('file upoladed');
-      print(imageId);
-      getContext((context) => App.navKey.currentState.context
-          .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
-    });
 
-    return imageId;
+      await _profileRepository
+          .updateImageProfile(imageId: res, version: 1, id: player.id)
+          .whenSuccess((res) => apply(() {
+                print('image updated');
+                getContext((context) => App.navKey.currentState.context
+                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              }));
+      // updateProfileImage(
+      //     id: player.id, version: player.version, imageId: await imageId);
+      return res;
+    });
+  }
+
+  @action
+  // ignore: missing_return
+  Future<int> uploadVideo({
+    File file,
+    int fileSize,
+    String fileName,
+    String fileType,
+  }) {
+    imageId = _profileRepository
+        .uploadFile(
+            file: file,
+            fileSize: fileSize,
+            fileType: fileType,
+            fileName: fileName)
+        .then((res) async {
+      await _profileRepository
+          .uploadVideoPlayer(playerId: player.id, videoId: res)
+          .whenSuccess((res) => apply(() {
+                print('video added');
+                // getContext((context) => App.navKey.currentState.context
+                //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              }));
+      // updateProfileImage(
+      //     id: player.id, version: player.version, imageId: await imageId);
+      return res;
+    });
   }
 }

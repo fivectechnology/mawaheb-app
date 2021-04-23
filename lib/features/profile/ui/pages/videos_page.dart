@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,6 +38,11 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   Future getVideo() async {
     final pickedFile = await picker.getVideo(source: ImageSource.gallery);
 
@@ -46,7 +51,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       fileName = video.path.split('/').last;
       fileType = fileName.split('.').last;
       fileSize = await video.length();
-      viewmodel.uploadFile(
+      viewmodel.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
           fileType: fileType,
@@ -59,27 +64,31 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: Visibility(
-          visible: isPlayer,
-          child: FloatingActionButton(
-            onPressed: () {
-              getVideo();
-              // _selectVideoBottomSheet(context);
-            },
-            backgroundColor: YELLOW,
-            child: const Icon(
-              Icons.add,
-              color: Colors.black87,
-              size: 36,
-            ),
+      floatingActionButton: Visibility(
+        visible: isPlayer,
+        child: FloatingActionButton(
+          onPressed: () {
+            getVideo();
+
+            // _selectVideoBottomSheet(context);
+          },
+          backgroundColor: YELLOW,
+          child: const Icon(
+            Icons.add,
+            color: Colors.black87,
+            size: 36,
           ),
         ),
-        backgroundColor: Colors.white,
-        body: ListView.builder(
+      ),
+      backgroundColor: Colors.white,
+      body: Observer(builder: (_) {
+        return ListView.builder(
             itemCount: viewmodel.player.videos.length,
             itemBuilder: (context, index) {
               return videoRow();
-            }));
+            });
+      }),
+    );
   }
 
   Widget videoRow() {
