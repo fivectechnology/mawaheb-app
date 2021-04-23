@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:better_player/better_player.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,17 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     }
   }
 
+  // var dataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.network,
+  //     'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/26/download2',
+  //     headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='});
+
+  Widget videoPlayer({String token, int videoId}) {
+    return BetterPlayerListVideoPlayer(BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network,
+        'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$videoId/download2',
+        headers: {'Authorization': 'Basic $token'}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,13 +97,14 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         return ListView.builder(
             itemCount: viewmodel.player.videos.length,
             itemBuilder: (context, index) {
-              return videoRow();
+              return videoRow(
+                  videoId: 26, token: viewmodel.prefsRepository.token);
             });
       }),
     );
   }
 
-  Widget videoRow() {
+  Widget videoRow({int videoId, String token}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
@@ -115,10 +128,11 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           Stack(
             children: [
               Container(
-                height: context.fullHeight * 0.3,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8), color: Colors.red),
-              ),
+                  height: context.fullHeight * 0.3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: videoPlayer(videoId: videoId, token: token)),
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Align(

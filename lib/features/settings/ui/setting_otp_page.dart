@@ -13,6 +13,7 @@ class SettingOtpPage extends StatefulWidget {
   const SettingOtpPage({Key key}) : super(key: key);
 
   static const String route = '/setting_otp';
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) =>
       MaterialPageRoute(
@@ -45,56 +46,50 @@ class _SettingOtpPageState
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: context.fullHeight * 0.02,
-              ),
-              child: Text(
-                context.translate('msg_enter_otp'),
-                style: context.textTheme.headline1.copyWith(
-                    color: Colors.black, fontSize: 22, wordSpacing: 0.5),
-              )),
-          Observer(builder: (_) {
-            return Text(
-              viewmodel?.player?.email ?? '',
-              style: context.textTheme.bodyText1
-                  .copyWith(color: Colors.black, fontSize: 16),
-            );
-          }),
-          SizedBox(
-            height: context.fullHeight * 0.08,
-          ),
-
-          codeField(true),
-          Padding(
-            padding: EdgeInsets.only(
-                top: context.fullHeight * 0.08,
-                bottom: context.fullHeight * 0.04),
-            child: MawahebButton(
-              onPressed: () => viewmodel.sendOTP(resend: true),
-              context: context,
-              text: 'lbl_resend_otp',
-              buttonColor: Colors.white,
-              textColor: Colors.black,
-              borderColor: Colors.black,
+    return Scaffold(
+      backgroundColor: WHITE,
+      key: SettingOtpPage.scaffoldKey,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: context.fullHeight * 0.02,
+                ),
+                child: Text(
+                  context.translate('msg_enter_otp'),
+                  style: context.textTheme.headline1.copyWith(
+                      color: Colors.black, fontSize: 22, wordSpacing: 0.5),
+                )),
+            Observer(builder: (_) {
+              return Text(
+                viewmodel?.player?.email ?? '',
+                style: context.textTheme.bodyText1
+                    .copyWith(color: Colors.black, fontSize: 16),
+              );
+            }),
+            SizedBox(
+              height: context.fullHeight * 0.08,
             ),
-          ),
-          // Observer(builder: (_) {
-          //   return MawahebButton(
-          //     onPressed: () => viewmodel.verifyOTP(
-          //         code: int.parse(_otpController.text)),
-          //     context: context,
-          //     text: 'lbl_next',
-          //     buttonColor: const Color(0xFF9F9F9F),
-          //     textColor: Colors.white,
-          //     borderColor: Colors.white,
-          //   );
-          // }),
-        ],
+            codeField(true),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 38,
+                  right: 38,
+                  top: context.fullHeight * 0.08,
+                  bottom: context.fullHeight * 0.04),
+              child: MawahebButton(
+                onPressed: () => viewmodel.sendOTP(resend: true),
+                context: context,
+                text: 'lbl_resend_otp',
+                buttonColor: Colors.white,
+                textColor: Colors.black,
+                borderColor: Colors.black,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

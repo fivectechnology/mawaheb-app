@@ -129,11 +129,8 @@
   "msg_email_not_reg": "البريد الاكلتروني غير موجود",
   "msg_close_app": "هل أنت متأكد من الخروج؟",
   "msg_app_exit_confirm": "هل أنت متأكد من تسجيل الخروج؟",
-
-
-
-
-
+  "msg_change_email_error": "البريد الاكلتروني موجود او خطأ بكلمة المرور",
+  "msg_change_password_error": "كلمة المرور غير صحيحة",
   "msg_player_booked": "تم حجز اللاعب بنجاح",
   "msg_player_confirmed": "تم تأكيد اللاعب بنجاح",
   "msg_player_released": "تم تحرير اللاعب بنجاح"

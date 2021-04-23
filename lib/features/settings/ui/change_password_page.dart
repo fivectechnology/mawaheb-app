@@ -16,6 +16,7 @@ class ChangePasswordPage extends StatefulWidget {
   }) : super(key: key);
 
   static const String route = '/change_password';
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) =>
       MaterialPageRoute(
@@ -73,6 +74,7 @@ class _ChangePasswordPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ChangePasswordPage.scaffoldKey,
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false, //new line
       body: Padding(
