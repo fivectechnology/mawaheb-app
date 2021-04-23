@@ -39,7 +39,6 @@ class _PlayerInfoPageState
   CountryModel currentCountry;
   CategoryModel currentCategory;
   String gender;
-  File _image;
   final picker = ImagePicker();
   DateTime _selectedDate;
   String dateOfBirth;

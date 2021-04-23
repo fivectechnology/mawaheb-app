@@ -40,4 +40,16 @@ class PlayersRepositoryImpl extends PlayersRepository {
   }) =>
       playersDataSource.bookPlayer(
           playerId: playerId, partnerId: prefsRepository.player.id);
+
+  @override
+  Future<NetworkResult<bool>> confirmPlayer(
+          {int memberShipId, int memberShipVersion}) =>
+      playersDataSource.confirmPlayer(
+          memberShipId: memberShipId, memberShipVersion: memberShipVersion);
+
+  @override
+  Future<NetworkResult<bool>> releasePlayer(
+          {int memberShipId, int memberShipVersion}) =>
+      playersDataSource.releasePlayer(
+          memberShipId: memberShipId, memberShipVersion: memberShipVersion);
 }

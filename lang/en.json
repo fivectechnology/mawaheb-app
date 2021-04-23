@@ -90,11 +90,25 @@
   "lbl_new_password": "New Password",
   "lbl_confirm_player": "Confirm Player",
   "lbl_book_player": "Book Player",
+  "lbl_released_player": "Release Player",
   "lbl_select_birth": "Date of birth",
   "lbl_my_info": "My info",
   "lbl_my_views": "Views",
   "lbl_active_account": "Profile active",
   "lbl_pending_account": "Profile pending",
+  "lbl_confirmed_player": "confirmed player",
+  "lbl_search_name": "Search by name",
+  "PLAYER": "PLAYER",
+  "CLUB": "CLUB",
+  "lbl_clubs_view": "Clubs view profile",
+  "msg_player_booked": "player Booked successfully",
+  "msg_player_confirmed": "player confirmed successfully",
+  "msg_player_released": "player released successfully",
+
+
+
+
+
 
 
 

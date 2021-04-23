@@ -19,7 +19,8 @@ class LoginPage extends StatefulWidget {
 
   static const String route = '/login';
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const LoginPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const LoginPage());
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -64,7 +65,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   child: GradientText(
                     text: context.translate('lbl_welcome_to_mawaheb'),
                     colors: const [YELLOW, RED],
-                    style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
+                    style: context.textTheme.headline1
+                        .copyWith(fontSize: 26, letterSpacing: 0.3),
                   ),
                 ),
                 MawahebTextField(
@@ -95,7 +97,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       'CLUB',
                     ]
                         .map((e) => DropdownMenuItem(
-                              child: Text(e),
+                              child: Text(context.translate(e)),
                               value: e,
                             ))
                         .toList(),
@@ -109,18 +111,23 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
-                      onTap: () => context.pushNamed(ForgotPasswordPage.route, arguments: viewmodel),
+                      onTap: () => context.pushNamed(ForgotPasswordPage.route,
+                          arguments: viewmodel),
                       child: Text(
                         context.translate('lbl_forget_password'),
                         style: context.textTheme.subtitle1.copyWith(
-                            fontSize: 12, decoration: TextDecoration.underline, color: const Color(0xFF9F9F9F)),
+                            fontSize: 12,
+                            decoration: TextDecoration.underline,
+                            color: const Color(0xFF9F9F9F)),
                       ),
                     )
                   ],
                 ),
                 Observer(builder: (_) {
                   return Padding(
-                    padding: EdgeInsets.only(top: context.fullHeight * 0.05, bottom: context.fullHeight * 0.04),
+                    padding: EdgeInsets.only(
+                        top: context.fullHeight * 0.05,
+                        bottom: context.fullHeight * 0.04),
                     child: MawahebGradientButton(
                       // TODO(ahmad): ask backend for username and password validation
                       // enable: !_userNameController.text.isNullOrEmpty && !_passwordController.text.isNullOrEmpty,
@@ -142,7 +149,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                 }),
                 MawahebGradientButton(
                   text: 'lbl_sign_up_player',
-                  onPressed: () => context.pushNamed(RegisterPage.route, arguments: viewmodel),
+                  onPressed: () => context.pushNamed(RegisterPage.route,
+                      arguments: viewmodel),
                   context: context,
                 ),
               ],

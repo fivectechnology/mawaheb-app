@@ -35,7 +35,7 @@ class TokenInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Basic ' + prefsRepository.token;
     }
     //
-    // options.headers['type'] = prefsRepository.type;
+    options.headers['type'] = prefsRepository.type;
 
     return options;
   }

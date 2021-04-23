@@ -66,6 +66,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                                 : false),
                     profileDetails(
                         context: context,
+                        isConfirmed: false,
                         name: viewmodel.player.name,
                         photo: viewmodel.player.photo,
                         token: viewmodel.prefsRepository.token),
