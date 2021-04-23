@@ -202,7 +202,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "79ac43e2f4ed031e4faea8dd3a94bdc31186e732"
+      resolved-ref: "6036a5538c88bd8088957237908df4a2e6680d6d"
       url: "https://gitlab.com/abd.ktefane.7/flutter-core.git"
     source: git
     version: "0.0.1"
@@ -435,7 +435,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.33"
+    version: "1.2.0"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:

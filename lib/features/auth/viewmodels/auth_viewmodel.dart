@@ -20,6 +20,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
@@ -53,8 +54,7 @@ class AuthViewmodel extends _AuthViewmodelBase with _$AuthViewmodel {
 }
 
 abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
-  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository,
-      this._profileRepository)
+  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository, this._profileRepository)
       : super(logger);
 
   final AuthRepository _authRepository;
@@ -198,19 +198,14 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       await _prefsRepository.setType(type);
 
       logger.d('my debug user role in login is ${_prefsRepository?.type}');
-      await _authRepository
-          .login(userName: userName, password: password, type: type)
-          .whenSuccess(
+      await _authRepository.login(userName: userName, password: password, type: type).whenSuccess(
             (res) => apply(() async {
               print('ttttt');
 
-              final int id = await _authRepository.getPlayerId(
-                  token: _prefsRepository.token);
-              await _prefsRepository
-                  .setPlayer(PlayerModel.loggedPlayerId(id: id));
+              final int id = await _authRepository.getPlayerId(token: _prefsRepository.token);
+              await _prefsRepository.setPlayer(PlayerModel.loggedPlayerId(id: id));
               getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               );
             }),
           );
@@ -230,8 +225,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     bool resend = false,
   }) {
     if (!resend) {
-      registerFuture = ObservableFuture.value(
-          PlayerModel.fromUi(email: email, password: password));
+      registerFuture = ObservableFuture.value(PlayerModel.fromUi(email: email, password: password));
     }
     sendOtp = futureWrapper(
       () => _authRepository.sendOTP(email: player.email).whenSuccess(
@@ -264,7 +258,16 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               );
             }),
           ),
-      catchBlock: (err) => showSnack('email exist', duration: 2.seconds),
+      catchBlock: (err) => getContext((context) => showSnack(
+            context.translate('msg_email_exist'),
+            duration: 2.seconds,
+            scaffoldKey: RegisterPage.scaffoldKey,
+          )),
+      unknownErrorHandler: (err) => getContext((context) => showSnack(
+            context.translate('msg_email_exist'),
+            duration: 2.seconds,
+            scaffoldKey: RegisterPage.scaffoldKey,
+          )),
       useLoader: true,
     );
   }
@@ -274,9 +277,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _authRepository
-          .verifyOTP(email: player.email, code: code)
-          .whenSuccess(
+      () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess(
             (res) => res.data.apply(() async {
               await _prefsRepository.setType('PLAYER');
               logger.d('otp verify success with res: $res');
@@ -291,9 +292,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
                           logger.d('signUp success with res: $res');
                           // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
                           await _prefsRepository.setPlayer(res.data.first);
-                          await _authRepository.login(
-                              userName: player.email,
-                              password: player.password);
+                          await _authRepository.login(userName: player.email, password: player.password);
                           changeRegisterSlider(const PageSliderForawardModel());
                         },
                       ));
@@ -315,20 +314,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     String password,
   }) {
     registerFuture = futureWrapper(
-        () => _authRepository
-            .signUp(
-                email: email,
-                password: password,
-                code: verifyOTPFuture.value.data)
-            .whenSuccess(
+        () => _authRepository.signUp(email: email, password: password, code: verifyOTPFuture.value.data).whenSuccess(
               (res) => res.data.first.apply(() async {
                 logger.d('signUp success with res: $res');
                 // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
                 await _prefsRepository.setPlayer(res.data.first);
-                await _authRepository.login(
-                    userName: player.email,
-                    password: player.password,
-                    type: 'PL');
+                await _authRepository.login(userName: player.email, password: player.password, type: 'PL');
                 changeRegisterSlider(const PageSliderForawardModel());
               }),
             ), catchBlock: (err) {
@@ -339,8 +330,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changeRegisterSlider(PageSliderModel pageSliderModel) =>
-      registerSliderModel = pageSliderModel;
+  void changeRegisterSlider(PageSliderModel pageSliderModel) => registerSliderModel = pageSliderModel;
 
   @action
   void addPersonalInfo({
@@ -373,8 +363,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void addAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void addAddressInfo({String address, String area, EmirateModel emirateModel}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -396,13 +385,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void addSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int weight, int height, String hand, String leg, String brief, SportModel sport, SportPositionModel position}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addSportInfo(
@@ -418,8 +401,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(
               () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               ),
             ),
           ),
@@ -435,14 +417,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               logger.d('otp success with res: $res');
               forgetPasswordEmail = email;
 
-              getContext(
-                  (context) => context.navigator.push(OtpPage.pageRoute(this)));
+              getContext((context) => context.navigator.push(OtpPage.pageRoute(this)));
             }),
           ),
       catchBlock: (err) {
         getContext((context) {
-          showSnack(context.translate('msg_email_not_reg'),
-              duration: 2.seconds);
+          showSnack(context.translate('msg_email_not_reg'), duration: 2.seconds);
         });
       },
       useLoader: true,
@@ -454,12 +434,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _authRepository
-          .verifyOTP(email: forgetPasswordEmail, code: code)
-          .whenSuccess(
+      () => _authRepository.verifyOTP(email: forgetPasswordEmail, code: code).whenSuccess(
             (res) => res.data.apply(() async {
-              getContext((context) =>
-                  context.navigator.push(ResetPasswordPagee.pageRoute(this)));
+              getContext((context) => context.navigator.push(ResetPasswordPagee.pageRoute(this)));
             }),
           ),
       catchBlock: (err) {
@@ -474,13 +451,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   void resetPassword({String password, String email, int code}) {
     forgetPasswordFuture = futureWrapper(() => _authRepository
-        .resetPassword(
-            email: forgetPasswordEmail,
-            code: verifyOTPFuture.value.data,
-            password: password)
+        .resetPassword(email: forgetPasswordEmail, code: verifyOTPFuture.value.data, password: password)
         .whenSuccess((res) => apply(() {
-              getContext((context) => App.navKey.currentState
-                  .pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
+              getContext((context) => App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
             })));
   }
 
@@ -493,17 +466,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     String fileType,
   }) {
     imageId = _profileRepository
-        .uploadFile(
-            file: file,
-            fileSize: fileSize,
-            fileType: fileType,
-            fileName: fileName)
+        .uploadFile(file: file, fileSize: fileSize, fileType: fileType, fileName: fileName)
         .then((res) async {
       print('file upoladed');
 
       await _profileRepository
-          .updateImageProfile(
-              imageId: res, version: player.version, id: player.id)
+          .updateImageProfile(imageId: res, version: player.version, id: player.id)
           .whenSuccess((res) => apply(() {
                 print('image updated');
               }));

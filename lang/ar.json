@@ -127,6 +127,13 @@
   "msg_otp_error": "غير صحيح OTP",
   "msg_signUp_error": "البريد الالكتروني موجود مسبقا",
   "msg_email_not_reg": "البريد الاكلتروني غير موجود",
+  "msg_close_app": "هل أنت متأكد من الخروج؟",
+  "msg_app_exit_confirm": "هل أنت متأكد من تسجيل الخروج؟",
+
+
+
+
+
   "msg_player_booked": "تم حجز اللاعب بنجاح",
   "msg_player_confirmed": "تم تأكيد اللاعب بنجاح",
   "msg_player_released": "تم تحرير اللاعب بنجاح"

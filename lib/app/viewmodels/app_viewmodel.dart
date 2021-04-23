@@ -29,7 +29,7 @@ class AppViewmodel extends _AppViewmodelBase with _$AppViewmodel {
 
 abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   _AppViewmodelBase(Logger logger, this.prefsRepository) : super(logger) {
-    appBarParams = AppBarParams.initial(isPlayer);
+    init();
   }
 
   final PrefsRepository prefsRepository;
@@ -58,6 +58,13 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   bool get languageLoading => languageFuture?.isPending ?? false;
 
   //* ACTIONS *//
+  //
+  @action
+  void init() {
+    appBarParams = AppBarParams.initial(isPlayer);
+    languageFuture = ObservableFuture.value(prefsRepository.languageCode);
+    // TODO(abd): registerDevice();
+  }
 
   @action
   void pushRoute(AppBarParams appBarParams) {
@@ -90,7 +97,8 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
     if (locale == language) {
       return;
     }
-    languageFuture = ObservableFuture(prefsRepository.setApplicationLanguage(locale).then((success) {
+    languageFuture = ObservableFuture(prefsRepository.setApplicationLanguage(locale).then((isSuccess) {
+      logger.d('mawaheb debug try change language status is $isSuccess');
       return locale;
     }));
   }

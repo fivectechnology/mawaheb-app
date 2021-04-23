@@ -1,4 +1,5 @@
 import 'package:core_sdk/utils/constants.dart';
+import 'package:core_sdk/utils/dialogs.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/widgets/progress_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,6 +55,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
       key: viewmodel.scaffoldKey,
       backgroundColor: Colors.white,
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           Card(
             elevation: 3,
@@ -89,8 +91,10 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                   return settingRow(
                     text: 'lbl_log_out',
                     onPress: () {
-                      appViewmodel.pageIndex = PageIndex.home;
-                      viewmodel.logout();
+                      showConfirmDialog(context, context.translate('msg_app_exit_confirm'), () {
+                        appViewmodel.pageIndex = PageIndex.home;
+                        viewmodel.logout();
+                      });
                     },
                     isLoading: viewmodel.logoutLoading,
                   );

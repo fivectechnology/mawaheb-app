@@ -2,6 +2,8 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
+import 'package:mawaheb_app/base/utils/app_bar_params.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
@@ -40,6 +42,13 @@ class _ChangePasswordPageState
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AppViewmodel>(context, listen: false).pushRoute(AppBarParams(
+        title: 'lbl_change_password',
+        showBackButton: true,
+        onBackPressed: () => context.pop(),
+      ));
+    });
   }
 
   @override

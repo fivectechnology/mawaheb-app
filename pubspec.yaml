@@ -48,7 +48,7 @@ dependencies:
   modal_bottom_sheet: ^1.0.0
   url_launcher: ^5.7.10
   image_picker: ^0.6.5
-  google_maps_flutter: ^0.5.21
+  google_maps_flutter: ^1.2.0
   cached_network_image: ^2.3.0
 #  video_player: ^1.0.1
 #  video_player_header: ^0.10.2+1

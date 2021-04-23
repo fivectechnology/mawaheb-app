@@ -96,6 +96,33 @@
   "lbl_my_views": "Views",
   "lbl_active_account": "Profile active",
   "lbl_pending_account": "Profile pending",
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   "lbl_confirmed_player": "confirmed player",
   "lbl_search_name": "Search by name",
   "PLAYER": "PLAYER",
@@ -143,9 +170,11 @@
   "msg_accepted": "I have read and accepted the",
   "msg_no_views": "There are no views",
   "msg_no_match_players": "There are no matching results",
-
+  
   "msg_login_error": "Email or password is incorrect",
   "msg_otp_error": "Incorrect OTP",
   "msg_signUp_error": "Email already exist",
-  "msg_email_not_reg": "Email not registered"
+  "msg_email_not_reg": "Email not registered",
+  "msg_close_app": "Are you sure to exit?",
+  "msg_app_exit_confirm": "Are you sure to logout?"
 }
