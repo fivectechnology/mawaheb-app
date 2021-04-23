@@ -16,7 +16,7 @@ abstract class ProfileRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews();
 
-  Future<NetworkResult<bool>> updateImageProfile({
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateImageProfile({
     int id,
     int version,
     int imageId,

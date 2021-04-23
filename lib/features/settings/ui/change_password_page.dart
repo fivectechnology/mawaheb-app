@@ -60,17 +60,6 @@ class _ChangePasswordPageState
     super.dispose();
   }
 
-  String confirmPasswordValidator(String password) {
-    if (password.isEmpty) {
-      return 'Password empty';
-    } else if (password.length < 3) {
-      return 'Password is too short';
-    } else if (password != _newPasswordController.text) {
-      return 'password not match';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +82,10 @@ class _ChangePasswordPageState
                     hintText: 'lbl_old_password',
                     textEditingController: _oldPasswordController,
                     isSuffixIcon: true,
-                    validator: passwordValidator,
+                    validator: (value) {
+                      return passwordValidator(
+                          context: context, password: value);
+                    },
                     useObscure: true,
                   ),
                 ),
@@ -102,7 +94,9 @@ class _ChangePasswordPageState
                   context: context,
                   hintText: 'lbl_new_password',
                   isSuffixIcon: true,
-                  validator: passwordValidator,
+                  validator: (value) {
+                    return passwordValidator(context: context, password: value);
+                  },
                   useObscure: true,
                 ),
                 Padding(
@@ -111,7 +105,12 @@ class _ChangePasswordPageState
                     textEditingController: _confirmPasswordController,
                     context: context,
                     hintText: 'lbl_confirm_password',
-                    validator: confirmPasswordValidator,
+                    validator: (value) {
+                      return confirmPasswordValidator(
+                          password: _newPasswordController.text,
+                          context: context,
+                          confirmPassword: value);
+                    },
                     isSuffixIcon: true,
                     useObscure: true,
                   ),

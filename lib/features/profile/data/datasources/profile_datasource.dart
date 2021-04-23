@@ -24,7 +24,7 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
     @required int id,
   });
 
-  Future<NetworkResult<bool>> updateImageProfile({
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateImageProfile({
     @required int id,
     @required int version,
     @required int imageId,
@@ -69,6 +69,10 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
       withAuth: true,
       id: id,
       data: {
+        'data': {'criteria': [], 'operator': 'and'},
+        'related': {
+          'videos': ['id', 'video', 'status']
+        },
         'fields': [
           'country',
           'subscriptions',
@@ -122,7 +126,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<bool>> updateImageProfile({
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateImageProfile({
     int id,
     int version,
     int imageId,
@@ -138,7 +142,9 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
             'version': version,
             'photo': {'id': imageId},
           },
-        });
+          'fields': ['id', 'version', 'photo', 'name', 'email']
+        },
+        mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson));
   }
 
   @override

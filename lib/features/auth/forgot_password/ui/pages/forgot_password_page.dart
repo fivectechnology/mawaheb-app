@@ -13,6 +13,7 @@ class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key key}) : super(key: key);
 
   static const String route = '/forgot_password';
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
       MaterialPageRoute(
@@ -45,6 +46,7 @@ class _ForgotPasswordPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ForgotPasswordPage.scaffoldKey,
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: customAppBar(context: context, withTitle: false),
@@ -67,7 +69,9 @@ class _ForgotPasswordPageState
               MawahebTextField(
                 hintText: 'lbl_email_username',
                 hintColor: Colors.grey,
-                validator: emailValidator,
+                validator: (value) {
+                  return emailValidator(context: context, email: value);
+                },
                 context: context,
                 textEditingController: _emailController,
               ),

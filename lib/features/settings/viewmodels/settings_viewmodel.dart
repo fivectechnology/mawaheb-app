@@ -10,7 +10,6 @@ import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
-import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/settings/domain/repositories/settings_repository.dart';
 import 'package:mawaheb_app/features/settings/ui/change_email_page.dart';
 import 'package:mawaheb_app/features/settings/ui/change_password_page.dart';

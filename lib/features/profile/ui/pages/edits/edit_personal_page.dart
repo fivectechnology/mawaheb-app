@@ -4,6 +4,8 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mawaheb_app/app/app.dart';
+import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
@@ -65,7 +67,7 @@ class _EditPersonalPageState
   void dispose() {
     _phoneController.dispose();
     _nameController.dispose();
-    super.dispose(); 
+    super.dispose();
   }
 
   @override
@@ -117,7 +119,13 @@ class _EditPersonalPageState
     return Scaffold(
       backgroundColor: WHITE,
       appBar: customAppBar(
-          context: context, title: 'lbl_personal_info', withTitle: true),
+          context: context,
+          title: 'lbl_personal_info',
+          withTitle: true,
+          onBackButton: () {
+            App.navKey.currentState.context
+                .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+          }),
       body: Observer(builder: (_) {
         return viewmodel.countries == null || viewmodel.categories == null
             ? const Center(child: MawahebLoader())
@@ -138,7 +146,9 @@ class _EditPersonalPageState
                         // onChanged: (value) {
                         //   _nameController.text = value;
                         // },
-                        validator: nameValidator,
+                        validator: (value) {
+                          return nameValidator(context: context, name: value);
+                        },
                       ),
                       const SizedBox(height: 26),
                       Row(
@@ -178,7 +188,10 @@ class _EditPersonalPageState
                           hintText: 'lbl_phone_num',
                           hintColor: Colors.grey,
                           textEditingController: _phoneController,
-                          validator: phoneValidator,
+                          validator: (value) {
+                            return phoneValidator(
+                                context: context, phone: value);
+                          },
                           // onChanged: (value) {
                           //   _phoneController.text = value;
                           // },

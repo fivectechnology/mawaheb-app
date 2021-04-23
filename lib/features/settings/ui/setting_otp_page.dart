@@ -3,6 +3,8 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
+import 'package:mawaheb_app/base/utils/app_bar_params.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/features/settings/viewmodels/settings_viewmodel.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
@@ -35,6 +37,13 @@ class _SettingOtpPageState
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AppViewmodel>(context, listen: false).pushRoute(AppBarParams(
+        title: 'lbl_otp',
+        showBackButton: true,
+        onBackPressed: () => context.pop(),
+      ));
+    });
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:better_player/better_player.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -62,17 +62,6 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     }
   }
 
-  // var dataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.network,
-  //     'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/26/download2',
-  //     headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='});
-
-  Widget videoPlayer({String token, int videoId}) {
-    return BetterPlayerListVideoPlayer(BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$videoId/download2',
-        headers: {'Authorization': 'Basic $token'}));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +69,11 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         visible: isPlayer,
         child: FloatingActionButton(
           onPressed: () {
-            getVideo();
-
-            // _selectVideoBottomSheet(context);
+            if (viewmodel.player.videos.length >= 3) {
+              _selectVideoBottomSheet(context);
+            } else {
+              getVideo();
+            }
           },
           backgroundColor: YELLOW,
           child: const Icon(
@@ -98,13 +89,15 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
             itemCount: viewmodel.player.videos.length,
             itemBuilder: (context, index) {
               return videoRow(
-                  videoId: 26, token: viewmodel.prefsRepository.token);
+                  videoId: viewmodel.player.videos[index].video.id,
+                  token: viewmodel.prefsRepository.token,
+                  status: viewmodel.player.videos[index].status);
             });
       }),
     );
   }
 
-  Widget videoRow({int videoId, String token}) {
+  Widget videoRow({int videoId, String token, String status}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
@@ -117,7 +110,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
               ),
               const SizedBox(width: 10),
               Text(
-                'Approved',
+                status,
                 style: textTheme.headline2.copyWith(
                     fontSize: 12,
                     color: Colors.grey,
@@ -132,7 +125,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: videoPlayer(videoId: videoId, token: token)),
+                  child: mawahebVideoWidget(videoId: videoId, token: token)),
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Align(

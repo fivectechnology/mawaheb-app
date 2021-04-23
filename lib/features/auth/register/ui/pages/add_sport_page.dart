@@ -109,7 +109,9 @@ class _AddSportPageState
                     hintText: context.translate('lbl_weight'),
                     hintColor: Colors.grey,
                     context: context,
-                    validator: weightValidator,
+                    validator: (value) {
+                      return weightValidator(context: context, value: value);
+                    },
                     textEditingController: _weightController,
                   ),
                   const SizedBox(height: 26),
@@ -117,7 +119,9 @@ class _AddSportPageState
                     hintText: context.translate('lbl_hight'),
                     hintColor: Colors.grey,
                     context: context,
-                    validator: hightValidator,
+                    validator: (value) {
+                      return heightValidator(context: context, value: value);
+                    },
                     textEditingController: _hightController,
                   ),
                   const SizedBox(height: 26),

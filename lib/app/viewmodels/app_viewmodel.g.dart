@@ -73,6 +73,17 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
       ActionController(name: '_AppViewmodelBase');
 
   @override
+  void init() {
+    final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
+        name: '_AppViewmodelBase.init');
+    try {
+      return super.init();
+    } finally {
+      _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void pushRoute(AppBarParams appBarParams) {
     final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
         name: '_AppViewmodelBase.pushRoute');

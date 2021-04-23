@@ -120,7 +120,9 @@ class _PlayerInfoPageState
                     hintColor: Colors.grey,
                     textEditingController: _nameController,
                     context: context,
-                    validator: nameValidator,
+                    validator: (value) {
+                      return nameValidator(context: context, name: value);
+                    },
                   ),
                   const SizedBox(height: 26),
                   Row(
@@ -150,7 +152,9 @@ class _PlayerInfoPageState
                       hintText: 'lbl_phone_num',
                       hintColor: Colors.grey,
                       textEditingController: _phoneController,
-                      validator: phoneValidator,
+                      validator: (value) {
+                        return phoneValidator(context: context, phone: value);
+                      },
                       context: context),
                   const SizedBox(height: 26),
                   mawhaebDropDown(

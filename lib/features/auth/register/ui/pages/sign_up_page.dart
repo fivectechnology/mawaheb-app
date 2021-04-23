@@ -38,17 +38,6 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
     super.dispose();
   }
 
-  String confirmPasswordValidator(String password) {
-    if (password.isEmpty) {
-      return 'Password empty';
-    } else if (password.length < 3) {
-      return 'Password is too short';
-    } else if (password != _passwordController.text) {
-      return 'password not match';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -61,7 +50,9 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
               child: MawahebTextField(
                 context: context,
                 hintText: 'lbl_email',
-                validator: emailValidator,
+                validator: (value) {
+                  return emailValidator(context: context, email: value);
+                },
                 textEditingController: _emailController,
               ),
             ),
@@ -70,7 +61,9 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
               hintText: 'lbl_password',
               textEditingController: _passwordController,
               isSuffixIcon: true,
-              validator: passwordValidator,
+              validator: (value) {
+                return passwordValidator(context: context, password: value);
+              },
               useObscure: true,
             ),
             Padding(
@@ -80,7 +73,12 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
                 hintText: 'lbl_confirm_password',
                 textEditingController: _confirmPasswordController,
                 isSuffixIcon: true,
-                validator: confirmPasswordValidator,
+                validator: (value) {
+                  return confirmPasswordValidator(
+                      password: _passwordController.text,
+                      context: context,
+                      confirmPassword: value);
+                },
                 useObscure: true,
               ),
             ),

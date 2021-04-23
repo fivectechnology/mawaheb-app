@@ -170,7 +170,6 @@
   "msg_accepted": "I have read and accepted the",
   "msg_no_views": "There are no views",
   "msg_no_match_players": "There are no matching results",
-  
   "msg_login_error": "Email or password is incorrect",
   "msg_otp_error": "Incorrect OTP",
   "msg_signUp_error": "Email already exist",
@@ -178,5 +177,25 @@
   "msg_change_password_error": "Password incorrect",
   "msg_email_not_reg": "Email not registered",
   "msg_close_app": "Are you sure to exit?",
-  "msg_app_exit_confirm": "Are you sure to logout?"
+  "msg_app_exit_confirm": "Are you sure to logout?",
+  "msg_short_password": "Password is too short",
+  "msg_invalid_mail": "Enter a valid email address",
+  "msg_password_empty": "Password empty",
+  "msg_password_match": "Password not matching",
+  "msg_name_empty": "Name is empty",
+  "msg_name_short": "Name is to short",
+  "msg_phone_empty": "Phone number is empty",
+  "msg_phone_valid": "phone number not valid (10 digits)",
+
+  "msg_address_empty": "Address is empty",
+  "msg_state_empty": "State is empty",
+  "msg_height_empty": "Height is empty",
+  "msg_weight_empty": "Weight is empty"
+
+
+
+
+
+
+
 }

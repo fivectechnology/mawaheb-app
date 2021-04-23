@@ -8,7 +8,6 @@ import 'package:mawaheb_app/base/utils/validators.dart';
 
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
-import 'package:mawaheb_app/features/settings/ui/setting_otp_page.dart';
 
 import 'package:mawaheb_app/features/settings/viewmodels/settings_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +78,9 @@ class _ChangeEmailPageState
                   context: context,
                   hintText: 'lbl_new_email',
                   textEditingController: _emailController,
-                  validator: emailValidator,
+                  validator: (value) {
+                    return emailValidator(context: context, email: value);
+                  },
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -89,7 +90,10 @@ class _ChangeEmailPageState
                     textEditingController: _passwordController,
                     context: context,
                     hintText: 'lbl_password',
-                    validator: passwordValidator,
+                    validator: (value) {
+                      return passwordValidator(
+                          context: context, password: value);
+                    },
                     isSuffixIcon: true,
                     useObscure: true,
                   ),

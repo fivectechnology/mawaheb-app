@@ -196,8 +196,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               phone: phone)
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              // getContext((context) => App.navKey.currentState.context
-              //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              if (image == null) {
+                getContext((context) => App.navKey.currentState.context
+                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              }
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -275,7 +277,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       print('file upoladed');
 
       await _profileRepository
-          .updateImageProfile(imageId: res, version: 1, id: player.id)
+          .updateImageProfile(
+              imageId: res, version: player.version + 1, id: player.id)
           .whenSuccess((res) => apply(() {
                 print('image updated');
                 getContext((context) => App.navKey.currentState.context

@@ -1,6 +1,7 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -39,13 +40,17 @@ class _VideoPlayerPageState
         return ListView.builder(
             itemCount: viewmodel.player.videos.length,
             itemBuilder: (context, index) {
-              return videoRow();
+              return viewmodel.player.videos[index].status == 'APPROVED'
+                  ? videoRow(
+                      videoId: viewmodel.player.videos[index].video.id,
+                      token: viewmodel.prefsRepository.token)
+                  : const SizedBox();
             });
       }),
     );
   }
 
-  Widget videoRow() {
+  Widget videoRow({int videoId, String token}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
@@ -54,8 +59,9 @@ class _VideoPlayerPageState
             children: [
               Container(
                 height: context.fullHeight * 0.3,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8), color: Colors.red),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                child: mawahebVideoWidget(token: token, videoId: videoId),
               ),
             ],
           ),

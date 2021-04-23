@@ -79,7 +79,9 @@ class _AddressInfoPageState
                 MawahebTextField(
                   hintText: 'lbl_state/province/area',
                   hintColor: Colors.grey,
-                  validator: stateValidator,
+                  validator: (value) {
+                    return stateValidator(context: context, value: value);
+                  },
                   textEditingController: _stateController,
                   context: context,
                 ),
@@ -87,7 +89,9 @@ class _AddressInfoPageState
                 MawahebTextField(
                   hintText: 'lbl_address',
                   hintColor: Colors.grey,
-                  validator: addressValidator,
+                  validator: (value) {
+                    return addressValidator(context: context, value: value);
+                  },
                   textEditingController: _addressController,
                   context: context,
                 ),
