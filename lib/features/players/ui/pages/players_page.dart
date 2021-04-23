@@ -267,6 +267,9 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                           NotificationButton(
                             isSelected: viewmodel.confirmed,
+                            onChanged: (value) {
+                              viewmodel.confirmed = value;
+                            },
                           ),
                         ],
                       ),
@@ -278,6 +281,9 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                           NotificationButton(
                             isSelected: viewmodel.booked,
+                            onChanged: (value) {
+                              viewmodel.booked = value;
+                            },
                           )
                         ],
                       ),
@@ -289,20 +295,20 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         borderColor: Colors.black,
                         text: 'lbl_filter',
                         onPressed: () {
-                          // print(viewmodel.confirmed);
-                          viewmodel.searchPlayers(
-                              country: currentCountry?.name ?? '',
-                              sport: currentSport?.name ?? '',
-                              position: position?.name ?? '',
-                              hand: hand ?? '',
-                              name: nameController.text ?? '',
-                              leg: leg ?? '');
-                          viewmodel.sport = currentSport;
-                          viewmodel.country = currentCountry;
-                          viewmodel.position = position;
-                          viewmodel.leg = leg;
-                          viewmodel.hand = hand;
-                          context.pop();
+                          print(viewmodel.confirmed);
+                          // viewmodel.searchPlayers(
+                          //     country: currentCountry?.name ?? '',
+                          //     sport: currentSport?.name ?? '',
+                          //     position: position?.name ?? '',
+                          //     hand: hand ?? '',
+                          //     name: nameController.text ?? '',
+                          //     leg: leg ?? '');
+                          // viewmodel.sport = currentSport;
+                          // viewmodel.country = currentCountry;
+                          // viewmodel.position = position;
+                          // viewmodel.leg = leg;
+                          // viewmodel.hand = hand;
+                          // context.pop();
                         },
                       )
                     ],
