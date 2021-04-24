@@ -41,6 +41,18 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
     @required int playerId,
     @required int videoId,
   });
+
+  Future<NetworkResult<bool>> deleteVideoPlayer({
+    @required int videoVersion,
+    @required int videoId,
+  });
+
+  Future<NetworkResult<bool>> replaceVideoPlayer({
+    @required int videoVersion,
+    @required int videoId,
+    @required int videoFileId,
+    @required int playerId,
+  });
 }
 
 @LazySingleton(as: ProfileDataSource)
@@ -190,6 +202,42 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'partner': {'id': playerId},
           'video': {'id': videoId},
           'status': 'PENDING'
+        },
+      },
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> deleteVideoPlayer(
+      {int videoVersion, int videoId}) {
+    return mawahebRequest(
+      method: METHOD.DELETE,
+      mawahebModel: true,
+      modelName: 'PartnerVideo',
+      id: videoId,
+      data: {
+        'data': {
+          // 'partner': {'id': playerId},
+          // 'video': {'id': videoId},
+          'version': videoVersion
+        },
+      },
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> replaceVideoPlayer(
+      {int videoVersion, int videoId, int videoFileId, int playerId}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      mawahebModel: true,
+      modelName: 'PartnerVideo',
+      id: videoId,
+      data: {
+        'data': {
+          'partner': {'id': playerId},
+          'video': {'id': videoFileId},
+          'version': videoVersion
         },
       },
     );

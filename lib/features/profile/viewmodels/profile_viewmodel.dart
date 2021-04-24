@@ -89,6 +89,12 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<bool> uploadImageFuture;
 
+  @observable
+  ObservableFuture<bool> deleteVideoFuture;
+
+  @observable
+  ObservableFuture<bool> replaceVideoFuture;
+
   //* COMPUTED *//
   @computed
   PlayerModel get player => playerFuture?.value;
@@ -114,11 +120,24 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @computed
   List<ViewModel> get views => viewsFuture?.value;
 
-  @computed
-  bool get uploadImageLoading => uploadImageFuture?.isPending ?? false;
+  //
+  // @computed
+  // bool get uploadImageLoading => uploadImageFuture?.isPending ?? false;
+  //
+  // @computed
+  // bool get uploadImageError => uploadImageFuture?.isFailure ?? false;
 
   @computed
-  bool get uploadImageError => uploadImageFuture?.isFailure ?? false;
+  bool get deleteVideoLoading => deleteVideoFuture?.isPending ?? false;
+
+  @computed
+  bool get deleteVideoError => deleteVideoFuture?.isFailure ?? false;
+
+  @computed
+  bool get replaceVideoLoading => replaceVideoFuture?.isPending ?? false;
+
+  @computed
+  bool get replaceVideoError => replaceVideoFuture?.isFailure ?? false;
 
   @computed
   File get imageFile => image;
@@ -292,12 +311,14 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @action
   // ignore: missing_return
-  Future<int> uploadVideo({
-    File file,
-    int fileSize,
-    String fileName,
-    String fileType,
-  }) {
+  Future<int> uploadVideo(
+      {File file,
+      int fileSize,
+      String fileName,
+      String fileType,
+      int videoVersion,
+      int videoId,
+      bool withDelete}) {
     imageId = _profileRepository
         .uploadFile(
             file: file,
@@ -305,16 +326,81 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
             fileType: fileType,
             fileName: fileName)
         .then((res) async {
-      await _profileRepository
-          .uploadVideoPlayer(playerId: player.id, videoId: res)
-          .whenSuccess((res) => apply(() {
-                print('video added');
-                // getContext((context) => App.navKey.currentState.context
-                //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
-              }));
-      // updateProfileImage(
-      //     id: player.id, version: player.version, imageId: await imageId);
+      if (withDelete) {
+        await _profileRepository
+            .uploadVideoPlayer(playerId: player.id, videoId: res)
+            .whenSuccess((res) => apply(() {
+                  print('video added');
+                  // getContext((context) => App.navKey.currentState.context
+                  //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                }));
+      } else {
+        await _profileRepository
+            .replaceVideoPlayer(
+                playerId: player.id,
+                videoFileId: res,
+                videoVersion: videoVersion,
+                videoId: videoId)
+            .whenSuccess((res) => apply(() {
+                  print('video replaced');
+                  // getContext((context) => App.navKey.currentState.context
+                  //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                }));
+      }
+
       return res;
     });
   }
+
+  @action
+  void deleteVideo({int videoVersion, int videoId}) {
+    deleteVideoFuture = futureWrapper(
+      () => _profileRepository
+          .deleteVideoPlayer(
+            videoId: videoId,
+            videoVersion: player.id,
+          )
+          .whenSuccess(
+            (res) => res.apply(() {
+              print('video deleted');
+              // getContext((context) => App.navKey.currentState.context
+              //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  // @action
+  // // ignore: missing_return
+  // Future<int> replaceVideo({
+  //   File file,
+  //   int fileSize,
+  //   String fileName,
+  //   String fileType,
+  //   int videoId,
+  //   int videoVersion,
+  // }) {
+  //   imageId = _profileRepository
+  //       .uploadFile(
+  //           file: file,
+  //           fileSize: fileSize,
+  //           fileType: fileType,
+  //           fileName: fileName)
+  //       .then((res) async {
+  //     await _profileRepository
+  //         .replaceVideoPlayer(
+  //             playerId: player.id,
+  //             videoFileId: res,
+  //             videoVersion: videoVersion,
+  //             videoId: videoId)
+  //         .whenSuccess((res) => apply(() {
+  //               print('video replaced');
+  //               // getContext((context) => App.navKey.currentState.context
+  //               //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+  //             }));
+  //
+  //     return res;
+  //   });
+  // }
 }

@@ -4,6 +4,6 @@ import 'package:flutter/material.dart';
 Widget mawahebVideoWidget({String token, int videoId}) {
   return BetterPlayerListVideoPlayer(BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$videoId/download2',
+      'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$videoId/view',
       headers: {'Authorization': 'Basic $token'}));
 }

@@ -30,4 +30,10 @@ abstract class ProfileRepository extends BaseRepository {
   });
 
   Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId});
+
+  Future<NetworkResult<bool>> deleteVideoPlayer(
+      {int videoVersion, int videoId});
+
+  Future<NetworkResult<bool>> replaceVideoPlayer(
+      {int videoVersion, int videoId, int videoFileId, int playerId});
 }
