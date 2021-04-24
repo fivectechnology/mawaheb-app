@@ -5,6 +5,7 @@ import 'package:core_sdk/utils/dio/retry_options.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
@@ -78,4 +79,7 @@ abstract class AppModule {
 
   @Singleton(as: Logger)
   LoggerImpl logger() => LoggerImpl();
+
+  @lazySingleton
+  FirebaseMessaging firebaseMessaging() => FirebaseMessaging.instance;
 }

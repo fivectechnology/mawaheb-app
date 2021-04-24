@@ -194,28 +194,16 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void login({String userName, String password, String type}) {
-    loginFuture = futureWrapper(() async {
-      await _prefsRepository.setType(type);
-
-      logger.d('my debug user role in login is ${_prefsRepository?.type}');
-      await _authRepository.login(userName: userName, password: password, type: type).whenSuccess(
-            (res) => apply(() async {
-              print('ttttt');
-
-              final int id = await _authRepository.getPlayerId(token: _prefsRepository.token);
-              await _prefsRepository.setPlayer(PlayerModel.loggedPlayerId(id: id));
-              getContext(
+    loginFuture = futureWrapper(
+      () => _authRepository
+          .login(userName: userName, password: password, type: type)
+          .whenSuccess((_) => true.apply(() => getContext(
                 (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
-              );
-            }),
-          );
-
-      return loginFuture;
-    }, catchBlock: (err) {
-      getContext((context) {
-        showSnack(context.translate('msg_login_error'), duration: 2.seconds);
-      });
-    });
+              ))),
+      catchBlock: (err) => getContext(
+        (context) => showSnack(context.translate('msg_login_error'), duration: 2.seconds),
+      ),
+    );
   }
 
   @action
@@ -274,59 +262,19 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void verifyOTP({int code}) {
-    logger.d('otp verify enterre');
-
     verifyOTPFuture = futureWrapper(
       () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess(
             (res) => res.data.apply(() async {
-              await _prefsRepository.setType('PLAYER');
-              logger.d('otp verify success with res: $res');
               await _authRepository
-                  .signUp(
-                    email: player.email,
-                    password: player.password,
-                    code: res.data.data,
-                  )
-                  .whenSuccess((res) => res.data.first.apply(
-                        () async {
-                          logger.d('signUp success with res: $res');
-                          // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
-                          await _prefsRepository.setPlayer(res.data.first);
-                          await _authRepository.login(userName: player.email, password: player.password);
-                          changeRegisterSlider(const PageSliderForawardModel());
-                        },
-                      ));
+                  .signUp(email: player.email, password: player.password, code: res.data.data, type: 'PLAYER')
+                  .whenSuccess(
+                    (_) => changeRegisterSlider(const PageSliderForawardModel()),
+                  );
             }),
           ),
-      catchBlock: (err) {
-        getContext((context) {
-          showSnack(context.translate('msg_otp_error'), duration: 2.seconds);
-        });
-      },
+      catchBlock: (err) => getContext((context) => showSnack(context.translate('msg_otp_error'), duration: 2.seconds)),
       useLoader: true,
     );
-  }
-
-  @action
-  void signUp({
-    String displayName,
-    String email,
-    String password,
-  }) {
-    registerFuture = futureWrapper(
-        () => _authRepository.signUp(email: email, password: password, code: verifyOTPFuture.value.data).whenSuccess(
-              (res) => res.data.first.apply(() async {
-                logger.d('signUp success with res: $res');
-                // await _prefsRepository.setPlayer(PlayerModel(id: player.id, name: player.name, email: player.email));
-                await _prefsRepository.setPlayer(res.data.first);
-                await _authRepository.login(userName: player.email, password: player.password, type: 'PL');
-                changeRegisterSlider(const PageSliderForawardModel());
-              }),
-            ), catchBlock: (err) {
-      getContext((context) {
-        showSnack(context.translate('msg_signUp_error'), duration: 2.seconds);
-      });
-    });
   }
 
   @action
@@ -384,8 +332,15 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void addSportInfo(
-      {int weight, int height, String hand, String leg, String brief, SportModel sport, SportPositionModel position}) {
+  void addSportInfo({
+    int weight,
+    int height,
+    String hand,
+    String leg,
+    String brief,
+    SportModel sport,
+    SportPositionModel position,
+  }) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addSportInfo(

@@ -1,10 +1,13 @@
+import 'package:core_sdk/error/exceptions.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/user_model.dart';
+import 'package:mawaheb_app/base/domain/repositories/app_repository.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
@@ -15,41 +18,69 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
-  const AuthRepositoryImpl(this.authDataSource, this._prefsRepository)
-      : super(authDataSource);
+  const AuthRepositoryImpl(
+    this.authDataSource,
+    this._prefsRepository,
+    this._appRepository,
+    this._profileRepository,
+  ) : super(authDataSource);
 
   final AuthDataSource authDataSource;
   final PrefsRepository _prefsRepository;
+  final AppRepository _appRepository;
+  final ProfileRepository _profileRepository;
 
   @override
-  Future<NetworkResult<bool>> login(
-          {@required String userName,
-          @required String password,
-          String type}) =>
-      authDataSource
-          .login(userName: userName, password: password)
-          .whenSuccessWrapped((_) => _prefsRepository
-              .setUser(UserModel(userName: userName, password: password)));
+  Future<NetworkResult<PlayerModel>> login({
+    @required String userName,
+    @required String password,
+    @required String type,
+  }) =>
+      _prefsRepository
+          .setType(type)
+          .then((res) => _prefsRepository.setToken(null))
+          .then((res) => res ? _appRepository.registerDevice() : throw Exception(''))
+          .then((res) => res ? authDataSource.login(userName: userName, password: password) : throw Exception(''))
+          .whenSuccess((res) => _prefsRepository.setToken(res.data.data))
+          .then((res) =>
+              res ? _prefsRepository.setUser(UserModel(userName: userName, password: password)) : throw Exception(''))
+          .then((res) => getPlayerId(token: _prefsRepository.token))
+          .then((res) => _profileRepository.fetchPlayer(id: res))
+          .whenSuccessWrapped((res) async {
+        await _appRepository.modifyDevice(true);
+        await _prefsRepository.setPlayer(res.data.first);
+        return res.data.first;
+      });
 
   @override
-  Future<bool> logout() =>
-      // authDataSource.logout().whenSuccessWrapped((_) =>
-      _prefsRepository.clearUserData();
+  Future<bool> logout() async {
+    try {
+      final result = await _appRepository.modifyDevice(false);
+      if (!result) {
+        throw ServerException('Failed to unlink device!');
+      }
+      await _prefsRepository.clearUserData();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
+  Future<NetworkResult<PlayerModel>> signUp({
     @required int code,
     @required String email,
     @required String password,
+    @required String type,
   }) =>
-      authDataSource.signUp(
-        code: code,
-        email: email,
-        password: password,
-      );
+      _prefsRepository
+          .setType(type)
+          .then((res) => authDataSource.signUp(code: code, email: email, password: password))
+          .then((res) => login(password: password, userName: email, type: type));
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addAddressInfo({
@@ -59,12 +90,7 @@ class AuthRepositoryImpl extends AuthRepository {
     @required String area,
     @required String address,
   }) =>
-      authDataSource.addAddressInfo(
-          id: id,
-          version: version,
-          emirateModel: emirateModel,
-          area: area,
-          address: address);
+      authDataSource.addAddressInfo(id: id, version: version, emirateModel: emirateModel, area: area, address: address);
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addPersonalInfo({
@@ -112,49 +138,37 @@ class AuthRepositoryImpl extends AuthRepository {
       );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CategoryModel>>> getCategories() =>
-      authDataSource.getCategories();
+  Future<NetworkResult<ListBaseResponseModel<CategoryModel>>> getCategories() => authDataSource.getCategories();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries() =>
-      authDataSource.getCountries();
+  Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries() => authDataSource.getCountries();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates() =>
-      authDataSource.getEmirates();
+  Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates() => authDataSource.getEmirates();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
-      getPositions() => authDataSource.getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions() => authDataSource.getPositions();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() =>
-      authDataSource.getSports();
+  Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() => authDataSource.getSports();
 
   @override
-  Future<NetworkResult<bool>> sendOTP({String email}) =>
-      authDataSource.sendOTP(email: email);
+  Future<NetworkResult<bool>> sendOTP({String email}) => authDataSource.sendOTP(email: email);
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
-          {String email, int code}) =>
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({String email, int code}) =>
       authDataSource.verifyOTP(email: email, code: code);
 
   @override
-  Future<int> getPlayerId({String token}) =>
-      authDataSource.getPlayerId(token: token);
+  Future<int> getPlayerId({String token}) => authDataSource.getPlayerId(token: token);
 
   @override
-  Future<NetworkResult<bool>> forgetPassword({String email}) =>
-      authDataSource.forgetPassword(email: email);
+  Future<NetworkResult<bool>> forgetPassword({String email}) => authDataSource.forgetPassword(email: email);
 
   @override
-  Future<NetworkResult<bool>> resetPassword(
-          {String email, String password, int code}) =>
-      authDataSource.resetPassword(
-          email: email, password: password, code: code);
+  Future<NetworkResult<bool>> resetPassword({String email, String password, int code}) =>
+      authDataSource.resetPassword(email: email, password: password, code: code);
 
   @override
-  Future<NetworkResult<bool>> validateEmail({String email}) =>
-      authDataSource.validateEmail(email: email);
+  Future<NetworkResult<bool>> validateEmail({String email}) => authDataSource.validateEmail(email: email);
 }

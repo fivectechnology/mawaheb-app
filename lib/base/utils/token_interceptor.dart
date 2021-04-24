@@ -33,9 +33,10 @@ class TokenInterceptor extends Interceptor {
       // options.headers['type'] = prefsRepository.type;
 
       options.headers['Authorization'] = 'Basic ' + prefsRepository.token;
+      // options.headers['Authorization'] = 'Bearer ' + prefsRepository.token;
     }
     //
-    options.headers['type'] = prefsRepository.type;
+    // options.headers['type'] = prefsRepository.type;
 
     return options;
   }
@@ -75,8 +76,7 @@ class TokenInterceptor extends Interceptor {
         await prefsRepository.clearUserData();
         baseDio.interceptors.requestLock.unlock();
         baseDio.interceptors.responseLock.unlock();
-        App.navKey.currentState
-            .pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+        App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
       }
     }
 

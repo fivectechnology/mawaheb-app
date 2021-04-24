@@ -24,7 +24,7 @@ class FakePrefsRepository extends Mock implements PrefsRepository {
   }
 
   @override
-  Future<bool> setToken() async {
+  Future<bool> setToken(String token) async {
     _token = _token;
     return true;
   }

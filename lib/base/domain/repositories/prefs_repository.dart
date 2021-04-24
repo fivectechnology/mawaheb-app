@@ -5,13 +5,13 @@ abstract class PrefsRepository {
   const PrefsRepository();
 
   String get token;
-  Future<bool> setToken();
+  Future<bool> setToken(String token);
 
   String get type;
   Future<bool> setType(String type);
 
-  String get fbToken;
-  Future<bool> setFbToken(String fbToken);
+  int get fbId;
+  Future<bool> setFbId(int fbId);
 
   String get baseUrl;
   Future<bool> setBaseUrl(String baseUrl);
@@ -26,4 +26,7 @@ abstract class PrefsRepository {
 
   PlayerModel get player;
   Future<bool> setPlayer(PlayerModel player);
+
+  // bool get deviceRegistered;
+  // Future<bool> setDeviceRegistered(bool status);
 }

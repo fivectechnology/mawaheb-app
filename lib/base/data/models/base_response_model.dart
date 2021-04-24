@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mawaheb_app/base/data/models/base_model.dart';
+import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'base_response_model.g.dart';
 
@@ -48,6 +49,11 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
 
   static bool Function(Object) get successMapper =>
       (Object baseJson) => _$BaseResponseModelFromJson(baseJson, (_) => Null).status == 0;
+
+  static VersionResponse Function(Object) get versionMapper => (Object baseJson) => _$BaseResponseModelFromJson(
+        baseJson,
+        VersionResponse.fromJson,
+      ).data;
 
   Map<String, dynamic> toJson(Object Function(T value) toJsonT) => _$BaseResponseModelToJson(this, toJsonT);
 }

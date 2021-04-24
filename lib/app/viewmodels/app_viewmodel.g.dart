@@ -69,8 +69,43 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
     });
   }
 
+  final _$deviceRegisteredAtom =
+      Atom(name: '_AppViewmodelBase.deviceRegistered');
+
+  @override
+  bool get deviceRegistered {
+    _$deviceRegisteredAtom.reportRead();
+    return super.deviceRegistered;
+  }
+
+  @override
+  set deviceRegistered(bool value) {
+    _$deviceRegisteredAtom.reportWrite(value, super.deviceRegistered, () {
+      super.deviceRegistered = value;
+    });
+  }
+
+  final _$registerDeviceAsyncAction =
+      AsyncAction('_AppViewmodelBase.registerDevice');
+
+  @override
+  Future<void> registerDevice() {
+    return _$registerDeviceAsyncAction.run(() => super.registerDevice());
+  }
+
   final _$_AppViewmodelBaseActionController =
       ActionController(name: '_AppViewmodelBase');
+
+  @override
+  void init() {
+    final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
+        name: '_AppViewmodelBase.init');
+    try {
+      return super.init();
+    } finally {
+      _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void pushRoute(AppBarParams appBarParams) {
@@ -133,6 +168,7 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
 appBarParams: ${appBarParams},
 pageIndex: ${pageIndex},
 languageFuture: ${languageFuture},
+deviceRegistered: ${deviceRegistered},
 language: ${language},
 languageLoading: ${languageLoading}
     ''';

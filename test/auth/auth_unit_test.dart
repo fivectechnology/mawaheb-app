@@ -155,8 +155,8 @@ void main() {
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
       );
-
-      authRepository = AuthRepositoryImpl(authDataSource, prefsRepository);
+      // TODO(ahmad): fix dependices issue here
+      // authRepository = AuthRepositoryImpl(authDataSource, prefsRepository);
     });
 
     tearDown(() {

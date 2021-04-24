@@ -15,15 +15,19 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 abstract class AuthRepository extends BaseRepository {
   const AuthRepository(AuthDataSource authDataSource) : super(authDataSource);
 
-  Future<NetworkResult<bool>> login(
-      {@required String userName, @required String password, String type});
+  Future<NetworkResult<PlayerModel>> login({
+    @required String userName,
+    @required String password,
+    @required String type,
+  });
 
   Future<bool> logout();
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
+  Future<NetworkResult<PlayerModel>> signUp({
     @required String email,
     @required String password,
     @required int code,
+    @required String type,
   });
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addPersonalInfo({
@@ -59,8 +63,7 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
-      getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions();
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -81,8 +84,7 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<bool>> forgetPassword({String email});
 
-  Future<NetworkResult<bool>> resetPassword(
-      {String email, String password, int code});
+  Future<NetworkResult<bool>> resetPassword({String email, String password, int code});
 
   Future<NetworkResult<bool>> validateEmail({String email});
 }
