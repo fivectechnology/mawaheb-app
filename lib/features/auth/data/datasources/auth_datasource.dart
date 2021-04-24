@@ -25,6 +25,7 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<BaseResponseModel<LoginResponseModel>>> login({
     @required String userName,
     @required String password,
+    @required String type,
   });
 
   Future<NetworkResult<BaseResponseModel<String>>> logout();
@@ -114,10 +115,11 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   Future<NetworkResult<BaseResponseModel<LoginResponseModel>>> login({
     @required String userName,
     @required String password,
+    @required String type,
   }) {
     return mawahebRequest(
       method: METHOD.POST,
-      endpoint: LOGIN_ENDPOINT + '/${prefsRepository.type}',
+      endpoint: '$BASE_PUBLIC_API/auth/login/$type',
       withAuth: false,
       mapper: BaseResponseModel.fromJson(LoginResponseModel.fromJson),
       data: {
@@ -349,58 +351,26 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
 
   @override
   Future<int> getPlayerId({String token}) async {
-    int id;
     final Response response = await client.get(
       '$BASE_API$WEB_SERVICE/app/info',
       options: Options(headers: {'Authorization': 'Basic $token'}),
     );
 
-    logger.d('mawaheb debug player response ${response.statusCode}');
-
     if (response.statusCode == 200) {
-      try {
-        logger.d('mawaheb debug player 123');
-
-        id = jsonDecode(response.data)['user.id'];
-        logger.d('mawaheb debug player id: $id');
-      } catch (ex) {
-        logger.e('mawaheb debug player response error $ex');
-      }
+      return jsonDecode(response.data)['user.id'] as int;
     }
 
-    return id;
+    return null;
     // return response.data['user.id'] as int;
   }
-
-  // @override
-  // Future<int> getPlayerId({String token}) async {
-  //   int id;
-  //   final Response response = await client.get(
-  //     '$BASE_API$WEB_SERVICE/app/info',
-  //     options: Options(headers: {'Authorization': 'Basic $token'}),
-  //   );
-
-  //   logger.d('mawaheb debug player id: $id');
-
-  //   if (response.statusCode == 200) {
-  //     print(response.data);
-  //     final data = response.data;
-  //     id = data['user.id'] as int;
-  //     logger.d('mawaheb debug player id: $id');
-  //   }
-
-  //   return id;
-  //   // return response.data['user.id'] as int;
-  // }
 
   @override
   Future<NetworkResult<bool>> forgetPassword({String email}) {
     return mawahebRequest(
-      method: METHOD.POST,
-      endpoint: BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
-      data: {'data': email},
-      mapper: BaseResponseModel.successMapper,
-    );
+        method: METHOD.POST,
+        endpoint: BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
+        data: {'data': email},
+        mapper: BaseResponseModel.successMapper);
   }
 
   @override
