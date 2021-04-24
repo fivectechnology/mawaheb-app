@@ -44,7 +44,8 @@ class AuthRepositoryImpl extends AuthRepository {
           .setType(type)
           .then((res) => _prefsRepository.setToken(null))
           .then((res) => res ? _appRepository.registerDevice() : throw Exception(''))
-          .then((res) => res ? authDataSource.login(userName: userName, password: password) : throw Exception(''))
+          .then((res) =>
+              res ? authDataSource.login(userName: userName, password: password, type: type) : throw Exception(''))
           .whenSuccess((res) => _prefsRepository.setToken(res.data.data))
           .then((res) =>
               res ? _prefsRepository.setUser(UserModel(userName: userName, password: password)) : throw Exception(''))
