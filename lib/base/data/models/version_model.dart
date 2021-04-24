@@ -27,7 +27,8 @@ class VersionResponse extends VersionModel with EquatableMixin {
   @override
   List<Object> get props => [version, id];
 
-  static VersionResponse fromJson(Object json) => _$VersionResponseFromJson(json);
+  static VersionResponse fromJson(Object json) =>
+      _$VersionResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$VersionResponseToJson(this);
 

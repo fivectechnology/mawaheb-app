@@ -48,7 +48,6 @@ class _GalleryPageState
             onRetry: viewmodel.getGallery,
             onSuccess: (gallery) {
               return ListView.builder(
-                  reverse: true,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: gallery.length,
                   itemBuilder: (context, index) {
