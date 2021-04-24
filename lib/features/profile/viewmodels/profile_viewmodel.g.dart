@@ -65,19 +65,33 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
       (_$viewsComputed ??= Computed<List<ViewModel>>(() => super.views,
               name: '_ProfileViewmodelBase.views'))
           .value;
-  Computed<bool> _$uploadImageLoadingComputed;
+  Computed<bool> _$deleteVideoLoadingComputed;
 
   @override
-  bool get uploadImageLoading => (_$uploadImageLoadingComputed ??=
-          Computed<bool>(() => super.uploadImageLoading,
-              name: '_ProfileViewmodelBase.uploadImageLoading'))
+  bool get deleteVideoLoading => (_$deleteVideoLoadingComputed ??=
+          Computed<bool>(() => super.deleteVideoLoading,
+              name: '_ProfileViewmodelBase.deleteVideoLoading'))
       .value;
-  Computed<bool> _$uploadImageErrorComputed;
+  Computed<bool> _$deleteVideoErrorComputed;
 
   @override
-  bool get uploadImageError => (_$uploadImageErrorComputed ??= Computed<bool>(
-          () => super.uploadImageError,
-          name: '_ProfileViewmodelBase.uploadImageError'))
+  bool get deleteVideoError => (_$deleteVideoErrorComputed ??= Computed<bool>(
+          () => super.deleteVideoError,
+          name: '_ProfileViewmodelBase.deleteVideoError'))
+      .value;
+  Computed<bool> _$replaceVideoLoadingComputed;
+
+  @override
+  bool get replaceVideoLoading => (_$replaceVideoLoadingComputed ??=
+          Computed<bool>(() => super.replaceVideoLoading,
+              name: '_ProfileViewmodelBase.replaceVideoLoading'))
+      .value;
+  Computed<bool> _$replaceVideoErrorComputed;
+
+  @override
+  bool get replaceVideoError => (_$replaceVideoErrorComputed ??= Computed<bool>(
+          () => super.replaceVideoError,
+          name: '_ProfileViewmodelBase.replaceVideoError'))
       .value;
   Computed<File> _$imageFileComputed;
 
@@ -291,6 +305,38 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
     });
   }
 
+  final _$deleteVideoFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.deleteVideoFuture');
+
+  @override
+  ObservableFuture<bool> get deleteVideoFuture {
+    _$deleteVideoFutureAtom.reportRead();
+    return super.deleteVideoFuture;
+  }
+
+  @override
+  set deleteVideoFuture(ObservableFuture<bool> value) {
+    _$deleteVideoFutureAtom.reportWrite(value, super.deleteVideoFuture, () {
+      super.deleteVideoFuture = value;
+    });
+  }
+
+  final _$replaceVideoFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.replaceVideoFuture');
+
+  @override
+  ObservableFuture<bool> get replaceVideoFuture {
+    _$replaceVideoFutureAtom.reportRead();
+    return super.replaceVideoFuture;
+  }
+
+  @override
+  set replaceVideoFuture(ObservableFuture<bool> value) {
+    _$replaceVideoFutureAtom.reportWrite(value, super.replaceVideoFuture, () {
+      super.replaceVideoFuture = value;
+    });
+  }
+
   final _$_ProfileViewmodelBaseActionController =
       ActionController(name: '_ProfileViewmodelBase');
 
@@ -452,7 +498,13 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
 
   @override
   Future<int> uploadVideo(
-      {File file, int fileSize, String fileName, String fileType}) {
+      {File file,
+      int fileSize,
+      String fileName,
+      String fileType,
+      int videoVersion,
+      int videoId,
+      bool withDelete}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
         name: '_ProfileViewmodelBase.uploadVideo');
     try {
@@ -460,7 +512,21 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           file: file,
           fileSize: fileSize,
           fileName: fileName,
-          fileType: fileType);
+          fileType: fileType,
+          videoVersion: videoVersion,
+          videoId: videoId,
+          withDelete: withDelete);
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void deleteVideo({int videoVersion, int videoId}) {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.deleteVideo');
+    try {
+      return super.deleteVideo(videoVersion: videoVersion, videoId: videoId);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -482,6 +548,8 @@ countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
 viewsFuture: ${viewsFuture},
 uploadImageFuture: ${uploadImageFuture},
+deleteVideoFuture: ${deleteVideoFuture},
+replaceVideoFuture: ${replaceVideoFuture},
 player: ${player},
 playerLoading: ${playerLoading},
 categories: ${categories},
@@ -490,8 +558,10 @@ countries: ${countries},
 positions: ${positions},
 emirates: ${emirates},
 views: ${views},
-uploadImageLoading: ${uploadImageLoading},
-uploadImageError: ${uploadImageError},
+deleteVideoLoading: ${deleteVideoLoading},
+deleteVideoError: ${deleteVideoError},
+replaceVideoLoading: ${replaceVideoLoading},
+replaceVideoError: ${replaceVideoError},
 imageFile: ${imageFile}
     ''';
   }

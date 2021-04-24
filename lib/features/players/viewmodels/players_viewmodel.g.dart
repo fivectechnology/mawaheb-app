@@ -86,6 +86,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       (_$playersComputed ??= Computed<List<PlayerModel>>(() => super.players,
               name: '_PlayersViewmodelBase.players'))
           .value;
+  Computed<List<PartnerMemberModel>> _$membersComputed;
+
+  @override
+  List<PartnerMemberModel> get members => (_$membersComputed ??=
+          Computed<List<PartnerMemberModel>>(() => super.members,
+              name: '_PlayersViewmodelBase.members'))
+      .value;
   Computed<List<SportModel>> _$sportsComputed;
 
   @override
@@ -412,6 +419,21 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
     });
   }
 
+  final _$membersFutureAtom = Atom(name: '_PlayersViewmodelBase.membersFuture');
+
+  @override
+  ObservableFuture<List<PartnerMemberModel>> get membersFuture {
+    _$membersFutureAtom.reportRead();
+    return super.membersFuture;
+  }
+
+  @override
+  set membersFuture(ObservableFuture<List<PartnerMemberModel>> value) {
+    _$membersFutureAtom.reportWrite(value, super.membersFuture, () {
+      super.membersFuture = value;
+    });
+  }
+
   final _$_PlayersViewmodelBaseActionController =
       ActionController(name: '_PlayersViewmodelBase');
 
@@ -483,6 +505,17 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
+  void getMembers({int partnerId}) {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.getMembers');
+    try {
+      return super.getMembers(partnerId: partnerId);
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void viewProfilePlayer({@required int id}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.viewProfilePlayer');
@@ -548,6 +581,7 @@ sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
 countryFuture: ${countryFuture},
 playerFuture: ${playerFuture},
+membersFuture: ${membersFuture},
 viewProfileLoading: ${viewProfileLoading},
 viewProfileError: ${viewProfileError},
 bookPlayerLoading: ${bookPlayerLoading},
@@ -559,6 +593,7 @@ releasePlayerError: ${releasePlayerError},
 filterCountry: ${filterCountry},
 filterPosition: ${filterPosition},
 players: ${players},
+members: ${members},
 sports: ${sports},
 countries: ${countries},
 positions: ${positions},

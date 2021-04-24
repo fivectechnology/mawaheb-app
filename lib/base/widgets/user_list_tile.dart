@@ -18,7 +18,7 @@ Widget userListTile({String name, SourceModel photo, String token}) {
                       'assets/images/profile.png',
                     )
                   : NetworkImage(
-                      'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${photo.id}/download2',
+                      'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${photo.id}/view',
                       headers: {'Authorization': 'Basic $token'},
                     )),
         ),

@@ -68,7 +68,7 @@ class _StrategicPartnersPageState
                     ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
-                          'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${partners[index].source.id}/download2',
+                          'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${partners[index].source.id}/view',
                           headers: {
                             'Authorization':
                                 'Basic ${viewmodel.prefsRepository.token}'

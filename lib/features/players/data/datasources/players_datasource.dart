@@ -175,7 +175,8 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {
           'criteria': [
-            {'fieldName': 'partner.id', 'operator': '=', 'value': partnerId}
+            {'fieldName': 'partner.id', 'operator': '=', 'value': partnerId},
+            {'fieldName': 'status', 'operator': '=', 'value': 'CONFIRMED'}
           ],
           'operator': 'and'
         },

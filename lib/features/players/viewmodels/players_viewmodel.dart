@@ -8,6 +8,7 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 import 'package:mawaheb_app/features/players/domain/repositiories/players_repository.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
@@ -97,6 +98,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<PlayerModel> playerFuture;
 
+  @observable
+  ObservableFuture<List<PartnerMemberModel>> membersFuture;
+
   @computed
   bool get viewProfileLoading => viewProfileFuture?.isPending ?? false;
 
@@ -131,6 +135,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   List<PlayerModel> get players => playersFuture?.value;
+
+  @computed
+  List<PartnerMemberModel> get members => membersFuture?.value;
 
   @computed
   List<SportModel> get sports => sportFuture?.value;
@@ -195,6 +202,14 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
                 sport: sport,
                 leg: leg,
                 hand: hand)
+            .whenSuccess((res) => res.data),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
+
+  @action
+  void getMembers({int partnerId}) => membersFuture = futureWrapper(
+        () => _playersRepository
+            .getMemberShips(partnerId: partnerId)
             .whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );

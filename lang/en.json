@@ -186,11 +186,14 @@
   "msg_name_short": "Name is to short",
   "msg_phone_empty": "Phone number is empty",
   "msg_phone_valid": "phone number not valid (10 digits)",
-
   "msg_address_empty": "Address is empty",
   "msg_state_empty": "State is empty",
   "msg_height_empty": "Height is empty",
-  "msg_weight_empty": "Weight is empty"
+  "msg_weight_empty": "Weight is empty",
+  "msg_uploading_video": "Uploading video...",
+  "msg_added_3videos": "you have already added 3 videos for this sport if you want to add new one remove one of uploaded videos"
+
+
 
 
 

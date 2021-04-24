@@ -138,14 +138,15 @@
   "msg_invalid_mail": "ادخل بريد الكتروني صحيح",
   "msg_password_empty": "كلمة المرور فارغة",
   "msg_password_match": "كلمة المرور غير متطابقة",
-
-
   "msg_phone_empty": "رقم الهاتف فارغ",
   "msg_phone_valid": "رقم الهاتف غير صحيح(10 ارقام)",
-
   "msg_address_empty": "العنوان فارغ",
   "msg_state_empty": "المقاطعة فارغة",
   "msg_height_empty": "الطول فارغ",
-  "msg_weight_empty": "الوزن فارغ"
+  "msg_weight_empty": "الوزن فارغ",
+  "msg_uploading_video": "يتم رفع الفيديو",
+  "msg_added_3videos": "لقد أضفت بالفعل 3 مقاطع فيديو لهذه الرياضة إذا كنت تريد إضافة مقطع فيديو جديد ، فقم بإزالة أحد مقاطع الفيديو المحملة"
+
+
 
 }

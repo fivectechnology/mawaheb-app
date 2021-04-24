@@ -265,12 +265,16 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                           Text(context.translate('lbl_confirmed_by_us'),
                               style: textTheme.subtitle1.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
-                          NotificationButton(
-                            isSelected: viewmodel.confirmed,
-                            onChanged: (value) {
-                              viewmodel.confirmed = value;
+                          Observer(
+                            builder: (_) {
+                              return mawahebSwitchButton(
+                                isSelected: viewmodel.confirmed,
+                                onChanged: (value) {
+                                  viewmodel.confirmed = value;
+                                },
+                              );
                             },
-                          ),
+                          )
                         ],
                       ),
                       Row(
@@ -279,10 +283,14 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                           Text(context.translate('lbl_booked_by_us'),
                               style: textTheme.subtitle1.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
-                          NotificationButton(
-                            isSelected: viewmodel.booked,
-                            onChanged: (value) {
-                              viewmodel.booked = value;
+                          Observer(
+                            builder: (_) {
+                              return mawahebSwitchButton(
+                                isSelected: viewmodel.booked,
+                                onChanged: (value) {
+                                  viewmodel.booked = value;
+                                },
+                              );
                             },
                           )
                         ],
@@ -295,7 +303,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         borderColor: Colors.black,
                         text: 'lbl_filter',
                         onPressed: () {
-                          print(viewmodel.confirmed);
+                          print(viewmodel.booked);
                           // viewmodel.searchPlayers(
                           //     country: currentCountry?.name ?? '',
                           //     sport: currentSport?.name ?? '',

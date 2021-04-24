@@ -47,4 +47,19 @@ class ProfileRepositoryImpl extends ProfileRepository {
   @override
   Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId}) =>
       profileDataSource.uploadVideoPlayer(playerId: playerId, videoId: videoId);
+
+  @override
+  Future<NetworkResult<bool>> deleteVideoPlayer(
+          {int videoVersion, int videoId}) =>
+      profileDataSource.deleteVideoPlayer(
+          videoVersion: videoVersion, videoId: videoId);
+
+  @override
+  Future<NetworkResult<bool>> replaceVideoPlayer(
+          {int videoVersion, int videoId, int videoFileId, int playerId}) =>
+      profileDataSource.replaceVideoPlayer(
+          videoVersion: videoVersion,
+          videoId: videoId,
+          videoFileId: videoFileId,
+          playerId: playerId);
 }
