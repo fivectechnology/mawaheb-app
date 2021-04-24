@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1090503823383-rsjgqeep5i3ijg6tetuemrpe8itlc467.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1090503823383-rsjgqeep5i3ijg6tetuemrpe8itlc467</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAkoiL1y3UJVR_bBI92dOQwFnbLccKsI4A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1090503823383</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>mawaheb.app.mawaheb</string>
+	<key>PROJECT_ID</key>
+	<string>mawaheb-443c6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mawaheb-443c6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1090503823383:ios:a87c729a34f6f7d1294c52</string>
+</dict>
+</plist>
