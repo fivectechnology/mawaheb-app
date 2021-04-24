@@ -6,13 +6,17 @@
 
 import 'package:dio/dio.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/Fimber/logger_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../base/data/datasources/app_datasource.dart';
 import 'injection_container.dart';
+import '../../base/domain/repositories/app_repository.dart';
+import '../../base/data/repositories/app_repository_impl.dart';
 import '../viewmodels/app_viewmodel.dart';
 import '../../features/auth/data/datasources/auth_datasource.dart';
 import '../../features/auth/domain/repositories/auth_repositories.dart';
@@ -60,13 +64,12 @@ Future<GetIt> $inject(
   final gh = GetItHelper(get, environment, environmentFilter);
   final appModule = _$AppModule();
   gh.lazySingleton<DataConnectionChecker>(() => appModule.getChecker());
+  gh.lazySingleton<FirebaseMessaging>(() => appModule.firebaseMessaging());
   gh.factory<String>(() => appModule.baseUrl, instanceName: 'ApiBaseUrl');
   gh.factory<BaseOptions>(
       () => appModule.dioOption(get<String>(instanceName: 'ApiBaseUrl')));
   gh.factory<SplashViewmodel>(
       () => SplashViewmodel(get<Logger>(), get<PrefsRepository>()));
-  gh.factory<AppViewmodel>(
-      () => AppViewmodel(get<Logger>(), get<PrefsRepository>()));
   gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -132,14 +135,34 @@ Future<GetIt> $inject(
       ));
   gh.lazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(get<SplashDataSource>()));
+  gh.lazySingleton<AppDataSource>(() => AppDataSourceImpl(
+        client: get<Dio>(),
+        prefsRepository: get<PrefsRepository>(),
+        connectionChecker: get<DataConnectionChecker>(),
+        logger: get<Logger>(),
+      ));
+  gh.lazySingleton<AppRepository>(() => AppRepositoryImpl(
+        get<AppDataSource>(),
+        get<PrefsRepository>(),
+        get<FirebaseMessaging>(),
+      ));
+  gh.factory<AppViewmodel>(() => AppViewmodel(
+        get<Logger>(),
+        get<PrefsRepository>(),
+        get<AppRepository>(),
+      ));
   gh.lazySingleton<AuthDataSource>(() => AuthDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
         connectionChecker: get<DataConnectionChecker>(),
         logger: get<Logger>(),
       ));
-  gh.lazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(get<AuthDataSource>(), get<PrefsRepository>()));
+  gh.lazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+        get<AuthDataSource>(),
+        get<PrefsRepository>(),
+        get<AppRepository>(),
+        get<ProfileRepository>(),
+      ));
   gh.factory<AuthViewmodel>(() => AuthViewmodel(
         get<Logger>(),
         get<AuthRepository>(),

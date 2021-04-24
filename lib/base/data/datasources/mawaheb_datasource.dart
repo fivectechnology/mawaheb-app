@@ -55,9 +55,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
       Response response;
       dynamic jsonResponse;
       try {
-        final Options options = withAuth
-            ? TokenOption.toOptions().merge(headers: headers)
-            : Options(headers: headers);
+        final Options options = withAuth ? TokenOption.toOptions().merge(headers: headers) : Options(headers: headers);
         print('data = $data');
         print('endpoint = $endpoint');
 
@@ -108,10 +106,8 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
           return Success(jsonResponse as T);
         }
 
-        if ((jsonResponse['status'] as int) != 0 &&
-            (jsonResponse['status'] as int) != 200) {
-          throw ServerException(
-              jsonResponse['data']['message'] ?? 'msg_something_wrong');
+        if ((jsonResponse['status'] as int) != 0) {
+          throw ServerException(_getErrorMessage(jsonResponse));
         }
 
         return Success(mapper(jsonResponse));
@@ -119,8 +115,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
         //logger.e('my debug new error $response $jsonResponse');
         logger.e('BaseDataSourceWithMapperImpl => request<$T> => ERROR = $e');
         try {
-          return NetworkError(ServerFailure(
-              jsonResponse['data']['message'] ?? 'msg_something_wrong'));
+          return NetworkError(ServerFailure(_getErrorMessage(jsonResponse)));
         } catch (ex) {
           logger.e(
               'BaseDataSourceWithMapperImpl FINAL CATCH ERROR => request<$T> => ERROR = e:$e \n $response \n $jsonResponse');
@@ -135,9 +130,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
   Future<NetworkResult<T>> _checkNetwork<T>(
     Future<NetworkResult<T>> Function() body,
   ) async {
-    return await connectionChecker.hasConnection
-        ? await body()
-        : NetworkError(NetworkFailure('msg_no_internet'));
+    return await connectionChecker.hasConnection ? await body() : NetworkError(NetworkFailure('msg_no_internet'));
   }
 
   Future<NetworkResult<T>> mawahebRequest<T>({
@@ -155,10 +148,6 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
     Map<String, dynamic> headers,
     Mapper<T> mapper,
   }) {
-    if (modelName != null) {
-      // TODO(abd): save model version in shared prefs with [modelName] as Key
-      // TODO(abd): add model version to request from shared prefs with [modelName] as Key
-    }
     return request<T>(
       endpoint: endpoint ??
           getModelEndPoint(
@@ -190,5 +179,13 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
         modelName +
         (id != null ? '/$id' : '') +
         (action != null ? '/${action.raw}' : '');
+  }
+
+  String _getErrorMessage(Map<String, dynamic> response) {
+    try {
+      return (response['status'] as int == -1) ? response['data']['message'] : response['errors']['error'];
+    } catch (ex) {
+      return 'msg_something_wrong';
+    }
   }
 }

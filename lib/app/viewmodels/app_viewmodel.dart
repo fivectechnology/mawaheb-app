@@ -6,6 +6,7 @@ import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/nav_stack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mawaheb_app/base/domain/repositories/app_repository.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/app_bar_params.dart';
 import 'package:mobx/mobx.dart';
@@ -24,15 +25,21 @@ enum PageIndex {
 // TODO(ahmad): you should add profile info here and handle subscribe logics
 @injectable
 class AppViewmodel extends _AppViewmodelBase with _$AppViewmodel {
-  AppViewmodel(Logger logger, PrefsRepository prefsRepository) : super(logger, prefsRepository);
+  AppViewmodel(
+    Logger logger,
+    PrefsRepository prefsRepository,
+    AppRepository appRepository,
+  ) : super(logger, prefsRepository, appRepository);
 }
 
 abstract class _AppViewmodelBase extends BaseViewmodel with Store {
-  _AppViewmodelBase(Logger logger, this.prefsRepository) : super(logger) {
+  _AppViewmodelBase(Logger logger, this.prefsRepository, this._appRepository) : super(logger) {
     init();
   }
 
   final PrefsRepository prefsRepository;
+  final AppRepository _appRepository;
+
   NavStack<AppBarParams> appBarHistory = NavStack<AppBarParams>();
 
   String get userRole => prefsRepository?.type /* ?? 'PLAYER' */;
@@ -49,6 +56,9 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<String> languageFuture;
 
+  @observable
+  bool deviceRegistered = false;
+
   //* COMPUTED *//
 
   @computed
@@ -63,7 +73,7 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   void init() {
     appBarParams = AppBarParams.initial(isPlayer);
     languageFuture = ObservableFuture.value(prefsRepository.languageCode);
-    // TODO(abd): registerDevice();
+    registerDevice();
   }
 
   @action
@@ -101,6 +111,11 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
       logger.d('mawaheb debug try change language status is $isSuccess');
       return locale;
     }));
+  }
+
+  @action
+  Future<void> registerDevice() async {
+    deviceRegistered = await _appRepository.registerDevice();
   }
 }
 

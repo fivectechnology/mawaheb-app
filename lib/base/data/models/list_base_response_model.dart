@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mawaheb_app/base/data/models/base_model.dart';
+import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'list_base_response_model.g.dart';
 
@@ -46,6 +47,11 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
             baseJson,
             (contentJson) => fromJsonT(contentJson),
           );
+
+  static VersionResponse Function(Object) get versionMapper => (Object baseJson) => _$ListBaseResponseModelFromJson(
+        baseJson,
+        VersionResponse.fromJson,
+      ).data.first;
 
   Map<String, dynamic> toJson(
     Object Function(T value) toJsonT,

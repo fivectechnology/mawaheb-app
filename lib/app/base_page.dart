@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/dialogs.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/side_effect_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
@@ -11,9 +12,8 @@ import 'package:mawaheb_app/features/home/ui/pages/home_page.dart';
 import 'package:mawaheb_app/features/notifications/ui/pages/notifications_page.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:mawaheb_app/features/settings/ui/settings_page.dart';
-import 'package:supercharged/supercharged.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:supercharged/supercharged.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({Key key}) : super(key: key);
@@ -37,10 +37,15 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   AppViewmodel appViewmodel;
 
   @override
+  void initState() {
+    super.initState();
+    setupNotificationHandler();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
-    print('my debug user role is ${appViewmodel.userRole}');
   }
 
   @override
@@ -99,5 +104,61 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
       appViewmodel.navigateTo(PageIndex.home);
       return Future<bool>.value(false);
     }
+  }
+
+  // TODO(abd): setup notification handler
+  void setupNotificationHandler() {
+    //   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage message) {
+    //     if (message != null) {
+    //       PushRouting.route(
+    //         navigator: appViewModel.currentNavigator.currentState.push,
+    //         message: message.data,
+    //       );
+    //     }
+    //   });
+    //
+    //
+    //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //     logger.d('onResume => notification: ${message.notification} data: ${message.data}');
+    //     appViewModel?.updateNotificationsCount();
+    //     PushRouting.route(
+    //       navigator: appViewModel.currentNavigator.currentState.push,
+    //       message: message.data,
+    //     );
+    //   });
+    //
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   logger.d('onMessage => notification: ${message.notification} data: ${message.data}');
+    //   updateNotificationsCount();
+    //   final NotificationType notificationType = NotificationTypeExtension.valueOf(message.data['typeCode']);
+    //   if (notificationType == NotificationType.PROFILE) {
+    //     getCusomerProfile();
+    //     getUserProfile();
+    //   }
+    //   RemoteNotification notification = message.notification;
+    //   AndroidNotification android = message.notification?.android;
+    //   logger.d(
+    //     'my debug 12 $android ${notification.hashCode} ${notification.title} ${notification.body}, ${channel.id} ${channel.name}',
+    //   );
+    //   if (notification != null && android != null) {
+    //     flutterLocalNotificationsPlugin.show(
+    //         notification.hashCode,
+    //         notification.title,
+    //         notification.body,
+    //         NotificationDetails(
+    //           android: AndroidNotificationDetails(
+    //             channel.id,
+    //             channel.name,
+    //             channel.description,
+    //             color: PRIMARY,
+    //             importance: Importance.max,
+    //             priority: Priority.max,
+    //             enableVibration: true,
+    //             playSound: true,
+    //             icon: '@drawable/ic_notification',
+    //           ),
+    //         ));
+    //   }
+    // });
   }
 }

@@ -29,9 +29,10 @@ extension OrderStatusExtension on EndPointAction {
 }
 
 //* AUTH *//
-const String LOGIN_ENDPOINT = BASE_API + '/callback';
+const String LOGIN_ENDPOINT = BASE_PUBLIC_API + '/auth/login';
 const String LOGOUT_ENDPOINT = BASE_API + '/open-platform-demo/logout';
 const String OTP_SEND_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/send';
 const String OTP_VERIFY_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/verify';
 
-//* USER *//
+//* NOTIFICATION *//
+const String NOTIFICATION_COUNT_ENDPOINT = BASE_API + '/callback';

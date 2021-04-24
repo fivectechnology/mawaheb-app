@@ -440,18 +440,6 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void signUp({String displayName, String email, String password}) {
-    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
-        name: '_AuthViewmodelBase.signUp');
-    try {
-      return super
-          .signUp(displayName: displayName, email: email, password: password);
-    } finally {
-      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void changeRegisterSlider(PageSliderModel pageSliderModel) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.changeRegisterSlider');
