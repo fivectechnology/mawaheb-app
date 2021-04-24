@@ -92,8 +92,10 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                     text: 'lbl_log_out',
                     onPress: () {
                       showConfirmDialog(context, context.translate('msg_app_exit_confirm'), () {
-                        appViewmodel.pageIndex = PageIndex.home;
                         viewmodel.logout();
+                        // viewmodel.logout(() {
+                        //   appViewmodel.pageIndex = PageIndex.home;
+                        // });
                       });
                     },
                     isLoading: viewmodel.logoutLoading,
