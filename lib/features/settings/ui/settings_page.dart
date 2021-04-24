@@ -20,7 +20,8 @@ class SettingsPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -69,8 +70,9 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(context.translate('lbl_app_notification'),
-                          style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                      NotificationButton(
+                          style: textTheme.subtitle1.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
+                      mawahebSwitchButton(
                         isSelected: noti,
                       ),
                     ],
@@ -79,19 +81,23 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                 settingRow(
                     text: 'lbl_change_password',
                     onPress: () {
-                      context.navigator.push(ChangePasswordPage.pageRoute(viewmodel));
+                      context.navigator
+                          .push(ChangePasswordPage.pageRoute(viewmodel));
                     }),
                 settingRow(
                     text: 'lbl_change_email',
                     onPress: () {
-                      context.navigator.push(ChangeEmailPage.pageRoute(viewmodel));
+                      context.navigator
+                          .push(ChangeEmailPage.pageRoute(viewmodel));
                     }),
                 settingRow(text: 'lbl_term_of_service'),
                 Observer(builder: (_) {
                   return settingRow(
                     text: 'lbl_log_out',
                     onPress: () {
-                      showConfirmDialog(context, context.translate('msg_app_exit_confirm'), () {
+                      showConfirmDialog(
+                          context, context.translate('msg_app_exit_confirm'),
+                          () {
                         viewmodel.logout();
                         // viewmodel.logout(() {
                         //   appViewmodel.pageIndex = PageIndex.home;
@@ -113,14 +119,17 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
                   child: Text(context.translate('lbl_language'),
-                      style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                      style: textTheme.subtitle1
+                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
                 RadioListTile(
                   title: Text(
                     'English',
-                    style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1
+                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   activeColor: RED,
                   value: LANGUAGE_ENGLISH,
@@ -130,7 +139,8 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                 RadioListTile(
                   title: Text(
                     'العربية',
-                    style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1
+                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   activeColor: RED,
                   value: LANGUAGE_ARABIC,
@@ -159,7 +169,8 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
           children: [
             Text(
               context.translate(text),
-              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+              style: textTheme.subtitle1
+                  .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             AnimatedSwitcher(
               duration: 400.milliseconds,
