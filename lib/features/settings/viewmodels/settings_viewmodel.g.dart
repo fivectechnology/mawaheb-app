@@ -182,6 +182,22 @@ mixin _$SettingsViewmodel on _SettingsViewmodelBase, Store {
     });
   }
 
+  final _$validateEmailFutureAtom =
+      Atom(name: '_SettingsViewmodelBase.validateEmailFuture');
+
+  @override
+  ObservableFuture<bool> get validateEmailFuture {
+    _$validateEmailFutureAtom.reportRead();
+    return super.validateEmailFuture;
+  }
+
+  @override
+  set validateEmailFuture(ObservableFuture<bool> value) {
+    _$validateEmailFutureAtom.reportWrite(value, super.validateEmailFuture, () {
+      super.validateEmailFuture = value;
+    });
+  }
+
   final _$_SettingsViewmodelBaseActionController =
       ActionController(name: '_SettingsViewmodelBase');
 
@@ -239,6 +255,7 @@ changePasswordFuture: ${changePasswordFuture},
 playerEmailFuture: ${playerEmailFuture},
 verifyOTPFuture: ${verifyOTPFuture},
 changeEmailFuture: ${changeEmailFuture},
+validateEmailFuture: ${validateEmailFuture},
 logoutLoading: ${logoutLoading},
 otpLoading: ${otpLoading},
 otpError: ${otpError},

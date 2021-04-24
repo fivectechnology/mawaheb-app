@@ -18,6 +18,7 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
@@ -247,12 +248,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
             }),
           ),
       catchBlock: (err) => getContext((context) => showSnack(
-            context.translate('msg_email_exist'),
+            context.translate('msg_signUp_error'),
             duration: 2.seconds,
             scaffoldKey: RegisterPage.scaffoldKey,
           )),
       unknownErrorHandler: (err) => getContext((context) => showSnack(
-            context.translate('msg_email_exist'),
+            context.translate('msg_signUp_error'),
             duration: 2.seconds,
             scaffoldKey: RegisterPage.scaffoldKey,
           )),
@@ -375,11 +376,16 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               getContext((context) => context.navigator.push(OtpPage.pageRoute(this)));
             }),
           ),
-      catchBlock: (err) {
-        getContext((context) {
-          showSnack(context.translate('msg_email_not_reg'), duration: 2.seconds);
-        });
-      },
+      catchBlock: (err) => getContext((context) => showSnack(
+            context.translate('msg_email_not_reg'),
+            duration: 2.seconds,
+            scaffoldKey: ForgotPasswordPage.scaffoldKey,
+          )),
+      unknownErrorHandler: (err) => getContext((context) => showSnack(
+            context.translate('msg_email_not_reg'),
+            duration: 2.seconds,
+            scaffoldKey: ForgotPasswordPage.scaffoldKey,
+          )),
       useLoader: true,
     );
   }
@@ -394,11 +400,16 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               getContext((context) => context.navigator.push(ResetPasswordPagee.pageRoute(this)));
             }),
           ),
-      catchBlock: (err) {
-        getContext((context) {
-          showSnack(context.translate('msg_otp_error'), duration: 2.seconds);
-        });
-      },
+      catchBlock: (err) => getContext((context) => showSnack(
+            context.translate('msg_otp_error'),
+            duration: 2.seconds,
+            scaffoldKey: OtpPage.scaffoldKey,
+          )),
+      unknownErrorHandler: (err) => getContext((context) => showSnack(
+            context.translate('msg_otp_error'),
+            duration: 2.seconds,
+            scaffoldKey: OtpPage.scaffoldKey,
+          )),
       useLoader: true,
     );
   }
@@ -427,7 +438,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
       await _profileRepository
           .updateImageProfile(imageId: res, version: player.version, id: player.id)
-          .whenSuccess((res) => apply(() {
+          .whenSuccess((res) => res.data.first.apply(() {
+                registerFuture = ObservableFuture.value(res.data.first);
                 print('image updated');
               }));
       // updateProfileImage(

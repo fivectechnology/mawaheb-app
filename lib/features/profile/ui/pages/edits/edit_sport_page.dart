@@ -1,6 +1,8 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:mawaheb_app/app/app.dart';
+import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
@@ -79,8 +81,14 @@ class _EditSportPageState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WHITE,
-      appBar:
-          customAppBar(context: context, title: 'lbl_sport', withTitle: true),
+      appBar: customAppBar(
+          context: context,
+          title: 'lbl_sport',
+          withTitle: true,
+          onBackButton: () {
+            App.navKey.currentState.context
+                .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+          }),
       body: Observer(builder: (_) {
         return viewmodel.sports == null || viewmodel.positions == null
             ? const Center(child: MawahebLoader())
@@ -122,7 +130,10 @@ class _EditSportPageState
                       MawahebTextField(
                         hintText: context.translate('lbl_weight'),
                         hintColor: Colors.grey,
-                        validator: weightValidator,
+                        validator: (value) {
+                          return weightValidator(
+                              context: context, value: value);
+                        },
                         // onChanged: (value) {
                         //   weightController.text = value;
                         // },
@@ -134,8 +145,10 @@ class _EditSportPageState
                         hintText: context.translate('lbl_hight'),
                         hintColor: Colors.grey,
                         context: context,
-                        validator: hightValidator,
-                        // onChanged: (value) {
+                        validator: (value) {
+                          return heightValidator(
+                              context: context, value: value);
+                        }, // onChanged: (value) {
                         //   hightController.text = value;
                         // },
                         textEditingController: weightController,

@@ -72,7 +72,9 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                 MawahebTextField(
                   context: context,
                   hintText: 'lbl_email',
-                  validator: emailValidator,
+                  validator: (value) {
+                    return emailValidator(context: context, email: value);
+                  },
                   textEditingController: _userNameController,
                 ),
                 Padding(
@@ -83,7 +85,10 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     textEditingController: _passwordController,
                     context: context,
                     hintText: 'lbl_password',
-                    validator: passwordValidator,
+                    validator: (value) {
+                      return passwordValidator(
+                          context: context, password: value);
+                    },
                     isSuffixIcon: true,
                     useObscure: true,
                   ),

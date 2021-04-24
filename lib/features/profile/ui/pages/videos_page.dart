@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -68,9 +69,11 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         visible: isPlayer,
         child: FloatingActionButton(
           onPressed: () {
-            getVideo();
-
-            // _selectVideoBottomSheet(context);
+            if (viewmodel.player.videos.length >= 3) {
+              _selectVideoBottomSheet(context);
+            } else {
+              getVideo();
+            }
           },
           backgroundColor: YELLOW,
           child: const Icon(
@@ -85,13 +88,16 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         return ListView.builder(
             itemCount: viewmodel.player.videos.length,
             itemBuilder: (context, index) {
-              return videoRow();
+              return videoRow(
+                  videoId: viewmodel.player.videos[index].video.id,
+                  token: viewmodel.prefsRepository.token,
+                  status: viewmodel.player.videos[index].status);
             });
       }),
     );
   }
 
-  Widget videoRow() {
+  Widget videoRow({int videoId, String token, String status}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
@@ -104,7 +110,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
               ),
               const SizedBox(width: 10),
               Text(
-                'Approved',
+                status,
                 style: textTheme.headline2.copyWith(
                     fontSize: 12,
                     color: Colors.grey,
@@ -115,10 +121,11 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           Stack(
             children: [
               Container(
-                height: context.fullHeight * 0.3,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8), color: Colors.red),
-              ),
+                  height: context.fullHeight * 0.3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: mawahebVideoWidget(videoId: videoId, token: token)),
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Align(

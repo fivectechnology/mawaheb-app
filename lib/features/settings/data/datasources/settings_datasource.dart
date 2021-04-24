@@ -52,15 +52,15 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource
   @override
   Future<NetworkResult<bool>> sendOTP({String email, String password}) {
     return mawahebRequest(
-      endpoint: BASE_API + WEB_SERVICE + '/auth/email/change',
-      method: METHOD.POST,
-      data: {
-        'data': {
-          'email': email,
-          'currentPassword': password,
-        }
-      },
-    );
+        endpoint: BASE_API + WEB_SERVICE + '/auth/email/change',
+        method: METHOD.POST,
+        data: {
+          'data': {
+            'email': email,
+            'currentPassword': password,
+          }
+        },
+        mapper: BaseResponseModel.successMapper);
   }
 
   @override
@@ -97,17 +97,17 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource
   Future<NetworkResult<bool>> changePassword(
       {String currentPassword, String newPassword, int id}) {
     return mawahebRequest(
-      method: METHOD.POST,
-      modelName: 'auth.db.User',
-      mawahebModel: false,
-      data: {
-        'data': {
-          'id': id,
-          'oldPassword': currentPassword,
-          'newPassword': newPassword,
-          'chkPassword': newPassword,
-        }
-      },
-    );
+        method: METHOD.POST,
+        modelName: 'auth.db.User',
+        mawahebModel: false,
+        data: {
+          'data': {
+            'id': id,
+            'oldPassword': currentPassword,
+            'newPassword': newPassword,
+            'chkPassword': newPassword
+          }
+        },
+        mapper: BaseResponseModel.successMapper);
   }
 }

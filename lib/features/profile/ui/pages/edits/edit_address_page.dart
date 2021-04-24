@@ -1,5 +1,7 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/app/app.dart';
+import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
@@ -11,6 +13,7 @@ import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class EditAddressPage extends StatefulWidget {
   const EditAddressPage({
@@ -33,8 +36,8 @@ class EditAddressPage extends StatefulWidget {
 
 class _EditAddressPageState
     extends ProviderMobxState<EditAddressPage, ProfileViewmodel> {
-  TextEditingController stateController;
-  TextEditingController addressController;
+  TextEditingController stateController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   EmirateModel currentEmirate;
@@ -57,16 +60,22 @@ class _EditAddressPageState
     if (viewmodel?.emirates == null) {
       viewmodel.getEmirates();
     }
-    stateController = TextEditingController(text: viewmodel.player.area);
-    addressController = TextEditingController(text: viewmodel.player.address);
+    // stateController = TextEditingController(text: viewmodel.player.area);
+    // addressController = TextEditingController(text: viewmodel.player.address);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WHITE,
-      appBar:
-          customAppBar(context: context, title: 'lbl_address', withTitle: true),
+      appBar: customAppBar(
+          context: context,
+          title: 'lbl_address',
+          withTitle: true,
+          onBackButton: () {
+            App.navKey.currentState.context
+                .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+          }),
       body: MawahebFutureBuilder<List<EmirateModel>>(
           future: viewmodel.emirateFuture,
           onRetry: viewmodel.getEmirates,
@@ -95,10 +104,11 @@ class _EditAddressPageState
                     MawahebTextField(
                       hintText: 'lbl_state/province/area',
                       hintColor: Colors.grey,
-                      validator: stateValidator,
-                      onChanged: (value) {
-                        stateController.text = value;
-                      },
+                      validator: (value) {
+                        return stateValidator(context: context, value: value);
+                      }, // onChanged: (value) {
+                      //   stateController.text = value;
+                      // },
                       textEditingController: stateController,
                       context: context,
                     ),
@@ -106,11 +116,13 @@ class _EditAddressPageState
                     MawahebTextField(
                       hintText: 'lbl_address',
                       hintColor: Colors.grey,
-                      validator: addressValidator,
-                      textEditingController: addressController,
-                      onChanged: (value) {
-                        addressController.text = value;
+                      validator: (value) {
+                        return addressValidator(context: context, value: value);
                       },
+                      textEditingController: addressController,
+                      // onChanged: (value) {
+                      //   addressController.text = value;
+                      // },
                       context: context,
                     ),
                     Expanded(
@@ -127,8 +139,6 @@ class _EditAddressPageState
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
-                                  print(viewmodel.player.emirate);
-                                  print(currentEmirate);
 
                                   viewmodel.editAddressInfo(
                                       emirateModel: currentEmirate ??

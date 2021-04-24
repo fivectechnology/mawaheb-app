@@ -26,7 +26,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
       profileDataSource.playerViews(id: _prefsRepository.player.id);
 
   @override
-  Future<NetworkResult<bool>> updateImageProfile(
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateImageProfile(
           {int id, int version, int imageId}) =>
       profileDataSource.updateImageProfile(
           id: id, version: version, imageId: imageId);

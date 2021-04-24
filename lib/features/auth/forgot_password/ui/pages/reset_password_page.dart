@@ -2,6 +2,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
@@ -46,17 +47,6 @@ class _ResetPasswordPageeState
     super.dispose();
   }
 
-  String confirmPasswordValidator(String password) {
-    if (password.isEmpty) {
-      return 'Password empty';
-    } else if (password.length < 3) {
-      return 'Password is too short';
-    } else if (password != _newPasswordController.text) {
-      return 'password not match';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +80,12 @@ class _ResetPasswordPageeState
                   child: MawahebTextField(
                     textEditingController: _confirmPasswordController,
                     context: context,
-                    validator: confirmPasswordValidator,
+                    validator: (value) {
+                      return confirmPasswordValidator(
+                          password: _newPasswordController.text,
+                          context: context,
+                          confirmPassword: value);
+                    },
                     hintText: 'lbl_confirm_password',
                     isSuffixIcon: true,
                     useObscure: true,

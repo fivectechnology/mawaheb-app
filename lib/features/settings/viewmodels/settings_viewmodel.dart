@@ -11,8 +11,12 @@ import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/settings/domain/repositories/settings_repository.dart';
+import 'package:mawaheb_app/features/settings/ui/change_email_page.dart';
+import 'package:mawaheb_app/features/settings/ui/change_password_page.dart';
+import 'package:mawaheb_app/features/settings/ui/setting_otp_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 part 'settings_viewmodel.g.dart';
 
@@ -50,6 +54,9 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<OTPResponseModel> changeEmailFuture;
+
+  @observable
+  ObservableFuture<bool> validateEmailFuture;
 
   //* COMPUTED *//
   @computed
@@ -115,20 +122,30 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     }
     sendOtp = futureWrapper(
       () => _settingsRepository
-          .sendOTP(email: player.email, password: password)
+          .sendOTP(email: player.email, password: player.password)
           .whenSuccess(
             (res) => res.apply(() {
               logger.d('otp success with res: $res');
-              // if (!resend) {
-              //   getContext((context) => context
-              //     ..pushNamedAndRemoveUntil(
-              //         SettingOtpPage.route, (_) => false));
-              // } else {
-              //   //showSnack()
-              // }
+              if (!resend) {
+                getContext((context) =>
+                    context.navigator.push(SettingOtpPage.pageRoute(this)));
+              } else {
+                //showSnack()
+              }
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => getContext((context) => showSnack(
+            context.translate('msg_change_email_error'),
+            duration: 2.seconds,
+            scaffoldKey: ChangeEmailPage.scaffoldKey,
+          )),
+      unknownErrorHandler: (err) => getContext(
+        (context) => showSnack(
+          context.translate('msg_change_email_error'),
+          duration: 2.seconds,
+          scaffoldKey: ChangeEmailPage.scaffoldKey,
+        ),
+      ),
       useLoader: true,
     );
   }
@@ -150,7 +167,14 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
                       }));
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => getContext((context) => showSnack(
+          context.translate('msg_otp_error'),
+          duration: 2.seconds,
+          scaffoldKey: SettingOtpPage.scaffoldKey)),
+      unknownErrorHandler: (err) => getContext(
+        (context) => showSnack(context.translate('msg_otp_error'),
+            duration: 2.seconds, scaffoldKey: SettingOtpPage.scaffoldKey),
+      ),
       useLoader: true,
     );
   }
@@ -169,7 +193,14 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
               logger.d('change password success with res: $res');
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => getContext((context) => showSnack(
+          context.translate('msg_change_password_error'),
+          duration: 2.seconds,
+          scaffoldKey: ChangePasswordPage.scaffoldKey)),
+      unknownErrorHandler: (err) => getContext(
+        (context) => showSnack(context.translate('msg_change_password_error'),
+            duration: 2.seconds, scaffoldKey: ChangePasswordPage.scaffoldKey),
+      ),
       useLoader: true,
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/players/data/datasources/players_datasource.dart';
+import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 
 abstract class PlayersRepository extends BaseRepository {
   const PlayersRepository(PlayersDataSource playersDataSource)
@@ -30,4 +31,7 @@ abstract class PlayersRepository extends BaseRepository {
     @required int memberShipId,
     @required int memberShipVersion,
   });
+
+  Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
+      getMemberShips({int partnerId});
 }

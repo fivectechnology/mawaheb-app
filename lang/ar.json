@@ -129,12 +129,23 @@
   "msg_email_not_reg": "البريد الاكلتروني غير موجود",
   "msg_close_app": "هل أنت متأكد من الخروج؟",
   "msg_app_exit_confirm": "هل أنت متأكد من تسجيل الخروج؟",
-
-
-
-
-
+  "msg_change_email_error": "البريد الاكلتروني موجود او خطأ بكلمة المرور",
+  "msg_change_password_error": "كلمة المرور غير صحيحة",
   "msg_player_booked": "تم حجز اللاعب بنجاح",
   "msg_player_confirmed": "تم تأكيد اللاعب بنجاح",
-  "msg_player_released": "تم تحرير اللاعب بنجاح"
+  "msg_player_released": "تم تحرير اللاعب بنجاح",
+  "msg_short_password": "كلمة المرور قصيرة جدا",
+  "msg_invalid_mail": "ادخل بريد الكتروني صحيح",
+  "msg_password_empty": "كلمة المرور فارغة",
+  "msg_password_match": "كلمة المرور غير متطابقة",
+
+
+  "msg_phone_empty": "رقم الهاتف فارغ",
+  "msg_phone_valid": "رقم الهاتف غير صحيح(10 ارقام)",
+
+  "msg_address_empty": "العنوان فارغ",
+  "msg_state_empty": "المقاطعة فارغة",
+  "msg_height_empty": "الطول فارغ",
+  "msg_weight_empty": "الوزن فارغ"
+
 }

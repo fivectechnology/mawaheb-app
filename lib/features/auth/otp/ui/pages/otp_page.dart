@@ -14,7 +14,7 @@ class OtpPage extends StatefulWidget {
   const OtpPage({Key key}) : super(key: key);
 
   static const String route = '/otp';
-
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
       MaterialPageRoute(
         builder: (context) => Provider.value(
@@ -47,6 +47,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: OtpPage.scaffoldKey,
         backgroundColor: WHITE,
         body: SingleChildScrollView(
           child: Column(

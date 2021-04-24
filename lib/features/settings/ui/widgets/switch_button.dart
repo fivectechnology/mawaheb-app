@@ -20,12 +20,7 @@ class _NotificationButtonState extends State<NotificationButton> {
   Widget build(BuildContext context) {
     return Switch(
       value: widget.isSelected,
-      onChanged: (value) {
-        setState(() {
-          widget.isSelected = value;
-          print(widget.isSelected);
-        });
-      },
+      onChanged: widget.onChanged,
       activeTrackColor: RED,
       activeColor: Colors.white,
       inactiveTrackColor: Colors.grey,

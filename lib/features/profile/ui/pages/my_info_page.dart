@@ -70,7 +70,9 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                             color: DARK_GREY,
                           ),
                           onPressed: () => App.navKey.currentState
-                              .push(EditSportPage.pageRoute(viewmodel))),
+                              .pushAndRemoveUntil(
+                                  EditSportPage.pageRoute(viewmodel),
+                                  (_) => false)),
                   ],
                 ),
               ),
@@ -125,7 +127,9 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                             color: DARK_GREY,
                           ),
                           onPressed: () => App.navKey.currentState
-                              .push(EditPersonalPage.pageRoute(viewmodel))),
+                              .pushAndRemoveUntil(
+                                  EditPersonalPage.pageRoute(viewmodel),
+                                  (_) => false)),
                   ],
                 ),
               ),
@@ -176,7 +180,9 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                             color: DARK_GREY,
                           ),
                           onPressed: () => App.navKey.currentState
-                              .push(EditAddressPage.pageRoute(viewmodel))),
+                              .pushAndRemoveUntil(
+                                  EditAddressPage.pageRoute(viewmodel),
+                                  (_) => false)),
                   ],
                 ),
               ),
