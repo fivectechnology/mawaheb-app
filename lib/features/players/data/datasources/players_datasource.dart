@@ -13,13 +13,17 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 
 abstract class PlayersDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers(
-      {@required String country,
-      @required String sport,
-      @required String position,
-      @required String hand,
-      @required String leg,
-      @required String name});
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
+    @required String country,
+    @required String sport,
+    @required String position,
+    @required String hand,
+    @required String leg,
+    @required String name,
+    @required int partnerId,
+    @required bool isConfirmed,
+    @required bool isBooked,
+  });
 
   Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
 
@@ -36,10 +40,10 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
     @required int memberShipVersion,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
-      getMemberShips({
-    @required int partnerId,
-  });
+  // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
+  //     getMemberShips({
+  //   @required int partnerId,
+  // });
 }
 
 @LazySingleton(as: PlayersDataSource)
@@ -65,6 +69,9 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
     @required String hand,
     @required String leg,
     @required String name,
+    @required int partnerId,
+    @required bool isConfirmed,
+    @required bool isBooked,
   }) {
     return mawahebRequest(
       method: METHOD.POST,
@@ -92,7 +99,22 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
             if (hand != '' && hand != null)
               {'fieldName': 'hand', 'operator': '=', 'value': hand},
             if (leg != null && leg != '')
-              {'fieldName': 'leg', 'operator': '=', 'value': leg}
+              {'fieldName': 'leg', 'operator': '=', 'value': leg},
+            if (isBooked)
+              {'fieldName': 'availability', 'operator': '=', 'value': 'BOOKED'},
+            if (isConfirmed)
+              {
+                'fieldName': 'availability',
+                'operator': '=',
+                'value': 'CONFIRMED'
+              },
+
+            if (isBooked || isConfirmed)
+              {
+                'fieldName': 'partners.partner.id',
+                'operator': '=',
+                'value': partnerId
+              }
           ],
           'operator': 'and'
         },
@@ -165,24 +187,24 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
         });
   }
 
-  @override
-  Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
-      getMemberShips({int partnerId}) {
-    return mawahebRequest(
-      method: METHOD.POST,
-      modelName: 'Membership',
-      action: EndPointAction.search,
-      data: {
-        'data': {
-          'criteria': [
-            {'fieldName': 'partner.id', 'operator': '=', 'value': partnerId},
-            {'fieldName': 'status', 'operator': '=', 'value': 'CONFIRMED'}
-          ],
-          'operator': 'and'
-        },
-        'fields': ['version', 'player', 'status']
-      },
-      mapper: ListBaseResponseModel.fromJson(PartnerMemberModel.fromJson),
-    );
-  }
+  // @override
+  // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
+  //     getMemberShips({int partnerId}) {
+  //   return mawahebRequest(
+  //     method: METHOD.POST,
+  //     modelName: 'Membership',
+  //     action: EndPointAction.search,
+  //     data: {
+  //       'data': {
+  //         'criteria': [
+  //           {'fieldName': 'partner.id', 'operator': '=', 'value': partnerId},
+  //           {'fieldName': 'status', 'operator': '=', 'value': 'CONFIRMED'}
+  //         ],
+  //         'operator': 'and'
+  //       },
+  //       'fields': ['version', 'player', 'status']
+  //     },
+  //     mapper: ListBaseResponseModel.fromJson(PartnerMemberModel.fromJson),
+  //   );
+  // }
 }

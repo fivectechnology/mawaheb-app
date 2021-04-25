@@ -10,13 +10,17 @@ abstract class PlayersRepository extends BaseRepository {
   const PlayersRepository(PlayersDataSource playersDataSource)
       : super(playersDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers(
-      {@required String country,
-      @required String sport,
-      @required String position,
-      @required String hand,
-      @required String leg,
-      @required String name});
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
+    @required String country,
+    @required String sport,
+    @required String position,
+    @required String hand,
+    @required String leg,
+    @required String name,
+    @required int partnerId,
+    @required bool isConfirmed,
+    @required bool isBooked,
+  });
 
   Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
 
@@ -32,6 +36,6 @@ abstract class PlayersRepository extends BaseRepository {
     @required int memberShipVersion,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
-      getMemberShips({int partnerId});
+  // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
+  //     getMemberShips({int partnerId});
 }

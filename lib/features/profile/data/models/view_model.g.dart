@@ -11,6 +11,9 @@ ViewModel _$ViewModelFromJson(Map<String, dynamic> json) {
     partner: json['partner'] == null
         ? null
         : PartnerModel.fromJson(json['partner'] as Map<String, dynamic>),
+    partnerPhoto: json['partner.photo'] == null
+        ? null
+        : SourceModel.fromJson(json['partner.photo'] as Map<String, dynamic>),
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -20,4 +23,5 @@ Map<String, dynamic> _$ViewModelToJson(ViewModel instance) => <String, dynamic>{
       'id': instance.id,
       'version': instance.version,
       'partner': instance.partner,
+      'partner.photo': instance.partnerPhoto,
     };

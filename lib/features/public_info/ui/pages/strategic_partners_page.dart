@@ -1,3 +1,4 @@
+import 'package:core_sdk/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
@@ -42,43 +43,44 @@ class _StrategicPartnersPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: WHITE,
         body: MawahebFutureBuilder<List<StrategicPartnersModel>>(
-      future: viewmodel.partnersFuture,
-      onRetry: viewmodel.getPartners,
-      onSuccess: (partners) {
-        return ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            physics: const BouncingScrollPhysics(),
-            itemCount: partners.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 26),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      partners[index].title,
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins'),
+          future: viewmodel.partnersFuture,
+          onRetry: viewmodel.getPartners,
+          onSuccess: (partners) {
+            return ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                physics: const BouncingScrollPhysics(),
+                itemCount: partners.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 26),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          partners[index].title,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins'),
+                        ),
+                        const SizedBox(height: 5),
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${partners[index].source.id}/view',
+                              headers: {
+                                'Authorization':
+                                    'Basic ${viewmodel.prefsRepository.token}'
+                              },
+                            ))
+                      ],
                     ),
-                    const SizedBox(height: 5),
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${partners[index].source.id}/view',
-                          headers: {
-                            'Authorization':
-                                'Basic ${viewmodel.prefsRepository.token}'
-                          },
-                        ))
-                  ],
-                ),
-              );
-            });
-      },
-    ));
+                  );
+                });
+          },
+        ));
   }
 }
