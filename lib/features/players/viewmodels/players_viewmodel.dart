@@ -240,6 +240,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
       () => _playersRepository.bookPlayer(playerId: playerId).whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} booked');
+              fetchPlayer(id: player.id);
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -256,6 +257,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} confirmed');
+              fetchPlayer(id: player.id);
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -272,6 +274,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} released');
+              fetchPlayer(id: player.id);
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),

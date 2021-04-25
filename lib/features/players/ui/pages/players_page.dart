@@ -183,7 +183,12 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                                   textTheme.headline2.copyWith(fontSize: 20)))
                   ],
                 )
-              : const Center(child: MawahebLoader()),
+              : const SizedBox(
+                  child: Center(
+                    heightFactor: 25,
+                    child: MawahebLoader(),
+                  ),
+                ),
         ),
       );
     });
@@ -191,6 +196,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
 
   void filterBottomSheet() {
     showModalBottomSheet(
+        useRootNavigator: true,
         isScrollControlled: true,
         context: context,
         builder: (context) => Wrap(

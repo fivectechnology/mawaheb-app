@@ -191,7 +191,11 @@
   "msg_height_empty": "Height is empty",
   "msg_weight_empty": "Weight is empty",
   "msg_uploading_video": "Uploading video...",
-  "msg_added_3videos": "you have already added 3 videos for this sport if you want to add new one remove one of uploaded videos"
+  "msg_added_3videos": "you have already added 3 videos for this sport if you want to add new one remove one of uploaded videos",
+  "msg_delete_video": "you are going to delete video ",
+  "msg_delete_video2": " to confirm tab delete"
+
+
 
 
 
