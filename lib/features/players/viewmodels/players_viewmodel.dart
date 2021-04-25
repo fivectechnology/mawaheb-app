@@ -98,8 +98,8 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<PlayerModel> playerFuture;
 
-  @observable
-  ObservableFuture<List<PartnerMemberModel>> membersFuture;
+  // @observable
+  // ObservableFuture<List<PartnerMemberModel>> membersFuture;
 
   @computed
   bool get viewProfileLoading => viewProfileFuture?.isPending ?? false;
@@ -137,7 +137,10 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   List<PlayerModel> get players => playersFuture?.value;
 
   @computed
-  List<PartnerMemberModel> get members => membersFuture?.value;
+  bool get getPlayers => playersFuture?.isPending ?? false;
+
+  // @computed
+  // List<PartnerMemberModel> get members => membersFuture?.value;
 
   @computed
   List<SportModel> get sports => sportFuture?.value;
@@ -201,18 +204,21 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
                 country: country,
                 sport: sport,
                 leg: leg,
+                isBooked: booked,
+                isConfirmed: confirmed,
+                partnerId: prefsRepository.player.id,
                 hand: hand)
             .whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
-  @action
-  void getMembers({int partnerId}) => membersFuture = futureWrapper(
-        () => _playersRepository
-            .getMemberShips(partnerId: partnerId)
-            .whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
-      );
+  // @action
+  // void getMembers({int partnerId}) => membersFuture = futureWrapper(
+  //       () => _playersRepository
+  //           .getMemberShips(partnerId: partnerId)
+  //           .whenSuccess((res) => res.data),
+  //       catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  //     );
 
   @action
   void viewProfilePlayer({
