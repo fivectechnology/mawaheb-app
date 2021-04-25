@@ -330,7 +330,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
         await _profileRepository
             .uploadVideoPlayer(playerId: player.id, videoId: res)
             .whenSuccess((res) => apply(() {
-                  print('video added');
+                  showSnack('Video Uploaded',
+                      scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
                   // getContext((context) => App.navKey.currentState.context
                   //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
                 }));
@@ -342,7 +343,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
                 videoVersion: videoVersion,
                 videoId: videoId)
             .whenSuccess((res) => apply(() {
-                  print('video replaced');
+                  showSnack('Video replaced',
+                      scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
                   // getContext((context) => App.navKey.currentState.context
                   //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
                 }));
@@ -362,7 +364,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res.apply(() {
-              print('video deleted');
+              showSnack('Video deleted',
+                  scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
+
               // getContext((context) => App.navKey.currentState.context
               //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
