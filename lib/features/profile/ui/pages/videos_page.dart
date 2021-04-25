@@ -83,7 +83,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         visible: isPlayer,
         child: FloatingActionButton(
           onPressed: () {
-            if (viewmodel.player.videos.length == 3) {
+            if (viewmodel.player.videos.length == 2) {
               _selectVideoBottomSheet(
                 context: context,
               );
@@ -180,6 +180,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     BuildContext context,
   }) {
     showModalBottomSheet(
+        useRootNavigator: true,
         context: context,
         builder: (BuildContext bc) {
           return Padding(
@@ -235,8 +236,9 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   }
 
   void _removeVideoBottomSheet(
-      {BuildContext context, int videoId, int videoVersion}) {
+      {BuildContext context, int videoId, int videoVersion, int videoNumber}) {
     showModalBottomSheet(
+        useRootNavigator: true,
         context: context,
         builder: (BuildContext bc) {
           return Padding(
@@ -249,14 +251,13 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     SizedBox(width: context.fullWidth * 0.04),
                     Expanded(
                       child: Text(
-                        context.translate(
-                            'you are going to delete Playground Football 1 .mp4 video to confirm tab delete'),
+                        'you are going to delete video $videoNumber to confirm tab delete',
                         style: textTheme.bodyText1.copyWith(
                             height: 1.2,
                             color: TEXT_SECONDARY_COLOR,
                             fontWeight: FontWeight.w200),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 Padding(
@@ -294,6 +295,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   void _optionVideoBottomSheet(
       {BuildContext context, int videoId, int videoVersion}) {
     showModalBottomSheet(
+        useRootNavigator: true,
         context: context,
         builder: (BuildContext bc) {
           return Padding(
@@ -369,7 +371,10 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         IconButton(
           onPressed: () {
             _removeVideoBottomSheet(
-                context: context, videoId: videoId, videoVersion: videoVersion);
+                context: context,
+                videoId: videoId,
+                videoVersion: videoVersion,
+                videoNumber: videoNumber);
           },
           icon: const Icon(
             Icons.delete,
