@@ -251,7 +251,9 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     SizedBox(width: context.fullWidth * 0.04),
                     Expanded(
                       child: Text(
-                        'you are going to delete video $videoNumber to confirm tab delete',
+                        context.translate('msg_delete_video') +
+                            videoNumber.toString() +
+                            context.translate('msg_delete_video2'),
                         style: textTheme.bodyText1.copyWith(
                             height: 1.2,
                             color: TEXT_SECONDARY_COLOR,
