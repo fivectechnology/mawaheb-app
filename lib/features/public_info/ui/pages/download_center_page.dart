@@ -45,6 +45,7 @@ class _DownLoadCenterPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WHITE,
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
         child: MawahebFutureBuilder<List<DownloadCenterModel>>(
@@ -115,6 +116,7 @@ class _DownLoadCenterPageState
         'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/content/download?v=$version';
     if (await canLaunch(url)) {
       print(url);
+      print(viewmodel.prefsRepository.token);
       await launch(url, headers: {
         'Authorization': 'Basic ${viewmodel.prefsRepository.token}'
       });

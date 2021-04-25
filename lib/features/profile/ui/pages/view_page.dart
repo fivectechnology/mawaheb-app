@@ -60,10 +60,9 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
                             itemCount: viewmodel.views.length,
                             itemBuilder: (context, index) {
                               return userListTile(
-                                name: viewmodel.views[index].partner.name,
-                                // photo: viewmodel.views[index].photo,
-                                // token: viewmodel.prefsRepository.token
-                              );
+                                  name: viewmodel.views[index].partner.name,
+                                  photo: viewmodel.views[index].partnerPhoto,
+                                  token: viewmodel.prefsRepository.token);
                             })
                       ],
                     )
