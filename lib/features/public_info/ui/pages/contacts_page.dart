@@ -1,3 +1,4 @@
+import 'package:core_sdk/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -44,6 +45,7 @@ class _ContactsPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WHITE,
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: context.fullWidth * 0.05,
@@ -62,6 +64,7 @@ class _ContactsPageState
                   contactRow(title: 'lbl_address', text: contacts.address),
                   contactRow(title: 'lbl_email', text: contacts.email),
                   contactRow(title: 'lbl_phone', text: contacts.phone),
+                  const SizedBox(height: 18),
                   SizedBox(
                     height: context.fullHeight * 0.3,
                     child: GoogleMap(

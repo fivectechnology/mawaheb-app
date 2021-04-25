@@ -22,6 +22,9 @@ class PlayersRepositoryImpl extends PlayersRepository {
           @required String position,
           @required String hand,
           @required String leg,
+          @required int partnerId,
+          @required bool isConfirmed,
+          @required bool isBooked,
           @required String name}) =>
       playersDataSource.searchPlayers(
           hand: hand,
@@ -29,7 +32,10 @@ class PlayersRepositoryImpl extends PlayersRepository {
           sport: sport,
           country: country,
           name: name,
-          position: position);
+          position: position,
+          partnerId: partnerId,
+          isConfirmed: isConfirmed,
+          isBooked: isBooked);
 
   @override
   Future<NetworkResult<bool>> viewPlayerProfile({int id}) =>
@@ -54,8 +60,8 @@ class PlayersRepositoryImpl extends PlayersRepository {
       playersDataSource.releasePlayer(
           memberShipId: memberShipId, memberShipVersion: memberShipVersion);
 
-  @override
-  Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
-      getMemberShips({int partnerId}) =>
-          playersDataSource.getMemberShips(partnerId: partnerId);
+  // @override
+  // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
+  //     getMemberShips({int partnerId}) =>
+  //         playersDataSource.getMemberShips(partnerId: partnerId);
 }
