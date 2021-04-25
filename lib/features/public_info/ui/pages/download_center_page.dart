@@ -113,7 +113,7 @@ class _DownLoadCenterPageState
 
   Future<void> launchURL({int id, int version}) async {
     final url =
-        'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/content/download?v=$version';
+        'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/view';
     if (await canLaunch(url)) {
       print(url);
       print(viewmodel.prefsRepository.token);
