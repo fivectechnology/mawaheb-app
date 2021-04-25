@@ -36,9 +36,19 @@ class MawahebBottomNavigationBar extends StatelessWidget {
             bottomNavigationBarTile(
               title: context.translate(getAppBarTitle(PageIndex.notifications, isPlayer)),
               index: PageIndex.notifications.index,
-              // TODO(ahmad): add notifications svg icon here
-              icon: 'assets/icons/ic_notification.svg',
-              activeIcon: 'assets/icons/ic_notification.svg',
+              child: navigationButtonWithCount(
+                PageIndex.notifications.index,
+                // TODO(ahmad): add notifications unselected  svg version here
+                count: appViewModel.notificationsCount,
+                icon: 'assets/icons/ic_notification.svg',
+              ),
+              activeChild: navigationButtonWithCount(
+                PageIndex.notifications.index,
+                count: appViewModel.notificationsCount,
+                // TODO(ahmad): add notifications selected  svg version here
+
+                icon: 'assets/icons/ic_notification.svg',
+              ),
             ),
             bottomNavigationBarTile(
               title: context.translate(getAppBarTitle(PageIndex.public_info, isPlayer)),
@@ -94,20 +104,42 @@ class MawahebBottomNavigationBar extends StatelessWidget {
 
   Widget addPadding(Widget child) => Padding(padding: const EdgeInsets.only(top: 2.0), child: child);
 
-  // String getTitle(PageIndex pageIndex) {
-  //   switch (pageIndex) {
-  //     case PageIndex.profile:
-  //       return 'lbl_profile';
-  //     case PageIndex.player:
-  //       return 'lbl_players';
-  //     case PageIndex.notifications:
-  //       return 'lbl_notifications';
-  //     case PageIndex.public_info:
-  //       return 'lbl_public_info';
-  //     case PageIndex.settings:
-  //       return 'lbl_settigs';
-  //     default:
-  //       return 'not_exist';
-  //   }
-  // }
+  Widget navigationButtonWithCount(int index, {String icon, int count}) {
+    return Row(
+      children: [
+        Expanded(
+          child: Stack(
+            alignment: const Alignment(0.5, -2),
+            children: [
+              Center(
+                child: SvgPicture.asset(
+                  icon,
+                  width: 24.0,
+                  height: 24.0,
+                  fit: BoxFit.cover,
+                  color: appViewModel.pageIndex.index == index ? PRIMARY : GREY,
+                ),
+              ),
+              if (count > 0)
+                Container(
+                  width: count > 10 ? 19.0 : 18.0,
+                  height: count > 10 ? 19.0 : 18.0,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: RED.withOpacity(0.9)),
+                  child: Center(
+                    child: Text(
+                      count > 10 ? '+10' : count.toString(),
+                      style: TextStyle(
+                        color: WHITE,
+                        fontSize: count > 10 ? 8.0 : 10.0,
+                        fontWeight: count > 10 ? FontWeight.w400 : FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
