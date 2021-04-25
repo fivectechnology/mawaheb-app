@@ -7,6 +7,10 @@ import 'package:mawaheb_app/base/utils/token_interceptor.dart';
 
 import 'package:mockito/mockito.dart';
 
+const String playerEmail = 'playeruser@mawaheb.com';
+const String playerPassword = 'welcome1';
+const String playerType = 'PLAYER';
+
 class FakePrefsRepository extends Mock implements PrefsRepository {
   // try new 5c repo
   FakePrefsRepository({String token}) {

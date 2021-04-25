@@ -10,6 +10,8 @@ import 'package:core_sdk/utils/network_result.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mawaheb_app/base/data/models/base_response_model.dart';
+import 'package:mawaheb_app/base/data/models/version_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 
@@ -187,5 +189,19 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
     } catch (ex) {
       return 'msg_something_wrong';
     }
+  }
+
+  Future<NetworkResult<VersionResponse>> getVersion({
+    @required String modelName,
+    @required int modelId,
+  }) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      modelName: modelName,
+      id: modelId,
+      action: EndPointAction.fetch,
+      mapper: BaseResponseModel.versionMapper,
+      data: VersionResponse.body,
+    );
   }
 }
