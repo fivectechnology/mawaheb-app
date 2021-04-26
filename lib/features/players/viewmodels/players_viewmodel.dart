@@ -10,6 +10,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 import 'package:mawaheb_app/features/players/domain/repositiories/players_repository.dart';
+import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
@@ -43,6 +44,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   //* OBSERVERS *//
   @observable
   ObservableFuture<bool> viewProfileFuture;
+
+  @observable
+  ObservableFuture<List<VideoModel>> fetchVideoFuture;
 
   @observable
   ObservableFuture<bool> bookPlayerFuture;
@@ -103,6 +107,12 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get viewProfileLoading => viewProfileFuture?.isPending ?? false;
+
+  @computed
+  List<VideoModel> get videos => fetchVideoFuture?.value;
+
+  @computed
+  bool get videosLoading => fetchVideoFuture?.isPending ?? false;
 
   @computed
   bool get viewProfileError => viewProfileFuture?.isFailure ?? false;
@@ -277,6 +287,19 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
               fetchPlayer(id: player.id);
             }),
           ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  void fetchVideos({int playerId}) {
+    fetchVideoFuture = futureWrapper(
+      () =>
+          _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
+                (res) => res.data.apply(() {
+                  print('fetch videos');
+                }),
+              ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
   }
