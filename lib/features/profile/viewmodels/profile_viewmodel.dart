@@ -389,37 +389,4 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
   }
-
-  // @action
-  // // ignore: missing_return
-  // Future<int> replaceVideo({
-  //   File file,
-  //   int fileSize,
-  //   String fileName,
-  //   String fileType,
-  //   int videoId,
-  //   int videoVersion,
-  // }) {
-  //   imageId = _profileRepository
-  //       .uploadFile(
-  //           file: file,
-  //           fileSize: fileSize,
-  //           fileType: fileType,
-  //           fileName: fileName)
-  //       .then((res) async {
-  //     await _profileRepository
-  //         .replaceVideoPlayer(
-  //             playerId: player.id,
-  //             videoFileId: res,
-  //             videoVersion: videoVersion,
-  //             videoId: videoId)
-  //         .whenSuccess((res) => apply(() {
-  //               print('video replaced');
-  //               // getContext((context) => App.navKey.currentState.context
-  //               //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
-  //             }));
-  //
-  //     return res;
-  //   });
-  // }
 }

@@ -211,6 +211,7 @@ class _EditSportPageState
                             textColor: Colors.black,
                             borderColor: Colors.black,
                             buttonColor: WHITE,
+                            isLoading: viewmodel.playerLoading,
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
                                 _formKey.currentState.save();

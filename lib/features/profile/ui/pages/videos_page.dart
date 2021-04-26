@@ -75,13 +75,6 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     } else {
       print('No image selected.');
     }
-    // if (video != null) {
-    //   viewmodel.showSnack(
-    //     context.translate('msg_uploading_video'),
-    //     duration: const Duration(seconds: 4),
-    //     scaffoldKey: VideosPage.scaffoldKey,
-    //   );
-    // }
   }
 
   @override
@@ -407,19 +400,15 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           child: Text('video$videoNumber'),
         ),
         const Spacer(),
-        IconButton(
-          onPressed: () {
-            _removeVideoBottomSheet(
-                context: context,
-                videoId: videoId,
-                videoVersion: videoVersion,
-                videoNumber: videoNumber);
-          },
-          icon: const Icon(
-            Icons.delete,
-            color: RED,
-          ),
-        )
+        InkWell(
+            onTap: () {
+              _removeVideoBottomSheet(
+                  context: context,
+                  videoId: videoId,
+                  videoVersion: videoVersion,
+                  videoNumber: videoNumber);
+            },
+            child: SvgPicture.asset('assets/icons/ic_delete.svg')),
       ],
     );
   }

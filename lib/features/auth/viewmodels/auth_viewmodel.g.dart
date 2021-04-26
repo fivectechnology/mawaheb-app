@@ -9,6 +9,20 @@ part of 'auth_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
+  Computed<List<VideoModel>> _$videosComputed;
+
+  @override
+  List<VideoModel> get videos =>
+      (_$videosComputed ??= Computed<List<VideoModel>>(() => super.videos,
+              name: '_AuthViewmodelBase.videos'))
+          .value;
+  Computed<bool> _$videosLoadingComputed;
+
+  @override
+  bool get videosLoading =>
+      (_$videosLoadingComputed ??= Computed<bool>(() => super.videosLoading,
+              name: '_AuthViewmodelBase.videosLoading'))
+          .value;
   Computed<bool> _$loginLoadingComputed;
 
   @override
@@ -221,6 +235,22 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     });
   }
 
+  final _$fetchVideoFutureAtom =
+      Atom(name: '_AuthViewmodelBase.fetchVideoFuture');
+
+  @override
+  ObservableFuture<List<VideoModel>> get fetchVideoFuture {
+    _$fetchVideoFutureAtom.reportRead();
+    return super.fetchVideoFuture;
+  }
+
+  @override
+  set fetchVideoFuture(ObservableFuture<List<VideoModel>> value) {
+    _$fetchVideoFutureAtom.reportWrite(value, super.fetchVideoFuture, () {
+      super.fetchVideoFuture = value;
+    });
+  }
+
   final _$registerFutureAtom = Atom(name: '_AuthViewmodelBase.registerFuture');
 
   @override
@@ -341,6 +371,22 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     _$forgetPasswordFutureAtom.reportWrite(value, super.forgetPasswordFuture,
         () {
       super.forgetPasswordFuture = value;
+    });
+  }
+
+  final _$deleteVideoFutureAtom =
+      Atom(name: '_AuthViewmodelBase.deleteVideoFuture');
+
+  @override
+  ObservableFuture<bool> get deleteVideoFuture {
+    _$deleteVideoFutureAtom.reportRead();
+    return super.deleteVideoFuture;
+  }
+
+  @override
+  set deleteVideoFuture(ObservableFuture<bool> value) {
+    _$deleteVideoFutureAtom.reportWrite(value, super.deleteVideoFuture, () {
+      super.deleteVideoFuture = value;
     });
   }
 
@@ -568,6 +614,53 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
+  Future<int> uploadVideo(
+      {File file,
+      int fileSize,
+      String fileName,
+      String fileType,
+      int videoVersion,
+      int videoId,
+      bool withDelete}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.uploadVideo');
+    try {
+      return super.uploadVideo(
+          file: file,
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType,
+          videoVersion: videoVersion,
+          videoId: videoId,
+          withDelete: withDelete);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void deleteVideo({int videoVersion, int videoId}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.deleteVideo');
+    try {
+      return super.deleteVideo(videoVersion: videoVersion, videoId: videoId);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void fetchVideos({int playerId}) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.fetchVideos');
+    try {
+      return super.fetchVideos(playerId: playerId);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 image: ${image},
@@ -576,6 +669,7 @@ registerSliderModel: ${registerSliderModel},
 loginFuture: ${loginFuture},
 sendOtp: ${sendOtp},
 validateEmailFuture: ${validateEmailFuture},
+fetchVideoFuture: ${fetchVideoFuture},
 registerFuture: ${registerFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
@@ -584,6 +678,9 @@ countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
 verifyOTPFuture: ${verifyOTPFuture},
 forgetPasswordFuture: ${forgetPasswordFuture},
+deleteVideoFuture: ${deleteVideoFuture},
+videos: ${videos},
+videosLoading: ${videosLoading},
 loginLoading: ${loginLoading},
 loginError: ${loginError},
 otpLoading: ${otpLoading},

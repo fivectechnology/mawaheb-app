@@ -192,9 +192,6 @@ class _EditPersonalPageState
                             return phoneValidator(
                                 context: context, phone: value);
                           },
-                          // onChanged: (value) {
-                          //   _phoneController.text = value;
-                          // },
                           context: context),
                       const SizedBox(height: 26),
                       mawhaebDropDown(

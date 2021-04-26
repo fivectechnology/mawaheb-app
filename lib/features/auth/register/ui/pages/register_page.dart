@@ -21,7 +21,8 @@ class RegisterPage extends StatefulWidget {
 
   static const String route = '/register';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
@@ -32,7 +33,8 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState
+    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
 
   String pageTitle = 'lbl_sign_up';
@@ -48,7 +50,8 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.registerSliderModel,
+          (PageSliderModel sliderModel) {
         slidePage(sliderModel);
         viewmodel.registerSliderModel = null;
       }),
@@ -126,7 +129,9 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(
+            duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(
+            duration: 400.milliseconds, curve: Curves.easeOut);
   }
 }

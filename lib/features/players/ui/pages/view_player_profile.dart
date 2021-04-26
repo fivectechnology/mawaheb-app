@@ -192,7 +192,7 @@ class _ViewPlayerProfileState
                     textColor: Colors.black,
                     borderColor: Colors.black,
                     onPressed: () {
-                      context.pop();
+                      context.pop(bc);
                     },
                   ),
                 ),
