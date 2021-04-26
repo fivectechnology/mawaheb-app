@@ -6,7 +6,8 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 
 class MawahebBottomNavigationBar extends StatelessWidget {
-  const MawahebBottomNavigationBar({Key key, @required this.appViewModel}) : super(key: key);
+  const MawahebBottomNavigationBar({Key key, @required this.appViewModel})
+      : super(key: key);
 
   final AppViewmodel appViewModel;
 
@@ -20,37 +21,46 @@ class MawahebBottomNavigationBar extends StatelessWidget {
           elevation: 0,
           backgroundColor: WHITE,
           currentIndex: appViewModel.pageIndex.index,
-          onTap: (int index) => appViewModel.navigateTo(PageIndex.values[index]),
+          onTap: (int index) =>
+              appViewModel.navigateTo(PageIndex.values[index]),
           selectedLabelStyle: const TextStyle(fontSize: 12.0),
           unselectedLabelStyle: const TextStyle(fontSize: 10.0),
           showSelectedLabels: true,
           showUnselectedLabels: true,
           items: [
             bottomNavigationBarTile(
-              title: context.translate(getAppBarTitle(PageIndex.home, isPlayer)),
+              title:
+                  context.translate(getAppBarTitle(PageIndex.home, isPlayer)),
               index: PageIndex.home.index,
               // TODO(ahmad): change bottomNav icons when user role change
-              icon: appViewModel.isPlayer ? 'assets/icons/ic_home.svg' : 'assets/icons/ic_home.svg',
-              activeIcon: appViewModel.isPlayer ? 'assets/icons/ic_home.svg' : 'assets/icons/ic_home.svg',
+              icon: appViewModel.isPlayer
+                  ? 'assets/icons/ic_profile.svg'
+                  : 'assets/icons/ic_home.svg',
+              activeIcon: appViewModel.isPlayer
+                  ? 'assets/icons/ic_active_profile.svg'
+                  : 'assets/icons/ic_home.svg',
             ),
             bottomNavigationBarTile(
-              title: context.translate(getAppBarTitle(PageIndex.notifications, isPlayer)),
+              title: context
+                  .translate(getAppBarTitle(PageIndex.notifications, isPlayer)),
               index: PageIndex.notifications.index,
               // TODO(ahmad): add notifications svg icon here
               icon: 'assets/icons/ic_notification.svg',
               activeIcon: 'assets/icons/ic_notification.svg',
             ),
             bottomNavigationBarTile(
-              title: context.translate(getAppBarTitle(PageIndex.public_info, isPlayer)),
+              title: context
+                  .translate(getAppBarTitle(PageIndex.public_info, isPlayer)),
               index: PageIndex.public_info.index,
               child: const Icon(Icons.info, size: 24.0, color: GREY),
-              activeChild: const Icon(Icons.info, size: 24.0, color: GREY),
+              activeChild: const Icon(Icons.info, size: 24.0, color: PRIMARY),
             ),
             bottomNavigationBarTile(
-              title: context.translate(getAppBarTitle(PageIndex.settings, isPlayer)),
+              title: context
+                  .translate(getAppBarTitle(PageIndex.settings, isPlayer)),
               index: PageIndex.settings.index,
-              icon: 'assets/icons/ic_settings.svg',
-              activeIcon: 'assets/icons/ic_settings.svg',
+              icon: 'assets/icons/ic_setting.svg',
+              activeIcon: 'assets/icons/ic_setting.svg',
             ),
           ],
         );
@@ -92,7 +102,8 @@ class MawahebBottomNavigationBar extends StatelessWidget {
     );
   }
 
-  Widget addPadding(Widget child) => Padding(padding: const EdgeInsets.only(top: 2.0), child: child);
+  Widget addPadding(Widget child) =>
+      Padding(padding: const EdgeInsets.only(top: 2.0), child: child);
 
   // String getTitle(PageIndex pageIndex) {
   //   switch (pageIndex) {
