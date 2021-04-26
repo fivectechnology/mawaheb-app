@@ -82,7 +82,6 @@
   "lbl_new_email": "New email",
   "lbl_type": "Type",
   "lbl_profile": "Profile",
-  "lbl_players": "Players",
   "lbl_available_players": "Available Players",
   "lbl_confirm_password": "Confirm password",
   "lbl_Reset_password": "Reset password",
@@ -125,6 +124,35 @@
   
   
   
+  "lbl_players": "Players",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "lbl_confirmed_player": "confirmed player",
   "lbl_search_name": "Search by name",
   "PLAYER": "PLAYER",

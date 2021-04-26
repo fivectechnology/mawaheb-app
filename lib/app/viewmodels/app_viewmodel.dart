@@ -33,7 +33,8 @@ class AppViewmodel extends _AppViewmodelBase with _$AppViewmodel {
 }
 
 abstract class _AppViewmodelBase extends BaseViewmodel with Store {
-  _AppViewmodelBase(Logger logger, this.prefsRepository, this._appRepository) : super(logger) {
+  _AppViewmodelBase(Logger logger, this.prefsRepository, this._appRepository)
+      : super(logger) {
     init();
   }
 
@@ -101,7 +102,8 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
     if (pageIndex != newPageIndex) {
       pageIndex = newPageIndex;
       appBarHistory.clear();
-      pushRoute(AppBarParams(title: getAppBarTitle(pageIndex, isPlayer), onBackPressed: null));
+      pushRoute(AppBarParams(
+          title: getAppBarTitle(pageIndex, isPlayer), onBackPressed: null));
     }
   }
 
@@ -110,7 +112,8 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
     if (locale == language) {
       return;
     }
-    languageFuture = ObservableFuture(prefsRepository.setApplicationLanguage(locale).then((isSuccess) {
+    languageFuture = ObservableFuture(
+        prefsRepository.setApplicationLanguage(locale).then((isSuccess) {
       logger.d('mawaheb debug try change language status is $isSuccess');
       return locale;
     }));
@@ -135,6 +138,22 @@ String getAppBarTitle(PageIndex pageIndex, bool isPlayer) {
   switch (pageIndex) {
     case PageIndex.home:
       return isPlayer ? 'lbl_profile' : 'lbl_available_players';
+
+    case PageIndex.notifications:
+      return 'lbl_notifications';
+    case PageIndex.public_info:
+      return 'lbl_public_info';
+    case PageIndex.settings:
+      return 'lbl_settigs';
+    default:
+      return 'not_exist';
+  }
+}
+
+String getBottomTitle(PageIndex pageIndex, bool isPlayer) {
+  switch (pageIndex) {
+    case PageIndex.home:
+      return isPlayer ? 'lbl_profile' : 'lbl_players';
 
     case PageIndex.notifications:
       return 'lbl_notifications';

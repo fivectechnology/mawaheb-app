@@ -8,7 +8,6 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
-import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 import 'package:mawaheb_app/features/players/domain/repositiories/players_repository.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';

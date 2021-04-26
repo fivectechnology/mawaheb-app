@@ -5,7 +5,6 @@ import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/players/data/datasources/players_datasource.dart';
-import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 import 'package:mawaheb_app/features/players/domain/repositiories/players_repository.dart';
 
 @LazySingleton(as: PlayersRepository)

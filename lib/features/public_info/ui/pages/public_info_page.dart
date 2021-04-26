@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 import 'package:provider/provider.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class PublicInfoPage extends StatefulWidget {
   const PublicInfoPage({Key key}) : super(key: key);

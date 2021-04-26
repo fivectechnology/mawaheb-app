@@ -4,7 +4,6 @@ import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/datasources/app_datasource.dart';
 import 'package:mawaheb_app/base/data/models/version_model.dart';
@@ -28,7 +27,8 @@ class AppRepositoryImpl extends AppRepository {
   Future<bool> registerDevice() async {
     try {
       final firebaseToken = await _firebaseMessaging.getToken();
-      final searchResult = await _remoteDataSource.getDevice(fbToken: firebaseToken);
+      final searchResult =
+          await _remoteDataSource.getDevice(fbToken: firebaseToken);
       if (searchResult.isSuccess && searchResult.getOrNull() != null) {
         await _prefsRepository.setFbId(searchResult.getOrThrow().id);
         return true;
@@ -42,7 +42,8 @@ class AppRepositoryImpl extends AppRepository {
       String osTypeId;
       String osVersion;
       final String appVersion = packageInfo.version;
-      final int appTypeId = int.parse(packageInfo.buildNumber, onError: (_) => 1);
+      final int appTypeId =
+          int.parse(packageInfo.buildNumber, onError: (_) => 1);
 
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
@@ -99,9 +100,12 @@ class AppRepositoryImpl extends AppRepository {
   }
 
   @override
-  Future<bool> modifyDevice(bool link) =>
-      _remoteDataSource.modifyDevice(link).whenSuccess((res) => true).catchError((_) => false);
+  Future<bool> modifyDevice(bool link) => _remoteDataSource
+      .modifyDevice(link)
+      .whenSuccess((res) => true)
+      .catchError((_) => false);
 
   @override
-  Future<NetworkResult<VersionResponse>> getDevice({String fbToken}) => _remoteDataSource.getDevice(fbToken: fbToken);
+  Future<NetworkResult<VersionResponse>> getDevice({String fbToken}) =>
+      _remoteDataSource.getDevice(fbToken: fbToken);
 }

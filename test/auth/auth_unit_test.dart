@@ -4,7 +4,6 @@ import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
-import 'package:mawaheb_app/features/auth/data/repositories/auth_repositories_impl.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 
 import '../global_di.dart';

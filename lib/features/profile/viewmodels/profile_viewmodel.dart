@@ -107,7 +107,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   bool get playerLoading => playerFuture?.isPending ?? false;
 
   @computed
-  List<VideoModel> get videos => fetchVideoFuture?.value;
+  List<VideoModel> get videos => fetchVideoFuture?.value ?? [];
 
   @computed
   bool get videosLoading => fetchVideoFuture?.isPending ?? false;
