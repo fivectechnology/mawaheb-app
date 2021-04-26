@@ -39,48 +39,48 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: viewmodel.scaffoldKey,
-      backgroundColor: Colors.white,
-      body: MawahebFutureBuilder(
-        future: viewmodel.notificationsFuture,
-        onRetry: () => viewmodel.getnotifications(fresh: true),
-        onSuccess: (ListBaseResponseModel<NotificationModel> notifications) {
-          return PaginationList<NotificationModel>(
-            canLoadMore: viewmodel.canLoadMoreNotifications,
-            dataList: notifications.data,
-            scrollController: scrollController,
-            padding: 0,
-            emptyWidget: Center(child: Text(context.translate('lbl_empty_notifications'))),
-            cardBuilder: (notification) => notificationTile(
-              body: notification.message,
-              title: notification.subject,
-              date: dateFormatter(notification.sendDate, AppLocalizations.of(context)),
-            ),
-          );
-        },
-      ),
-    );
-  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     key: viewmodel.scaffoldKey,
+  //     backgroundColor: Colors.white,
+  //     body: MawahebFutureBuilder(
+  //       future: viewmodel.notificationsFuture,
+  //       onRetry: () => viewmodel.getnotifications(fresh: true),
+  //       onSuccess: (ListBaseResponseModel<NotificationModel> notifications) {
+  //         return PaginationList<NotificationModel>(
+  //           canLoadMore: viewmodel.canLoadMoreNotifications,
+  //           dataList: notifications.data,
+  //           scrollController: scrollController,
+  //           padding: 0,
+  //           emptyWidget: Center(child: Text(context.translate('lbl_empty_notifications'))),
+  //           cardBuilder: (notification) => notificationTile(
+  //             body: notification.message,
+  //             title: notification.subject,
+  //             date: dateFormatter(notification.sendDate, AppLocalizations.of(context)),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   void onLoadMore() => viewmodel.getnotifications();
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     backgroundColor: Colors.white,
-  //     body: ListView.builder(
-  //         physics: const BouncingScrollPhysics(),
-  //         padding: EdgeInsets.all(context.fullHeight * 0.01),
-  //         itemCount: 10,
-  //         itemBuilder: (context, index) {
-  //           return notificationTile(body: null, date: null, title: null);
-  //         }),
-  //   );
-  // }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.all(context.fullHeight * 0.01),
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return notificationTile(body: null, date: null, title: null);
+          }),
+    );
+  }
 
   Widget notificationTile({
     @required String title,
