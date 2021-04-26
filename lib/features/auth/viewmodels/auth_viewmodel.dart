@@ -55,8 +55,7 @@ class AuthViewmodel extends _AuthViewmodelBase with _$AuthViewmodel {
 }
 
 abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
-  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository,
-      this._profileRepository)
+  _AuthViewmodelBase(Logger logger, this._authRepository, this._prefsRepository, this._profileRepository)
       : super(logger);
 
   final AuthRepository _authRepository;
@@ -125,6 +124,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get otpError => sendOtp?.isFailure ?? false;
+
+  @computed
+  bool get otpVerifyError => verifyOTPFuture?.isFailure ?? false;
 
   @computed
   PlayerModel get player => registerFuture?.value;
@@ -200,12 +202,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       () => _authRepository
           .login(userName: userName, password: password, type: type)
           .whenSuccess((_) => true.apply(() => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               ))),
       catchBlock: (err) => getContext(
-        (context) => showSnack(context.translate('msg_login_error'),
-            duration: 2.seconds),
+        (context) => showSnack(context.translate('msg_login_error'), duration: 2.seconds),
       ),
     );
   }
@@ -217,8 +217,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     bool resend = false,
   }) {
     if (!resend) {
-      registerFuture = ObservableFuture.value(
-          PlayerModel.fromUi(email: email, password: password));
+      registerFuture = ObservableFuture.value(PlayerModel.fromUi(email: email, password: password));
     }
     sendOtp = futureWrapper(
       () => _authRepository.sendOTP(email: player.email).whenSuccess(
@@ -268,27 +267,23 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   void verifyOTP({int code}) {
     verifyOTPFuture = futureWrapper(
-      () => _authRepository
-          .verifyOTP(email: player.email, code: code)
-          .whenSuccess(
+      () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess(
             (res) => res.data.apply(() async {
               await _authRepository
-                  .signUp(
-                      email: player.email,
-                      password: player.password,
-                      code: res.data.data,
-                      type: 'PLAYER')
+                  .signUp(email: player.email, password: player.password, code: res.data.data, type: 'PLAYER')
                   .whenSuccess(
-                    (_) =>
-                        changeRegisterSlider(const PageSliderForawardModel()),
+                    (_) => changeRegisterSlider(const PageSliderForawardModel()),
                   );
             }),
           ),
-      catchBlock: (err) => getContext((context) => showSnack(
-            context.translate('msg_otp_error'),
-            duration: 2.seconds,
-            scaffoldKey: RegisterPage.scaffoldKey,
-          )),
+      catchBlock: (err) {
+        getContext((context) => showSnack(
+              context.translate('msg_otp_error'),
+              duration: 2.seconds,
+              scaffoldKey: RegisterPage.scaffoldKey,
+            ));
+        // throw Exception('');
+      },
       unknownErrorHandler: (err) => getContext((context) => showSnack(
             context.translate('msg_otp_error'),
             duration: 2.seconds,
@@ -299,8 +294,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changeRegisterSlider(PageSliderModel pageSliderModel) =>
-      registerSliderModel = pageSliderModel;
+  void changeRegisterSlider(PageSliderModel pageSliderModel) => registerSliderModel = pageSliderModel;
 
   @action
   void addPersonalInfo({
@@ -333,8 +327,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void addAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void addAddressInfo({String address, String area, EmirateModel emirateModel}) {
     registerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -379,8 +372,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(
               () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
+                (context) => context.pushNamedAndRemoveUntil(BasePage.route, (_) => false),
               ),
             ),
           ),
@@ -396,8 +388,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               logger.d('otp success with res: $res');
               forgetPasswordEmail = email;
 
-              getContext(
-                  (context) => context.navigator.push(OtpPage.pageRoute(this)));
+              getContext((context) => context.navigator.push(OtpPage.pageRoute(this)));
             }),
           ),
       catchBlock: (err) => getContext((context) => showSnack(
@@ -419,12 +410,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _authRepository
-          .verifyOTP(email: forgetPasswordEmail, code: code)
-          .whenSuccess(
+      () => _authRepository.verifyOTP(email: forgetPasswordEmail, code: code).whenSuccess(
             (res) => res.data.apply(() async {
-              getContext((context) =>
-                  context.navigator.push(ResetPasswordPagee.pageRoute(this)));
+              getContext((context) => context.navigator.push(ResetPasswordPagee.pageRoute(this)));
             }),
           ),
       catchBlock: (err) => getContext((context) => showSnack(
@@ -444,13 +432,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   void resetPassword({String password, String email, int code}) {
     forgetPasswordFuture = futureWrapper(() => _authRepository
-        .resetPassword(
-            email: forgetPasswordEmail,
-            code: verifyOTPFuture.value.data,
-            password: password)
+        .resetPassword(email: forgetPasswordEmail, code: verifyOTPFuture.value.data, password: password)
         .whenSuccess((res) => apply(() {
-              getContext((context) => App.navKey.currentState
-                  .pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
+              getContext((context) => App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
             })));
   }
 
@@ -463,17 +447,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     String fileType,
   }) {
     imageId = _profileRepository
-        .uploadFile(
-            file: file,
-            fileSize: fileSize,
-            fileType: fileType,
-            fileName: fileName)
+        .uploadFile(file: file, fileSize: fileSize, fileType: fileType, fileName: fileName)
         .then((res) async {
       print('file upoladed');
 
       await _profileRepository
-          .updateImageProfile(
-              imageId: res, version: player.version, id: player.id)
+          .updateImageProfile(imageId: res, version: player.version, id: player.id)
           .whenSuccess((res) => res.data.first.apply(() {
                 registerFuture = ObservableFuture.value(res.data.first);
                 print('image updated');

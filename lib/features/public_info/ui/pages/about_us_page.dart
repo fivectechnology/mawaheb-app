@@ -10,8 +10,7 @@ class AboutUsPage extends StatefulWidget {
 
   static const String route = '/about_us';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -19,8 +18,7 @@ class AboutUsPage extends StatefulWidget {
   _AboutUsPageState createState() => _AboutUsPageState();
 }
 
-class _AboutUsPageState
-    extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
+class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -57,22 +55,22 @@ class _AboutUsPageState
                     aboutUsTile(
                       title: 'lbl_summary',
                       image: 'assets/images/ic_summary.png',
-                      text: aboutUs.summary,
+                      text: aboutUs?.summary ?? 'null',
                     ),
                     aboutUsTile(
                       title: 'lbl_mission',
                       image: 'assets/images/ic_mission.png',
-                      text: aboutUs.mission,
+                      text: aboutUs?.mission ?? 'null',
                     ),
                     aboutUsTile(
                       title: 'lbl_vision',
                       image: 'assets/images/ic_vision.png',
-                      text: aboutUs.vision,
+                      text: aboutUs?.vision ?? 'null',
                     ),
                     aboutUsTile(
                       title: 'lbl_value',
                       image: 'assets/images/ic_value.png',
-                      text: aboutUs.coreValues,
+                      text: aboutUs?.coreValues ?? 'null',
                     )
                   ],
                 ),
@@ -98,8 +96,7 @@ class _AboutUsPageState
             padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
             child: Text(
               context.translate(title),
-              style: textTheme.headline2
-                  .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+              style: textTheme.headline2.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 7),

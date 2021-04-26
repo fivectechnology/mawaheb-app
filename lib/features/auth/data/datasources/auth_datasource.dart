@@ -26,6 +26,7 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
     @required String userName,
     @required String password,
     @required String type,
+    Dio client,
   });
 
   Future<NetworkResult<BaseResponseModel<String>>> logout();
@@ -116,6 +117,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
     @required String userName,
     @required String password,
     @required String type,
+    Dio client,
   }) {
     return mawahebRequest(
       method: METHOD.POST,

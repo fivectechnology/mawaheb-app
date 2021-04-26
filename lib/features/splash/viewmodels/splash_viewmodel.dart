@@ -14,8 +14,7 @@ part 'splash_viewmodel.g.dart';
 
 @injectable
 class SplashViewmodel extends _SplashViewmodelBase with _$SplashViewmodel {
-  SplashViewmodel(Logger logger, PrefsRepository prefsRepository)
-      : super(logger, prefsRepository);
+  SplashViewmodel(Logger logger, PrefsRepository prefsRepository) : super(logger, prefsRepository);
 }
 
 abstract class _SplashViewmodelBase extends BaseViewmodel with Store {

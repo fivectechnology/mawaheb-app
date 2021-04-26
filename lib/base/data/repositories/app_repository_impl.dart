@@ -92,7 +92,7 @@ class AppRepositoryImpl extends AppRepository {
     if ((_prefsRepository.token ?? '').isNotEmpty)
       try {
         final result = await _remoteDataSource.getNotificationsCount();
-        return result.getOrThrow().data;
+        return result.getOrThrow().data.first;
       } catch (e) {
         // throw ServerFailure('Failed to get notifications count!');
       }

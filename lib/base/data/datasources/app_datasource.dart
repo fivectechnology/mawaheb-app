@@ -14,7 +14,7 @@ import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'mawaheb_datasource.dart';
 
 abstract class AppDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<BaseResponseModel<int>>> getNotificationsCount();
+  Future<NetworkResult<ListBaseResponseModel<int>>> getNotificationsCount();
 
   Future<NetworkResult<BaseResponseModel<Object>>> deleteDevice({String firebaseToken});
 
@@ -48,11 +48,16 @@ class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource
         );
 
   @override
-  Future<NetworkResult<BaseResponseModel<int>>> getNotificationsCount() => request(
-        method: METHOD.POST,
-        endpoint: NOTIFICATION_COUNT_ENDPOINT,
-        mapper: BaseResponseModel.fromJson((obj) => obj as int),
-      );
+  Future<NetworkResult<ListBaseResponseModel<int>>> getNotificationsCount() => mawahebRequest(
+          method: METHOD.POST,
+          modelName: 'NotificationMessage',
+          mapper: ListBaseResponseModel.fromJson((obj) => obj as int),
+          data: {
+            'fields': ['id', 'version', 'code', 'value'],
+            'data': {'_domain': 'self.recordId =:__user__'},
+            'limit': 1,
+            'offset': 0
+          });
 
   @override
   Future<NetworkResult<VersionResponse>> registerDevice({

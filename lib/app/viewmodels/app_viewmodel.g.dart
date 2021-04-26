@@ -85,6 +85,22 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
     });
   }
 
+  final _$notificationsCountAtom =
+      Atom(name: '_AppViewmodelBase.notificationsCount');
+
+  @override
+  int get notificationsCount {
+    _$notificationsCountAtom.reportRead();
+    return super.notificationsCount;
+  }
+
+  @override
+  set notificationsCount(int value) {
+    _$notificationsCountAtom.reportWrite(value, super.notificationsCount, () {
+      super.notificationsCount = value;
+    });
+  }
+
   final _$registerDeviceAsyncAction =
       AsyncAction('_AppViewmodelBase.registerDevice');
 
@@ -163,12 +179,24 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
+  void updateNotificationsCount() {
+    final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
+        name: '_AppViewmodelBase.updateNotificationsCount');
+    try {
+      return super.updateNotificationsCount();
+    } finally {
+      _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 appBarParams: ${appBarParams},
 pageIndex: ${pageIndex},
 languageFuture: ${languageFuture},
 deviceRegistered: ${deviceRegistered},
+notificationsCount: ${notificationsCount},
 language: ${language},
 languageLoading: ${languageLoading}
     ''';

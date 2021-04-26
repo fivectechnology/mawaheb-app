@@ -60,6 +60,9 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   @observable
   bool deviceRegistered = false;
 
+  @observable
+  int notificationsCount = 0;
+
   //* COMPUTED *//
 
   @computed
@@ -119,6 +122,15 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   @action
   Future<void> registerDevice() async {
     deviceRegistered = await _appRepository.registerDevice();
+  }
+
+  @action
+  void updateNotificationsCount() {
+    _appRepository.getNotificationsCount().then((count) {
+      notificationsCount = count;
+    }).catchError((error) {
+      logger.e('updateCartItemsCount => ERROR: $error');
+    });
   }
 }
 

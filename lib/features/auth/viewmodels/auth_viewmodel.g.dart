@@ -37,6 +37,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       (_$otpErrorComputed ??= Computed<bool>(() => super.otpError,
               name: '_AuthViewmodelBase.otpError'))
           .value;
+  Computed<bool> _$otpVerifyErrorComputed;
+
+  @override
+  bool get otpVerifyError =>
+      (_$otpVerifyErrorComputed ??= Computed<bool>(() => super.otpVerifyError,
+              name: '_AuthViewmodelBase.otpVerifyError'))
+          .value;
   Computed<PlayerModel> _$playerComputed;
 
   @override
@@ -581,6 +588,7 @@ loginLoading: ${loginLoading},
 loginError: ${loginError},
 otpLoading: ${otpLoading},
 otpError: ${otpError},
+otpVerifyError: ${otpVerifyError},
 player: ${player},
 registerLoading: ${registerLoading},
 sports: ${sports},

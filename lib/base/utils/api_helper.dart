@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 
 typedef EndPointFunction = String Function(String);
 
+const int PAGE_SIZE = 20;
+
 const String BASE_API = 'http://54.237.125.179:8080/mawaheb';
 const String BASE_DB = '/com.axelor.';
 const String MAWAHEB_BASE_DB = '/com.axelor.mawaheb.base.db.';
@@ -34,5 +36,5 @@ const String LOGOUT_ENDPOINT = BASE_API + '/open-platform-demo/logout';
 const String OTP_SEND_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/send';
 const String OTP_VERIFY_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/verify';
 
-//* NOTIFICATION *//
-const String NOTIFICATION_COUNT_ENDPOINT = BASE_API + '/callback';
+//* SETTINGS *//
+const String TERMS_OF_SERVICES_ENDPOINT = 'https://google.com';

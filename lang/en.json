@@ -82,7 +82,6 @@
   "lbl_new_email": "New email",
   "lbl_type": "Type",
   "lbl_profile": "Profile",
-  "lbl_players": "Players",
   "lbl_available_players": "Available Players",
   "lbl_confirm_password": "Confirm password",
   "lbl_Reset_password": "Reset password",
@@ -96,6 +95,35 @@
   "lbl_my_views": "Views",
   "lbl_active_account": "Profile active",
   "lbl_pending_account": "Profile pending",
+  "lbl_empty_notifications": "You donnot have any notifications yet!",
+  "lbl_download": "Download",
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   "lbl_players": "Players",
 
 

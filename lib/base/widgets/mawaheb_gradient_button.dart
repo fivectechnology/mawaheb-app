@@ -24,7 +24,12 @@ class MawahebGradientButton extends StatelessWidget {
     return SizedBox(
       height: context.fullHeight * 0.07,
       child: RaisedButton(
-        onPressed: (isLoading || !enable) ? null : onPressed,
+        onPressed: (isLoading || !enable)
+            ? null
+            : () {
+                FocusScope.of(context).unfocus();
+                onPressed();
+              },
         elevation: 0,
         hoverElevation: 0,
         focusElevation: 0,
