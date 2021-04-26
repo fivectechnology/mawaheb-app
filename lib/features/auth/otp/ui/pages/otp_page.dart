@@ -69,6 +69,13 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                       .copyWith(color: Colors.black, fontSize: 16),
                 );
               }),
+              Observer(builder: (_) {
+                return Text(
+                  viewmodel?.player?.email ?? '',
+                  style: context.textTheme.bodyText1
+                      .copyWith(color: Colors.black, fontSize: 16),
+                );
+              }),
               SizedBox(
                 height: context.fullHeight * 0.08,
               ),

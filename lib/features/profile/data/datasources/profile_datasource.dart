@@ -170,10 +170,9 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
     String fileName,
     String fileType,
   }) async {
-    final Dio dio = Dio();
     int id;
     final Response response =
-        await dio.post(BASE_API + WEB_SERVICE + '/files/upload',
+        await client.post(BASE_API + WEB_SERVICE + '/files/upload',
             data: file.openRead(),
             options: Options(headers: {
               'Authorization': 'Basic ${prefsRepository.token}',
@@ -257,7 +256,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
         data: {
           'data': {
             'criteria': [
-              {'fieldName': 'partner.id', 'operator': '=', 'value': 13}
+              {'fieldName': 'partner.id', 'operator': '=', 'value': playerId}
             ],
             'operator': 'AND'
           },

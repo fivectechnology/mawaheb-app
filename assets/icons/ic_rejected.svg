@@ -1,3 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-  <rect id="Rectangle_3110" data-name="Rectangle 3110" width="14" height="14" rx="7" fill="#fe0000"/>
+  <g id="Group_5389" data-name="Group 5389" transform="translate(-444 -3590)">
+    <rect id="Rectangle_3110" data-name="Rectangle 3110" width="14" height="14" rx="7" transform="translate(444 3590)" fill="#fe0000"/>
+    <path id="letter-x_1_" data-name="letter-x (1)" d="M.109.637a.38.38,0,0,1,0-.53.38.38,0,0,1,.53,0L3.817,3.292,7,.108a.373.373,0,1,1,.524.53L4.347,3.817,7.525,7A.373.373,0,0,1,7,7.531L3.817,4.347.638,7.531a.38.38,0,0,1-.53,0,.38.38,0,0,1,0-.53L3.287,3.817Z" transform="translate(447.181 3593.181)" fill="#fff"/>
+  </g>
 </svg>

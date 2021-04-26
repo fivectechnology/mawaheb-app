@@ -10,7 +10,6 @@ import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
-import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
 
 abstract class PlayersDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
