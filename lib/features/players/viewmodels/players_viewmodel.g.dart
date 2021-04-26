@@ -16,6 +16,20 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
           Computed<bool>(() => super.viewProfileLoading,
               name: '_PlayersViewmodelBase.viewProfileLoading'))
       .value;
+  Computed<List<VideoModel>> _$videosComputed;
+
+  @override
+  List<VideoModel> get videos =>
+      (_$videosComputed ??= Computed<List<VideoModel>>(() => super.videos,
+              name: '_PlayersViewmodelBase.videos'))
+          .value;
+  Computed<bool> _$videosLoadingComputed;
+
+  @override
+  bool get videosLoading =>
+      (_$videosLoadingComputed ??= Computed<bool>(() => super.videosLoading,
+              name: '_PlayersViewmodelBase.videosLoading'))
+          .value;
   Computed<bool> _$viewProfileErrorComputed;
 
   @override
@@ -142,6 +156,22 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   set viewProfileFuture(ObservableFuture<bool> value) {
     _$viewProfileFutureAtom.reportWrite(value, super.viewProfileFuture, () {
       super.viewProfileFuture = value;
+    });
+  }
+
+  final _$fetchVideoFutureAtom =
+      Atom(name: '_PlayersViewmodelBase.fetchVideoFuture');
+
+  @override
+  ObservableFuture<List<VideoModel>> get fetchVideoFuture {
+    _$fetchVideoFutureAtom.reportRead();
+    return super.fetchVideoFuture;
+  }
+
+  @override
+  set fetchVideoFuture(ObservableFuture<List<VideoModel>> value) {
+    _$fetchVideoFutureAtom.reportWrite(value, super.fetchVideoFuture, () {
+      super.fetchVideoFuture = value;
     });
   }
 
@@ -534,9 +564,21 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
+  void fetchVideos({int playerId}) {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.fetchVideos');
+    try {
+      return super.fetchVideos(playerId: playerId);
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 viewProfileFuture: ${viewProfileFuture},
+fetchVideoFuture: ${fetchVideoFuture},
 bookPlayerFuture: ${bookPlayerFuture},
 confirmPlayerFuture: ${confirmPlayerFuture},
 releasePlayerFuture: ${releasePlayerFuture},
@@ -556,6 +598,8 @@ positionFuture: ${positionFuture},
 countryFuture: ${countryFuture},
 playerFuture: ${playerFuture},
 viewProfileLoading: ${viewProfileLoading},
+videos: ${videos},
+videosLoading: ${videosLoading},
 viewProfileError: ${viewProfileError},
 bookPlayerLoading: ${bookPlayerLoading},
 bookPlayerError: ${bookPlayerError},

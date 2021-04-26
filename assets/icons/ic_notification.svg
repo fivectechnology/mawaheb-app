@@ -1,13 +1,6 @@
-<svg id="Component_110_20" data-name="Component 110 – 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18">
-  <defs>
-    <clipPath id="clip-path">
-      <rect id="Rectangle_1634" data-name="Rectangle 1634" width="18" height="18" transform="translate(796 8344)" fill="#9f9f9f" stroke="#9f9f9f" stroke-width="1"/>
-    </clipPath>
-  </defs>
-  <g id="Mask_Group_6" data-name="Mask Group 6" transform="translate(-796 -8344)" clip-path="url(#clip-path)">
-    <g id="fi-sr-bell" transform="translate(796.114 8344.001)">
-      <path id="Path_1149" data-name="Path 1149" d="M5.568,15.75a3.742,3.742,0,0,0,6.864,0Z" fill="#9f9f9f"/>
-      <path id="Path_1150" data-name="Path 1150" d="M16.794,9.411l-1.3-4.292a6.991,6.991,0,0,0-13.557.34L.924,9.612A3.75,3.75,0,0,0,4.567,14.25H13.2a3.75,3.75,0,0,0,3.589-4.838Z" fill="#9f9f9f"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="16.137" height="18" viewBox="0 0 16.137 18">
+  <g id="fi-sr-bell" transform="translate(-0.817 0)">
+    <path id="Path_1149" data-name="Path 1149" d="M5.568,15.75a3.742,3.742,0,0,0,6.864,0Z" fill="#9f9f9f"/>
+    <path id="Path_1150" data-name="Path 1150" d="M16.794,9.411l-1.3-4.292a6.991,6.991,0,0,0-13.557.34L.924,9.612A3.75,3.75,0,0,0,4.567,14.25H13.2a3.75,3.75,0,0,0,3.589-4.838Z" fill="#9f9f9f"/>
   </g>
 </svg>

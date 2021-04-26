@@ -1,6 +1,7 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -30,6 +31,9 @@ class _VideoPlayerPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // if (viewmodel?.videos == null) {
+    //   viewmodel.fetchVideos(playerId: viewmodel.player.id);
+    // }
   }
 
   @override
