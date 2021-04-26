@@ -45,7 +45,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.videos == null) {
+    if (viewmodel?.videos.isEmpty) {
       viewmodel.fetchVideos(playerId: viewmodel.player.id);
     }
   }
@@ -67,16 +67,21 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         videoId: videoId,
         videoVersion: videoVersion,
       );
-    } else {
-      print('No image selected.');
-    }
-    if (video != null) {
       viewmodel.showSnack(
         context.translate('msg_uploading_video'),
         duration: const Duration(seconds: 4),
         scaffoldKey: VideosPage.scaffoldKey,
       );
+    } else {
+      print('No image selected.');
     }
+    // if (video != null) {
+    //   viewmodel.showSnack(
+    //     context.translate('msg_uploading_video'),
+    //     duration: const Duration(seconds: 4),
+    //     scaffoldKey: VideosPage.scaffoldKey,
+    //   );
+    // }
   }
 
   @override
@@ -148,10 +153,21 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         children: [
           Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Image.asset('assets/icons/ic_approve.png'),
-              ),
+              if (status == 'PENDING')
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: SvgPicture.asset('assets/icons/ic_pending.svg'),
+                ),
+              if (status == 'APPROVED')
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: SvgPicture.asset('assets/icons/ic_approve.svg'),
+                ),
+              if (status == 'REJECTED')
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: SvgPicture.asset('assets/icons/ic_rejected.svg'),
+                ),
               const SizedBox(width: 10),
               Text(
                 status,
@@ -246,7 +262,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     textColor: Colors.black,
                     borderColor: Colors.black,
                     onPressed: () {
-                      context.pop();
+                      Navigator.pop(bc);
                     },
                   ),
                 ),
@@ -333,7 +349,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                         deleteVideo: false,
                         videoId: videoId,
                         videoVersion: videoVersion);
-                    // context.pop();
+                    context.pop(bc);
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -356,7 +372,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                   onTap: () {
                     viewmodel.deleteVideo(
                         videoId: videoId, videoVersion: videoVersion);
-                    // context.pop();
+                    context.pop(bc);
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(

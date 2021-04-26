@@ -23,41 +23,44 @@ class MawahebBottomNavigationBar extends StatelessWidget {
           currentIndex: appViewModel.pageIndex.index,
           onTap: (int index) =>
               appViewModel.navigateTo(PageIndex.values[index]),
-          selectedLabelStyle: const TextStyle(fontSize: 12.0),
+          selectedLabelStyle: const TextStyle(
+            fontSize: 12.0,
+          ),
           unselectedLabelStyle: const TextStyle(fontSize: 10.0),
           showSelectedLabels: true,
           showUnselectedLabels: true,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: GREY,
           items: [
             bottomNavigationBarTile(
               title:
-                  context.translate(getAppBarTitle(PageIndex.home, isPlayer)),
+                  context.translate(getBottomTitle(PageIndex.home, isPlayer)),
               index: PageIndex.home.index,
-              // TODO(ahmad): change bottomNav icons when user role change
               icon: appViewModel.isPlayer
                   ? 'assets/icons/ic_profile.svg'
-                  : 'assets/icons/ic_home.svg',
+                  : 'assets/icons/ic_profile.svg',
               activeIcon: appViewModel.isPlayer
                   ? 'assets/icons/ic_active_profile.svg'
-                  : 'assets/icons/ic_home.svg',
+                  : 'assets/icons/ic_active_profile.svg',
             ),
             bottomNavigationBarTile(
               title: context
-                  .translate(getAppBarTitle(PageIndex.notifications, isPlayer)),
+                  .translate(getBottomTitle(PageIndex.notifications, isPlayer)),
               index: PageIndex.notifications.index,
-              // TODO(ahmad): add notifications svg icon here
               icon: 'assets/icons/ic_notification.svg',
               activeIcon: 'assets/icons/ic_notification.svg',
             ),
             bottomNavigationBarTile(
               title: context
-                  .translate(getAppBarTitle(PageIndex.public_info, isPlayer)),
+                  .translate(getBottomTitle(PageIndex.public_info, isPlayer)),
               index: PageIndex.public_info.index,
               child: const Icon(Icons.info, size: 24.0, color: GREY),
-              activeChild: const Icon(Icons.info, size: 24.0, color: PRIMARY),
+              activeChild:
+                  const Icon(Icons.info, size: 24.0, color: Colors.black),
             ),
             bottomNavigationBarTile(
               title: context
-                  .translate(getAppBarTitle(PageIndex.settings, isPlayer)),
+                  .translate(getBottomTitle(PageIndex.settings, isPlayer)),
               index: PageIndex.settings.index,
               icon: 'assets/icons/ic_setting.svg',
               activeIcon: 'assets/icons/ic_setting.svg',
@@ -85,7 +88,8 @@ class MawahebBottomNavigationBar extends StatelessWidget {
               width: 24.0,
               height: 24.0,
               fit: BoxFit.cover,
-              color: appViewModel.pageIndex.index == index ? PRIMARY : GREY,
+              color:
+                  appViewModel.pageIndex.index == index ? Colors.black : GREY,
             ),
       ),
       activeIcon: addPadding(
@@ -95,7 +99,8 @@ class MawahebBottomNavigationBar extends StatelessWidget {
               width: 24.0,
               height: 24.0,
               fit: BoxFit.cover,
-              color: appViewModel.pageIndex.index == index ? PRIMARY : GREY,
+              color:
+                  appViewModel.pageIndex.index == index ? Colors.black : GREY,
             ),
       ),
       label: title,
@@ -104,21 +109,4 @@ class MawahebBottomNavigationBar extends StatelessWidget {
 
   Widget addPadding(Widget child) =>
       Padding(padding: const EdgeInsets.only(top: 2.0), child: child);
-
-  // String getTitle(PageIndex pageIndex) {
-  //   switch (pageIndex) {
-  //     case PageIndex.profile:
-  //       return 'lbl_profile';
-  //     case PageIndex.player:
-  //       return 'lbl_players';
-  //     case PageIndex.notifications:
-  //       return 'lbl_notifications';
-  //     case PageIndex.public_info:
-  //       return 'lbl_public_info';
-  //     case PageIndex.settings:
-  //       return 'lbl_settigs';
-  //     default:
-  //       return 'not_exist';
-  //   }
-  // }
 }

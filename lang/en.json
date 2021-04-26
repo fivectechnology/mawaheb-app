@@ -96,33 +96,35 @@
   "lbl_my_views": "Views",
   "lbl_active_account": "Profile active",
   "lbl_pending_account": "Profile pending",
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  "lbl_players": "Players",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "lbl_confirmed_player": "confirmed player",
   "lbl_search_name": "Search by name",
   "PLAYER": "PLAYER",
