@@ -87,12 +87,12 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {'criteria': [], 'operator': 'and'},
         'related': {
-          'videos': ['id', 'video', 'status']
+          'videos': ['id', 'video', 'status'],
+          'subscription': ['startedAt', 'finishAt', 'subscription.name'],
         },
         'fields': [
           'country',
-          'subscriptions',
-          'currentSubscription',
+          'subscription',
           'videos',
           'type',
           'leg',

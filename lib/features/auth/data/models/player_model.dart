@@ -8,6 +8,7 @@ import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/players/data/models/partner_member_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/subscription_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 
@@ -42,6 +43,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.videos,
     @required this.photo,
     @required this.membership,
+    @required this.subscription,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -72,6 +74,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final List<VideoModel> videos;
   final SourceModel photo;
   final PartnerMemberModel membership;
+  final SubscriptionModel subscription;
 
   PlayerModel copyWith(
       {String code,
@@ -102,6 +105,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       String availability,
       SourceModel photo,
       PartnerMemberModel membership,
+      SubscriptionModel subscription,
       List<VideoModel> videos}) {
     return PlayerModel(
       code: code ?? this.code,
@@ -130,6 +134,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       photo: photo ?? this.photo,
       videos: videos ?? this.videos,
       membership: membership ?? this.membership,
+      subscription: subscription ?? this.subscription,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -166,7 +171,8 @@ class PlayerModel extends VersionModel with EquatableMixin {
       availability,
       videos,
       photo,
-      membership
+      membership,
+      subscription
     ];
   }
 
@@ -203,6 +209,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
           category: null,
           emirate: null,
           status: null,
+          subscription: null,
           videos: null,
           availability: null);
 
@@ -237,6 +244,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
           emirate: null,
           status: null,
           videos: null,
+          subscription: null,
           availability: null);
 
   Map<String, dynamic> toJson() => _$PlayerModelToJson(this);
