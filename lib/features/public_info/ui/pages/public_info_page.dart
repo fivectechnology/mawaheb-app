@@ -11,8 +11,7 @@ class PublicInfoPage extends StatefulWidget {
 
   static const String route = '/public_info';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -20,8 +19,7 @@ class PublicInfoPage extends StatefulWidget {
   _PublicInfoPageState createState() => _PublicInfoPageState();
 }
 
-class _PublicInfoPageState
-    extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
+class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
   TabController _tabController;
 
   @override
@@ -47,30 +45,31 @@ class _PublicInfoPageState
     return DefaultTabController(
       length: viewmodel.pages.length,
       child: Scaffold(
+        backgroundColor: WHITE,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(40),
           child: AppBar(
             shape: const Border(bottom: BorderSide(color: GREY)),
             bottom: TabBar(
-              labelPadding:
-                  const EdgeInsets.only(bottom: 10, right: 20, left: 20),
+              labelPadding: const EdgeInsets.only(
+                bottom: 10,
+                right: 20,
+                left: 20,
+              ),
               controller: _tabController,
               isScrollable: true,
               unselectedLabelColor: GREY,
               unselectedLabelStyle: textTheme.headline2.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.3),
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.3,
+              ),
               indicatorColor: RED,
               labelColor: Colors.black,
-              labelStyle: textTheme.headline2.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.3),
+              labelStyle: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 0.3),
               indicatorWeight: 3,
               indicator: const UnderlineTabIndicator(
-                  borderSide: BorderSide(width: 3.0, color: RED),
-                  insets: EdgeInsets.symmetric(horizontal: 15)),
+                  borderSide: BorderSide(width: 3.0, color: RED), insets: EdgeInsets.symmetric(horizontal: 15)),
               tabs: viewmodel.tabs,
             ),
           ),

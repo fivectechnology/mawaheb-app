@@ -23,6 +23,20 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
       (_$playerLoadingComputed ??= Computed<bool>(() => super.playerLoading,
               name: '_ProfileViewmodelBase.playerLoading'))
           .value;
+  Computed<List<VideoModel>> _$videosComputed;
+
+  @override
+  List<VideoModel> get videos =>
+      (_$videosComputed ??= Computed<List<VideoModel>>(() => super.videos,
+              name: '_ProfileViewmodelBase.videos'))
+          .value;
+  Computed<bool> _$videosLoadingComputed;
+
+  @override
+  bool get videosLoading =>
+      (_$videosLoadingComputed ??= Computed<bool>(() => super.videosLoading,
+              name: '_ProfileViewmodelBase.videosLoading'))
+          .value;
   Computed<List<CategoryModel>> _$categoriesComputed;
 
   @override
@@ -143,6 +157,22 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   set playerFuture(ObservableFuture<PlayerModel> value) {
     _$playerFutureAtom.reportWrite(value, super.playerFuture, () {
       super.playerFuture = value;
+    });
+  }
+
+  final _$fetchVideoFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.fetchVideoFuture');
+
+  @override
+  ObservableFuture<List<VideoModel>> get fetchVideoFuture {
+    _$fetchVideoFutureAtom.reportRead();
+    return super.fetchVideoFuture;
+  }
+
+  @override
+  set fetchVideoFuture(ObservableFuture<List<VideoModel>> value) {
+    _$fetchVideoFutureAtom.reportWrite(value, super.fetchVideoFuture, () {
+      super.fetchVideoFuture = value;
     });
   }
 
@@ -533,11 +563,23 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
+  void fetchVideos({int playerId}) {
+    final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
+        name: '_ProfileViewmodelBase.fetchVideos');
+    try {
+      return super.fetchVideos(playerId: playerId);
+    } finally {
+      _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 image: ${image},
 imageId: ${imageId},
 playerFuture: ${playerFuture},
+fetchVideoFuture: ${fetchVideoFuture},
 editAddressPlayerFuture: ${editAddressPlayerFuture},
 editPersonalPlayerFuture: ${editPersonalPlayerFuture},
 editSportPlayerFuture: ${editSportPlayerFuture},
@@ -552,6 +594,8 @@ deleteVideoFuture: ${deleteVideoFuture},
 replaceVideoFuture: ${replaceVideoFuture},
 player: ${player},
 playerLoading: ${playerLoading},
+videos: ${videos},
+videosLoading: ${videosLoading},
 categories: ${categories},
 sports: ${sports},
 countries: ${countries},

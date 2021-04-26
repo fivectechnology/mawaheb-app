@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
+import 'package:mawaheb_app/base/utils/api_helper.dart';
+import 'package:mawaheb_app/base/widgets/web_page.dart';
 import 'package:mawaheb_app/features/settings/ui/change_email_page.dart';
 import 'package:mawaheb_app/features/settings/ui/change_password_page.dart';
 import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
@@ -20,8 +22,7 @@ class SettingsPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -64,40 +65,48 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
             margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 30),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(context.translate('lbl_app_notification'),
-                          style: textTheme.subtitle1.copyWith(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
-                      mawahebSwitchButton(
-                        isSelected: noti,
-                      ),
-                    ],
-                  ),
-                ),
+                // TODO(abd): add notification switcher here
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(context.translate('lbl_app_notification'),
+                //           style: textTheme.subtitle1.copyWith(
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.bold,
+                //           )),
+                //       mawahebSwitchButton(
+                //         isSelected: noti,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 settingRow(
                     text: 'lbl_change_password',
                     onPress: () {
-                      context.navigator
-                          .push(ChangePasswordPage.pageRoute(viewmodel));
+                      context.navigator.push(ChangePasswordPage.pageRoute(viewmodel));
                     }),
                 settingRow(
                     text: 'lbl_change_email',
                     onPress: () {
-                      context.navigator
-                          .push(ChangeEmailPage.pageRoute(viewmodel));
+                      context.navigator.push(ChangeEmailPage.pageRoute(viewmodel));
                     }),
-                settingRow(text: 'lbl_term_of_service'),
+                settingRow(
+                  text: 'lbl_term_of_service',
+                  onPress: () {
+                    context.cupertinoPushPage(WebPage(
+                      context.translate('lbl_term_of_service'),
+                      TERMS_OF_SERVICES_ENDPOINT,
+                      showAppBar: false,
+                    ));
+                  },
+                ),
                 Observer(builder: (_) {
                   return settingRow(
                     text: 'lbl_log_out',
                     onPress: () {
-                      showConfirmDialog(
-                          context, context.translate('msg_app_exit_confirm'),
-                          () {
+                      showConfirmDialog(context, context.translate('msg_app_exit_confirm'), () {
                         viewmodel.logout();
                         // viewmodel.logout(() {
                         //   appViewmodel.pageIndex = PageIndex.home;
@@ -119,17 +128,14 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
                   child: Text(context.translate('lbl_language'),
-                      style: textTheme.subtitle1
-                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                      style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                 ),
                 RadioListTile(
                   title: Text(
                     'English',
-                    style: textTheme.subtitle1
-                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   activeColor: RED,
                   value: LANGUAGE_ENGLISH,
@@ -139,8 +145,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                 RadioListTile(
                   title: Text(
                     'العربية',
-                    style: textTheme.subtitle1
-                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   activeColor: RED,
                   value: LANGUAGE_ARABIC,
@@ -169,8 +174,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
           children: [
             Text(
               context.translate(text),
-              style: textTheme.subtitle1
-                  .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             AnimatedSwitcher(
               duration: 400.milliseconds,

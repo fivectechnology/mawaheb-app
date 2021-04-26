@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <g id="note" transform="translate(0.001 0)">
+    <path id="Path_1154" data-name="Path 1154" d="M30.91,54.909l8,5,2-5,14-24,5-8-5-2-13-8-3-2v5a4,4,0,0,1-8,0h0a4,4,0,0,0,8,0v-5l-8-4h0l-8-5-6,11-4,7-11,19,11,6Zm3-43v2a2,2,0,0,0,2,2h0a2,2,0,0,1-2-2Zm6,20-16-9Zm-3,5-16-8Zm-3,6-16-9Z" transform="translate(-0.911 -0.91)" fill="#ffda44"/>
+    <g id="Group_5169" data-name="Group 5169" transform="translate(12.033 12.034)">
+      <path id="Path_1155" data-name="Path 1155" d="M20.023,20.022v7l4-7Z" transform="translate(-20.057 -20.057)" fill="#9f9f9f"/>
+      <path id="Path_1156" data-name="Path 1156" d="M20.023,83.223h18l-18-10Z" transform="translate(-20.057 -41.257)" fill="#9f9f9f"/>
+      <path id="Path_1157" data-name="Path 1157" d="M81.206,20.022h-13l13,8Z" transform="translate(-39.24 -20.057)" fill="#9f9f9f"/>
+      <path id="Path_1158" data-name="Path 1158" d="M80.92,74.286v-24l-14,24Z" transform="translate(-38.954 -32.32)" fill="#9f9f9f"/>
+    </g>
+    <g id="Group_5170" data-name="Group 5170">
+      <path id="Path_1159" data-name="Path 1159" d="M55,31l5-9-5-3V11H41l-2-1V5a5.008,5.008,0,0,0-5-5,5.118,5.118,0,0,0-5,4L22,0,16,11H11v8L0,38l11,6V55H29l9,5,3-5H55ZM53,13v5l-8-5ZM31,5a3,3,0,0,1,6,0V9L31,5ZM13,13h1l-1,2Zm0,40V46l13,7Zm24,4L3,37,23,3l14,8v4a3,3,0,0,1-6,0V9H29v6a5,5,0,0,0,10,0V12L57,23Zm5-4,5-9,6-10V53Z" transform="translate(-0.002)" fill="#231f20"/>
+      <path id="Path_1160" data-name="Path 1160" d="M56.331,23.357h1v-2h-1a1,1,0,0,1-1-1v-2h-2v2A3,3,0,0,0,56.331,23.357Z" transform="translate(-21.332 -7.357)" fill="#231f20"/>
+      <rect id="Rectangle_1652" data-name="Rectangle 1652" width="1.996" height="17.966" transform="translate(39.278 30.169) rotate(119.993)" fill="#231f20"/>
+      <rect id="Rectangle_1653" data-name="Rectangle 1653" width="1.996" height="17.965" transform="translate(36.286 35.626) rotate(120.001)" fill="#231f20"/>
+      <rect id="Rectangle_1654" data-name="Rectangle 1654" width="1.996" height="17.965" transform="translate(33.288 41.075) rotate(120.001)" fill="#231f20"/>
+    </g>
+  </g>
+</svg>

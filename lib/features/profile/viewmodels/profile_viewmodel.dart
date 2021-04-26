@@ -15,6 +15,7 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
@@ -60,6 +61,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<PlayerModel> playerFuture;
 
   @observable
+  ObservableFuture<List<VideoModel>> fetchVideoFuture;
+
+  @observable
   ObservableFuture<PlayerModel> editAddressPlayerFuture;
 
   @observable
@@ -101,6 +105,12 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get playerLoading => playerFuture?.isPending ?? false;
+
+  @computed
+  List<VideoModel> get videos => fetchVideoFuture?.value;
+
+  @computed
+  bool get videosLoading => fetchVideoFuture?.isPending ?? false;
 
   @computed
   List<CategoryModel> get categories => categoryFuture?.value;
@@ -330,10 +340,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
         await _profileRepository
             .uploadVideoPlayer(playerId: player.id, videoId: res)
             .whenSuccess((res) => apply(() {
-                  showSnack('Video Uploaded',
-                      scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
-                  // getContext((context) => App.navKey.currentState.context
-                  //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                  fetchVideos(playerId: player.id);
                 }));
       } else {
         await _profileRepository
@@ -343,10 +350,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
                 videoVersion: videoVersion,
                 videoId: videoId)
             .whenSuccess((res) => apply(() {
-                  showSnack('Video replaced',
-                      scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
-                  // getContext((context) => App.navKey.currentState.context
-                  //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                  fetchVideos(playerId: player.id);
                 }));
       }
 
@@ -366,11 +370,22 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
             (res) => res.apply(() {
               showSnack('Video deleted',
                   scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
-
-              // getContext((context) => App.navKey.currentState.context
-              //     .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              fetchVideos(playerId: player.id);
             }),
           ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  void fetchVideos({int playerId}) {
+    fetchVideoFuture = futureWrapper(
+      () =>
+          _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
+                (res) => res.data.apply(() {
+                  print('fetch videos');
+                }),
+              ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
   }

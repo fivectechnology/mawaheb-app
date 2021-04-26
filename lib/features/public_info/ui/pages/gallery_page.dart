@@ -11,8 +11,7 @@ class GalleryPage extends StatefulWidget {
 
   static const String route = '/gallery';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const GalleryPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const GalleryPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -20,8 +19,7 @@ class GalleryPage extends StatefulWidget {
   _GalleryPageState createState() => _GalleryPageState();
 }
 
-class _GalleryPageState
-    extends ProviderMobxState<GalleryPage, PublicInfoViewmodel> {
+class _GalleryPageState extends ProviderMobxState<GalleryPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -49,6 +47,7 @@ class _GalleryPageState
             onRetry: viewmodel.getGallery,
             onSuccess: (gallery) {
               return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: gallery.length,
                   itemBuilder: (context, index) {

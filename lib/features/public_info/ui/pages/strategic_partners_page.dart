@@ -20,8 +20,7 @@ class StrategicPartnersPage extends StatefulWidget {
   _StrategicPartnersPageState createState() => _StrategicPartnersPageState();
 }
 
-class _StrategicPartnersPageState
-    extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
+class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -61,21 +60,19 @@ class _StrategicPartnersPageState
                       children: [
                         Text(
                           partners[index].title,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins'),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
                         ),
-                        const SizedBox(height: 5),
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${partners[index].source.id}/view',
-                              headers: {
-                                'Authorization':
-                                    'Basic ${viewmodel.prefsRepository.token}'
-                              },
-                            ))
+                        const SizedBox(height: 7),
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${partners[index].source.id}/view',
+                                headers: {'Authorization': 'Basic ${viewmodel.prefsRepository.token}'},
+                                fit: BoxFit.fill,
+                              )),
+                        )
                       ],
                     ),
                   );

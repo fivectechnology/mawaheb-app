@@ -137,8 +137,8 @@ class _ViewPlayerProfileState
                                 isLoading: viewmodel.releasePlayerLoading,
                                 onPressed: () {
                                   viewmodel.releasePlayer();
-                                  // _confirmationBottomSheet(
-                                  //     context: context, state: 'released');
+                                  _confirmationBottomSheet(
+                                      context: context, state: 'released');
                                 }),
                           if (viewmodel.player.availability == 'RELEASED')
                             MawahebGradientButton(
@@ -148,8 +148,8 @@ class _ViewPlayerProfileState
                                 onPressed: () {
                                   viewmodel.bookPlayer(
                                       playerId: viewmodel.player.id);
-                                  // _confirmationBottomSheet(
-                                  //     context: context, state: 'booked');
+                                  _confirmationBottomSheet(
+                                      context: context, state: 'booked');
                                 }),
                         ],
                       ))
@@ -169,7 +169,7 @@ class _ViewPlayerProfileState
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset('assets/icons/ic_otp.svg'),
+                    SvgPicture.asset('assets/images/confirm.svg'),
                     SizedBox(width: context.fullWidth * 0.04),
                     Expanded(
                       child: Text(

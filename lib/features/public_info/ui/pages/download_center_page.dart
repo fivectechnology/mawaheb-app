@@ -22,8 +22,7 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState
-    extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -56,8 +55,7 @@ class _DownLoadCenterPageState
                   ? const SizedBox()
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: context.fullWidth * 0.02),
+                      padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
@@ -84,23 +82,21 @@ class _DownLoadCenterPageState
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Expanded(
-                  child: Text(fileName,
-                      style: textTheme.subtitle1.copyWith(fontSize: 16)))
+              Expanded(child: Text(fileName, style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FlatButton(
-                minWidth: context.fullWidth * 0.2,
+                // minWidth: context.fullWidth * 0.2,
                 onPressed: onPress,
                 color: YELLOW,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
                 ),
                 child: Text(
-                  'Download',
+                  context.translate('lbl_download'),
                   style: textTheme.headline6,
                 ),
               ),
@@ -112,14 +108,11 @@ class _DownLoadCenterPageState
   }
 
   Future<void> launchURL({int id, int version}) async {
-    final url =
-        'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/content/download?v=$version';
+    final url = 'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/view';
     if (await canLaunch(url)) {
       print(url);
       print(viewmodel.prefsRepository.token);
-      await launch(url, headers: {
-        'Authorization': 'Basic ${viewmodel.prefsRepository.token}'
-      });
+      await launch(url, headers: {'Authorization': 'Basic ${viewmodel.prefsRepository.token}'});
     } else {
       throw 'Could not launch $url';
     }

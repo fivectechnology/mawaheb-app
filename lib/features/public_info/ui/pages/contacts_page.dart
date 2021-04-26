@@ -5,16 +5,17 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mawaheb_app/features/public_info/data/models/contact_us_model.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactsPage extends StatefulWidget {
   const ContactsPage({Key key}) : super(key: key);
 
   static const String route = '/contacts';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const ContactsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ContactsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -22,8 +23,7 @@ class ContactsPage extends StatefulWidget {
   _ContactsPageState createState() => _ContactsPageState();
 }
 
-class _ContactsPageState
-    extends ProviderMobxState<ContactsPage, PublicInfoViewmodel> {
+class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -47,20 +47,16 @@ class _ContactsPageState
     return Scaffold(
       backgroundColor: WHITE,
       body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: context.fullWidth * 0.05,
-            vertical: context.fullHeight * 0.05),
+        padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05, vertical: context.fullHeight * 0.05),
         child: MawahebFutureBuilder<ContactUsModel>(
             future: viewmodel.contactsFuture,
             onRetry: viewmodel.getcontactUs,
             onSuccess: (contacts) {
               return ListView(
+                physics: const BouncingScrollPhysics(),
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/logo_image.png',
-                    height: context.fullHeight * 0.3,
-                  ),
+                  SvgPicture.asset('assets/images/ic_logo.svg', fit: BoxFit.fitHeight),
                   contactRow(title: 'lbl_address', text: contacts.address),
                   contactRow(title: 'lbl_email', text: contacts.email),
                   contactRow(title: 'lbl_phone', text: contacts.phone),
@@ -73,10 +69,16 @@ class _ContactsPageState
                       zoomControlsEnabled: false,
                       initialCameraPosition: CameraPosition(
                         target: LatLng(
-                            double.parse(viewmodel.contacts.latitude),
-                            double.parse(viewmodel.contacts.longitude)),
+                          double.parse(viewmodel.contacts.latitude),
+                          double.parse(viewmodel.contacts.longitude),
+                        ),
                         zoom: 11.0,
                       ),
+                      onTap: (_) {
+                        launch(Uri.encodeFull(
+                          'https://www.google.com/maps/search/?api=1&query=${viewmodel.contacts.latitude},${viewmodel.contacts.longitude}',
+                        ));
+                      },
                     ),
                   )
                 ],
@@ -100,10 +102,7 @@ class _ContactsPageState
                     text: context.translate(title) + ': ',
                     style: textTheme.headline6.copyWith(fontSize: 14),
                     children: [
-                      TextSpan(
-                          text: text,
-                          style: textTheme.subtitle2
-                              .copyWith(fontWeight: FontWeight.w200)),
+                      TextSpan(text: text, style: textTheme.subtitle2.copyWith(fontWeight: FontWeight.w200)),
                     ],
                   ),
                 ),

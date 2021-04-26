@@ -4,6 +4,7 @@ import 'package:core_sdk/utils/dio/token_option.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mawaheb_app/app/app.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
@@ -32,15 +33,10 @@ class TokenInterceptor extends Interceptor {
 
   @override
   Future<RequestOptions> onRequest(RequestOptions options) async {
+    options.headers['Accept-Language'] = prefsRepository.languageCode ?? defaultLanguage;
     if (TokenOption.needToken(options)) {
-      // options.headers['type'] = prefsRepository.type;
-
       options.headers['Authorization'] = 'Basic ' + prefsRepository.token;
-      // options.headers['Authorization'] = 'Bearer ' + prefsRepository.token;
     }
-    //
-    // options.headers['type'] = prefsRepository.type;
-
     return options;
   }
 

@@ -35,11 +35,12 @@ class MawahebTextField extends StatefulWidget {
 
 class _MawahebTextFieldState extends State<MawahebTextField> {
   bool showPassword = false;
+  final _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      focusNode: widget.focusNode,
+      focusNode: widget?.focusNode ?? _focusNode,
       onTap: widget.onTab,
       // ignore: avoid_bool_literals_in_conditional_expressions
       obscureText: widget.useObscure ? !showPassword : false,
@@ -48,24 +49,25 @@ class _MawahebTextFieldState extends State<MawahebTextField> {
       initialValue: widget.initialValue,
       controller: widget.textEditingController,
       decoration: InputDecoration(
-        enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey)),
+        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
         hintText: context.translate(widget.hintText),
-        hintStyle: TextStyle(
-            color: widget.hintColor ?? Colors.black,
-            fontWeight: FontWeight.w200,
-            fontFamily: 'Poppins'),
+        hintStyle:
+            TextStyle(color: widget.hintColor ?? Colors.black, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
         suffixIcon: widget.isSuffixIcon == true
             ? IconButton(
-                onPressed: () => setState(
-                    () => showPassword = !showPassword), //widget.onPressed,
-                icon: Icon(
-                    showPassword ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.black),
+                onPressed: () => setState(() => showPassword = !showPassword), //widget.onPressed,
+                icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off, color: Colors.black),
               )
             : null,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode?.dispose();
+
+    super.dispose();
   }
 }
 

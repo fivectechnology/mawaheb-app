@@ -35,3 +35,6 @@ const String LOGIN_ENDPOINT = BASE_PUBLIC_API + '/auth/login';
 const String LOGOUT_ENDPOINT = BASE_API + '/open-platform-demo/logout';
 const String OTP_SEND_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/send';
 const String OTP_VERIFY_ENDPOINT = BASE_PUBLIC_API + '/auth/otp/verify';
+
+//* SETTINGS *//
+const String TERMS_OF_SERVICES_ENDPOINT = 'https://google.com';

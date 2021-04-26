@@ -13,6 +13,7 @@ import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
+import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 
 abstract class ProfileDataSource extends BaseRemoteDataSource {
@@ -36,6 +37,9 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
     String fileName,
     String fileType,
   });
+
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchPlayerVideos(
+      {@required int playerId});
 
   Future<NetworkResult<bool>> uploadVideoPlayer({
     @required int playerId,
@@ -241,5 +245,24 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
         },
       },
     );
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchPlayerVideos(
+      {int playerId}) {
+    return mawahebRequest(
+        method: METHOD.POST,
+        modelName: 'PartnerVideo',
+        action: EndPointAction.search,
+        data: {
+          'data': {
+            'criteria': [
+              {'fieldName': 'partner.id', 'operator': '=', 'value': 13}
+            ],
+            'operator': 'AND'
+          },
+          'fields': ['status', 'video']
+        },
+        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
   }
 }
