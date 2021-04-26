@@ -7,6 +7,9 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:injectable/injectable.dart';
 
+// const String DEFAULT_USER_NAME = 'apiuser@mawaheb.com';
+// const String DEFAULT_PASSWORD = 'welcome1';
+
 const String DEFAULT_USER_NAME = 'admin';
 const String DEFAULT_PASSWORD = 'admin';
 
@@ -18,8 +21,7 @@ class PrefsRepositoryImpl implements PrefsRepository {
 
   @override
   String get token =>
-      _prefs.getString(PreferencesKeys.USER_TOKEN) ??
-      base64Encode(utf8.encode('$DEFAULT_USER_NAME:$DEFAULT_PASSWORD'));
+      _prefs.getString(PreferencesKeys.USER_TOKEN) ?? base64Encode(utf8.encode('$DEFAULT_USER_NAME:$DEFAULT_PASSWORD'));
 
   //base64Encode(utf8.encode('${user.userName}:${user.password}'));
 
@@ -28,8 +30,7 @@ class PrefsRepositoryImpl implements PrefsRepository {
   //     _prefs.setString(PreferencesKeys.USER_TOKEN, base64Encode(utf8.encode('${user.userName}:${user.password}')));
 
   @override
-  Future<bool> setToken(String token) =>
-      _prefs.setString(PreferencesKeys.USER_TOKEN, token);
+  Future<bool> setToken(String token) => _prefs.setString(PreferencesKeys.USER_TOKEN, token);
 
   @override
   String get type => _prefs.getString(PreferencesKeys.USER_GENDER);
@@ -51,12 +52,10 @@ class PrefsRepositoryImpl implements PrefsRepository {
   int get fbId => _prefs.getInt(PreferencesKeys.FB_USER_TOKEN);
 
   @override
-  Future<bool> setFbId(int fbId) =>
-      _prefs.setInt(PreferencesKeys.FB_USER_TOKEN, fbId);
+  Future<bool> setFbId(int fbId) => _prefs.setInt(PreferencesKeys.FB_USER_TOKEN, fbId);
 
   @override
-  String get languageCode =>
-      _prefs?.getString(PreferencesKeys.APP_LANGUAGE) ?? LANGUAGE_DEFAULT;
+  String get languageCode => _prefs?.getString(PreferencesKeys.APP_LANGUAGE) ?? LANGUAGE_DEFAULT;
 
   @override
   Future<bool> setApplicationLanguage(String languageCode) =>
@@ -66,12 +65,10 @@ class PrefsRepositoryImpl implements PrefsRepository {
   String get baseUrl => _prefs.getString(PreferencesKeys.API_BASE_URL);
 
   @override
-  Future<bool> setBaseUrl(String baseUrl) =>
-      _prefs.setString(PreferencesKeys.API_BASE_URL, baseUrl);
+  Future<bool> setBaseUrl(String baseUrl) => _prefs.setString(PreferencesKeys.API_BASE_URL, baseUrl);
 
   @override
-  Future<bool> setUser(UserModel user) => _prefs.setString(
-      PreferencesKeys.USER_PROFILE, json.encode(user.toJson()));
+  Future<bool> setUser(UserModel user) => _prefs.setString(PreferencesKeys.USER_PROFILE, json.encode(user.toJson()));
 
   @override
   UserModel get user {
@@ -101,12 +98,10 @@ class PrefsRepositoryImpl implements PrefsRepository {
   @override
   PlayerModel get player {
     final jsonPlayer = _prefs.getString(PreferencesKeys.CUSTOMER_PROFILE);
-    return jsonPlayer != null
-        ? PlayerModel.fromJson(json.decode(jsonPlayer))
-        : null;
+    return jsonPlayer != null ? PlayerModel.fromJson(json.decode(jsonPlayer)) : null;
   }
 
   @override
-  Future<bool> setPlayer(PlayerModel player) async => _prefs.setString(
-      PreferencesKeys.CUSTOMER_PROFILE, json.encode(player.toJson()));
+  Future<bool> setPlayer(PlayerModel player) async =>
+      _prefs.setString(PreferencesKeys.CUSTOMER_PROFILE, json.encode(player.toJson()));
 }

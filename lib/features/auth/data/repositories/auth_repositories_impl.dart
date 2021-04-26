@@ -19,6 +19,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
+import 'package:dio/dio.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
@@ -39,23 +40,30 @@ class AuthRepositoryImpl extends AuthRepository {
     @required String userName,
     @required String password,
     @required String type,
+    Dio client,
   }) =>
-      _prefsRepository
-          .setType(type)
-          .then((res) => _prefsRepository.setToken(null))
-          .then((res) => res ? _appRepository.registerDevice() : throw Exception(''))
-          .then((res) =>
-              res ? authDataSource.login(userName: userName, password: password, type: type) : throw Exception(''))
-          .whenSuccess((res) => _prefsRepository.setToken(res.data.data))
-          .then((res) =>
-              res ? _prefsRepository.setUser(UserModel(userName: userName, password: password)) : throw Exception(''))
-          .then((res) => getPlayerId(token: _prefsRepository.token))
-          .then((res) => _profileRepository.fetchPlayer(id: res))
-          .whenSuccessWrapped((res) async {
-        await _appRepository.modifyDevice(true);
-        await _prefsRepository.setPlayer(res.data.first);
-        return res.data.first;
-      });
+      client == null
+          ? _prefsRepository
+              .setType(type)
+              .then((res) => _prefsRepository.setToken(null))
+              .then((res) => res ? _appRepository.registerDevice() : throw Exception(''))
+              .then((res) =>
+                  res ? authDataSource.login(userName: userName, password: password, type: type) : throw Exception(''))
+              .whenSuccess((res) => _prefsRepository.setToken(res.data.data))
+              .then((res) => res
+                  ? _prefsRepository.setUser(UserModel(userName: userName, password: password))
+                  : throw Exception(''))
+              .then((res) => getPlayerId(token: _prefsRepository.token))
+              .then((res) => _profileRepository.fetchPlayer(id: res))
+              .whenSuccessWrapped((res) async {
+              await _appRepository.modifyDevice(true);
+              await _prefsRepository.setPlayer(res.data.first);
+              return res.data.first;
+            })
+          : authDataSource.login(userName: userName, password: password, type: type).whenSuccessWrapped((res) {
+              _prefsRepository.setToken(res.data.data);
+              return null;
+            });
 
   @override
   Future<bool> logout() async {

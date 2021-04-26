@@ -1,5 +1,6 @@
 import 'package:core_sdk/data/repositories/base_repository.dart';
 import 'package:core_sdk/utils/network_result.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/features/notifications/data/datasources/notifications_datasource.dart';
@@ -8,7 +9,10 @@ import 'package:mawaheb_app/features/notifications/data/models/notification_mode
 abstract class NotificationsRepository extends BaseRepository {
   const NotificationsRepository(NotificationsDataSource notificationsDataSource) : super(notificationsDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications();
+  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications({
+    @required int limit,
+    @required int offset,
+  });
 
   Future<NetworkResult<BaseResponseModel<Object>>> markAsRead({int notificationId});
 }

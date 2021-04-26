@@ -1,4 +1,5 @@
 import 'package:core_sdk/utils/network_result.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
@@ -12,8 +13,11 @@ class NotificationsRepositoryImpl extends NotificationsRepository {
   final NotificationsDataSource notificationsDataSource;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications() =>
-      notificationsDataSource.getNotifications();
+  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications({
+    @required int limit,
+    @required int offset,
+  }) =>
+      notificationsDataSource.getNotifications(limit: limit, offset: offset);
 
   @override
   Future<NetworkResult<BaseResponseModel<Object>>> markAsRead({int notificationId}) =>

@@ -1,7 +1,10 @@
 library notification_model;
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'notification_model.g.dart';
 
@@ -15,63 +18,79 @@ enum NotificationType {
 
 // static final String className = 'NotificationModel';
 @JsonSerializable()
-class NotificationModel {
-  const NotificationModel(
-    this.userId,
-    this.createdBy,
-    this.updatedBy,
-    this.messageId,
-    this.recordId,
-    this.subject,
-    this.message,
-    this.typeCode,
-    this.params,
-    this.notificationCode,
-    this.sendDate,
-    this.readDate,
-    this.createdAt,
-    this.updatedAt,
-  );
+class NotificationModel extends VersionModel with EquatableMixin {
+  const NotificationModel({
+    @required int id,
+    @required int version,
+    @required this.recordId,
+    @required this.template,
+    @required this.sendDate,
+    @required this.subject,
+    @required this.readDate,
+    @required this.type,
+    @required this.params,
+    @required this.message,
+  }) : super(id, version);
 
-  final int userId;
-  final int createdBy;
-  final int updatedBy;
-  final int messageId;
   final int recordId;
+  final String template;
+  final String sendDate;
   final String subject;
-  final String message;
+  final String readDate;
   @JsonKey(
     fromJson: NotificationTypeExtension.valueOf,
     toJson: NotificationTypeExtension.toRaw,
   )
-  final NotificationType typeCode;
+  final NotificationType type;
   final String params;
-  final String notificationCode;
-  final String sendDate;
-  final String readDate;
-  final String createdAt;
-  final String updatedAt;
-
-  NotificationModel copyWith({String readDate}) => NotificationModel(
-        userId,
-        createdBy,
-        updatedBy,
-        messageId,
-        recordId,
-        subject,
-        message,
-        typeCode,
-        params,
-        notificationCode,
-        sendDate,
-        readDate,
-        createdAt,
-        updatedAt,
-      );
+  final String message;
 
   static NotificationModel fromJson(Object object) => _$NotificationModelFromJson(object);
 
   Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
+
+  NotificationModel copyWith({
+    int id,
+    int version,
+    int recordId,
+    String template,
+    String sendDate,
+    String subject,
+    String readDate,
+    String type,
+    String params,
+    String message,
+  }) {
+    return NotificationModel(
+      id: id ?? this.id,
+      version: version ?? this.version,
+      recordId: recordId ?? this.recordId,
+      template: template ?? this.template,
+      sendDate: sendDate ?? this.sendDate,
+      subject: subject ?? this.subject,
+      readDate: readDate ?? this.readDate,
+      type: type ?? this.type,
+      params: params ?? this.params,
+      message: message ?? this.message,
+    );
+  }
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object> get props {
+    return [
+      recordId,
+      template,
+      sendDate,
+      subject,
+      readDate,
+      type,
+      params,
+      message,
+    ];
+  }
 }
 
 extension NotificationTypeExtension on NotificationType {

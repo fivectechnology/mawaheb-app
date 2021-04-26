@@ -42,6 +42,12 @@ class _SplashPageState extends MobxState<SplashPage, SplashViewmodel> {
                 Expanded(
                   // TODO(ahmad): add mawaheb logo here
                   child: SvgPicture.asset('assets/images/ic_logo.svg', fit: BoxFit.fitHeight),
+                  // child: Image.asset(
+                  //   'assets/images/ic_splash_logo.png',
+                  //   width: 400,
+                  //   height: 400,
+                  //   fit: BoxFit.fitHeight,
+                  // ),
                 ),
               ],
             ),

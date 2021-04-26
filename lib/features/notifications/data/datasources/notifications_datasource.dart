@@ -15,9 +15,10 @@ import 'package:mawaheb_app/features/notifications/data/models/notification_mode
 abstract class NotificationsDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<BaseResponseModel<Object>>> markAsRead({int notificationId});
 
-  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications(
-      // @required PaginationBody paginationBody,
-      );
+  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications({
+    @required int limit,
+    @required int offset,
+  });
 }
 
 @LazySingleton(as: NotificationsDataSource)
@@ -35,15 +36,22 @@ class NotificationsDataSourceImpl extends MawahebRemoteDataSource implements Not
         );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications(
-          // @required PaginationBody paginationBody,
-          ) =>
+  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications({
+    @required int limit,
+    @required int offset,
+  }) =>
       mawahebRequest(
-        method: METHOD.POST,
-        modelName: 'NotificationMessage',
-        action: EndPointAction.search,
-        mapper: ListBaseResponseModel.fromJson(NotificationModel.fromJson),
-      );
+          method: METHOD.POST,
+          modelName: 'NotificationMessage',
+          action: EndPointAction.search,
+          mapper: ListBaseResponseModel.fromJson(NotificationModel.fromJson),
+          data: {
+            'fields': ['id', 'version', 'readDate', 'recordId', 'sendDate', 'type', 'template', 'params'],
+            'sortBy': ['-sendDate'],
+            'data': {'_domain': 'self.user =:__user__'},
+            'limit': limit,
+            'offset': offset
+          });
 
   @override
   Future<NetworkResult<BaseResponseModel<Object>>> markAsRead({int notificationId}) async => mawahebRequest(

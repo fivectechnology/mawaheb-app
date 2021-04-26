@@ -36,7 +36,7 @@ void main() {
     });
 
     test('success notification fetch', () async {
-      final res = await notificationsDataSource.getNotifications();
+      final res = await notificationsDataSource.getNotifications(offset: 0, limit: 20);
       expect(res.isSuccess, equals(true));
       expect(res.getOrThrow().status, equals(0));
       expect(res.getOrThrow().data.first.subject, isNotNull);

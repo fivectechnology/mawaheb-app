@@ -10,6 +10,7 @@ import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
+import 'package:dio/dio.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 
 abstract class AuthRepository extends BaseRepository {
@@ -19,6 +20,7 @@ abstract class AuthRepository extends BaseRepository {
     @required String userName,
     @required String password,
     @required String type,
+    Dio client,
   });
 
   Future<bool> logout();

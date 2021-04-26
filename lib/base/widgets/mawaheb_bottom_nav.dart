@@ -60,7 +60,7 @@ class MawahebBottomNavigationBar extends StatelessWidget {
               title: context.translate(getAppBarTitle(PageIndex.settings, isPlayer)),
               index: PageIndex.settings.index,
               icon: 'assets/icons/ic_settings.svg',
-              activeIcon: 'assets/icons/ic_settings.svg',
+              activeIcon: 'assets/icons/ic_profile_test.svg',
             ),
           ],
         );
