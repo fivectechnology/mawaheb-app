@@ -156,17 +156,8 @@
   "msg_delete_video": "you are going to delete video ",
   "msg_delete_video2": " to confirm tab delete",
   "msg_no_videos": "There are no videos yet",
-  "msg_delete_videos_note": "You have added 3 videos. Please delete one to add a new one"
-
-
-
-
-
-
-
-
-
-
-
-
+  "msg_delete_videos_note": "You have added 3 videos. Please delete one to add a new one",
+  "msg_confirm_player": "Are you sure to confirm player?",
+  "msg_release_player": "Are you sure to release player?",
+  "msg_book_player": "Are you sure to book player?"
 }
