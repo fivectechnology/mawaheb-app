@@ -281,15 +281,15 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   void verifyOTP({int code}) {
     verifyOTPFuture = futureWrapper(
-      () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess(
-            (res) => res.data.apply(() async {
-              await _authRepository
-                  .signUp(email: player.email, password: player.password, code: res.data.data, type: 'PLAYER')
-                  .whenSuccess(
-                    (_) => changeRegisterSlider(const PageSliderForawardModel()),
-                  );
-            }),
-          ),
+      () => _authRepository.verifyOTP(email: player.email, code: code).whenSuccess((res) async {
+        await _authRepository
+            .signUp(email: player.email, password: player.password, code: res.data.data, type: 'PLAYER')
+            .whenSuccess(
+              (_) => changeRegisterSlider(const PageSliderForawardModel()),
+            );
+
+        return res.data;
+      }),
       catchBlock: (err) {
         getContext((context) => showSnack(
               context.translate('msg_otp_error'),

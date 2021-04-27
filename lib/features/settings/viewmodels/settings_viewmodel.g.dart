@@ -44,20 +44,6 @@ mixin _$SettingsViewmodel on _SettingsViewmodelBase, Store {
       (_$passwordErrorComputed ??= Computed<bool>(() => super.passwordError,
               name: '_SettingsViewmodelBase.passwordError'))
           .value;
-  Computed<bool> _$changeEmailLoadingComputed;
-
-  @override
-  bool get changeEmailLoading => (_$changeEmailLoadingComputed ??=
-          Computed<bool>(() => super.changeEmailLoading,
-              name: '_SettingsViewmodelBase.changeEmailLoading'))
-      .value;
-  Computed<bool> _$changeEmailErrorComputed;
-
-  @override
-  bool get changeEmailError => (_$changeEmailErrorComputed ??= Computed<bool>(
-          () => super.changeEmailError,
-          name: '_SettingsViewmodelBase.changeEmailError'))
-      .value;
   Computed<PlayerModel> _$playerComputed;
 
   @override
@@ -166,22 +152,6 @@ mixin _$SettingsViewmodel on _SettingsViewmodelBase, Store {
     });
   }
 
-  final _$changeEmailFutureAtom =
-      Atom(name: '_SettingsViewmodelBase.changeEmailFuture');
-
-  @override
-  ObservableFuture<OTPResponseModel> get changeEmailFuture {
-    _$changeEmailFutureAtom.reportRead();
-    return super.changeEmailFuture;
-  }
-
-  @override
-  set changeEmailFuture(ObservableFuture<OTPResponseModel> value) {
-    _$changeEmailFutureAtom.reportWrite(value, super.changeEmailFuture, () {
-      super.changeEmailFuture = value;
-    });
-  }
-
   final _$validateEmailFutureAtom =
       Atom(name: '_SettingsViewmodelBase.validateEmailFuture');
 
@@ -254,15 +224,12 @@ sendOtp: ${sendOtp},
 changePasswordFuture: ${changePasswordFuture},
 playerEmailFuture: ${playerEmailFuture},
 verifyOTPFuture: ${verifyOTPFuture},
-changeEmailFuture: ${changeEmailFuture},
 validateEmailFuture: ${validateEmailFuture},
 logoutLoading: ${logoutLoading},
 otpLoading: ${otpLoading},
 otpError: ${otpError},
 passwordLoading: ${passwordLoading},
 passwordError: ${passwordError},
-changeEmailLoading: ${changeEmailLoading},
-changeEmailError: ${changeEmailError},
 player: ${player},
 playerEmailLoading: ${playerEmailLoading},
 otpCode: ${otpCode},

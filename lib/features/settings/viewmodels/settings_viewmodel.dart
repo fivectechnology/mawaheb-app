@@ -65,9 +65,6 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<OTPResponseModel> verifyOTPFuture;
 
   @observable
-  ObservableFuture<OTPResponseModel> changeEmailFuture;
-
-  @observable
   ObservableFuture<bool> validateEmailFuture;
 
   //* COMPUTED *//
@@ -87,12 +84,6 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   bool get passwordError => changePasswordFuture?.isFailure ?? false;
 
   @computed
-  bool get changeEmailLoading => changeEmailFuture?.isPending ?? false;
-
-  @computed
-  bool get changeEmailError => changeEmailFuture?.isFailure ?? false;
-
-  @computed
   PlayerModel get player => playerEmailFuture?.value;
 
   @computed
@@ -104,20 +95,28 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get verifyOTPLoading => verifyOTPFuture?.isPending ?? false;
 
+  @computed
+  bool get otpVerifyError => verifyOTPFuture?.isFailure ?? false;
+
   //* ACTIONS *//
   @action
   void logout() {
     logoutFuture = futureWrapper(
-      () => _authRepository.logout().then(
-            (res) => res.apply(() {
-              App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
-              getContext(
-                (context) => Provider.of<AppViewmodel>(context, listen: false).pageIndex = PageIndex.home,
-              );
-            }),
-          ),
+      () => logoutAsFuture(),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      useLoader: true,
     );
+  }
+
+  Future<bool> logoutAsFuture() {
+    return _authRepository.logout().then(
+          (res) => res.apply(() {
+            App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+            getContext(
+              (context) => Provider.of<AppViewmodel>(context, listen: false).navigateTo(PageIndex.home),
+            );
+          }),
+        );
   }
 
   @action
@@ -164,21 +163,27 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _settingsRepository.verifyOTP(email: player.email, code: code).whenSuccess(
-            (res) => res.data.apply(() async {
-              logger.d('otp verify success with res: $res');
-              await _settingsRepository
-                  .changeEmail(email: player.email, code: res.data.data)
-                  .whenSuccess((res) => res.apply(() {
-                        logout();
-                      }));
-            }),
-          ),
-      catchBlock: (err) => getContext((context) =>
-          showSnack(context.translate('msg_otp_error'), duration: 2.seconds, scaffoldKey: SettingOtpPage.scaffoldKey)),
+      () => _settingsRepository.verifyOTP(email: player.email, code: code).whenSuccess((res) async {
+        logger.d('otp verify success with res: $res');
+        await _settingsRepository
+            .changeEmail(email: player.email, code: res.data.data)
+            .whenSuccess((res) => res)
+            .then((res) => logoutAsFuture());
+        return res.data;
+      }),
+      catchBlock: (err) => getContext(
+        (context) => showSnack(
+          context.translate('msg_otp_error'),
+          duration: 2.seconds,
+          scaffoldKey: SettingOtpPage.scaffoldKey,
+        ),
+      ),
       unknownErrorHandler: (err) => getContext(
-        (context) =>
-            showSnack(context.translate('msg_otp_error'), duration: 2.seconds, scaffoldKey: SettingOtpPage.scaffoldKey),
+        (context) => showSnack(
+          context.translate('msg_otp_error'),
+          duration: 2.seconds,
+          scaffoldKey: SettingOtpPage.scaffoldKey,
+        ),
       ),
       useLoader: true,
     );
@@ -186,20 +191,22 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void changePassword({String newPassword, String currentPassword}) {
-    changeEmailFuture = futureWrapper(
+    changePasswordFuture = futureWrapper(
       () => _settingsRepository
           .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player.id)
-          .whenSuccess(
-            (res) => res.apply(() async {
-              logout();
-              logger.d('change password success with res: $res');
-            }),
-          ),
-      catchBlock: (err) => getContext((context) => showSnack(context.translate('msg_change_password_error'),
-          duration: 2.seconds, scaffoldKey: ChangePasswordPage.scaffoldKey)),
+          .whenSuccess((res) => res)
+          .then((res) => logoutAsFuture()),
+      catchBlock: (err) => showSnack(
+        err,
+        duration: 2.seconds,
+        scaffoldKey: ChangePasswordPage.scaffoldKey,
+      ),
       unknownErrorHandler: (err) => getContext(
-        (context) => showSnack(context.translate('msg_change_password_error'),
-            duration: 2.seconds, scaffoldKey: ChangePasswordPage.scaffoldKey),
+        (context) => showSnack(
+          context.translate('msg_change_password_error'),
+          duration: 2.seconds,
+          scaffoldKey: ChangePasswordPage.scaffoldKey,
+        ),
       ),
       useLoader: true,
     );

@@ -194,7 +194,7 @@ void main() {
         gender: 'MALE',
         name: 'testtt',
         dateOfBirth: '2020-02-02',
-        country: const CountryModel(name: 'UAE', id: 1, version: 0),
+        country: const CountryModel(name: 'UAE', id: 1, version: 0, tName: 'tname'),
         categoryModel: const CategoryModel(title: 'test', id: 1, version: 0),
       );
       expect(res.isSuccess, equals(true));
