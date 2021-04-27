@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:core_sdk/utils/dialogs.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/side_effect_mixin.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
@@ -20,8 +21,7 @@ class BasePage extends StatefulWidget {
 
   static const String route = '/base';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
 
   @override
   _BasePageState createState() => _BasePageState();
@@ -29,18 +29,10 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   final List<Widget> pages = <Widget>[
-    Navigator(
-        key: HomePage.navKey,
-        onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-    Navigator(
-        key: NotificationsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
-    Navigator(
-        key: PublicInfoPage.navKey,
-        onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
-    Navigator(
-        key: SettingsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
+    Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+    Navigator(key: NotificationsPage.navKey, onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
+    Navigator(key: PublicInfoPage.navKey, onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
+    Navigator(key: SettingsPage.navKey, onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
   ];
 
   AppViewmodel appViewmodel;
@@ -66,11 +58,9 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
         body: buildBaseScreenBody,
         bottomNavigationBar: Container(
           height: 60.0 + context.mediaQuery.padding.bottom,
-          decoration: const BoxDecoration(
-              color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
+          decoration: const BoxDecoration(color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
           child: Column(children: <Widget>[
-            Expanded(
-                child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
+            Expanded(child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
           ]),
         ),
       ),
@@ -129,47 +119,47 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
     //   });
     //
     //
-    //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    //     logger.d('onResume => notification: ${message.notification} data: ${message.data}');
-    //     appViewModel?.updateNotificationsCount();
-    //     PushRouting.route(
-    //       navigator: appViewModel.currentNavigator.currentState.push,
-    //       message: message.data,
-    //     );
-    //   });
-    //
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   logger.d('onMessage => notification: ${message.notification} data: ${message.data}');
-    //   updateNotificationsCount();
-    //   final NotificationType notificationType = NotificationTypeExtension.valueOf(message.data['typeCode']);
-    //   if (notificationType == NotificationType.PROFILE) {
-    //     getCusomerProfile();
-    //     getUserProfile();
-    //   }
-    //   RemoteNotification notification = message.notification;
-    //   AndroidNotification android = message.notification?.android;
-    //   logger.d(
-    //     'my debug 12 $android ${notification.hashCode} ${notification.title} ${notification.body}, ${channel.id} ${channel.name}',
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //   logger.d('onResume => notification: ${message.notification} data: ${message.data}');
+    //   appViewModel?.updateNotificationsCount();
+    //   PushRouting.route(
+    //     navigator: appViewModel.currentNavigator.currentState.push,
+    //     message: message.data,
     //   );
-    //   if (notification != null && android != null) {
-    //     flutterLocalNotificationsPlugin.show(
-    //         notification.hashCode,
-    //         notification.title,
-    //         notification.body,
-    //         NotificationDetails(
-    //           android: AndroidNotificationDetails(
-    //             channel.id,
-    //             channel.name,
-    //             channel.description,
-    //             color: PRIMARY,
-    //             importance: Importance.max,
-    //             priority: Priority.max,
-    //             enableVibration: true,
-    //             playSound: true,
-    //             icon: '@drawable/ic_notification',
-    //           ),
-    //         ));
-    //   }
     // });
+    //
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      appViewmodel.updateNotificationsCount();
+      // logger.d('onMessage => notification: ${message.notification} data: ${message.data}');
+      // final NotificationType notificationType = NotificationTypeExtension.valueOf(message.data['typeCode']);
+      // if (notificationType == NotificationType.PROFILE) {
+      //   getCusomerProfile();
+      //   getUserProfile();
+      // }
+      // RemoteNotification notification = message.notification;
+      // AndroidNotification android = message.notification?.android;
+      // logger.d(
+      //   'my debug 12 $android ${notification.hashCode} ${notification.title} ${notification.body}, ${channel.id} ${channel.name}',
+      // );
+      // if (notification != null && android != null) {
+      //   flutterLocalNotificationsPlugin.show(
+      //       notification.hashCode,
+      //       notification.title,
+      //       notification.body,
+      //       NotificationDetails(
+      //         android: AndroidNotificationDetails(
+      //           channel.id,
+      //           channel.name,
+      //           channel.description,
+      //           color: PRIMARY,
+      //           importance: Importance.max,
+      //           priority: Priority.max,
+      //           enableVibration: true,
+      //           playSound: true,
+      //           icon: '@drawable/ic_notification',
+      //         ),
+      //       ));
+      // }
+    });
   }
 }

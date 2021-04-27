@@ -40,8 +40,18 @@ class MawahebBottomNavigationBar extends StatelessWidget {
             bottomNavigationBarTile(
               title: context.translate(getBottomTitle(PageIndex.notifications, isPlayer)),
               index: PageIndex.notifications.index,
-              icon: 'assets/icons/ic_notification.svg',
-              activeIcon: 'assets/icons/ic_notification.svg',
+              // icon: 'assets/icons/ic_notification.svg',
+              // activeIcon: 'assets/icons/ic_notification.svg',
+              child: navigationButtonWithCount(
+                PageIndex.notifications.index,
+                count: appViewModel.notificationsCount,
+                icon: 'assets/icons/ic_notification.svg',
+              ),
+              activeChild: navigationButtonWithCount(
+                PageIndex.notifications.index,
+                count: appViewModel.notificationsCount,
+                icon: 'assets/icons/ic_notification.svg',
+              ),
             ),
             bottomNavigationBarTile(
               title: context.translate(getBottomTitle(PageIndex.public_info, isPlayer)),

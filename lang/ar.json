@@ -105,6 +105,14 @@
   "lbl_empty_notifications": "لا يوجد لديك أية إشعارات حتى الاّن!",
   "lbl_download": "تنزيل",
   "lbl_save": "حفظ",
+  "lbl_time_at": "في",
+  "lbl_just_now": "الآن فقط",
+  "lbl_minutes_ago": "دقائق مضت",
+  "lbl_ago": "منذ",
+  "lbl_minutes": "دقائق",
+  "lbl_houre": "ساعة",
+  "lbl_hours_ago": "منذ ساعات",
+  "lbl_an_hour_ago": "قبل ساعة",
 
 
 

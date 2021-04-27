@@ -42,13 +42,14 @@ abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get canLoadMoreNotifications {
-    if (notifications?.offset == null) {
+    if (notifications == null) {
       return true;
     }
-    if (notifications.offset < PAGE_SIZE) {
-      return false;
+    if (notifications.offset + PAGE_SIZE < notifications.total) {
+      return true;
     }
-    return ((notifications?.offset ?? 0) % PAGE_SIZE) == 0;
+
+    return false;
   }
 
   //* ACTIONS *//
@@ -61,8 +62,12 @@ abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
         notificationsFuture = null;
         offset = 0;
       }
+
       final ObservableFuture<ListBaseResponseModel<NotificationModel>> future = futureWrapper(
-        () => _notificationsRepository.getNotifications(limit: PAGE_SIZE, offset: offset).whenSuccess((res) => res),
+        () => _notificationsRepository.getNotifications(limit: PAGE_SIZE, offset: offset).replace(
+              oldValue: notificationsFuture,
+              onSuccess: () {},
+            ),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
         unknownErrorHandler: (err) => showSnack(err, duration: 2.seconds),
       );
