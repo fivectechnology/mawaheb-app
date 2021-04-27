@@ -32,7 +32,7 @@ void main() {
       expect(res.getOrThrow().data.first.mission, isNotNull);
       expect(res.getOrThrow().data.first.vision, isNotNull);
       expect(res.getOrThrow().data.first.summary, isNotNull);
-      expect(res.getOrThrow().data.first.coreValues, isNotNull);
+      expect(res.getOrThrow().data.first.ourValues, isNotNull);
     });
 
     test('test success contacts', () async {
@@ -86,7 +86,8 @@ void main() {
         prefsRepository: prefsRepository,
       );
 
-      publicInfoRepository = PublicInfoRepositoryImpl(publicInfoDataSource, prefsRepository);
+      publicInfoRepository =
+          PublicInfoRepositoryImpl(publicInfoDataSource, prefsRepository);
     });
 
     tearDown(() {
@@ -102,7 +103,7 @@ void main() {
       expect(res.getOrThrow().data.first.mission, isNotNull);
       expect(res.getOrThrow().data.first.vision, isNotNull);
       expect(res.getOrThrow().data.first.summary, isNotNull);
-      expect(res.getOrThrow().data.first.coreValues, isNotNull);
+      expect(res.getOrThrow().data.first.ourValues, isNotNull);
     });
 
     test('success contacts function', () async {
