@@ -11,7 +11,7 @@ class AboutUsModel extends VersionModel with EquatableMixin {
     @required this.summary,
     @required this.vision,
     @required this.mission,
-    @required this.coreValues,
+    @required this.ourValues,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -19,13 +19,13 @@ class AboutUsModel extends VersionModel with EquatableMixin {
   final String summary;
   final String vision;
   final String mission;
-  final String coreValues;
+  final String ourValues;
 
   AboutUsModel copyWith({
     String summary,
     String vision,
     String mission,
-    String coreValues,
+    String ourValues,
     int id,
     int version,
   }) {
@@ -33,7 +33,7 @@ class AboutUsModel extends VersionModel with EquatableMixin {
       summary: summary ?? this.summary,
       vision: vision ?? this.vision,
       mission: mission ?? this.mission,
-      coreValues: coreValues ?? this.coreValues,
+      ourValues: ourValues ?? this.ourValues,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -48,7 +48,7 @@ class AboutUsModel extends VersionModel with EquatableMixin {
       summary,
       vision,
       mission,
-      coreValues,
+      ourValues,
       id,
       version,
     ];
