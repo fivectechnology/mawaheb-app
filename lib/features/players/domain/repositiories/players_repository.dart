@@ -10,9 +10,9 @@ abstract class PlayersRepository extends BaseRepository {
       : super(playersDataSource);
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required String country,
-    @required String sport,
-    @required String position,
+    @required int countryId,
+    @required int sportId,
+    @required int positionId,
     @required String hand,
     @required String leg,
     @required String name,

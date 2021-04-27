@@ -1,5 +1,6 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
@@ -22,7 +23,8 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState
+    extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -55,7 +57,8 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                   ? const SizedBox()
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: context.fullWidth * 0.02),
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
@@ -82,7 +85,9 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Expanded(child: Text(fileName, style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
+              Expanded(
+                  child: Text(fileName,
+                      style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
             ],
           ),
           Row(
@@ -107,14 +112,29 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
     );
   }
 
-  Future<void> launchURL({int id, int version}) async {
-    final url = 'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/view';
-    if (await canLaunch(url)) {
-      print(url);
-      print(viewmodel.prefsRepository.token);
-      await launch(url, headers: {'Authorization': 'Basic ${viewmodel.prefsRepository.token}'});
-    } else {
-      throw 'Could not launch $url';
-    }
+  void launchURL({int id, int version}) async {
+    final taskId = await FlutterDownloader.enqueue(
+      headers: {'Authorization': 'Basic ${viewmodel.prefsRepository.token}'},
+      url:
+          'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/view',
+
+      savedDir: '/storage/emulated/0/Download/',
+      showNotification: true,
+      // show download progress in status bar (for Android)
+      openFileFromNotification: true, // click on
+      // notification to open downloaded file (for Android)
+    );
+    //   final url =
+    //       'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/view';
+    //   if (await canLaunch(url)) {
+    //     print(url);
+    //     print(viewmodel.prefsRepository.token);
+    //     await launch(url, headers: {
+    //       'Authorization': 'Basic ${viewmodel.prefsRepository.token}'
+    //     });
+    //   } else {
+    //     throw 'Could not launch $url';
+    //   }
+    // }
   }
 }

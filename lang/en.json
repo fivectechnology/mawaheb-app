@@ -160,5 +160,7 @@
   "msg_delete_videos_note": "You have added 3 videos. Please delete one to add a new one",
   "msg_confirm_player": "Are you sure to confirm player?",
   "msg_release_player": "Are you sure to release player?",
-  "msg_book_player": "Are you sure to book player?"
+  "msg_book_player": "Are you sure to book player?",
+  "msg_video_size": "Please select video size less than 5 MB"
+
 }

@@ -498,9 +498,9 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
 
   @override
   void searchPlayers(
-      {String country,
-      String sport,
-      String position,
+      {int countryId,
+      int sportId,
+      int positionId,
       String hand,
       String name,
       String leg}) {
@@ -508,9 +508,9 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
         name: '_PlayersViewmodelBase.searchPlayers');
     try {
       return super.searchPlayers(
-          country: country,
-          sport: sport,
-          position: position,
+          countryId: countryId,
+          sportId: sportId,
+          positionId: positionId,
           hand: hand,
           name: name,
           leg: leg);

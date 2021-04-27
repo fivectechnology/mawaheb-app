@@ -163,6 +163,7 @@ class _EditPersonalPageState
                       ),
                       const SizedBox(height: 26),
                       MawahebTextField(
+                          keyboardType: TextInputType.phone,
                           hintText: 'lbl_phone_num',
                           hintColor: Colors.grey,
                           textEditingController: _phoneController,

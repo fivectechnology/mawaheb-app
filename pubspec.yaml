@@ -60,6 +60,8 @@ dependencies:
 #  video_player_header: ^0.10.2+1
 #  file_picker: ^2.1.5+1
   better_player: ^0.0.55
+  flutter_downloader: ^1.4.0
+
 
 
 

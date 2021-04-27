@@ -27,12 +27,13 @@ class PlayersViewmodel extends _PlayersViewmodelBase with _$PlayersViewmodel {
     AuthRepository authRepository,
     ProfileRepository profileRepository,
     PrefsRepository prefsRepository,
-  ) : super(logger, playersRepository, authRepository, profileRepository, prefsRepository);
+  ) : super(logger, playersRepository, authRepository, profileRepository,
+            prefsRepository);
 }
 
 abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
-  _PlayersViewmodelBase(
-      Logger logger, this._playersRepository, this._authRepository, this._profileRepository, this.prefsRepository)
+  _PlayersViewmodelBase(Logger logger, this._playersRepository,
+      this._authRepository, this._profileRepository, this.prefsRepository)
       : super(logger);
   final PlayersRepository _playersRepository;
   final AuthRepository _authRepository;
@@ -171,7 +172,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   //* ACTIONS *//
   @action
   void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res.data.first.apply(() async {})),
+        () => _profileRepository
+            .fetchPlayer(id: id)
+            .whenSuccess((res) => res.data.first.apply(() async {})),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
@@ -195,9 +198,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void searchPlayers({
-    String country,
-    String sport,
-    String position,
+    int countryId,
+    int sportId,
+    int positionId,
     String hand,
     String name,
     String leg,
@@ -206,9 +209,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
         () => _playersRepository
             .searchPlayers(
               name: name,
-              position: position,
-              country: country,
-              sport: sport,
+              positionId: positionId ?? 0,
+              countryId: countryId ?? 0,
+              sportId: sportId ?? 0,
               leg: leg,
               isBooked: booked,
               isConfirmed: confirmed,
@@ -258,7 +261,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void confirmPlayer() {
     confirmPlayerFuture = futureWrapper(
       () => _playersRepository
-          .confirmPlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
+          .confirmPlayer(
+              memberShipId: player.membership.id,
+              memberShipVersion: player.membership.$version)
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} confirmed');
@@ -273,7 +278,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void releasePlayer() {
     releasePlayerFuture = futureWrapper(
       () => _playersRepository
-          .releasePlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
+          .releasePlayer(
+              memberShipId: player.membership.id,
+              memberShipVersion: player.membership.$version)
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} released');
@@ -287,11 +294,12 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @action
   void fetchVideos({int playerId}) {
     fetchVideoFuture = futureWrapper(
-      () => _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
-            (res) => res.data.apply(() {
-              print('fetch videos');
-            }),
-          ),
+      () =>
+          _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
+                (res) => res.data.apply(() {
+                  print('fetch videos');
+                }),
+              ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
   }

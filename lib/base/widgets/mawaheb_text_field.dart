@@ -13,6 +13,7 @@ class MawahebTextField extends StatefulWidget {
       this.textEditingController,
       this.useObscure = false,
       this.onTab,
+      this.keyboardType,
       this.focusNode,
       this.validator})
       : super(key: key);
@@ -28,6 +29,7 @@ class MawahebTextField extends StatefulWidget {
   final String initialValue;
   final Function onTab;
   final FocusNode focusNode;
+  final TextInputType keyboardType;
 
   @override
   _MawahebTextFieldState createState() => _MawahebTextFieldState();
@@ -40,6 +42,7 @@ class _MawahebTextFieldState extends State<MawahebTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: widget.keyboardType ?? TextInputType.text,
       focusNode: widget?.focusNode ?? _focusNode,
       onTap: widget.onTab,
       // ignore: avoid_bool_literals_in_conditional_expressions
@@ -49,14 +52,20 @@ class _MawahebTextFieldState extends State<MawahebTextField> {
       initialValue: widget.initialValue,
       controller: widget.textEditingController,
       decoration: InputDecoration(
-        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey)),
         hintText: context.translate(widget.hintText),
-        hintStyle:
-            TextStyle(color: widget.hintColor ?? Colors.black, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
+        hintStyle: TextStyle(
+            color: widget.hintColor ?? Colors.black,
+            fontWeight: FontWeight.w200,
+            fontFamily: 'Poppins'),
         suffixIcon: widget.isSuffixIcon == true
             ? IconButton(
-                onPressed: () => setState(() => showPassword = !showPassword), //widget.onPressed,
-                icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off, color: Colors.black),
+                onPressed: () => setState(
+                    () => showPassword = !showPassword), //widget.onPressed,
+                icon: Icon(
+                    showPassword ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.black),
               )
             : null,
       ),

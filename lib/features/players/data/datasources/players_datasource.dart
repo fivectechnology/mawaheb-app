@@ -13,9 +13,9 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 
 abstract class PlayersDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required String country,
-    @required String sport,
-    @required String position,
+    @required int countryId,
+    @required int sportId,
+    @required int positionId,
     @required String hand,
     @required String leg,
     @required String name,
@@ -62,9 +62,9 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required String country,
-    @required String sport,
-    @required String position,
+    @required int countryId,
+    @required int sportId,
+    @required int positionId,
     @required String hand,
     @required String leg,
     @required String name,
@@ -82,25 +82,25 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
           'criteria': [
             {'fieldName': 'type', 'operator': '=', 'value': 'PLAYER'},
             {'fieldName': 'blocked', 'operator': '=', 'value': false},
-            // {
-            //   'fieldName': 'status',
-            //   'operator': '=',
-            //   'value': 'ACTIVE_WITH_PROFILE'
-            // },
+            {'fieldName': 'status', 'operator': '=', 'value': 'ACTIVE'},
             // {'fieldName': 'blocked', 'operator': '=', 'value': false},
             // {'fieldName': 'status', 'operator': '=', 'value': 'INACTIVE'},
             // {'fieldName': 'availability', 'operator': '=', 'value': 'RELEASED'}
             if (name != '' && name != null)
               {'fieldName': 'name', 'operator': '=', 'value': name},
 
-            if (country != '' && country != null)
-              {'fieldName': 'country', 'operator': '=', 'value': country},
+            if (countryId != 0 && countryId != null)
+              {'fieldName': 'country.id', 'operator': '=', 'value': countryId},
 
-            if (sport != '' && sport != null)
-              {'fieldName': 'sport', 'operator': '=', 'value': sport},
+            if (sportId != 0 && sportId != null)
+              {'fieldName': 'sport.id', 'operator': '=', 'value': sportId},
 
-            if (position != '' && position != null)
-              {'fieldName': 'position', 'operator': '=', 'value': position},
+            if (positionId != 0 && positionId != null)
+              {
+                'fieldName': 'position.id',
+                'operator': '=',
+                'value': positionId
+              },
             if (hand != '' && hand != null)
               {'fieldName': 'hand', 'operator': '=', 'value': hand},
             if (leg != null && leg != '')

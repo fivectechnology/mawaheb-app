@@ -326,9 +326,9 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         onPressed: () {
                           // print(viewmodel.booked);
                           viewmodel.searchPlayers(
-                              country: currentCountry?.name ?? '',
-                              sport: currentSport?.name ?? '',
-                              position: position?.name ?? '',
+                              countryId: currentCountry?.id ?? 0,
+                              sportId: currentSport?.id ?? 0,
+                              positionId: position?.id ?? 0,
                               hand: hand ?? '',
                               name: nameController.text ?? '',
                               leg: leg ?? '');
