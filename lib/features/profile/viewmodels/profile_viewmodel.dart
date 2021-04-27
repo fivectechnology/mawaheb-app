@@ -15,6 +15,7 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
@@ -129,13 +130,6 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   List<ViewModel> get views => viewsFuture?.value;
-
-  //
-  // @computed
-  // bool get uploadImageLoading => uploadImageFuture?.isPending ?? false;
-  //
-  // @computed
-  // bool get uploadImageError => uploadImageFuture?.isFailure ?? false;
 
   @computed
   bool get deleteVideoLoading => deleteVideoFuture?.isPending ?? false;
@@ -329,6 +323,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       int videoVersion,
       int videoId,
       bool withDelete}) {
+    startLoading();
+
     imageId = _profileRepository
         .uploadFile(
             file: file,
@@ -341,6 +337,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
             .uploadVideoPlayer(playerId: player.id, videoId: res)
             .whenSuccess((res) => apply(() {
                   fetchVideos(playerId: player.id);
+                  Navigator.of(RegisterPage.keyLoader.currentContext,
+                          rootNavigator: true)
+                      .pop();
                 }));
       } else {
         await _profileRepository
@@ -350,6 +349,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
                 videoVersion: videoVersion,
                 videoId: videoId)
             .whenSuccess((res) => apply(() {
+                  Navigator.of(VideosPage.keyLoader.currentContext,
+                          rootNavigator: true)
+                      .pop();
                   fetchVideos(playerId: player.id);
                 }));
       }

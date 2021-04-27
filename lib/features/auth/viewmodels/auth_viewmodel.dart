@@ -6,6 +6,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
@@ -526,6 +527,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
                 showSnack('Video uploaded',
                     scaffoldKey: RegisterPage.scaffoldKey, duration: 2.seconds);
                 fetchVideos(playerId: player.id);
+                Navigator.of(RegisterPage.keyLoader.currentContext,
+                        rootNavigator: true)
+                    .pop();
               }));
 
       return res;

@@ -94,10 +94,27 @@ class _AddSportPageState
         fileType: fileType,
         file: video,
       );
-      viewmodel.showSnack(
-        context.translate('msg_uploading_video'),
-        duration: const Duration(seconds: 4),
-        scaffoldKey: RegisterPage.scaffoldKey,
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (
+          BuildContext context,
+        ) {
+          return Dialog(
+            key: RegisterPage.keyLoader,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 4),
+                  Text(context.translate('msg_uploading_video')),
+                ],
+              ),
+            ),
+          );
+        },
       );
     } else {
       print('No image selected.');

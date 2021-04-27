@@ -240,7 +240,7 @@ class _EditPersonalPageState
                         builder: (_) {
                           return MawahebButton(
                               context: context,
-                              text: 'lbl_back',
+                              text: 'lbl_save',
                               textColor: Colors.black,
                               borderColor: Colors.black,
                               buttonColor: WHITE,

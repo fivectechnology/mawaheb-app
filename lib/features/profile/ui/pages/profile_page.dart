@@ -62,7 +62,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                         finishDate: viewmodel.player.subscription.finishAt,
                         isPending:
                             // ignore: avoid_bool_literals_in_conditional_expressions
-                            viewmodel.player.status == 'INACTIVE'
+                            viewmodel.player.status == 'PAYMENT_REQUIRED'
                                 ? true
                                 : false),
                     profileDetails(
