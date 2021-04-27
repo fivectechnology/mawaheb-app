@@ -12,6 +12,7 @@ class ViewModel extends VersionModel with EquatableMixin {
   const ViewModel({
     @required this.partner,
     @required this.partnerPhoto,
+    @required this.type,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -20,15 +21,20 @@ class ViewModel extends VersionModel with EquatableMixin {
   @JsonKey(name: 'partner.photo')
   final SourceModel partnerPhoto;
 
+  @JsonKey(name: 'partner.type')
+  final String type;
+
   ViewModel copyWith({
     PartnerModel partner,
     int id,
     int version,
     SourceModel partnerPhoto,
+    String type,
   }) {
     return ViewModel(
       partnerPhoto: partnerPhoto ?? this.partnerPhoto,
       partner: partner ?? this.partner,
+      type: type ?? this.type,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -43,6 +49,7 @@ class ViewModel extends VersionModel with EquatableMixin {
       partner,
       id,
       version,
+      type,
       partnerPhoto,
     ];
   }

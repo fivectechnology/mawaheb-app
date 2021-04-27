@@ -135,7 +135,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        'fields': ['player', 'partner', 'partner.photo']
+        'fields': ['player', 'partner', 'partner.photo', 'partner.type']
       },
       mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
     );
