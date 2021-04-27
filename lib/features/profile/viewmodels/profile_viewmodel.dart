@@ -27,6 +27,7 @@ import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/videos_page.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 part 'profile_viewmodel.g.dart';
 
@@ -336,10 +337,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
         await _profileRepository
             .uploadVideoPlayer(playerId: player.id, videoId: res)
             .whenSuccess((res) => apply(() {
-                  fetchVideos(playerId: player.id);
-                  Navigator.of(RegisterPage.keyLoader.currentContext,
+                  Navigator.of(VideosPage.keyLoader.currentContext,
                           rootNavigator: true)
                       .pop();
+                  fetchVideos(playerId: player.id);
                 }));
       } else {
         await _profileRepository

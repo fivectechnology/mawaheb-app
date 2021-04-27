@@ -16,9 +16,9 @@ class PlayersRepositoryImpl extends PlayersRepository {
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers(
-          {@required String country,
-          @required String sport,
-          @required String position,
+          {@required int countryId,
+          @required int sportId,
+          @required int positionId,
           @required String hand,
           @required String leg,
           @required int partnerId,
@@ -28,10 +28,10 @@ class PlayersRepositoryImpl extends PlayersRepository {
       playersDataSource.searchPlayers(
           hand: hand,
           leg: leg,
-          sport: sport,
-          country: country,
+          sportId: sportId,
+          countryId: countryId,
           name: name,
-          position: position,
+          positionId: positionId,
           partnerId: partnerId,
           isConfirmed: isConfirmed,
           isBooked: isBooked);

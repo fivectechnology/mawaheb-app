@@ -128,6 +128,8 @@ class _EditSportPageState
                       ),
                       const SizedBox(height: 26),
                       MawahebTextField(
+                        keyboardType: TextInputType.number,
+
                         hintText: context.translate('lbl_weight'),
                         hintColor: Colors.grey,
                         validator: (value) {
@@ -142,6 +144,8 @@ class _EditSportPageState
                       ),
                       const SizedBox(height: 26),
                       MawahebTextField(
+                        keyboardType: TextInputType.number,
+
                         hintText: context.translate('lbl_hight'),
                         hintColor: Colors.grey,
                         context: context,

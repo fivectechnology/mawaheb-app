@@ -88,34 +88,40 @@ class _AddSportPageState
       fileName = video.path.split('/').last;
       fileType = fileName.split('.').last;
       fileSize = await video.length();
-      viewmodel.uploadVideo(
-        fileSize: fileSize,
-        fileName: fileName,
-        fileType: fileType,
-        file: video,
-      );
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (
-          BuildContext context,
-        ) {
-          return Dialog(
-            key: RegisterPage.keyLoader,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(width: 4),
-                  Text(context.translate('msg_uploading_video')),
-                ],
+      if (fileSize <= 5000000) {
+        viewmodel.uploadVideo(
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType,
+          file: video,
+        );
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (
+            BuildContext context,
+          ) {
+            return Dialog(
+              key: RegisterPage.keyLoader,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(width: 4),
+                    Text(context.translate('msg_uploading_video')),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      );
+            );
+          },
+        );
+      } else {
+        viewmodel.showSnack(context.translate('msg_video_size'),
+            scaffoldKey: RegisterPage.scaffoldKey,
+            duration: const Duration(seconds: 3));
+      }
     } else {
       print('No image selected.');
     }
@@ -161,6 +167,7 @@ class _AddSportPageState
                   ),
                   const SizedBox(height: 26),
                   MawahebTextField(
+                    keyboardType: TextInputType.number,
                     hintText: context.translate('lbl_weight'),
                     hintColor: Colors.grey,
                     context: context,
@@ -171,6 +178,7 @@ class _AddSportPageState
                   ),
                   const SizedBox(height: 26),
                   MawahebTextField(
+                    keyboardType: TextInputType.number,
                     hintText: context.translate('lbl_hight'),
                     hintColor: Colors.grey,
                     context: context,

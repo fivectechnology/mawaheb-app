@@ -165,7 +165,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'language': prefsRepository.languageCode,
           'blocked': false,
           'type': 'PLAYER',
-          'status': 'INACTIVE',
+          'status': 'ACTIVE',
           'otp': code,
         }
       },
