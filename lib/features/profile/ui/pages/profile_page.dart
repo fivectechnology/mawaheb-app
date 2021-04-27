@@ -59,9 +59,10 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                 body: Column(
                   children: [
                     profileActivationRow(
+                        finishDate: viewmodel.player.subscription.finishAt,
                         isPending:
                             // ignore: avoid_bool_literals_in_conditional_expressions
-                            viewmodel.player.status == 'INACTIVE'
+                            viewmodel.player.status == 'PAYMENT_REQUIRED'
                                 ? true
                                 : false),
                     profileDetails(
@@ -121,7 +122,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
     });
   }
 
-  Widget profileActivationRow({bool isPending}) {
+  Widget profileActivationRow({bool isPending, String finishDate}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.04),
       height: context.fullHeight * 0.08,
@@ -137,14 +138,18 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
             width: 10,
           ),
           if (!isPending)
-            Text(
-              context.translate('lbl_active_account'),
-              style: textTheme.subtitle1,
+            Expanded(
+              child: Text(
+                context.translate('lbl_active_account') + finishDate,
+                style: textTheme.subtitle1,
+              ),
             )
           else
-            Text(
-              context.translate('lbl_pending_account'),
-              style: textTheme.subtitle1,
+            Expanded(
+              child: Text(
+                context.translate('lbl_pending_account'),
+                style: textTheme.subtitle1,
+              ),
             ),
           Visibility(
               visible: isPending,

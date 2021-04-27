@@ -15,6 +15,7 @@ class VideosPage extends StatefulWidget {
   const VideosPage({Key key}) : super(key: key);
 
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  static final GlobalKey<State> keyLoader = GlobalKey<State>();
 
   static MaterialPageRoute<dynamic> get pageRoute =>
       MaterialPageRoute<dynamic>(builder: (_) => const VideosPage());
@@ -45,7 +46,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.videos.isEmpty) {
+    if (viewmodel.videos.isEmpty) {
       viewmodel.fetchVideos(playerId: viewmodel.player.id);
     }
   }
@@ -67,21 +68,32 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         videoId: videoId,
         videoVersion: videoVersion,
       );
-      viewmodel.showSnack(
-        context.translate('msg_uploading_video'),
-        duration: const Duration(seconds: 4),
-        scaffoldKey: VideosPage.scaffoldKey,
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (
+          BuildContext context,
+        ) {
+          return Dialog(
+            key: VideosPage.keyLoader,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 4),
+                  Text(context.translate('msg_uploading_video')),
+                ],
+              ),
+            ),
+          );
+        },
       );
     } else {
       print('No image selected.');
     }
-    // if (video != null) {
-    //   viewmodel.showSnack(
-    //     context.translate('msg_uploading_video'),
-    //     duration: const Duration(seconds: 4),
-    //     scaffoldKey: VideosPage.scaffoldKey,
-    //   );
-    // }
   }
 
   @override
@@ -128,7 +140,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                                 token: viewmodel.prefsRepository.token,
                                 status: viewmodel.videos[index].status);
                           }),
-                    if (viewmodel.videos == null)
+                    if (viewmodel.videos.isEmpty)
                       Center(
                           heightFactor: 10,
                           child: Text(context.translate('msg_no_videos'),
@@ -349,7 +361,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                         deleteVideo: false,
                         videoId: videoId,
                         videoVersion: videoVersion);
-                    context.pop(bc);
+                    // context.pop(bc);
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -372,7 +384,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                   onTap: () {
                     viewmodel.deleteVideo(
                         videoId: videoId, videoVersion: videoVersion);
-                    context.pop(bc);
+                    // context.pop(bc);
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -407,19 +419,15 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           child: Text('video$videoNumber'),
         ),
         const Spacer(),
-        IconButton(
-          onPressed: () {
-            _removeVideoBottomSheet(
-                context: context,
-                videoId: videoId,
-                videoVersion: videoVersion,
-                videoNumber: videoNumber);
-          },
-          icon: const Icon(
-            Icons.delete,
-            color: RED,
-          ),
-        )
+        InkWell(
+            onTap: () {
+              _removeVideoBottomSheet(
+                  context: context,
+                  videoId: videoId,
+                  videoVersion: videoVersion,
+                  videoNumber: videoNumber);
+            },
+            child: SvgPicture.asset('assets/icons/ic_delete.svg')),
       ],
     );
   }

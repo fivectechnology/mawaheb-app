@@ -3,12 +3,8 @@ import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/pagination_mixin.dart';
-import 'package:core_sdk/utils/widgets/pagination_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
-import 'package:mawaheb_app/features/notifications/data/models/notification_model.dart';
 import 'package:mawaheb_app/features/notifications/viewmodels/notifications_viewmodel.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -25,7 +21,9 @@ class NotificationsPage extends StatefulWidget {
   _NotificationsPageState createState() => _NotificationsPageState();
 }
 
-class _NotificationsPageState extends MobxState<NotificationsPage, NotificationsViewmodel> with PaginationMixin {
+class _NotificationsPageState
+    extends MobxState<NotificationsPage, NotificationsViewmodel>
+    with PaginationMixin {
   @override
   void initState() {
     super.initState();
@@ -93,11 +91,13 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
         children: [
           Text(
             title ?? 'club Name',
-            style: textTheme.headline1.copyWith(fontSize: 12, letterSpacing: 0.3),
+            style:
+                textTheme.headline1.copyWith(fontSize: 12, letterSpacing: 0.3),
           ),
           Text(
             date ?? '9:45AM',
-            style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 10),
+            style:
+                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 10),
           )
         ],
       ),
@@ -115,7 +115,8 @@ String dateFormatter(String dateStr, AppLocalizations localizations) {
   }
   final date = DateTime.parse(dateStr);
   final diff = DateTime.now().difference(date);
-  final locale = localizations.locale.languageCode == LANGUAGE_ARABIC ? 'ar_AR' : 'en_US';
+  final locale =
+      localizations.locale.languageCode == LANGUAGE_ARABIC ? 'ar_AR' : 'en_US';
   final bool isArabic = localizations.locale.languageCode == LANGUAGE_ARABIC;
   if (diff.inMinutes <= 59)
     return diff.inMinutes > 1

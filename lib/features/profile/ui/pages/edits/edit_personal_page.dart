@@ -42,6 +42,7 @@ class _EditPersonalPageState
     extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _dateOfBirth = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -67,6 +68,7 @@ class _EditPersonalPageState
   void dispose() {
     _phoneController.dispose();
     _nameController.dispose();
+    _dateOfBirth.dispose();
     super.dispose();
   }
 
@@ -111,6 +113,7 @@ class _EditPersonalPageState
     if (picked != null && picked != _selectedDate) {
       _selectedDate = picked;
       dateOfBirth = formatter.format(_selectedDate);
+      _dateOfBirth.text = dateOfBirth;
     }
   }
 
@@ -143,46 +146,21 @@ class _EditPersonalPageState
                         hintColor: Colors.grey,
                         textEditingController: _nameController,
                         context: context,
-                        // onChanged: (value) {
-                        //   _nameController.text = value;
-                        // },
                         validator: (value) {
                           return nameValidator(context: context, name: value);
                         },
                       ),
                       const SizedBox(height: 26),
-                      Row(
-                        children: [
-                          RaisedButton(
-                            color: Colors.white,
-                            onPressed: () => _selectDate(context),
-                            child: Text(context.translate('lbl_select_birth'),
-                                style: textTheme.bodyText1
-                                    .copyWith(color: TEXT_COLOR)),
-                          ),
-                          if (dateOfBirth != null)
-                            Text('  ' + dateOfBirth,
-                                style: textTheme.bodyText1
-                                    .copyWith(color: TEXT_COLOR))
-                          else if (viewmodel.player.dateOfBirth != null)
-                            Text('  ' + viewmodel.player.dateOfBirth,
-                                style: textTheme.bodyText1
-                                    .copyWith(color: TEXT_COLOR))
-                        ],
+                      InkWell(
+                        onTap: () => _selectDate(context),
+                        child: AbsorbPointer(
+                          child: MawahebTextField(
+                              hintText: 'lbl_date_of_birth',
+                              hintColor: Colors.grey,
+                              textEditingController: _dateOfBirth,
+                              context: context),
+                        ),
                       ),
-                      // MawahebTextField(
-                      //     focusNode: dateFocusNode,
-                      //     onTab: () {
-                      //       _selectDate(context);
-                      //     },
-                      //     hintText: 'lbl_date_of_birth',
-                      //     hintColor: Colors.grey,
-                      //     textEditingController: _dateOfBirthController,
-                      //     validator: dateValidator,
-                      //     onChanged: (value) {
-                      //       _dateOfBirthController = value;
-                      //     },
-                      //     context: context),
                       const SizedBox(height: 26),
                       MawahebTextField(
                           hintText: 'lbl_phone_num',
@@ -192,9 +170,6 @@ class _EditPersonalPageState
                             return phoneValidator(
                                 context: context, phone: value);
                           },
-                          // onChanged: (value) {
-                          //   _phoneController.text = value;
-                          // },
                           context: context),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
@@ -225,25 +200,28 @@ class _EditPersonalPageState
                             .toList(),
                       ),
                       const SizedBox(height: 26),
-                      mawhaebDropDown(
-                        hint: 'lbl_gender',
-                        context: context,
-                        onChanged: (value) {
-                          gender = value;
-                        },
-                        items: ['MALE']
-                            .map((em) => DropdownMenuItem(
-                                  child: Text(em),
-                                  value: em,
-                                ))
-                            .toList(),
+                      AbsorbPointer(
+                        child: mawhaebDropDown(
+                          value: 'MALE',
+                          hint: 'lbl_gender',
+                          context: context,
+                          onChanged: (value) {
+                            gender = value;
+                          },
+                          items: ['MALE']
+                              .map((em) => DropdownMenuItem(
+                                    child: Text(em),
+                                    value: em,
+                                  ))
+                              .toList(),
+                        ),
                       ),
                       const SizedBox(height: 26),
                       Observer(
                         builder: (_) {
                           return MawahebButton(
                               context: context,
-                              text: 'lbl_back',
+                              text: 'lbl_save',
                               textColor: Colors.black,
                               borderColor: Colors.black,
                               buttonColor: WHITE,

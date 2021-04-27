@@ -131,7 +131,7 @@ class _EditAddressPageState
                         child: Observer(
                           builder: (_) {
                             return MawahebButton(
-                              text: 'lbl_back',
+                              text: 'lbl_save',
                               textColor: Colors.black,
                               borderColor: Colors.black,
                               buttonColor: WHITE,

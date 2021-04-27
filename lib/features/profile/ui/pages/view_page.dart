@@ -61,6 +61,7 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
                             itemBuilder: (context, index) {
                               return userListTile(
                                   name: viewmodel.views[index].partner.name,
+                                  type: viewmodel.views[index].type,
                                   photo: viewmodel.views[index].partnerPhoto,
                                   token: viewmodel.prefsRepository.token);
                             })

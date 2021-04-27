@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 
-Widget userListTile({String name, SourceModel photo, String token}) {
+Widget userListTile(
+    {String name, SourceModel photo, String token, String type}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
     child: ListTile(
@@ -24,6 +25,7 @@ Widget userListTile({String name, SourceModel photo, String token}) {
         ),
       ),
       title: Text(name),
+      subtitle: type != null ? Text(type) : const SizedBox(),
     ),
   );
 }
