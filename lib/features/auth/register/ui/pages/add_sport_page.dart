@@ -1,17 +1,22 @@
+import 'dart:io';
+
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -40,6 +45,11 @@ class _AddSportPageState
   SportPositionModel position;
   String leg;
   String hand;
+  File video;
+  String fileType;
+  String fileName;
+  int fileSize;
+  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -63,6 +73,51 @@ class _AddSportPageState
     }
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
+    }
+
+    if (viewmodel?.videos == null) {
+      viewmodel.fetchVideos(playerId: viewmodel.player.id);
+    }
+  }
+
+  Future getVideo() async {
+    final pickedFile = await picker.getVideo(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      video = File(pickedFile.path);
+      fileName = video.path.split('/').last;
+      fileType = fileName.split('.').last;
+      fileSize = await video.length();
+      viewmodel.uploadVideo(
+        fileSize: fileSize,
+        fileName: fileName,
+        fileType: fileType,
+        file: video,
+      );
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (
+          BuildContext context,
+        ) {
+          return Dialog(
+            key: RegisterPage.keyLoader,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 4),
+                  Text(context.translate('msg_uploading_video')),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      print('No image selected.');
     }
   }
 
@@ -173,7 +228,28 @@ class _AddSportPageState
                       ),
                     ),
                   ),
-                  // uploadSpace(onPress: () {}),
+                  uploadSpace(onPress: () {
+                    if (viewmodel.videos.length == 3) {
+                      _deleteSomeVideosBottomSheet(context: context);
+                    } else {
+                      getVideo();
+                    }
+                  }),
+                  const SizedBox(height: 26),
+                  Observer(builder: (_) {
+                    return ListView.builder(
+                        padding: const EdgeInsets.only(top: 52),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: viewmodel.videos.length,
+                        itemBuilder: (context, index) {
+                          return currentVideoRow(
+                              context: context,
+                              videoNumber: index + 1,
+                              videoId: viewmodel.videos[index].id,
+                              videoVersion: viewmodel.videos[index].version);
+                        });
+                  }),
                   const SizedBox(height: 26),
                   Observer(
                     builder: (_) {
@@ -232,5 +308,75 @@ class _AddSportPageState
         ),
       ),
     );
+  }
+
+  Widget currentVideoRow(
+      {BuildContext context, int videoNumber, int videoId, int videoVersion}) {
+    return Row(
+      children: [
+        const Icon(
+          Icons.play_circle_fill,
+          color: Colors.grey,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: context.fullHeight * 0.02,
+              horizontal: context.fullWidth * 0.03),
+          child: Text('video$videoNumber'),
+        ),
+        const Spacer(),
+        InkWell(
+            onTap: () {
+              viewmodel.deleteVideo(
+                  videoVersion: videoVersion, videoId: videoId);
+            },
+            child: SvgPicture.asset('assets/icons/ic_delete.svg')),
+      ],
+    );
+  }
+
+  void _deleteSomeVideosBottomSheet({
+    BuildContext context,
+  }) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 24),
+            child: Wrap(
+              children: [
+                Row(
+                  children: [
+                    // SvgPicture.asset('assets/images/confirm.svg'),
+                    // SizedBox(width: context.fullWidth * 0.04),
+                    Expanded(
+                      child: Text(
+                        context.translate('msg_delete_videos_note'),
+                        style: textTheme.headline2
+                            .copyWith(color: Colors.black, fontSize: 18),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 32,
+                    bottom: 34,
+                  ),
+                  child: MawahebButton(
+                    context: context,
+                    text: 'lbl_back',
+                    buttonColor: Colors.white,
+                    textColor: Colors.black,
+                    borderColor: Colors.black,
+                    onPressed: () {
+                      context.pop(bc);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

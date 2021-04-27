@@ -27,13 +27,12 @@ class PlayersViewmodel extends _PlayersViewmodelBase with _$PlayersViewmodel {
     AuthRepository authRepository,
     ProfileRepository profileRepository,
     PrefsRepository prefsRepository,
-  ) : super(logger, playersRepository, authRepository, profileRepository,
-            prefsRepository);
+  ) : super(logger, playersRepository, authRepository, profileRepository, prefsRepository);
 }
 
 abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
-  _PlayersViewmodelBase(Logger logger, this._playersRepository,
-      this._authRepository, this._profileRepository, this.prefsRepository)
+  _PlayersViewmodelBase(
+      Logger logger, this._playersRepository, this._authRepository, this._profileRepository, this.prefsRepository)
       : super(logger);
   final PlayersRepository _playersRepository;
   final AuthRepository _authRepository;
@@ -172,9 +171,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   //* ACTIONS *//
   @action
   void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository
-            .fetchPlayer(id: id)
-            .whenSuccess((res) => res.data.first.apply(() async {})),
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res.data.first.apply(() async {})),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
@@ -208,15 +205,16 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
       playersFuture = futureWrapper(
         () => _playersRepository
             .searchPlayers(
-                name: name,
-                position: position,
-                country: country,
-                sport: sport,
-                leg: leg,
-                isBooked: booked,
-                isConfirmed: confirmed,
-                partnerId: prefsRepository.player.id,
-                hand: hand)
+              name: name,
+              position: position,
+              country: country,
+              sport: sport,
+              leg: leg,
+              isBooked: booked,
+              isConfirmed: confirmed,
+              partnerId: prefsRepository?.player?.id ?? 0,
+              hand: hand,
+            )
             .whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
@@ -260,9 +258,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void confirmPlayer() {
     confirmPlayerFuture = futureWrapper(
       () => _playersRepository
-          .confirmPlayer(
-              memberShipId: player.membership.id,
-              memberShipVersion: player.membership.$version)
+          .confirmPlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} confirmed');
@@ -277,9 +273,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void releasePlayer() {
     releasePlayerFuture = futureWrapper(
       () => _playersRepository
-          .releasePlayer(
-              memberShipId: player.membership.id,
-              memberShipVersion: player.membership.$version)
+          .releasePlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} released');
@@ -293,12 +287,11 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @action
   void fetchVideos({int playerId}) {
     fetchVideoFuture = futureWrapper(
-      () =>
-          _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
-                (res) => res.data.apply(() {
-                  print('fetch videos');
-                }),
-              ),
+      () => _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
+            (res) => res.data.apply(() {
+              print('fetch videos');
+            }),
+          ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
   }

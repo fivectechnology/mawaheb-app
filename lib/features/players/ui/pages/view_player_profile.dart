@@ -1,6 +1,6 @@
+import 'package:core_sdk/utils/dialogs.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
@@ -126,9 +126,14 @@ class _ViewPlayerProfileState
                                 text: 'lbl_confirm_player',
                                 isLoading: viewmodel.confirmPlayerLoading,
                                 onPressed: () {
-                                  viewmodel.confirmPlayer();
-                                  _confirmationBottomSheet(
-                                      context: context, state: 'confirmed');
+                                  showConfirmDialog(context,
+                                      context.translate('msg_confirm_player'),
+                                      () {
+                                    context.pop(context);
+                                    viewmodel.confirmPlayer();
+                                    _confirmationBottomSheet(
+                                        context: context, state: 'confirmed');
+                                  });
                                 }),
                           if (viewmodel.player.availability == 'CONFIRMED')
                             MawahebGradientButton(
@@ -136,9 +141,14 @@ class _ViewPlayerProfileState
                                 text: 'lbl_released_player',
                                 isLoading: viewmodel.releasePlayerLoading,
                                 onPressed: () {
-                                  viewmodel.releasePlayer();
-                                  _confirmationBottomSheet(
-                                      context: context, state: 'released');
+                                  showConfirmDialog(context,
+                                      context.translate('msg_release_player'),
+                                      () {
+                                    context.pop(context);
+                                    viewmodel.releasePlayer();
+                                    _confirmationBottomSheet(
+                                        context: context, state: 'released');
+                                  });
                                 }),
                           if (viewmodel.player.availability == 'RELEASED')
                             MawahebGradientButton(
@@ -146,10 +156,17 @@ class _ViewPlayerProfileState
                                 text: 'lbl_book_player',
                                 isLoading: viewmodel.bookPlayerLoading,
                                 onPressed: () {
-                                  viewmodel.bookPlayer(
-                                      playerId: viewmodel.player.id);
-                                  _confirmationBottomSheet(
-                                      context: context, state: 'booked');
+                                  showConfirmDialog(context,
+                                      context.translate('msg_book_player'), () {
+                                    context.pop(context);
+
+                                    viewmodel.bookPlayer(
+                                        playerId: viewmodel.player.id);
+                                    _confirmationBottomSheet(
+                                        context: context, state: 'booked');
+                                    _confirmationBottomSheet(
+                                        context: context, state: 'booked');
+                                  });
                                 }),
                         ],
                       ))
@@ -169,7 +186,17 @@ class _ViewPlayerProfileState
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset('assets/images/confirm.svg'),
+                    Container(
+                      height: 60,
+                      width: 60,
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: Color(0xFF00D28F)),
+                    ),
                     SizedBox(width: context.fullWidth * 0.04),
                     Expanded(
                       child: Text(
@@ -192,7 +219,7 @@ class _ViewPlayerProfileState
                     textColor: Colors.black,
                     borderColor: Colors.black,
                     onPressed: () {
-                      context.pop();
+                      context.pop(bc);
                     },
                   ),
                 ),

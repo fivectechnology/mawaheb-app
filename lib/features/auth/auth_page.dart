@@ -24,6 +24,7 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
   @override
   void initState() {
     super.initState();
+    viewmodel.clearUserData();
   }
 
   @override

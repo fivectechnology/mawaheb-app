@@ -6,6 +6,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
@@ -22,6 +23,7 @@ import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_passwo
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
+import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
@@ -85,6 +87,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<bool> validateEmailFuture;
 
   @observable
+  ObservableFuture<List<VideoModel>> fetchVideoFuture;
+
+  @observable
   ObservableFuture<PlayerModel> registerFuture;
 
   @observable
@@ -107,6 +112,15 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
   @observable
   ObservableFuture<bool> forgetPasswordFuture;
+
+  @observable
+  ObservableFuture<bool> deleteVideoFuture;
+
+  @computed
+  List<VideoModel> get videos => fetchVideoFuture?.value ?? [];
+
+  @computed
+  bool get videosLoading => fetchVideoFuture?.isPending ?? false;
 
   // @observable
   // ObservableFuture<bool> reset;
@@ -461,5 +475,57 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       //     id: player.id, version: player.version, imageId: await imageId);
       return res;
     });
+  }
+
+  @action
+  // ignore: missing_return
+  Future<int> uploadVideo(
+      {File file, int fileSize, String fileName, String fileType, int videoVersion, int videoId, bool withDelete}) {
+    imageId = _profileRepository
+        .uploadFile(file: file, fileSize: fileSize, fileType: fileType, fileName: fileName)
+        .then((res) async {
+      await _profileRepository.uploadVideoPlayer(playerId: player.id, videoId: res).whenSuccess((res) => apply(() {
+            showSnack('Video uploaded', scaffoldKey: RegisterPage.scaffoldKey, duration: 2.seconds);
+            fetchVideos(playerId: player.id);
+            Navigator.of(RegisterPage.keyLoader.currentContext, rootNavigator: true).pop();
+          }));
+
+      return res;
+    });
+  }
+
+  @action
+  void deleteVideo({int videoVersion, int videoId}) {
+    deleteVideoFuture = futureWrapper(
+      () => _profileRepository
+          .deleteVideoPlayer(
+            videoId: videoId,
+            videoVersion: player.id,
+          )
+          .whenSuccess(
+            (res) => res.apply(() {
+              showSnack('Video deleted', scaffoldKey: RegisterPage.scaffoldKey, duration: 2.seconds);
+              fetchVideos(playerId: player.id);
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  void fetchVideos({int playerId}) {
+    fetchVideoFuture = futureWrapper(
+      () => _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
+            (res) => res.data.apply(() {
+              print('fetch videos');
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  Future<void> clearUserData() async {
+    await _prefsRepository.clearUserData();
   }
 }

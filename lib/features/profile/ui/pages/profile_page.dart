@@ -15,8 +15,7 @@ import 'package:provider/provider.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ProfilePage());
 
   // static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -24,8 +23,7 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
-    with TickerProviderStateMixin {
+class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with TickerProviderStateMixin {
   TabController _tabController;
 
   @override
@@ -58,44 +56,38 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
                 backgroundColor: Colors.white,
                 body: Column(
                   children: [
-                    profileActivationRow(
-                        isPending:
-                            // ignore: avoid_bool_literals_in_conditional_expressions
-                            viewmodel.player.status == 'INACTIVE'
-                                ? true
-                                : false),
+                    // profileActivationRow(
+                    //   finishDate: viewmodel.player.subscription.finishAt,
+                    //   isPending:
+                    //       // ignore: avoid_bool_literals_in_conditional_expressions
+                    //       viewmodel.player.status == 'PAYMENT_REQUIRED' ? true : false,
+                    // ),
                     profileDetails(
-                        context: context,
-                        isConfirmed: false,
-                        name: viewmodel.player.name,
-                        photo: viewmodel.player.photo,
-                        token: viewmodel.prefsRepository.token),
+                      context: context,
+                      isConfirmed: false,
+                      name: viewmodel.player.name,
+                      photo: viewmodel.player.photo,
+                      token: viewmodel.prefsRepository.token,
+                    ),
                     Container(
                       height: context.fullHeight * 0.07,
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(width: 1.0, color: GREY))),
+                      decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1.0, color: GREY))),
                       child: TabBar(
                         indicator: UnderlineTabIndicator(
-                            borderSide:
-                                const BorderSide(width: 3.0, color: RED),
-                            insets: EdgeInsets.symmetric(
-                                horizontal: context.fullWidth * 0.1)),
+                            borderSide: const BorderSide(width: 3.0, color: RED),
+                            insets: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.1)),
                         tabs: [
                           Text(
                             context.translate('lbl_my_info'),
-                            style: textTheme.headline2.copyWith(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                            style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             context.translate('lbl_videos'),
-                            style: textTheme.headline2.copyWith(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                            style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             context.translate('lbl_my_views'),
-                            style: textTheme.headline2.copyWith(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                            style: textTheme.headline2.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                         ],
                         unselectedLabelColor: GREY,
@@ -121,7 +113,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
     });
   }
 
-  Widget profileActivationRow({bool isPending}) {
+  Widget profileActivationRow({bool isPending, String finishDate}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.04),
       height: context.fullHeight * 0.08,
@@ -137,14 +129,18 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel>
             width: 10,
           ),
           if (!isPending)
-            Text(
-              context.translate('lbl_active_account'),
-              style: textTheme.subtitle1,
+            Expanded(
+              child: Text(
+                context.translate('lbl_active_account') + finishDate,
+                style: textTheme.subtitle1,
+              ),
             )
           else
-            Text(
-              context.translate('lbl_pending_account'),
-              style: textTheme.subtitle1,
+            Expanded(
+              child: Text(
+                context.translate('lbl_pending_account'),
+                style: textTheme.subtitle1,
+              ),
             ),
           Visibility(
               visible: isPending,

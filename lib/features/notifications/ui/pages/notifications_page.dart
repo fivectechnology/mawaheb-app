@@ -3,12 +3,8 @@ import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/pagination_mixin.dart';
-import 'package:core_sdk/utils/widgets/pagination_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
-import 'package:mawaheb_app/features/notifications/data/models/notification_model.dart';
 import 'package:mawaheb_app/features/notifications/viewmodels/notifications_viewmodel.dart';
 
 class NotificationsPage extends StatefulWidget {

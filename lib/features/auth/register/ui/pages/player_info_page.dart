@@ -34,6 +34,8 @@ class _PlayerInfoPageState
     extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _dateOfBirth = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   CountryModel currentCountry;
@@ -55,6 +57,7 @@ class _PlayerInfoPageState
   void dispose() {
     _phoneController.dispose();
     _nameController.dispose();
+    _dateOfBirth.dispose();
     super.dispose();
   }
 
@@ -88,6 +91,7 @@ class _PlayerInfoPageState
       setState(() {
         _selectedDate = picked;
         dateOfBirth = formatter.format(_selectedDate);
+        _dateOfBirth.text = dateOfBirth;
       });
   }
 
@@ -125,28 +129,17 @@ class _PlayerInfoPageState
                     },
                   ),
                   const SizedBox(height: 26),
-                  Row(
-                    children: [
-                      RaisedButton(
-                        color: Colors.white,
-                        onPressed: () => _selectDate(context),
-                        child: Text('Select Date of Birth',
-                            style: textTheme.bodyText1
-                                .copyWith(color: TEXT_COLOR)),
-                      ),
-                      if (dateOfBirth != null)
-                        Text('  ' + dateOfBirth,
-                            style:
-                                textTheme.bodyText1.copyWith(color: TEXT_COLOR))
-                    ],
+                  InkWell(
+                    onTap: () => _selectDate(context),
+                    child: AbsorbPointer(
+                      child: MawahebTextField(
+                          hintText: 'lbl_date_of_birth',
+                          hintColor: Colors.grey,
+                          textEditingController: _dateOfBirth,
+                          context: context),
+                    ),
                   ),
 
-                  // MawahebTextField(
-                  //     hintText: 'lbl_date_of_birth',
-                  //     hintColor: Colors.grey,
-                  //     textEditingController: _dateOfBirthController,
-                  //     validator: dateValidator,
-                  //     context: context),
                   const SizedBox(height: 26),
                   MawahebTextField(
                       hintText: 'lbl_phone_num',
@@ -187,19 +180,21 @@ class _PlayerInfoPageState
                         .toList(),
                   ),
                   const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    value: 'MALE',
-                    hint: 'lbl_gender',
-                    context: context,
-                    onChanged: (value) {
-                      gender = value;
-                    },
-                    items: ['MALE']
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em),
-                              value: em,
-                            ))
-                        .toList(),
+                  AbsorbPointer(
+                    child: mawhaebDropDown(
+                      value: 'MALE',
+                      hint: 'lbl_gender',
+                      context: context,
+                      onChanged: (value) {
+                        gender = value;
+                      },
+                      items: ['MALE']
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
                   ),
                   // MawahebTextField(
                   //   hintText: 'lbl_gender',

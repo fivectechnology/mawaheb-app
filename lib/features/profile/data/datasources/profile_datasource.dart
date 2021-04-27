@@ -87,12 +87,12 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {'criteria': [], 'operator': 'and'},
         'related': {
-          'videos': ['id', 'video', 'status']
+          'videos': ['id', 'video', 'status'],
+          'subscription': ['startedAt', 'finishAt', 'subscription.name'],
         },
         'fields': [
           'country',
-          'subscriptions',
-          'currentSubscription',
+          'subscription',
           'videos',
           'type',
           'leg',
@@ -135,7 +135,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        'fields': ['player', 'partner', 'partner.photo']
+        'fields': ['player', 'partner', 'partner.photo', 'partner.type']
       },
       mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
     );
@@ -170,9 +170,10 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
     String fileName,
     String fileType,
   }) async {
+    final Dio dio = Dio();
     int id;
     final Response response =
-        await client.post(BASE_API + WEB_SERVICE + '/files/upload',
+        await dio.post(BASE_API + WEB_SERVICE + '/files/upload',
             data: file.openRead(),
             options: Options(headers: {
               'Authorization': 'Basic ${prefsRepository.token}',

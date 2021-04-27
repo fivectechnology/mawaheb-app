@@ -8,8 +8,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 class ViewsPage extends StatefulWidget {
   const ViewsPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
 
   @override
   _ViewsPageState createState() => _ViewsPageState();
@@ -43,40 +42,37 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
         return SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
-              color: Colors.white,
-              child: viewmodel.views != null
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(26),
-                          child: Text(context.translate('lbl_clubs_view'),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
-                        ),
-                        ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: viewmodel.views.length,
-                            itemBuilder: (context, index) {
-                              return userListTile(
-                                  name: viewmodel.views[index].partner.name,
-                                  photo: viewmodel.views[index].partnerPhoto,
-                                  token: viewmodel.prefsRepository.token);
-                            })
-                      ],
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
-                      child: Center(
-                        child: Text(
-                          context.translate(
-                            'msg_no_views',
-                          ),
-                          style: textTheme.headline2.copyWith(fontSize: 18),
-                        ),
+            color: Colors.white,
+            child: viewmodel.views != null
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(26),
+                        child: Text(context.translate('lbl_clubs_view'),
+                            style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                       ),
-                    )),
+                      ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: viewmodel.views.length,
+                          itemBuilder: (context, index) {
+                            return userListTile(
+                                name: viewmodel.views[index].partner.name,
+                                type: viewmodel.views[index].type,
+                                photo: viewmodel.views[index].partnerPhoto,
+                                token: viewmodel.prefsRepository.token);
+                          })
+                    ],
+                  )
+                : Center(
+                    heightFactor: 10,
+                    child: Text(
+                      context.translate('msg_no_views'),
+                      style: textTheme.subtitle1,
+                    ),
+                  ),
+          ),
         );
       },
     );

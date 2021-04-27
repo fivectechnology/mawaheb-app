@@ -93,8 +93,8 @@
   "lbl_select_birth": "تاريخ الميلاد",
   "lbl_my_info": "معلوماتي",
   "lbl_my_views": "المشاهدات",
-  "lbl_active_account": "الحساب مفعل",
-  "lbl_pending_account": "الحساب معلق",
+  "lbl_active_account": "الحساب مفعل حتى ",
+  "lbl_pending_account": "الحساب معلق, يرجى اكمال الدفع",
   "lbl_released_player": "تحرير اللاعب",
   "lbl_confirmed_player": "لاعب مؤكد",
   "lbl_filter": "فلتر",
@@ -104,6 +104,8 @@
   "lbl_clubs_view": "الاندية التي شاهدت حسابك",
   "lbl_empty_notifications": "لا يوجد لديك أية إشعارات حتى الاّن!",
   "lbl_download": "تنزيل",
+  "lbl_save": "حفظ",
+
 
 
 
@@ -152,5 +154,9 @@
   "msg_delete_video": "ستقوم بحذف الفيديو ",
   "msg_delete_video2": " للتأكيد اضغط على الحذف",
   "msg_no_videos": "لا يوجد فيديوهات حتى الان",
-  "lbl_players": "اللاعبون"
+  "msg_delete_videos_note": "لقد قمت باضافة ٣ فيديوهات. رجاء قم بحذف واحد لاضافة فيديو جديد",
+  "msg_confirm_player": "هل انت متأكد من تأكيد حجز اللاعب؟",
+  "msg_release_player": "هل انت متأكد من تحرير اللاعب؟",
+  "msg_book_player": "هل انت متأكد من  حجز اللاعب؟"
+
 }

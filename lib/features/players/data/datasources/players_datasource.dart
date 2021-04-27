@@ -39,10 +39,10 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
     @required int memberShipVersion,
   });
 
-  // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
-  //     getMemberShips({
-  //   @required int partnerId,
-  // });
+// Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
+//     getMemberShips({
+//   @required int partnerId,
+// });
 }
 
 @LazySingleton(as: PlayersDataSource)
@@ -81,6 +81,12 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
         'data': {
           'criteria': [
             {'fieldName': 'type', 'operator': '=', 'value': 'PLAYER'},
+            {'fieldName': 'blocked', 'operator': '=', 'value': false},
+            // {
+            //   'fieldName': 'status',
+            //   'operator': '=',
+            //   'value': 'ACTIVE_WITH_PROFILE'
+            // },
             // {'fieldName': 'blocked', 'operator': '=', 'value': false},
             // {'fieldName': 'status', 'operator': '=', 'value': 'INACTIVE'},
             // {'fieldName': 'availability', 'operator': '=', 'value': 'RELEASED'}
@@ -186,24 +192,24 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
         });
   }
 
-  // @override
-  // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
-  //     getMemberShips({int partnerId}) {
-  //   return mawahebRequest(
-  //     method: METHOD.POST,
-  //     modelName: 'Membership',
-  //     action: EndPointAction.search,
-  //     data: {
-  //       'data': {
-  //         'criteria': [
-  //           {'fieldName': 'partner.id', 'operator': '=', 'value': partnerId},
-  //           {'fieldName': 'status', 'operator': '=', 'value': 'CONFIRMED'}
-  //         ],
-  //         'operator': 'and'
-  //       },
-  //       'fields': ['version', 'player', 'status']
-  //     },
-  //     mapper: ListBaseResponseModel.fromJson(PartnerMemberModel.fromJson),
-  //   );
-  // }
+// @override
+// Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
+//     getMemberShips({int partnerId}) {
+//   return mawahebRequest(
+//     method: METHOD.POST,
+//     modelName: 'Membership',
+//     action: EndPointAction.search,
+//     data: {
+//       'data': {
+//         'criteria': [
+//           {'fieldName': 'partner.id', 'operator': '=', 'value': partnerId},
+//           {'fieldName': 'status', 'operator': '=', 'value': 'CONFIRMED'}
+//         ],
+//         'operator': 'and'
+//       },
+//       'fields': ['version', 'player', 'status']
+//     },
+//     mapper: ListBaseResponseModel.fromJson(PartnerMemberModel.fromJson),
+//   );
+// }
 }

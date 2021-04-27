@@ -1,10 +1,12 @@
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/app/app.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
@@ -15,14 +17,13 @@ import 'package:mawaheb_app/features/settings/ui/change_email_page.dart';
 import 'package:mawaheb_app/features/settings/ui/change_password_page.dart';
 import 'package:mawaheb_app/features/settings/ui/setting_otp_page.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 
 part 'settings_viewmodel.g.dart';
 
 @injectable
-class SettingsViewmodel extends _SettingsViewmodelBase
-    with _$SettingsViewmodel {
+class SettingsViewmodel extends _SettingsViewmodelBase with _$SettingsViewmodel {
   SettingsViewmodel(
     Logger logger,
     SettingsRepository settingsRepository,
@@ -109,8 +110,10 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     logoutFuture = futureWrapper(
       () => _authRepository.logout().then(
             (res) => res.apply(() {
-              App.navKey.currentState
-                  .pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+              App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+              getContext(
+                (context) => Provider.of<AppViewmodel>(context, listen: false).pageIndex = PageIndex.home,
+              );
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
@@ -130,14 +133,11 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
       ));
     }
     sendOtp = futureWrapper(
-      () => _settingsRepository
-          .sendOTP(email: player.email, password: player.password)
-          .whenSuccess(
+      () => _settingsRepository.sendOTP(email: player.email, password: player.password).whenSuccess(
             (res) => res.apply(() {
               logger.d('otp success with res: $res');
               if (!resend) {
-                getContext((context) =>
-                    context.navigator.push(SettingOtpPage.pageRoute(this)));
+                getContext((context) => context.navigator.push(SettingOtpPage.pageRoute(this)));
               } else {
                 //showSnack()
               }
@@ -164,9 +164,7 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _settingsRepository
-          .verifyOTP(email: player.email, code: code)
-          .whenSuccess(
+      () => _settingsRepository.verifyOTP(email: player.email, code: code).whenSuccess(
             (res) => res.data.apply(() async {
               logger.d('otp verify success with res: $res');
               await _settingsRepository
@@ -176,13 +174,11 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
                       }));
             }),
           ),
-      catchBlock: (err) => getContext((context) => showSnack(
-          context.translate('msg_otp_error'),
-          duration: 2.seconds,
-          scaffoldKey: SettingOtpPage.scaffoldKey)),
+      catchBlock: (err) => getContext((context) =>
+          showSnack(context.translate('msg_otp_error'), duration: 2.seconds, scaffoldKey: SettingOtpPage.scaffoldKey)),
       unknownErrorHandler: (err) => getContext(
-        (context) => showSnack(context.translate('msg_otp_error'),
-            duration: 2.seconds, scaffoldKey: SettingOtpPage.scaffoldKey),
+        (context) =>
+            showSnack(context.translate('msg_otp_error'), duration: 2.seconds, scaffoldKey: SettingOtpPage.scaffoldKey),
       ),
       useLoader: true,
     );
@@ -192,20 +188,15 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   void changePassword({String newPassword, String currentPassword}) {
     changeEmailFuture = futureWrapper(
       () => _settingsRepository
-          .changePassword(
-              newPassword: newPassword,
-              currentPassword: currentPassword,
-              id: _prefsRepository.player.id)
+          .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player.id)
           .whenSuccess(
             (res) => res.apply(() async {
               logout();
               logger.d('change password success with res: $res');
             }),
           ),
-      catchBlock: (err) => getContext((context) => showSnack(
-          context.translate('msg_change_password_error'),
-          duration: 2.seconds,
-          scaffoldKey: ChangePasswordPage.scaffoldKey)),
+      catchBlock: (err) => getContext((context) => showSnack(context.translate('msg_change_password_error'),
+          duration: 2.seconds, scaffoldKey: ChangePasswordPage.scaffoldKey)),
       unknownErrorHandler: (err) => getContext(
         (context) => showSnack(context.translate('msg_change_password_error'),
             duration: 2.seconds, scaffoldKey: ChangePasswordPage.scaffoldKey),

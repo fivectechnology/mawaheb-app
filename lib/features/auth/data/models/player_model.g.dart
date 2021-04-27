@@ -52,6 +52,10 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
         ? null
         : PartnerMemberModel.fromJson(
             json['membership'] as Map<String, dynamic>),
+    subscription: json['subscription'] == null
+        ? null
+        : SubscriptionModel.fromJson(
+            json['subscription'] as Map<String, dynamic>),
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -87,4 +91,5 @@ Map<String, dynamic> _$PlayerModelToJson(PlayerModel instance) =>
       'videos': instance.videos,
       'photo': instance.photo,
       'membership': instance.membership,
+      'subscription': instance.subscription,
     };
