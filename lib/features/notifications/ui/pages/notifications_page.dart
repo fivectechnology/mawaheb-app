@@ -109,27 +109,27 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
   }
 }
 
-String dateFormatter(String dateStr, AppLocalizations localizations) {
+String dateFormatter(String dateStr, AppLocalizations context) {
   if (dateStr == null || dateStr.isEmpty) {
     return '';
   }
   final date = DateTime.parse(dateStr);
   final diff = DateTime.now().difference(date);
-  final locale = localizations.locale.languageCode == LANGUAGE_ARABIC ? 'ar_AR' : 'en_US';
-  final bool isArabic = localizations.locale.languageCode == LANGUAGE_ARABIC;
+  final locale = context.locale.languageCode == LANGUAGE_ARABIC ? 'ar_AR' : 'en_US';
+  final bool isArabic = context.locale.languageCode == LANGUAGE_ARABIC;
   if (diff.inMinutes <= 59)
     return diff.inMinutes > 1
         ? isArabic
-            ? '${localizations.translate('lbl_ago')} ${diff.inMinutes} ${localizations.translate('lbl_minutes')}'
-            : '${diff.inMinutes} ${localizations.translate('lbl_minutes_ago')}'
-        : localizations.translate('lbl_just_now');
+            ? '${context.translate('lbl_ago')} ${diff.inMinutes} ${context.translate('lbl_minutes')}'
+            : '${diff.inMinutes} ${context.translate('lbl_minutes_ago')}'
+        : context.translate('lbl_just_now');
   else if (diff.inHours < 24)
     return diff.inHours > 1
         ? isArabic
-            ? '${localizations.translate('lbl_ago')} ${diff.inHours} ${localizations.translate('lbl_houre')}'
-            : '${diff.inHours} ${localizations.translate('lbl_hours_ago')}'
-        : localizations.translate('lbl_an_hour_ago');
+            ? '${context.translate('lbl_ago')} ${diff.inHours} ${context.translate('lbl_houre')}'
+            : '${diff.inHours} ${context.translate('lbl_hours_ago')}'
+        : context.translate('lbl_an_hour_ago');
   else if (diff.inDays <= 7)
-    return '${DateFormat.EEEE(locale).format(date)} ${localizations.translate('lbl_time_at')} ${DateFormat.jm(locale).format(date)}';
-  return '${DateFormat.d(locale).add_MMM().format(date)} ${localizations.translate('lbl_time_at')} ${DateFormat.jm(locale).format(date)}';
+    return '${DateFormat.EEEE(locale).format(date)} ${context.translate('lbl_time_at')} ${DateFormat.jm(locale).format(date)}';
+  return '${DateFormat.d(locale).add_MMM().format(date)} ${context.translate('lbl_time_at')} ${DateFormat.jm(locale).format(date)}';
 }

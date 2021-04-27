@@ -2,8 +2,6 @@ import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
-import 'package:core_sdk/utils/extensions/object.dart';
-import 'package:flutter_svg/avd.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
@@ -43,7 +41,15 @@ abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
   bool get notificationsError => notificationsFuture?.isFailure ?? false;
 
   @computed
-  bool get canLoadMoreNotifications => ((notifications?.offset ?? 0) % PAGE_SIZE) == 0;
+  bool get canLoadMoreNotifications {
+    if (notifications?.offset == null) {
+      return true;
+    }
+    if (notifications.offset < PAGE_SIZE) {
+      return false;
+    }
+    return ((notifications?.offset ?? 0) % PAGE_SIZE) == 0;
+  }
 
   //* ACTIONS *//
 
