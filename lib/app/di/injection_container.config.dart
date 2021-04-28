@@ -68,8 +68,6 @@ Future<GetIt> $inject(
   gh.factory<String>(() => appModule.baseUrl, instanceName: 'ApiBaseUrl');
   gh.factory<BaseOptions>(
       () => appModule.dioOption(get<String>(instanceName: 'ApiBaseUrl')));
-  gh.factory<SplashViewmodel>(
-      () => SplashViewmodel(get<Logger>(), get<PrefsRepository>()));
   gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -187,6 +185,11 @@ Future<GetIt> $inject(
         get<SettingsRepository>(),
         get<AuthRepository>(),
         get<PrefsRepository>(),
+      ));
+  gh.factory<SplashViewmodel>(() => SplashViewmodel(
+        get<Logger>(),
+        get<PrefsRepository>(),
+        get<AuthRepository>(),
       ));
 
   // Eager singletons must be registered in the right order

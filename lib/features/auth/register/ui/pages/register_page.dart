@@ -87,12 +87,12 @@ class _RegisterPageState
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             onPageChanged: (int pageIndex) => changeTitle(pageIndex),
-            children: const [
-              SignUpPage(),
-              OtpPage(),
-              PlayerInfoPage(),
-              AddressInfoPage(),
-              AddSportPage(),
+            children: [
+              if (viewmodel.prefsRepository.player == null) const SignUpPage(),
+              if (viewmodel.prefsRepository.player == null) const OtpPage(),
+              const PlayerInfoPage(),
+              const AddressInfoPage(),
+              const AddSportPage(),
             ],
           ),
         ),
@@ -105,15 +105,21 @@ class _RegisterPageState
     switch (pageIndex) {
       case 0:
         onBackButton = () => context.pop();
-        newTitle = 'lbl_sign_up';
+        newTitle = viewmodel.prefsRepository.player == null
+            ? 'lbl_sign_up'
+            : 'lbl_personal_info';
         break;
       case 1:
         onBackButton = () => slidePage(const PageSliderBackwardModel());
 
-        newTitle = 'lbl_otp';
+        newTitle = viewmodel.prefsRepository.player == null
+            ? 'lbl_otp'
+            : 'lbl_address';
         break;
       case 2:
-        newTitle = 'lbl_personal_info';
+        newTitle = viewmodel.prefsRepository.player == null
+            ? 'lbl_personal_info'
+            : 'lbl_add_sport';
         break;
       case 3:
         newTitle = 'lbl_address';

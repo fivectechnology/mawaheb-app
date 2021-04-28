@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
-
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';

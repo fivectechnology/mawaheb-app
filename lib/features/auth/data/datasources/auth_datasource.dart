@@ -165,7 +165,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'language': prefsRepository.languageCode,
           'blocked': false,
           'type': 'PLAYER',
-          'status': 'ACTIVE',
+          'status': 'INACTIVE',
           'otp': code,
         }
       },
@@ -259,7 +259,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'hand': hand,
           'leg': leg,
           'brief': brief,
-          // 'status': 'ACTIVE'
+          'status': 'ACTIVE'
         }
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),

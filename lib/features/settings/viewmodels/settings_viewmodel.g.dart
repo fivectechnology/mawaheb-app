@@ -72,6 +72,13 @@ mixin _$SettingsViewmodel on _SettingsViewmodelBase, Store {
           () => super.verifyOTPLoading,
           name: '_SettingsViewmodelBase.verifyOTPLoading'))
       .value;
+  Computed<bool> _$otpVerifyErrorComputed;
+
+  @override
+  bool get otpVerifyError =>
+      (_$otpVerifyErrorComputed ??= Computed<bool>(() => super.otpVerifyError,
+              name: '_SettingsViewmodelBase.otpVerifyError'))
+          .value;
 
   final _$logoutFutureAtom = Atom(name: '_SettingsViewmodelBase.logoutFuture');
 
@@ -233,7 +240,8 @@ passwordError: ${passwordError},
 player: ${player},
 playerEmailLoading: ${playerEmailLoading},
 otpCode: ${otpCode},
-verifyOTPLoading: ${verifyOTPLoading}
+verifyOTPLoading: ${verifyOTPLoading},
+otpVerifyError: ${otpVerifyError}
     ''';
   }
 }
