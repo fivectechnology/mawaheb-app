@@ -51,7 +51,7 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       action: EndPointAction.search,
       method: METHOD.POST,
       data: {
-        'fields': ['id', 'version', 'summary', 'vision', 'mission', 'ourValues']
+        // 'fields': ['id', 'version', 'summary', 'vision', 'mission', 'ourValues']
       },
       mapper: ListBaseResponseModel.fromJson(AboutUsModel.fromJson),
     );
@@ -64,17 +64,17 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       action: EndPointAction.search,
       method: METHOD.POST,
       data: {
-        'fields': [
-          'id',
-          'version',
-          'email',
-          'phone',
-          'country',
-          'emirate',
-          'address',
-          'longitude',
-          'latitude'
-        ]
+        // 'fields': [
+        //   'id',
+        //   'version',
+        //   'email',
+        //   'phone',
+        //   'country',
+        //   'emirate',
+        //   'address',
+        //   'longitude',
+        //   'latitude'
+        // ]
       },
       mapper: ListBaseResponseModel.fromJson(ContactUsModel.fromJson),
     );
@@ -88,7 +88,7 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': ['id', 'version', 'title', 'source'],
+        // 'fields': ['id', 'version', 'title', 'source'],
       },
       mapper: ListBaseResponseModel.fromJson(StrategicPartnersModel.fromJson),
     );
@@ -102,7 +102,7 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': ['id', 'version', 'title', 'source'],
+        // 'fields': ['id', 'version', 'title', 'source'],
       },
       mapper: ListBaseResponseModel.fromJson(DownloadCenterModel.fromJson),
     );
@@ -115,7 +115,7 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': ['id', 'version', 'title', 'source'],
+        // 'fields': ['id', 'version', 'title', 'source'],
       },
       mapper: ListBaseResponseModel.fromJson(GalleryModel.fromJson),
     );

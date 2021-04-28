@@ -57,7 +57,9 @@ class _StrategicPartnersPageState
                   return imageRow(
                       context: context,
                       token: viewmodel.prefsRepository.token,
-                      title: partners[index].title,
+                      title: viewmodel.prefsRepository.languageCode == 'en'
+                          ? partners[index].title
+                          : partners[index].titleAr,
                       idSource: partners[index].source.id);
                 });
           },

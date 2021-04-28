@@ -32,9 +32,10 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
       // TODO(ahmad): use this when you want to test base pages without login
       // getContext((context) => context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
       // print(prefsRepository.type);
-      // if (prefsRepository.player.status == 'INACTIVE') {
-      //   logout();
-      // }
+      if (prefsRepository.player != null &&
+          prefsRepository.player.status == 'INACTIVE') {
+        logout();
+      }
       // TODO(ahmad): use this in release
       getContext((context) {
         (prefsRepository.user) != null

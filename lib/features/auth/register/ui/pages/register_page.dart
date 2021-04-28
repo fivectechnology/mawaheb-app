@@ -13,6 +13,7 @@ import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
@@ -23,6 +24,7 @@ class RegisterPage extends StatefulWidget {
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static final GlobalKey<State> keyLoader = GlobalKey<State>();
+
   static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
       MaterialPageRoute(
         builder: (context) => Provider.value(
@@ -83,18 +85,21 @@ class _RegisterPageState
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38),
-          child: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            onPageChanged: (int pageIndex) => changeTitle(pageIndex),
-            children: [
-              if (viewmodel.prefsRepository.player == null) const SignUpPage(),
-              if (viewmodel.prefsRepository.player == null) const OtpPage(),
-              const PlayerInfoPage(),
-              const AddressInfoPage(),
-              const AddSportPage(),
-            ],
-          ),
+          child: Observer(builder: (_) {
+            return PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              onPageChanged: (int pageIndex) => changeTitle(pageIndex),
+              children: [
+                if (viewmodel.prefsRepository.player == null)
+                  const SignUpPage(),
+                if (viewmodel.prefsRepository.player == null) const OtpPage(),
+                const PlayerInfoPage(),
+                const AddressInfoPage(),
+                const AddSportPage(),
+              ],
+            );
+          }),
         ),
       ),
     );

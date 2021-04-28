@@ -21,6 +21,7 @@ ContactUsModel _$ContactUsModelFromJson(Map<String, dynamic> json) {
     latitude: json['latitude'] as String,
     longitude: json['longitude'] as String,
     email: json['email'] as String,
+    addressAr: json['addressAr'] as String,
   );
 }
 
@@ -34,5 +35,6 @@ Map<String, dynamic> _$ContactUsModelToJson(ContactUsModel instance) =>
       'phone': instance.phone,
       'longitude': instance.longitude,
       'latitude': instance.latitude,
+      'addressAr': instance.addressAr,
       'email': instance.email,
     };

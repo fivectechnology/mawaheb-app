@@ -56,7 +56,9 @@ class _GalleryPageState
                     return imageRow(
                         context: context,
                         token: viewmodel.prefsRepository.token,
-                        title: gallery[index].title,
+                        title: viewmodel.prefsRepository.languageCode == 'en'
+                            ? gallery[index].title
+                            : gallery[index].titleAr,
                         idSource: gallery[index].source.id);
                   });
             }));

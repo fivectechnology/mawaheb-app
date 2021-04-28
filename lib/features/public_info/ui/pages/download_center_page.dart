@@ -71,7 +71,10 @@ class _DownLoadCenterPageState
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
-                          fileName: downloads[index].title,
+                          fileName:
+                              viewmodel.prefsRepository.languageCode == 'en'
+                                  ? downloads[index].title
+                                  : downloads[index].titleAr,
                           onPress: () => launchURL(
                             id: downloads[index].source.id,
                             parentId: downloads[index].id,
