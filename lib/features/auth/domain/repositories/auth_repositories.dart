@@ -65,7 +65,8 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
+      {@required int sportId});
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -86,7 +87,8 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<bool>> forgetPassword({String email});
 
-  Future<NetworkResult<bool>> resetPassword({String email, String password, int code});
+  Future<NetworkResult<bool>> resetPassword(
+      {String email, String password, int code});
 
   Future<NetworkResult<bool>> validateEmail({String email});
 }

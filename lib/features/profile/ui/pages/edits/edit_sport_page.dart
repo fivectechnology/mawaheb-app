@@ -21,6 +21,7 @@ class EditSportPage extends StatefulWidget {
   const EditSportPage({
     Key key,
   }) : super(key: key);
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
       MaterialPageRoute(
@@ -69,9 +70,9 @@ class _EditSportPageState
     // weightController = TextEditingController(text: viewmodel.player.weight);
     // briefController = TextEditingController(text: viewmodel.player.brief);
 
-    if (viewmodel?.positionFuture == null) {
-      viewmodel.getPostions();
-    }
+    // if (viewmodel?.positionFuture == null) {
+    //   viewmodel.getPositions();
+    // }
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
     }
@@ -80,6 +81,7 @@ class _EditSportPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: EditSportPage.scaffoldKey,
       backgroundColor: WHITE,
       appBar: customAppBar(
           context: context,
@@ -90,7 +92,7 @@ class _EditSportPageState
                 .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
           }),
       body: Observer(builder: (_) {
-        return viewmodel.sports == null || viewmodel.positions == null
+        return viewmodel.sports == null
             ? const Center(child: MawahebLoader())
             : Form(
                 key: _formKey,
@@ -104,6 +106,7 @@ class _EditSportPageState
                         context: context,
                         onChanged: (value) {
                           currentSport = value;
+                          viewmodel.getPositions(sportId: currentSport.id);
                         },
                         items: viewmodel.sports
                             .map((em) => DropdownMenuItem(
@@ -113,32 +116,42 @@ class _EditSportPageState
                             .toList(),
                       ),
                       const SizedBox(height: 26),
-                      mawhaebDropDown(
-                        hint: context.translate('lbl_position'),
-                        context: context,
-                        onChanged: (value) {
-                          position = value;
-                        },
-                        items: viewmodel.positions
-                            .map((em) => DropdownMenuItem(
-                                  child: Text(em.name),
-                                  value: em,
-                                ))
-                            .toList(),
-                      ),
+                      if (viewmodel.positions != null)
+                        mawhaebDropDown(
+                          hint: context.translate('lbl_position'),
+                          context: context,
+                          onChanged: (value) {
+                            position = value;
+                          },
+                          items: viewmodel.positions
+                              .map((em) => DropdownMenuItem(
+                                    child: Text(em.name),
+                                    value: em,
+                                  ))
+                              .toList(),
+                        ),
+                      if (viewmodel.positions == null)
+                        InkWell(
+                          onTap: () {
+                            viewmodel.showSnack(
+                                context.translate('msg_select_sport'),
+                                duration: const Duration(seconds: 3),
+                                scaffoldKey: EditSportPage.scaffoldKey);
+                          },
+                          child: mawhaebDropDown(
+                            hint: context.translate('lbl_position'),
+                            context: context,
+                          ),
+                        ),
                       const SizedBox(height: 26),
                       MawahebTextField(
                         keyboardType: TextInputType.number,
-
                         hintText: context.translate('lbl_weight'),
                         hintColor: Colors.grey,
                         validator: (value) {
                           return weightValidator(
                               context: context, value: value);
                         },
-                        // onChanged: (value) {
-                        //   weightController.text = value;
-                        // },
                         textEditingController: hightController,
                         context: context,
                       ),

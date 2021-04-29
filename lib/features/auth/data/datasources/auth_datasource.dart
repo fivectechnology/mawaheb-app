@@ -35,8 +35,8 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
-      getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
+      {@required int sportId});
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -156,7 +156,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {
           'group': {'id': 5, 'code': 'players'},
-          'oldPassword': 'admin',
+          'oldPassword': 'welcome1',
           'name': email.split('@').first,
           'code': email,
           'email': email,
@@ -319,13 +319,20 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
-      getPositions() {
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
+      {@required int sportId}) {
     return mawahebRequest(
       modelName: 'SportPosition',
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
+        'data': {
+          'criteria': [
+            if (sportId != null)
+              {'fieldName': 'sport.id', 'operator': '=', 'value': sportId}
+          ],
+          'operator': 'and'
+        },
         'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson),

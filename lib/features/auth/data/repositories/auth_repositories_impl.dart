@@ -172,8 +172,9 @@ class AuthRepositoryImpl extends AuthRepository {
       authDataSource.getEmirates();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
-      getPositions() => authDataSource.getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
+          {@required int sportId}) =>
+      authDataSource.getPositions(sportId: sportId);
 
   @override
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() =>

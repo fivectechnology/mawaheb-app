@@ -68,9 +68,7 @@ class _AddSportPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.positionFuture == null) {
-      viewmodel.getPostions();
-    }
+
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
     }
@@ -151,20 +149,33 @@ class _AddSportPageState
                         .toList(),
                   ),
                   const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    value: viewmodel.positions.first,
-                    hint: context.translate('lbl_position'),
-                    context: context,
-                    onChanged: (value) {
-                      position = value;
-                    },
-                    items: viewmodel.positions
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.name),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
+                  if (viewmodel.positions != null)
+                    mawhaebDropDown(
+                      hint: context.translate('lbl_position'),
+                      context: context,
+                      onChanged: (value) {
+                        position = value;
+                      },
+                      items: viewmodel.positions
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em.name),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
+                  if (viewmodel.positions == null)
+                    InkWell(
+                      onTap: () {
+                        viewmodel.showSnack(
+                            context.translate('msg_select_sport'),
+                            duration: const Duration(seconds: 3),
+                            scaffoldKey: RegisterPage.scaffoldKey);
+                      },
+                      child: mawhaebDropDown(
+                        hint: context.translate('lbl_position'),
+                        context: context,
+                      ),
+                    ),
                   const SizedBox(height: 26),
                   MawahebTextField(
                     keyboardType: TextInputType.number,
@@ -189,6 +200,7 @@ class _AddSportPageState
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                      helperText: context.translate('lbl_prefer_hand'),
                       value: 'RIGHT',
                       hint: context.translate('lbl_prefer_hand'),
                       context: context,
@@ -203,6 +215,7 @@ class _AddSportPageState
                       }),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                      helperText: context.translate('lbl_prefer_leg'),
                       value: 'RIGHT',
                       hint: context.translate('lbl_prefer_leg'),
                       context: context,

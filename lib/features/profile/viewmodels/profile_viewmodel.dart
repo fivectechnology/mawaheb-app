@@ -84,6 +84,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<List<SportPositionModel>> positionFuture;
 
   @observable
+  List<SportPositionModel> tempPositionFuture = [];
+
+  @observable
   ObservableFuture<List<CountryModel>> countryFuture;
 
   @observable
@@ -156,8 +159,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void getPostions() => positionFuture = futureWrapper(
-        () => _authRepository.getPositions().whenSuccess((res) => res.data),
+  void getPositions({@required int sportId}) => positionFuture = futureWrapper(
+        () => _authRepository
+            .getPositions(sportId: sportId)
+            .whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 

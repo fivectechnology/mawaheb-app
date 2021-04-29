@@ -274,6 +274,22 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
     });
   }
 
+  final _$tempPositionFutureAtom =
+      Atom(name: '_ProfileViewmodelBase.tempPositionFuture');
+
+  @override
+  List<SportPositionModel> get tempPositionFuture {
+    _$tempPositionFutureAtom.reportRead();
+    return super.tempPositionFuture;
+  }
+
+  @override
+  set tempPositionFuture(List<SportPositionModel> value) {
+    _$tempPositionFutureAtom.reportWrite(value, super.tempPositionFuture, () {
+      super.tempPositionFuture = value;
+    });
+  }
+
   final _$countryFutureAtom = Atom(name: '_ProfileViewmodelBase.countryFuture');
 
   @override
@@ -382,11 +398,11 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
-  void getPostions() {
+  void getPositions({@required int sportId}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
-        name: '_ProfileViewmodelBase.getPostions');
+        name: '_ProfileViewmodelBase.getPositions');
     try {
-      return super.getPostions();
+      return super.getPositions(sportId: sportId);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -586,6 +602,7 @@ editSportPlayerFuture: ${editSportPlayerFuture},
 categoryFuture: ${categoryFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
+tempPositionFuture: ${tempPositionFuture},
 countryFuture: ${countryFuture},
 emirateFuture: ${emirateFuture},
 viewsFuture: ${viewsFuture},
