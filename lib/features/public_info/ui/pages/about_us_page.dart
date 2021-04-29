@@ -57,22 +57,30 @@ class _AboutUsPageState
                     aboutUsTile(
                       title: 'lbl_summary',
                       image: 'assets/images/ic_summary.png',
-                      text: aboutUs?.summary ?? 'null',
+                      text: viewmodel.prefsRepository.languageCode == 'en'
+                          ? aboutUs?.summary ?? ''
+                          : aboutUs?.summaryAr ?? '',
                     ),
                     aboutUsTile(
                       title: 'lbl_mission',
                       image: 'assets/images/ic_mission.png',
-                      text: aboutUs?.mission ?? 'null',
+                      text: viewmodel.prefsRepository.languageCode == 'en'
+                          ? aboutUs?.mission ?? ''
+                          : aboutUs?.missionAr ?? '',
                     ),
                     aboutUsTile(
                       title: 'lbl_vision',
                       image: 'assets/images/ic_vision.png',
-                      text: aboutUs?.vision ?? 'null',
+                      text: viewmodel.prefsRepository.languageCode == 'en'
+                          ? aboutUs?.vision ?? ''
+                          : aboutUs?.visionAr ?? '',
                     ),
                     aboutUsTile(
                       title: 'lbl_value',
                       image: 'assets/images/ic_value.png',
-                      text: aboutUs?.ourValues ?? 'null',
+                      text: viewmodel.prefsRepository.languageCode == 'en'
+                          ? aboutUs?.ourValues ?? ''
+                          : aboutUs?.ourValuesAr ?? '',
                     )
                   ],
                 ),

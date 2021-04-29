@@ -7,7 +7,12 @@ Widget mawahebVideoWidget({String token, int videoId}) {
         'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$videoId/view',
         headers: {'Authorization': 'Basic $token'}),
     configuration: const BetterPlayerConfiguration(
-        controlsConfiguration:
-            BetterPlayerControlsConfiguration(enableFullscreen: false)),
+        controlsConfiguration: BetterPlayerControlsConfiguration(
+            enableQualities: false,
+            enableSubtitles: false,
+            enablePlaybackSpeed: false,
+            enableOverflowMenu: false,
+            enableAudioTracks: false,
+            enableFullscreen: false)),
   );
 }

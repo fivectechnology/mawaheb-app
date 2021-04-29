@@ -11,21 +11,25 @@ class DownloadCenterModel extends VersionModel with EquatableMixin {
   const DownloadCenterModel({
     @required this.title,
     @required this.source,
+    @required this.titleAr,
     @required int id,
     @required int version,
   }) : super(id, version);
 
   final String title;
+  final String titleAr;
   final SourceModel source;
 
   DownloadCenterModel copyWith({
     String title,
+    String titleAr,
     SourceModel source,
     int id,
     int version,
   }) {
     return DownloadCenterModel(
       title: title ?? this.title,
+      titleAr: titleAr ?? this.titleAr,
       source: source ?? this.source,
       id: id ?? this.id,
       version: version ?? this.version,
@@ -37,12 +41,7 @@ class DownloadCenterModel extends VersionModel with EquatableMixin {
 
   @override
   List<Object> get props {
-    return [
-      title,
-      source,
-      id,
-      version,
-    ];
+    return [title, source, id, version, titleAr];
   }
 
   static DownloadCenterModel fromJson(Object json) =>

@@ -44,6 +44,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.photo,
     @required this.membership,
     @required this.subscription,
+    @required this.fullNameAr,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -75,6 +76,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final SourceModel photo;
   final PartnerMemberModel membership;
   final SubscriptionModel subscription;
+  final String fullNameAr;
 
   PlayerModel copyWith(
       {String code,
@@ -106,6 +108,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       SourceModel photo,
       PartnerMemberModel membership,
       SubscriptionModel subscription,
+      String fullNameAr,
       List<VideoModel> videos}) {
     return PlayerModel(
       code: code ?? this.code,
@@ -135,6 +138,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       videos: videos ?? this.videos,
       membership: membership ?? this.membership,
       subscription: subscription ?? this.subscription,
+      fullNameAr: fullNameAr ?? this.fullNameAr,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -172,7 +176,8 @@ class PlayerModel extends VersionModel with EquatableMixin {
       videos,
       photo,
       membership,
-      subscription
+      subscription,
+      fullNameAr
     ];
   }
 
@@ -211,6 +216,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
           status: null,
           subscription: null,
           videos: null,
+          fullNameAr: null,
           availability: null);
 
   static PlayerModel loggedPlayerId({
@@ -244,6 +250,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
           emirate: null,
           status: null,
           videos: null,
+          fullNameAr: null,
           subscription: null,
           availability: null);
 

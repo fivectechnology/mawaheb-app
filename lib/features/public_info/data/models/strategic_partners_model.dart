@@ -11,21 +11,21 @@ class StrategicPartnersModel extends VersionModel with EquatableMixin {
   const StrategicPartnersModel({
     @required this.title,
     @required this.source,
+    @required this.titleAr,
     @required int id,
     @required int version,
   }) : super(id, version);
 
   final String title;
+  final String titleAr;
+
   final SourceModel source;
 
-  StrategicPartnersModel copyWith({
-    String title,
-    SourceModel source,
-    int id,
-    int version,
-  }) {
+  StrategicPartnersModel copyWith(
+      {String title, SourceModel source, int id, int version, String titleAr}) {
     return StrategicPartnersModel(
       title: title ?? this.title,
+      titleAr: titleAr ?? this.titleAr,
       source: source ?? this.source,
       id: id ?? this.id,
       version: version ?? this.version,
@@ -39,6 +39,7 @@ class StrategicPartnersModel extends VersionModel with EquatableMixin {
   List<Object> get props {
     return [
       title,
+      titleAr,
       source,
       id,
       version,

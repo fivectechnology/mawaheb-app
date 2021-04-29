@@ -10,17 +10,18 @@ part 'contact_us_model.g.dart';
 
 @JsonSerializable()
 class ContactUsModel extends VersionModel with EquatableMixin {
-  const ContactUsModel({
-    @required int id,
-    @required int version,
-    @required this.country,
-    @required this.emirate,
-    @required this.address,
-    @required this.phone,
-    @required this.latitude,
-    @required this.longitude,
-    @required this.email,
-  }) : super(id, version);
+  const ContactUsModel(
+      {@required int id,
+      @required int version,
+      @required this.country,
+      @required this.emirate,
+      @required this.address,
+      @required this.phone,
+      @required this.latitude,
+      @required this.longitude,
+      @required this.email,
+      @required this.addressAr})
+      : super(id, version);
 
   final CountryModel country;
   final EmirateModel emirate;
@@ -28,7 +29,7 @@ class ContactUsModel extends VersionModel with EquatableMixin {
   final String phone;
   final String longitude;
   final String latitude;
-
+  final String addressAr;
   final String email;
 
   ContactUsModel copyWith(
@@ -41,6 +42,7 @@ class ContactUsModel extends VersionModel with EquatableMixin {
       String googleMapsCoordination,
       String email,
       String longitude,
+      String addressAr,
       String latitude}) {
     return ContactUsModel(
       id: id ?? this.id,
@@ -52,6 +54,7 @@ class ContactUsModel extends VersionModel with EquatableMixin {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       email: email ?? this.email,
+      addressAr: addressAr ?? this.addressAr,
     );
   }
 
@@ -68,6 +71,7 @@ class ContactUsModel extends VersionModel with EquatableMixin {
       longitude,
       latitude,
       email,
+      addressAr
     ];
   }
 

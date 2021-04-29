@@ -41,6 +41,19 @@ class _RegisterPageState
 
   String pageTitle = 'lbl_sign_up';
   VoidCallback onBackButton;
+  List<Widget> pages1 = [
+    const SignUpPage(),
+    const OtpPage(),
+    const PlayerInfoPage(),
+    const AddressInfoPage(),
+    const AddSportPage(),
+  ];
+
+  List<Widget> pages2 = [
+    const PlayerInfoPage(),
+    const AddressInfoPage(),
+    const AddSportPage(),
+  ];
 
   @override
   void initState() {
@@ -84,36 +97,38 @@ class _RegisterPageState
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38),
           child: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            onPageChanged: (int pageIndex) => changeTitle(pageIndex),
-            children: const [
-              SignUpPage(),
-              OtpPage(),
-              PlayerInfoPage(),
-              AddressInfoPage(),
-              AddSportPage(),
-            ],
-          ),
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              onPageChanged: (int pageIndex) => changeTitle(pageIndex),
+              children:
+                  viewmodel.prefsRepository.player == null ? pages1 : pages2),
         ),
       ),
     );
   }
 
   void changeTitle(int pageIndex) {
+    print('ttttttttt');
+    print(pageIndex);
     String newTitle;
     switch (pageIndex) {
       case 0:
         onBackButton = () => context.pop();
-        newTitle = 'lbl_sign_up';
+        newTitle = viewmodel.prefsRepository.player == null
+            ? 'lbl_sign_up'
+            : 'lbl_personal_info';
         break;
       case 1:
         onBackButton = () => slidePage(const PageSliderBackwardModel());
 
-        newTitle = 'lbl_otp';
+        newTitle = viewmodel.prefsRepository.player == null
+            ? 'lbl_otp'
+            : 'lbl_address';
         break;
       case 2:
-        newTitle = 'lbl_personal_info';
+        newTitle = viewmodel.prefsRepository.player == null
+            ? 'lbl_personal_info'
+            : 'lbl_add_sport';
         break;
       case 3:
         newTitle = 'lbl_address';

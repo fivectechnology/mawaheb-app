@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/public_info/data/models/download_center_model.dart';
 
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DownLoadCenterPage extends StatefulWidget {
   const DownLoadCenterPage({Key key}) : super(key: key);
@@ -22,7 +28,12 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState
+    extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+  Future<Directory> downloadsDirectory =
+      DownloadsPathProvider.downloadsDirectory;
+  String downloadsDirPath = '/storage/emulated/0/Download';
+
   @override
   void initState() {
     super.initState();
@@ -55,14 +66,18 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                   ? const SizedBox()
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: context.fullWidth * 0.02),
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
-                          fileName: downloads[index].title,
+                          fileName:
+                              viewmodel.prefsRepository.languageCode == 'en'
+                                  ? downloads[index].title
+                                  : downloads[index].titleAr,
                           onPress: () => launchURL(
                             id: downloads[index].source.id,
-                            version: downloads[index].source.version ?? 0,
+                            parentId: downloads[index].id,
                           ),
                         );
                       });
@@ -82,7 +97,9 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Expanded(child: Text(fileName, style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
+              Expanded(
+                  child: Text(fileName,
+                      style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
             ],
           ),
           Row(
@@ -107,25 +124,23 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
     );
   }
 
-  void launchURL({int id, int version}) async {
-    // final taskId = await FlutterDownloader.enqueue(
-    //   headers: {'Authorization': 'Basic ${viewmodel.prefsRepository.token}'},
-    //   url:
-    //       'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/view',
+  void launchURL({int id, int version, int parentId}) async {
+    final savedDir = Directory(downloadsDirPath);
 
-    //   savedDir: '/storage/emulated/0/Download/',
-    //   showNotification: true,
-    //   // show download progress in status bar (for Android)
-    //   openFileFromNotification: true, // click on
-    //   // notification to open downloaded file (for Android)
-    // );
-    final url = 'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/view';
-    if (await canLaunch(url)) {
-      print(url);
-      print(viewmodel.prefsRepository.token);
-      await launch(url, headers: {'Authorization': 'Basic ${viewmodel.prefsRepository.token}'});
-    } else {
-      throw 'Could not launch $url';
+    if (savedDir.existsSync()) {
+      savedDir.create();
+    }
+    if (await Permission.storage.request().isGranted) {
+      await FlutterDownloader.enqueue(
+        headers: {'Authorization': 'Basic ${viewmodel.prefsRepository.token}'},
+        url:
+            'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/$id/content/download?parentId=$parentId&parentModel=com.axelor.mawaheb.base.db.DownloadCentreItem',
+
+        savedDir: savedDir.path,
+        showNotification: true,
+
+        openFileFromNotification: true, // click on
+      );
     }
   }
 }
