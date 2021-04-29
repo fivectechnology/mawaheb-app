@@ -7,11 +7,11 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:injectable/injectable.dart';
 
-// const String DEFAULT_USER_NAME = 'apiuser@mawaheb.com';
-// const String DEFAULT_PASSWORD = 'welcome1';
+const String DEFAULT_USER_NAME = 'apiuser@mawaheb.com';
+const String DEFAULT_PASSWORD = 'welcome1';
 
-const String DEFAULT_USER_NAME = 'admin';
-const String DEFAULT_PASSWORD = 'admin';
+// const String DEFAULT_USER_NAME = 'admin';
+// const String DEFAULT_PASSWORD = 'admin';
 
 @Singleton(as: PrefsRepository)
 class PrefsRepositoryImpl implements PrefsRepository {

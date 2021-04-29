@@ -11,6 +11,13 @@ import GoogleMaps
   GMSServices.provideAPIKey("AIzaSyADYMBq9jwru-sZa5Dta6sYK9O-vZUacQI")
 
     GeneratedPluginRegistrant.register(with: self)
+    FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+
+  private func registerPlugins(registry: FlutterPluginRegistry) { 
+    if (!registry.hasPlugin("FlutterDownloaderPlugin")) {
+       FlutterDownloaderPlugin.register(with: registry.registrar(forPlugin: "FlutterDownloaderPlugin")!)
+    }
+}
 }
