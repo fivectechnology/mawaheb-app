@@ -11,8 +11,6 @@ import 'package:mawaheb_app/features/public_info/data/models/download_center_mod
 
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DownLoadCenterPage extends StatefulWidget {
   const DownLoadCenterPage({Key key}) : super(key: key);

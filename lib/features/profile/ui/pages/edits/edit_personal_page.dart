@@ -24,7 +24,8 @@ class EditPersonalPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
           value: profileViewmodel,
           child: const EditPersonalPage(),
@@ -37,7 +38,8 @@ class EditPersonalPage extends StatefulWidget {
   _EditPersonalPageState createState() => _EditPersonalPageState();
 }
 
-class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
+class _EditPersonalPageState
+    extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dateOfBirth = TextEditingController();
@@ -50,7 +52,6 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
   String dateOfBirth;
   DateTime _selectedDate;
 
-  File _image;
   String fileType;
   String fileName;
   int fileSize;
@@ -124,7 +125,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
           title: 'lbl_personal_info',
           withTitle: true,
           onBackButton: () {
-            App.navKey.currentState.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+            App.navKey.currentState.context
+                .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
           }),
       body: Observer(builder: (_) {
         return viewmodel.countries == null || viewmodel.categories == null
@@ -132,7 +134,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
             : Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -165,7 +168,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
                           hintColor: Colors.grey,
                           textEditingController: _phoneController,
                           validator: (value) {
-                            return phoneValidator(context: context, phone: value);
+                            return phoneValidator(
+                                context: context, phone: value);
                           },
                           context: context),
                       const SizedBox(height: 26),
@@ -234,12 +238,17 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
                                   viewmodel.editPersonalInfo(
-                                    phone: _phoneController.text ?? viewmodel.player.phone,
-                                    name: _nameController.text ?? viewmodel.player,
+                                    phone: _phoneController.text ??
+                                        viewmodel.player.phone,
+                                    name: _nameController.text ??
+                                        viewmodel.player,
                                     gender: gender ?? viewmodel.player.gender,
-                                    dateOfBirth: dateOfBirth ?? viewmodel.player.dateOfBirth,
-                                    categoryModel: currentCategory ?? viewmodel.player.category,
-                                    country: currentCountry ?? viewmodel.player.country,
+                                    dateOfBirth: dateOfBirth ??
+                                        viewmodel.player.dateOfBirth,
+                                    categoryModel: currentCategory ??
+                                        viewmodel.player.category,
+                                    country: currentCountry ??
+                                        viewmodel.player.country,
                                   );
                                 }
                               });
@@ -286,7 +295,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
           },
           child: Text(
             context.translate('lbl_add_image'),
-            style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+            style:
+                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
           ),
         )
       ],

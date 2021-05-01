@@ -1,6 +1,5 @@
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
-import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
@@ -13,7 +12,8 @@ import 'package:supercharged/supercharged.dart';
 part 'notifications_viewmodel.g.dart';
 
 @injectable
-class NotificationsViewmodel extends _NotificationsViewmodelBase with _$NotificationsViewmodel {
+class NotificationsViewmodel extends _NotificationsViewmodelBase
+    with _$NotificationsViewmodel {
   NotificationsViewmodel(
     Logger logger,
     NotificationsRepository notificationsRepository,
@@ -21,18 +21,21 @@ class NotificationsViewmodel extends _NotificationsViewmodelBase with _$Notifica
 }
 
 abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
-  _NotificationsViewmodelBase(Logger logger, this._notificationsRepository) : super(logger);
+  _NotificationsViewmodelBase(Logger logger, this._notificationsRepository)
+      : super(logger);
   final NotificationsRepository _notificationsRepository;
 
   //* OBSERVERS *//
 
   @observable
-  ObservableFuture<ListBaseResponseModel<NotificationModel>> notificationsFuture;
+  ObservableFuture<ListBaseResponseModel<NotificationModel>>
+      notificationsFuture;
 
   //* COMPUTED *//
 
   @computed
-  ListBaseResponseModel<NotificationModel> get notifications => notificationsFuture?.value;
+  ListBaseResponseModel<NotificationModel> get notifications =>
+      notificationsFuture?.value;
 
   @computed
   bool get notificationsLoading => notificationsFuture?.isPending ?? false;
@@ -63,8 +66,11 @@ abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
         offset = 0;
       }
 
-      final ObservableFuture<ListBaseResponseModel<NotificationModel>> future = futureWrapper(
-        () => _notificationsRepository.getNotifications(limit: PAGE_SIZE, offset: offset).replace(
+      final ObservableFuture<ListBaseResponseModel<NotificationModel>> future =
+          futureWrapper(
+        () => _notificationsRepository
+            .getNotifications(limit: PAGE_SIZE, offset: offset)
+            .replace(
               oldValue: notificationsFuture,
               onSuccess: () {},
             ),

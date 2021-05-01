@@ -15,7 +15,6 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
@@ -27,7 +26,6 @@ import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/videos_page.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 
 part 'profile_viewmodel.g.dart';
 

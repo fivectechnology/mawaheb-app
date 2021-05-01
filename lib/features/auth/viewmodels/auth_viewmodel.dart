@@ -22,12 +22,8 @@ import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/add_sport_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/address_info_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
-import 'package:mawaheb_app/features/auth/register/ui/pages/sign_up_page.dart';
 import 'package:mawaheb_app/features/auth/subscription/ui/pages/test_subscription.dart';
-import 'package:mawaheb_app/features/players/ui/pages/personal_info_page.dart';
 import 'package:mawaheb_app/features/profile/data/models/subscription_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/transaction_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';

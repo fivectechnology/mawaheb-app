@@ -20,6 +20,7 @@ class CountryModel extends VersionModel with EquatableMixin {
 
   CountryModel copyWith({
     String name,
+    String tName,
     int id,
     int version,
   }) {

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:full_screen_image/full_screen_image.dart';
 
 Widget networkImageCached({int sourceId, String token}) {
   return CachedNetworkImage(
