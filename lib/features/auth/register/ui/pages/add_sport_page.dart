@@ -76,6 +76,10 @@ class _AddSportPageState
     if (viewmodel?.videos == null) {
       viewmodel.fetchVideos(playerId: viewmodel.player.id);
     }
+
+    if (viewmodel?.subscriptionFuture == null) {
+      viewmodel.getSubscription();
+    }
   }
 
   Future getVideo() async {
@@ -106,8 +110,10 @@ class _AddSportPageState
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const CircularProgressIndicator(),
-                    const SizedBox(width: 4),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: CircularProgressIndicator(),
+                    ),
                     Text(context.translate('msg_uploading_video')),
                   ],
                 ),
@@ -128,18 +134,18 @@ class _AddSportPageState
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return viewmodel.sports == null || viewmodel.positions == null
+      return viewmodel.sports == null
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
               child: ListView(
                 children: [
                   mawhaebDropDown(
-                    value: viewmodel.sports.first,
                     hint: context.translate('lbl_sport_name'),
                     context: context,
                     onChanged: (value) {
                       currentSport = value;
+                      viewmodel.getPositions(sportId: currentSport.id);
                     },
                     items: viewmodel.sports
                         .map((em) => DropdownMenuItem(

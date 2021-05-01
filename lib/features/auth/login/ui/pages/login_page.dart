@@ -19,8 +19,10 @@ class LoginPage extends StatefulWidget {
   }) : super(key: key);
 
   static const String route = '/login';
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const LoginPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const LoginPage());
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -47,6 +49,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   Widget build(BuildContext context) {
     return FocusDetector(
       child: Scaffold(
+        key: LoginPage.scaffoldKey,
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false, //new line
         body: Padding(
@@ -66,7 +69,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     child: GradientText(
                       text: context.translate('lbl_welcome_to_mawaheb'),
                       colors: const [YELLOW, RED],
-                      style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
+                      style: context.textTheme.headline1
+                          .copyWith(fontSize: 26, letterSpacing: 0.3),
                     ),
                   ),
                   MawahebTextField(
@@ -86,7 +90,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       context: context,
                       hintText: 'lbl_password',
                       validator: (value) {
-                        return passwordValidator(context: context, password: value);
+                        return passwordValidator(
+                            context: context, password: value);
                       },
                       isSuffixIcon: true,
                       useObscure: true,
@@ -116,12 +121,15 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     children: [
                       InkWell(
                         onTap: () {
-                          context.pushNamed(ForgotPasswordPage.route, arguments: viewmodel);
+                          context.pushNamed(ForgotPasswordPage.route,
+                              arguments: viewmodel);
                         },
                         child: Text(
                           context.translate('lbl_forget_password'),
                           style: context.textTheme.subtitle1.copyWith(
-                              fontSize: 12, decoration: TextDecoration.underline, color: const Color(0xFF9F9F9F)),
+                              fontSize: 12,
+                              decoration: TextDecoration.underline,
+                              color: const Color(0xFF9F9F9F)),
                         ),
                       )
                     ],
@@ -153,7 +161,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   }),
                   MawahebGradientButton(
                     text: 'lbl_sign_up_player',
-                    onPressed: () => context.pushNamed(RegisterPage.route, arguments: viewmodel),
+                    onPressed: () => context.pushNamed(RegisterPage.route,
+                        arguments: viewmodel),
                     context: context,
                   ),
                 ],

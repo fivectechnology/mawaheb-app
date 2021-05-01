@@ -26,7 +26,10 @@ import 'package:mawaheb_app/features/auth/register/ui/pages/add_sport_page.dart'
 import 'package:mawaheb_app/features/auth/register/ui/pages/address_info_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/sign_up_page.dart';
+import 'package:mawaheb_app/features/auth/subscription/ui/pages/test_subscription.dart';
 import 'package:mawaheb_app/features/players/ui/pages/personal_info_page.dart';
+import 'package:mawaheb_app/features/profile/data/models/subscription_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/transaction_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
@@ -121,11 +124,14 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<bool> deleteVideoFuture;
 
-  @computed
-  List<VideoModel> get videos => fetchVideoFuture?.value ?? [];
+  @observable
+  ObservableFuture<SubscriptionModel> subscriptionFuture;
 
-  @computed
-  bool get videosLoading => fetchVideoFuture?.isPending ?? false;
+  @observable
+  ObservableFuture<TransactionModel> transactionFuture;
+
+  @observable
+  ObservableFuture<bool> confirmTransactionFuture;
 
   // @observable
   // ObservableFuture<bool> reset;
@@ -181,6 +187,24 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   bool get forgetPasswordError => forgetPasswordFuture?.isFailure ?? false;
 
   @computed
+  List<VideoModel> get videos => fetchVideoFuture?.value ?? [];
+
+  @computed
+  bool get videosLoading => fetchVideoFuture?.isPending ?? false;
+
+  @computed
+  SubscriptionModel get subscription => subscriptionFuture?.value;
+
+  @computed
+  TransactionModel get transaction => transactionFuture?.value;
+
+  @computed
+  bool get transactionLoading => confirmTransactionFuture?.isPending ?? false;
+
+  @computed
+  bool get transactionError => confirmTransactionFuture?.isFailure ?? false;
+
+  @computed
   File get imageFile => image;
 
   //* ACTIONS *//
@@ -192,8 +216,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void getPostions() => positionFuture = futureWrapper(
-        () => _authRepository.getPositions().whenSuccess((res) => res.data),
+  void getPositions({int sportId}) => positionFuture = futureWrapper(
+        () => _authRepository
+            .getPositions(sportId: sportId)
+            .whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
@@ -216,12 +242,22 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
+  void getSubscription() => subscriptionFuture = futureWrapper(
+        () => _authRepository
+            .getSubscription()
+            .whenSuccess((res) => res.data.first),
+        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      );
+
+  @action
   void login({String userName, String password, String type}) {
     loginFuture = futureWrapper(
       () => _authRepository
           .login(userName: userName, password: password, type: type)
           .whenSuccess((_) => true.apply(() => getContext((context) {
                 print('debug user status ${prefsRepository.player.status}');
+                // context.pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+
                 if (prefsRepository.player.status == 'INACTIVE') {
                   context.pushNamed(RegisterPage.route, arguments: this);
                 } else {
@@ -404,12 +440,36 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               sport: sport,
               sportPositionModel: position)
           .whenSuccess(
-            (res) => res.data.first.apply(
-              () => getContext(
-                (context) => context.pushNamedAndRemoveUntil(
-                    BasePage.route, (_) => false),
-              ),
-            ),
+            (res) => res.data.first.apply(() {
+              if (subscription.amount == 0) {
+                print('debug subscription player ${subscription.amount}');
+                _authRepository
+                    .subscriptionPlayer(
+                        playerId: res.data.first.id,
+                        subscriptionId: subscription.id)
+                    .whenSuccess((res) => getContext(
+                          (context) => context.pushNamedAndRemoveUntil(
+                              BasePage.route, (_) => false),
+                        ));
+              } else {
+                ///add navigate to new page
+                print('debug subscription player ${subscription.amount}');
+
+                _authRepository
+                    .subscriptionPlayer(
+                        playerId: res.data.first.id,
+                        subscriptionId: subscription.id)
+                    .whenSuccess((res) => getContext(
+                          (context) => context.pushNamed(SubscriptionPage.route,
+                              arguments: this),
+                        ));
+              }
+            }
+
+                //   getContext(
+                // (context) => context.pushNamedAndRemoveUntil(
+                //     BasePage.route, (_) => false),
+                ),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
@@ -475,7 +535,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
             email: forgetPasswordEmail,
             code: verifyOTPFuture.value.data,
             password: password)
-        .whenSuccess((res) => apply(() {
+        .whenSuccess((res) => res.apply(() {
               getContext((context) => App.navKey.currentState
                   .pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
             })));
@@ -578,5 +638,38 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   Future<void> clearUserData() async {
     await prefsRepository.clearUserData();
+  }
+
+  @action
+  void playerTransaction() {
+    transactionFuture = futureWrapper(
+      () => _authRepository
+          .playerTransaction(playerId: player.id, amount: subscription.amount)
+          .whenSuccess(
+            (res) => res.data.first.apply(() {
+              print('5.2');
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
+  }
+
+  @action
+  void confirmTransaction() {
+    confirmTransactionFuture = futureWrapper(
+      () => _authRepository
+          .confirmTransaction(
+              transactionId: transaction.id,
+              transactionVersion: transaction.version)
+          .whenSuccess(
+            (res) => res.apply(() {
+              getContext(
+                (context) => context.pushNamedAndRemoveUntil(
+                    BasePage.route, (_) => false),
+              );
+            }),
+          ),
+      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+    );
   }
 }

@@ -108,24 +108,21 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: VideosPage.scaffoldKey,
-      floatingActionButton: Visibility(
-        visible: isPlayer,
-        child: FloatingActionButton(
-          onPressed: () {
-            if (viewmodel.videos.length == 3) {
-              _selectVideoBottomSheet(
-                context: context,
-              );
-            } else {
-              getVideo(deleteVideo: true);
-            }
-          },
-          backgroundColor: YELLOW,
-          child: const Icon(
-            Icons.add,
-            color: Colors.black87,
-            size: 36,
-          ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (viewmodel.videos.length == 3) {
+            _selectVideoBottomSheet(
+              context: context,
+            );
+          } else {
+            getVideo(deleteVideo: true);
+          }
+        },
+        backgroundColor: YELLOW,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black87,
+          size: 36,
         ),
       ),
       backgroundColor: Colors.white,

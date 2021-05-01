@@ -87,6 +87,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
         'related': {
           'videos': ['id', 'video', 'status'],
           'subscription': ['startedAt', 'finishAt', 'subscription.name'],
+          'category': ['title']
         },
         'fields': [
           'country',

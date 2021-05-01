@@ -20,6 +20,9 @@ import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/subscription_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/transaction_model.dart';
+import 'package:intl/intl.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<BaseResponseModel<LoginResponseModel>>> login({
@@ -98,6 +101,28 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
       {@required String email, @required String password, @required int code});
 
   Future<int> getPlayerId({String token});
+
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
+      getSubscription();
+
+  //sign up step 5.1
+  Future<NetworkResult<bool>> subscriptionPlayer({
+    @required int playerId,
+    @required int subscriptionId,
+  });
+
+  //sign up step 5.2
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      playerTransaction({@required int amount, @required int playerId});
+
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      getPlayerTransaction();
+
+  //sign up step 5.3
+  Future<NetworkResult<bool>> confirmTransaction({
+    @required int transactionId,
+    @required int transactionVersion,
+  });
 }
 
 @LazySingleton(as: AuthDataSource)
@@ -408,6 +433,93 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       endpoint: BASE_PUBLIC_API + '/auth/email/validate/unique',
       data: {'data': email},
       mapper: BaseResponseModel.successMapper,
+    );
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
+      getSubscription() {
+    return mawahebRequest(
+      method: METHOD.POST,
+      modelName: 'Subscription',
+      action: EndPointAction.search,
+      data: {
+        'data': {'criteria': [], 'operator': 'and'},
+        'fields': ['period', 'amount', 'active', 'name', 'id']
+      },
+      mapper: ListBaseResponseModel.fromJson(SubscriptionModel.fromJson),
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> subscriptionPlayer(
+      {int playerId, int subscriptionId}) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+    return mawahebRequest(
+        method: METHOD.POST,
+        modelName: 'PartnerSubscription',
+        data: {
+          'data': {
+            'partner': {'id': playerId},
+            'subscription': {'id': subscriptionId},
+            'startedAt': formatter.format(DateTime.now()).toString()
+          }
+        });
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      playerTransaction({int amount, int playerId}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      modelName: 'Transaction',
+      data: {
+        'data': {
+          'amount': amount,
+          'actor': {'id': playerId},
+        },
+      },
+      mapper: ListBaseResponseModel.fromJson(TransactionModel.fromJson),
+    );
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      getPlayerTransaction() {
+    return mawahebRequest(
+      method: METHOD.POST,
+      modelName: 'Transaction',
+      action: EndPointAction.search,
+      data: {
+        'data': {
+          'criteria': [
+            {'fieldName': 'version', 'value': 0, 'operator': '='},
+            {'fieldName': 'status', 'operator': 'isNull'},
+            {'fieldName': 'payment', 'operator': 'isNull'}
+          ],
+          'operator': 'AND'
+        }
+      },
+      mapper: ListBaseResponseModel.fromJson(TransactionModel.fromJson),
+    );
+  }
+
+  @override
+  Future<NetworkResult<bool>> confirmTransaction(
+      {int transactionId, int transactionVersion}) {
+    return mawahebRequest(
+      method: METHOD.POST,
+      modelName: 'Transaction',
+      id: transactionId,
+      data: {
+        'data': {
+          'id': transactionId,
+          'version': transactionVersion,
+          'reference': 'REFERENCE this data returned from GATEWAY',
+          'status': 'SUCCEEDED'
+        }
+      },
     );
   }
 }

@@ -9,20 +9,6 @@ part of 'auth_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
-  Computed<List<VideoModel>> _$videosComputed;
-
-  @override
-  List<VideoModel> get videos =>
-      (_$videosComputed ??= Computed<List<VideoModel>>(() => super.videos,
-              name: '_AuthViewmodelBase.videos'))
-          .value;
-  Computed<bool> _$videosLoadingComputed;
-
-  @override
-  bool get videosLoading =>
-      (_$videosLoadingComputed ??= Computed<bool>(() => super.videosLoading,
-              name: '_AuthViewmodelBase.videosLoading'))
-          .value;
   Computed<bool> _$loginLoadingComputed;
 
   @override
@@ -134,6 +120,48 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   bool get forgetPasswordError => (_$forgetPasswordErrorComputed ??=
           Computed<bool>(() => super.forgetPasswordError,
               name: '_AuthViewmodelBase.forgetPasswordError'))
+      .value;
+  Computed<List<VideoModel>> _$videosComputed;
+
+  @override
+  List<VideoModel> get videos =>
+      (_$videosComputed ??= Computed<List<VideoModel>>(() => super.videos,
+              name: '_AuthViewmodelBase.videos'))
+          .value;
+  Computed<bool> _$videosLoadingComputed;
+
+  @override
+  bool get videosLoading =>
+      (_$videosLoadingComputed ??= Computed<bool>(() => super.videosLoading,
+              name: '_AuthViewmodelBase.videosLoading'))
+          .value;
+  Computed<SubscriptionModel> _$subscriptionComputed;
+
+  @override
+  SubscriptionModel get subscription => (_$subscriptionComputed ??=
+          Computed<SubscriptionModel>(() => super.subscription,
+              name: '_AuthViewmodelBase.subscription'))
+      .value;
+  Computed<TransactionModel> _$transactionComputed;
+
+  @override
+  TransactionModel get transaction => (_$transactionComputed ??=
+          Computed<TransactionModel>(() => super.transaction,
+              name: '_AuthViewmodelBase.transaction'))
+      .value;
+  Computed<bool> _$transactionLoadingComputed;
+
+  @override
+  bool get transactionLoading => (_$transactionLoadingComputed ??=
+          Computed<bool>(() => super.transactionLoading,
+              name: '_AuthViewmodelBase.transactionLoading'))
+      .value;
+  Computed<bool> _$transactionErrorComputed;
+
+  @override
+  bool get transactionError => (_$transactionErrorComputed ??= Computed<bool>(
+          () => super.transactionError,
+          name: '_AuthViewmodelBase.transactionError'))
       .value;
   Computed<File> _$imageFileComputed;
 
@@ -390,6 +418,55 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     });
   }
 
+  final _$subscriptionFutureAtom =
+      Atom(name: '_AuthViewmodelBase.subscriptionFuture');
+
+  @override
+  ObservableFuture<SubscriptionModel> get subscriptionFuture {
+    _$subscriptionFutureAtom.reportRead();
+    return super.subscriptionFuture;
+  }
+
+  @override
+  set subscriptionFuture(ObservableFuture<SubscriptionModel> value) {
+    _$subscriptionFutureAtom.reportWrite(value, super.subscriptionFuture, () {
+      super.subscriptionFuture = value;
+    });
+  }
+
+  final _$transactionFutureAtom =
+      Atom(name: '_AuthViewmodelBase.transactionFuture');
+
+  @override
+  ObservableFuture<TransactionModel> get transactionFuture {
+    _$transactionFutureAtom.reportRead();
+    return super.transactionFuture;
+  }
+
+  @override
+  set transactionFuture(ObservableFuture<TransactionModel> value) {
+    _$transactionFutureAtom.reportWrite(value, super.transactionFuture, () {
+      super.transactionFuture = value;
+    });
+  }
+
+  final _$confirmTransactionFutureAtom =
+      Atom(name: '_AuthViewmodelBase.confirmTransactionFuture');
+
+  @override
+  ObservableFuture<bool> get confirmTransactionFuture {
+    _$confirmTransactionFutureAtom.reportRead();
+    return super.confirmTransactionFuture;
+  }
+
+  @override
+  set confirmTransactionFuture(ObservableFuture<bool> value) {
+    _$confirmTransactionFutureAtom
+        .reportWrite(value, super.confirmTransactionFuture, () {
+      super.confirmTransactionFuture = value;
+    });
+  }
+
   final _$clearUserDataAsyncAction =
       AsyncAction('_AuthViewmodelBase.clearUserData');
 
@@ -413,11 +490,11 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void getPostions() {
+  void getPositions({int sportId}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
-        name: '_AuthViewmodelBase.getPostions');
+        name: '_AuthViewmodelBase.getPositions');
     try {
-      return super.getPostions();
+      return super.getPositions(sportId: sportId);
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -451,6 +528,17 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
         name: '_AuthViewmodelBase.getEmirates');
     try {
       return super.getEmirates();
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getSubscription() {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.getSubscription');
+    try {
+      return super.getSubscription();
     } finally {
       _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -669,6 +757,28 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
+  void playerTransaction() {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.playerTransaction');
+    try {
+      return super.playerTransaction();
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void confirmTransaction() {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.confirmTransaction');
+    try {
+      return super.confirmTransaction();
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 image: ${image},
@@ -687,8 +797,9 @@ emirateFuture: ${emirateFuture},
 verifyOTPFuture: ${verifyOTPFuture},
 forgetPasswordFuture: ${forgetPasswordFuture},
 deleteVideoFuture: ${deleteVideoFuture},
-videos: ${videos},
-videosLoading: ${videosLoading},
+subscriptionFuture: ${subscriptionFuture},
+transactionFuture: ${transactionFuture},
+confirmTransactionFuture: ${confirmTransactionFuture},
 loginLoading: ${loginLoading},
 loginError: ${loginError},
 otpLoading: ${otpLoading},
@@ -705,6 +816,12 @@ otpCode: ${otpCode},
 verifyOTPLoading: ${verifyOTPLoading},
 forgetPasswordLoading: ${forgetPasswordLoading},
 forgetPasswordError: ${forgetPasswordError},
+videos: ${videos},
+videosLoading: ${videosLoading},
+subscription: ${subscription},
+transaction: ${transaction},
+transactionLoading: ${transactionLoading},
+transactionError: ${transactionError},
 imageFile: ${imageFile}
     ''';
   }

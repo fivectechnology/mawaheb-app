@@ -6,6 +6,7 @@ Widget customAppBar(
     {String title,
     BuildContext context,
     bool withTitle,
+    String leadingText,
     VoidCallback onBackButton}) {
   return AppBar(
     // automaticallyImplyLeading: true,
@@ -26,7 +27,7 @@ Widget customAppBar(
         GestureDetector(
           onTap: onBackButton ?? () => Navigator.of(context).pop(),
           child: Text(
-            context.translate('lbl_back'),
+            context.translate(leadingText ?? 'lbl_back'),
             style: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.w300, fontSize: 12),
           ),

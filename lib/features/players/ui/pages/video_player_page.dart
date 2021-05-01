@@ -40,15 +40,27 @@ class _VideoPlayerPageState
     return Scaffold(
       backgroundColor: Colors.white,
       body: Observer(builder: (_) {
-        return ListView.builder(
-            itemCount: viewmodel.player.videos.length,
-            itemBuilder: (context, index) {
-              return viewmodel.player.videos[index].status == 'APPROVED'
-                  ? videoRow(
-                      videoId: viewmodel.player.videos[index].video.id,
-                      token: viewmodel.prefsRepository.token)
-                  : const SizedBox();
-            });
+        return Column(
+          children: [
+            if (viewmodel.player.videos != null)
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: viewmodel.player.videos.length,
+                  itemBuilder: (context, index) {
+                    return viewmodel.player.videos[index].status == 'APPROVED'
+                        ? videoRow(
+                            videoId: viewmodel.player.videos[index].video.id,
+                            token: viewmodel.prefsRepository.token)
+                        : const SizedBox();
+                  }),
+            if (viewmodel.player.videos == null)
+              Center(
+                heightFactor: 10,
+                child: Text(context.translate('msg_no_videos'),
+                    style: textTheme.subtitle1),
+              ),
+          ],
+        );
       }),
     );
   }

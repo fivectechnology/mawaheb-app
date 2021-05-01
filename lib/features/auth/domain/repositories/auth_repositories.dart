@@ -12,6 +12,8 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:dio/dio.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/subscription_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/transaction_model.dart';
 
 abstract class AuthRepository extends BaseRepository {
   const AuthRepository(AuthDataSource authDataSource) : super(authDataSource);
@@ -66,7 +68,7 @@ abstract class AuthRepository extends BaseRepository {
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
   Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
-      {@required int sportId});
+      {int sportId});
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -91,4 +93,19 @@ abstract class AuthRepository extends BaseRepository {
       {String email, String password, int code});
 
   Future<NetworkResult<bool>> validateEmail({String email});
+
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
+      getSubscription();
+
+  Future<NetworkResult<bool>> subscriptionPlayer(
+      {int playerId, int subscriptionId});
+
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      playerTransaction({int amount, int playerId});
+
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      getPlayerTransaction();
+
+  Future<NetworkResult<bool>> confirmTransaction(
+      {int transactionId, int transactionVersion});
 }
