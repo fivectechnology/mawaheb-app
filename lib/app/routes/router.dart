@@ -4,6 +4,7 @@ import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
+import 'package:mawaheb_app/features/auth/subscription/ui/pages/test_subscription.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/features/home/ui/pages/renew_subscription_page.dart';
 import 'package:mawaheb_app/features/splash/ui/pages/splash_page.dart';
@@ -22,6 +23,9 @@ class PageRouter {
 
       case RegisterPage.route:
         return RegisterPage.pageRoute(value.arguments as AuthViewmodel);
+
+      case SubscriptionPage.route:
+        return SubscriptionPage.pageRoute(value.arguments as AuthViewmodel);
 
       case ForgotPasswordPage.route:
         return ForgotPasswordPage.pageRoute(value.arguments as AuthViewmodel);

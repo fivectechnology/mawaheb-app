@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget mawhaebDropDown<T>(
     {String hint,
+    String helperText,
     BuildContext context,
     Color textColor,
     List items,
@@ -10,9 +11,10 @@ Widget mawhaebDropDown<T>(
     Function onChanged}) {
   return DropdownButtonFormField(
     value: value,
-    decoration: const InputDecoration(
-      enabledBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+    decoration: InputDecoration(
+      helperText: helperText,
+      enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey)),
     ),
     isExpanded: true,
     icon: Icon(Icons.keyboard_arrow_down, color: Colors.grey[500]),

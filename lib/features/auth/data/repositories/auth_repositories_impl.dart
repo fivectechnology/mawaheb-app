@@ -18,6 +18,8 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/profile/data/models/subscription_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/transaction_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:dio/dio.dart';
 
@@ -172,8 +174,9 @@ class AuthRepositoryImpl extends AuthRepository {
       authDataSource.getEmirates();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>>
-      getPositions() => authDataSource.getPositions();
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
+          {int sportId}) =>
+      authDataSource.getPositions(sportId: sportId);
 
   @override
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() =>
@@ -205,4 +208,29 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<NetworkResult<bool>> validateEmail({String email}) =>
       authDataSource.validateEmail(email: email);
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
+      getSubscription() => authDataSource.getSubscription();
+
+  @override
+  Future<NetworkResult<bool>> confirmTransaction(
+          {int transactionId, int transactionVersion}) =>
+      authDataSource.confirmTransaction(
+          transactionId: transactionId, transactionVersion: transactionVersion);
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      getPlayerTransaction() => authDataSource.getPlayerTransaction();
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      playerTransaction({int amount, int playerId}) =>
+          authDataSource.playerTransaction(amount: amount, playerId: playerId);
+
+  @override
+  Future<NetworkResult<bool>> subscriptionPlayer(
+          {int playerId, int subscriptionId}) =>
+      authDataSource.subscriptionPlayer(
+          playerId: playerId, subscriptionId: subscriptionId);
 }

@@ -8,6 +8,7 @@ import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/auth_page.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/auth/login/ui/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:mobx/mobx.dart';
@@ -34,6 +35,11 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
       // print(prefsRepository.type);
       if (prefsRepository.player != null &&
           prefsRepository.player.status == 'INACTIVE') {
+        getContext((context) => showSnack(
+              context.translate('msg_signUp_error'),
+              duration: 3.seconds,
+              scaffoldKey: LoginPage.scaffoldKey,
+            ));
         logout();
       }
       // TODO(ahmad): use this in release

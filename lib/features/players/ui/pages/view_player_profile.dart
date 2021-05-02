@@ -189,7 +189,7 @@ class _ViewPlayerProfileState
                     Container(
                       height: 60,
                       width: 60,
-                      child: Icon(
+                      child: const Icon(
                         Icons.check,
                         color: Colors.white,
                         size: 40,

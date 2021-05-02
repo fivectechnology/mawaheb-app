@@ -169,6 +169,8 @@
   "msg_confirm_player": "Are you sure to confirm player?",
   "msg_release_player": "Are you sure to release player?",
   "msg_book_player": "Are you sure to book player?",
-  "msg_video_size": "Please select video size less than 5 MB"
+  "msg_video_size": "Please select video size less than 5 MB",
+  "msg_select_sport": "Please select sport first"
+
 
 }

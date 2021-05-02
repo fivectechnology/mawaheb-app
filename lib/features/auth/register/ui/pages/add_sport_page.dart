@@ -68,15 +68,17 @@ class _AddSportPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.positionFuture == null) {
-      viewmodel.getPostions();
-    }
+
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
     }
 
     if (viewmodel?.videos == null) {
       viewmodel.fetchVideos(playerId: viewmodel.player.id);
+    }
+
+    if (viewmodel?.subscriptionFuture == null) {
+      viewmodel.getSubscription();
     }
   }
 
@@ -108,8 +110,10 @@ class _AddSportPageState
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const CircularProgressIndicator(),
-                    const SizedBox(width: 4),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: CircularProgressIndicator(),
+                    ),
                     Text(context.translate('msg_uploading_video')),
                   ],
                 ),
@@ -130,18 +134,18 @@ class _AddSportPageState
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return viewmodel.sports == null || viewmodel.positions == null
+      return viewmodel.sports == null
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
               child: ListView(
                 children: [
                   mawhaebDropDown(
-                    value: viewmodel.sports.first,
                     hint: context.translate('lbl_sport_name'),
                     context: context,
                     onChanged: (value) {
                       currentSport = value;
+                      viewmodel.getPositions(sportId: currentSport.id);
                     },
                     items: viewmodel.sports
                         .map((em) => DropdownMenuItem(
@@ -151,20 +155,33 @@ class _AddSportPageState
                         .toList(),
                   ),
                   const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    value: viewmodel.positions.first,
-                    hint: context.translate('lbl_position'),
-                    context: context,
-                    onChanged: (value) {
-                      position = value;
-                    },
-                    items: viewmodel.positions
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.name),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
+                  if (viewmodel.positions != null)
+                    mawhaebDropDown(
+                      hint: context.translate('lbl_position'),
+                      context: context,
+                      onChanged: (value) {
+                        position = value;
+                      },
+                      items: viewmodel.positions
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em.name),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
+                  if (viewmodel.positions == null)
+                    InkWell(
+                      onTap: () {
+                        viewmodel.showSnack(
+                            context.translate('msg_select_sport'),
+                            duration: const Duration(seconds: 3),
+                            scaffoldKey: RegisterPage.scaffoldKey);
+                      },
+                      child: mawhaebDropDown(
+                        hint: context.translate('lbl_position'),
+                        context: context,
+                      ),
+                    ),
                   const SizedBox(height: 26),
                   MawahebTextField(
                     keyboardType: TextInputType.number,
@@ -189,6 +206,7 @@ class _AddSportPageState
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                      helperText: context.translate('lbl_prefer_hand'),
                       value: 'RIGHT',
                       hint: context.translate('lbl_prefer_hand'),
                       context: context,
@@ -203,6 +221,7 @@ class _AddSportPageState
                       }),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
+                      helperText: context.translate('lbl_prefer_leg'),
                       value: 'RIGHT',
                       hint: context.translate('lbl_prefer_leg'),
                       context: context,

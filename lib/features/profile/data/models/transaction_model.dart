@@ -3,30 +3,25 @@ import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mawaheb_app/base/data/models/version_model.dart';
 
-part 'country_model.g.dart';
+part 'transaction_model.g.dart';
 
 @JsonSerializable()
-class CountryModel extends VersionModel with EquatableMixin {
-  const CountryModel({
-    @required this.tName,
-    @required this.name,
+class TransactionModel extends VersionModel with EquatableMixin {
+  const TransactionModel({
+    @required this.amount,
     @required int id,
     @required int version,
   }) : super(id, version);
 
-  @JsonKey(name: '\$t:name')
-  final String tName;
-  final String name;
+  final int amount;
 
-  CountryModel copyWith({
-    String name,
-    String tName,
+  TransactionModel copyWith({
+    int amount,
     int id,
     int version,
   }) {
-    return CountryModel(
-      tName: tName ?? this.tName,
-      name: name ?? this.name,
+    return TransactionModel(
+      amount: amount ?? this.amount,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -38,13 +33,14 @@ class CountryModel extends VersionModel with EquatableMixin {
   @override
   List<Object> get props {
     return [
-      tName,
-      name,
+      amount,
       id,
       version,
     ];
   }
 
-  static CountryModel fromJson(Object json) => _$CountryModelFromJson(json);
-  Map<String, dynamic> toJson() => _$CountryModelToJson(this);
+  static TransactionModel fromJson(Object json) =>
+      _$TransactionModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransactionModelToJson(this);
 }

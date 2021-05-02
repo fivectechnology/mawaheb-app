@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:core_sdk/utils/colors.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

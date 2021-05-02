@@ -19,10 +19,11 @@ Widget profileDetails(
           radius: 52,
           backgroundColor: GREY,
           child: CircleAvatar(
+              backgroundColor: Colors.white,
               radius: 45,
               backgroundImage: photo == null
                   ? const AssetImage(
-                      'assets/images/profile.png',
+                      'assets/images/logo_image.png',
                     )
                   : NetworkImage(
                       'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${photo.id}/view',

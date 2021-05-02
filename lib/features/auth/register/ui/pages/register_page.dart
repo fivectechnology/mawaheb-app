@@ -23,6 +23,7 @@ class RegisterPage extends StatefulWidget {
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static final GlobalKey<State> keyLoader = GlobalKey<State>();
+
   static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
       MaterialPageRoute(
         builder: (context) => Provider.value(
