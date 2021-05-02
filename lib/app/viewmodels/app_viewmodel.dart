@@ -33,8 +33,7 @@ class AppViewmodel extends _AppViewmodelBase with _$AppViewmodel {
 }
 
 abstract class _AppViewmodelBase extends BaseViewmodel with Store {
-  _AppViewmodelBase(Logger logger, this.prefsRepository, this._appRepository)
-      : super(logger) {
+  _AppViewmodelBase(Logger logger, this.prefsRepository, this._appRepository) : super(logger) {
     init();
   }
 
@@ -63,6 +62,9 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   @observable
   int notificationsCount = 0;
 
+  @observable
+  bool userRegested;
+
   //* COMPUTED *//
 
   @computed
@@ -77,6 +79,7 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   void init() {
     appBarParams = AppBarParams.initial(isPlayer);
     languageFuture = ObservableFuture.value(prefsRepository.languageCode);
+    userRegested = !(prefsRepository.player == null);
     registerDevice();
   }
 
@@ -102,8 +105,7 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
     if (pageIndex != newPageIndex) {
       pageIndex = newPageIndex;
       appBarHistory.clear();
-      pushRoute(AppBarParams(
-          title: getAppBarTitle(pageIndex, isPlayer), onBackPressed: null));
+      pushRoute(AppBarParams(title: getAppBarTitle(pageIndex, isPlayer), onBackPressed: null));
     }
   }
 
@@ -112,8 +114,7 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
     if (locale == language) {
       return;
     }
-    languageFuture = ObservableFuture(
-        prefsRepository.setApplicationLanguage(locale).then((isSuccess) {
+    languageFuture = ObservableFuture(prefsRepository.setApplicationLanguage(locale).then((isSuccess) {
       logger.d('mawaheb debug try change language status is $isSuccess');
       return locale;
     }));
@@ -131,6 +132,21 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
     }).catchError((error) {
       logger.e('updateCartItemsCount => ERROR: $error');
     });
+  }
+
+  @action
+  void toggleUserState({bool status}) {
+    if (status != null) {
+      userRegested = status;
+      return;
+    }
+
+    userRegested = !userRegested;
+  }
+
+  @action
+  void refreshUserStatus() {
+    userRegested = prefsRepository.player != null;
   }
 }
 

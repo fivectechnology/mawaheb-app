@@ -18,6 +18,7 @@
         android:label="Mawaheb"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="${usesCleartextTraffic}"
         >
 
 

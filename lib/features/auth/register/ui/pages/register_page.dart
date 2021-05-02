@@ -2,6 +2,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/mobx/widgets/mobx_loading_page.dart';
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
@@ -11,6 +12,8 @@ import 'package:mawaheb_app/features/auth/register/ui/pages/player_info_page.dar
 import 'package:mawaheb_app/features/auth/register/ui/pages/sign_up_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mobx/mobx.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+
 import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 
@@ -24,8 +27,7 @@ class RegisterPage extends StatefulWidget {
 
   static final GlobalKey<State> keyLoader = GlobalKey<State>();
 
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
-      MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
@@ -36,9 +38,9 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState
-    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
+  AppViewmodel appViewmodel;
 
   String pageTitle = 'lbl_sign_up';
   VoidCallback onBackButton;
@@ -66,12 +68,13 @@ class _RegisterPageState
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel,
-          (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel sliderModel) {
         slidePage(sliderModel);
         viewmodel.registerSliderModel = null;
       }),
     ]);
+
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)..refreshUserStatus();
   }
 
   @override
@@ -97,12 +100,15 @@ class _RegisterPageState
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38),
-          child: PageView(
+          child: Observer(builder: (_) {
+            return PageView(
               controller: _pageController,
               physics: const NeverScrollableScrollPhysics(),
               onPageChanged: (int pageIndex) => changeTitle(pageIndex),
-              children:
-                  viewmodel.prefsRepository.player == null ? pages1 : pages2),
+              // children: viewmodel.prefsRepository.player == null ? pages1 : pages2,
+              children: !appViewmodel.userRegested ? pages1 : pages2,
+            );
+          }),
         ),
       ),
     );
@@ -115,21 +121,15 @@ class _RegisterPageState
     switch (pageIndex) {
       case 0:
         onBackButton = () => context.pop();
-        newTitle = viewmodel.prefsRepository.player == null
-            ? 'lbl_sign_up'
-            : 'lbl_personal_info';
+        newTitle = viewmodel.prefsRepository.player == null ? 'lbl_sign_up' : 'lbl_personal_info';
         break;
       case 1:
         onBackButton = () => slidePage(const PageSliderBackwardModel());
 
-        newTitle = viewmodel.prefsRepository.player == null
-            ? 'lbl_otp'
-            : 'lbl_address';
+        newTitle = viewmodel.prefsRepository.player == null ? 'lbl_otp' : 'lbl_address';
         break;
       case 2:
-        newTitle = viewmodel.prefsRepository.player == null
-            ? 'lbl_personal_info'
-            : 'lbl_add_sport';
+        newTitle = viewmodel.prefsRepository.player == null ? 'lbl_personal_info' : 'lbl_add_sport';
         break;
       case 3:
         newTitle = 'lbl_address';
@@ -147,9 +147,7 @@ class _RegisterPageState
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(
-            duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(
-            duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
   }
 }

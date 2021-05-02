@@ -22,6 +22,7 @@ import '../../features/auth/data/datasources/auth_datasource.dart';
 import '../../features/auth/domain/repositories/auth_repositories.dart';
 import '../../features/auth/data/repositories/auth_repositories_impl.dart';
 import '../../features/auth/viewmodels/auth_viewmodel.dart';
+import '../../base/utils/download_helper.dart';
 import '../../features/home/data/datasources/home_datasource.dart';
 import '../../features/home/domain/repositories/home_repository.dart';
 import '../../features/home/data/repositories/home_repository_impl.dart';
@@ -68,6 +69,8 @@ Future<GetIt> $inject(
   gh.factory<String>(() => appModule.baseUrl, instanceName: 'ApiBaseUrl');
   gh.factory<BaseOptions>(
       () => appModule.dioOption(get<String>(instanceName: 'ApiBaseUrl')));
+  gh.lazySingleton<DownloadHelper>(
+      () => DownloadHelper(get<PrefsRepository>()));
   gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),
@@ -116,6 +119,7 @@ Future<GetIt> $inject(
         get<Logger>(),
         get<PublicInfoRepository>(),
         get<PrefsRepository>(),
+        get<DownloadHelper>(),
       ));
   gh.lazySingleton<SettingsDataSource>(() => SettingsDataSourceImpl(
         client: get<Dio>(),

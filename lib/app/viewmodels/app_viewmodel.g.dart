@@ -101,6 +101,21 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
     });
   }
 
+  final _$userRegestedAtom = Atom(name: '_AppViewmodelBase.userRegested');
+
+  @override
+  bool get userRegested {
+    _$userRegestedAtom.reportRead();
+    return super.userRegested;
+  }
+
+  @override
+  set userRegested(bool value) {
+    _$userRegestedAtom.reportWrite(value, super.userRegested, () {
+      super.userRegested = value;
+    });
+  }
+
   final _$registerDeviceAsyncAction =
       AsyncAction('_AppViewmodelBase.registerDevice');
 
@@ -190,6 +205,28 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
+  void toggleUserState({bool status}) {
+    final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
+        name: '_AppViewmodelBase.toggleUserState');
+    try {
+      return super.toggleUserState(status: status);
+    } finally {
+      _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void refreshUserStatus() {
+    final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
+        name: '_AppViewmodelBase.refreshUserStatus');
+    try {
+      return super.refreshUserStatus();
+    } finally {
+      _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 appBarParams: ${appBarParams},
@@ -197,6 +234,7 @@ pageIndex: ${pageIndex},
 languageFuture: ${languageFuture},
 deviceRegistered: ${deviceRegistered},
 notificationsCount: ${notificationsCount},
+userRegested: ${userRegested},
 language: ${language},
 languageLoading: ${languageLoading}
     ''';

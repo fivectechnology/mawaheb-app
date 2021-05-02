@@ -252,6 +252,17 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
   }
 
   @override
+  void downloadFile({@required int id, @required int parentId}) {
+    final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
+        name: '_PublicInfoViewmodelBase.downloadFile');
+    try {
+      return super.downloadFile(id: id, parentId: parentId);
+    } finally {
+      _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 aboutUsFuture: ${aboutUsFuture},
