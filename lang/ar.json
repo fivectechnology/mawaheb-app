@@ -11,7 +11,7 @@
   "lbl_camera": "كاميرا",
   "lbl_contacts": "تواصل معنا",
   "lbl_strategic_partners": "شركاؤنا",
-  "lbl_download_center": "مركز التنزيل",
+  "lbl_download_center": "الملفات",
   "lbl_phone": "رقم الهاتف",
   "lbl_address": "العنوان",
   "lbl_emirate": "الإمارة",
@@ -114,6 +114,8 @@
   "lbl_houre": "ساعة",
   "lbl_hours_ago": "منذ ساعات",
   "lbl_an_hour_ago": "قبل ساعة",
+  "lbl_confirm": "تأكيد",
+
 
 
 
