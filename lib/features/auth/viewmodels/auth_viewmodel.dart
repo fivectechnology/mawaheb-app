@@ -556,7 +556,9 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
       await _profileRepository
           .updateImageProfile(
-              imageId: res, version: player.version, id: player.id)
+              imageId: res,
+              version: prefsRepository.player.version + 1,
+              id: prefsRepository.player.id)
           .whenSuccess((res) => res.data.first.apply(() {
                 registerFuture = ObservableFuture.value(res.data.first);
                 print('image updated');

@@ -11,6 +11,8 @@ import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 
@@ -54,6 +56,18 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
     @required int videoId,
     @required int videoFileId,
     @required int playerId,
+  });
+
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateSportInfo({
+    @required int id,
+    @required int version,
+    @required int weight,
+    @required int height,
+    @required String hand,
+    @required String leg,
+    @required String brief,
+    @required SportModel sport,
+    @required SportPositionModel sportPositionModel,
   });
 }
 
@@ -151,6 +165,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
         mawahebModel: false,
         modelName: 'auth.db.User',
         withAuth: true,
+        id: id,
         data: {
           'data': {
             'id': id,
@@ -263,5 +278,39 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'fields': ['status', 'video']
         },
         mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateSportInfo({
+    @required int id,
+    @required int version,
+    @required int weight,
+    @required int height,
+    @required String hand,
+    @required String leg,
+    @required String brief,
+    @required SportModel sport,
+    @required SportPositionModel sportPositionModel,
+  }) async {
+    return mawahebRequest(
+      method: METHOD.POST,
+      withAuth: true,
+      mawahebModel: false,
+      modelName: 'auth.db.User',
+      id: id,
+      data: {
+        'data': {
+          'version': version,
+          'sport': {'id': sport.id},
+          'position': {'id': sportPositionModel.id},
+          'weight': weight,
+          'height': height,
+          'hand': hand,
+          'leg': leg,
+          'brief': brief,
+        }
+      },
+      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+    );
   }
 }

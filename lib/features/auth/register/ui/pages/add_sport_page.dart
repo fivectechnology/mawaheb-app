@@ -82,7 +82,56 @@ class _AddSportPageState
     }
   }
 
-  Future getVideo() async {
+  Future getVideoCamera() async {
+    final pickedFile = await picker.getVideo(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      video = File(pickedFile.path);
+      fileName = video.path.split('/').last;
+      fileType = fileName.split('.').last;
+      fileSize = await video.length();
+      if (fileSize <= 5000000) {
+        viewmodel.uploadVideo(
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType,
+          file: video,
+        );
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (
+            BuildContext context,
+          ) {
+            return Dialog(
+              key: RegisterPage.keyLoader,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      child: CircularProgressIndicator(),
+                    ),
+                    Text(context.translate('msg_uploading_video')),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      } else {
+        viewmodel.showSnack(context.translate('msg_video_size'),
+            scaffoldKey: RegisterPage.scaffoldKey,
+            duration: const Duration(seconds: 3));
+      }
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future getVideoGallery() async {
     final pickedFile = await picker.getVideo(source: ImageSource.gallery);
 
     if (pickedFile != null) {
@@ -259,7 +308,9 @@ class _AddSportPageState
                     if (viewmodel.videos.length == 3) {
                       _deleteSomeVideosBottomSheet(context: context);
                     } else {
-                      getVideo();
+                      _optionPickerBottomSheet(context: context);
+
+                      // getVideo();
                     }
                   }),
                   const SizedBox(height: 26),
@@ -284,17 +335,24 @@ class _AddSportPageState
                         text: context.translate('lbl_next'),
                         isLoading: viewmodel.registerLoading,
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            viewmodel.addSportInfo(
-                              height: int.parse(_hightController.text),
-                              weight: int.parse(_weightController.text),
-                              hand: hand ?? 'RIGHT',
-                              leg: leg ?? 'RIGHT',
-                              brief: _briefController.text,
-                              sport: currentSport ?? viewmodel.sports.first,
-                              position: position ?? viewmodel.positions.first,
-                            );
+                          if (currentSport == null) {
+                            viewmodel.showSnack(
+                                context.translate('msg_select_sport'),
+                                scaffoldKey: RegisterPage.scaffoldKey,
+                                duration: const Duration(seconds: 3));
+                          } else {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              viewmodel.addSportInfo(
+                                height: int.parse(_hightController.text),
+                                weight: int.parse(_weightController.text),
+                                hand: hand ?? 'RIGHT',
+                                leg: leg ?? 'RIGHT',
+                                brief: _briefController.text,
+                                sport: currentSport ?? viewmodel.sports.first,
+                                position: position ?? viewmodel.positions.first,
+                              );
+                            }
                           }
                         },
                         context: context,
@@ -399,6 +457,64 @@ class _AddSportPageState
                     onPressed: () {
                       context.pop(bc);
                     },
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _optionPickerBottomSheet({
+    BuildContext context,
+  }) {
+    showModalBottomSheet(
+        useRootNavigator: true,
+        context: context,
+        builder: (BuildContext bc) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: context.fullWidth * 0.08,
+                vertical: context.fullHeight * 0.03),
+            child: Wrap(
+              children: [
+                InkWell(
+                  onTap: () {
+                    getVideoCamera();
+                    bc.pop();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.02),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        context.translate('lbl_camera'),
+                        textAlign: TextAlign.center,
+                        style: textTheme.bodyText1.copyWith(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.grey[600],
+                  height: 1.0,
+                ),
+                InkWell(
+                  onTap: () {
+                    getVideoGallery();
+                    bc.pop();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.02),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        context.translate('lbl_gallery'),
+                        style: textTheme.bodyText1.copyWith(fontSize: 20),
+                      ),
+                    ),
                   ),
                 ),
               ],

@@ -4,6 +4,7 @@ import 'package:core_sdk/data/repositories/base_repository.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/profile/data/datasources/profile_datasource.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
@@ -40,4 +41,16 @@ abstract class ProfileRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchPlayerVideos(
       {int playerId});
+
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateSportInfo({
+    int id,
+    int version,
+    int weight,
+    int height,
+    String hand,
+    String leg,
+    String brief,
+    SportModel sport,
+    sportPositionModel,
+  });
 }

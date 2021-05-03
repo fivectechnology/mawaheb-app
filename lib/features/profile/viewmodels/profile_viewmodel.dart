@@ -265,8 +265,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       SportModel sport,
       SportPositionModel position}) {
     playerFuture = futureWrapper(
-      () => _authRepository
-          .addSportInfo(
+      () => _profileRepository
+          .updateSportInfo(
               version: playerFuture.value.version,
               id: playerFuture.value.id,
               weight: weight,
@@ -305,7 +305,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
       await _profileRepository
           .updateImageProfile(
-              imageId: res, version: player.version + 1, id: player.id)
+              imageId: res,
+              version: playerFuture.value.version,
+              id: playerFuture.value.id)
           .whenSuccess((res) => apply(() {
                 print('image updated');
                 getContext((context) => App.navKey.currentState.context

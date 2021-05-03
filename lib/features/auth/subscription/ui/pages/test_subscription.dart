@@ -62,12 +62,15 @@ class _SubscriptionPageState
       body: Center(
         child: Observer(
           builder: (_) {
-            return MawahebGradientButton(
-              text: context.translate('pay'),
-              onPressed: () {
-                viewmodel.confirmTransaction();
-              },
-              context: context,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 38),
+              child: MawahebGradientButton(
+                text: context.translate('pay'),
+                onPressed: () {
+                  viewmodel.confirmTransaction();
+                },
+                context: context,
+              ),
             );
           },
         ),
