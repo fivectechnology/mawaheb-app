@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 
-Widget userListTile(
-    {String name, SourceModel photo, String token, String type}) {
+Widget userListTile({String name, SourceModel photo, String token, String type}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
     child: ListTile(
@@ -19,7 +19,7 @@ Widget userListTile(
                       'assets/images/logo_image.png',
                     )
                   : NetworkImage(
-                      'http://54.237.125.179:8080/mawaheb/ws/rest/com.axelor.meta.db.MetaFile/${photo.id}/view',
+                      '$BASE_REST_API/com.axelor.meta.db.MetaFile/${photo.id}/view',
                       headers: {'Authorization': 'Basic $token'},
                     )),
         ),
