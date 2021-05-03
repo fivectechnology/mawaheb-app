@@ -40,15 +40,15 @@ class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
             elevation: 0,
             //leadingWidth: 30,
             centerTitle: false,
-            // leading: title != null || appViewModel.appBarParams.showBackButton
-            //     ? IconButton(
-            //         icon: const Icon(Icons.arrow_back, color: Colors.black),
-            //         onPressed: () => appViewModel.popRoute(
-            //           context,
-            //           onBackPressed: appViewModel.appBarParams.onBackPressed,
-            //         ),
-            //       )
-            //     : null,
+            leading: title != null || appViewModel.appBarParams.showBackButton
+                ? IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () => appViewModel.popRoute(
+                      context,
+                      onBackPressed: appViewModel.appBarParams.onBackPressed,
+                    ),
+                  )
+                : null,
 
             backgroundColor: appViewModel.appBarParams.backgroundColor,
             actionsIconTheme: const IconThemeData(color: GREY),
