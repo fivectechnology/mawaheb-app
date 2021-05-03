@@ -1,6 +1,7 @@
 import 'package:core_sdk/utils/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/app/theme/colors.dart';
 
 class MawahebButton extends StatelessWidget {
   const MawahebButton({
@@ -11,6 +12,7 @@ class MawahebButton extends StatelessWidget {
     this.borderColor,
     this.onPressed,
     this.context,
+    this.progressColor,
     this.isLoading = false,
     this.enable = true,
   }) : super(key: key);
@@ -23,6 +25,7 @@ class MawahebButton extends StatelessWidget {
   final BuildContext context;
   final bool isLoading;
   final bool enable;
+  final Color progressColor;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +44,16 @@ class MawahebButton extends StatelessWidget {
         focusElevation: 0,
         highlightElevation: 0,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(80.0), side: BorderSide(color: borderColor, width: 1.0)),
+            borderRadius: BorderRadius.circular(80.0),
+            side: BorderSide(color: borderColor, width: 1.0)),
         padding: const EdgeInsets.all(0.0),
         child: Container(
           decoration: BoxDecoration(
               color: buttonColor,
               borderRadius: BorderRadius.circular(80.0),
               border: Border.all(color: borderColor, width: 1.0)),
-          constraints: const BoxConstraints(minWidth: double.infinity, minHeight: 55),
+          constraints:
+              const BoxConstraints(minWidth: double.infinity, minHeight: 55),
           // min sizes for Material buttons
           alignment: Alignment.center,
 
@@ -65,7 +70,11 @@ class MawahebButton extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              ProgressBar(visibility: isLoading, padding: 8.0),
+              ProgressBar(
+                visibility: isLoading,
+                padding: 8.0,
+                color: progressColor ?? WHITE,
+              ),
             ],
           ),
         ),

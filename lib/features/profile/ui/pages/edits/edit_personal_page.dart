@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:core_sdk/utils/colors.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
+import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
@@ -226,7 +226,8 @@ class _EditPersonalPageState
                               textColor: Colors.black,
                               borderColor: Colors.black,
                               buttonColor: WHITE,
-                              isLoading: viewmodel.playerLoading,
+                              progressColor: RED,
+                              isLoading: viewmodel.personalLoading,
                               onPressed: () async {
                                 if (viewmodel.image != null) {
                                   viewmodel.uploadImage(

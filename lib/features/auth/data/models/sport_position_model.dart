@@ -10,22 +10,27 @@ part 'sport_position_model.g.dart';
 class SportPositionModel extends VersionModel with EquatableMixin {
   const SportPositionModel({
     @required this.name,
+    @required this.tName,
     @required this.sport,
     @required int id,
     @required int version,
   }) : super(id, version);
 
+  @JsonKey(name: r'$t:name')
+  final String tName;
   final String name;
   final SportModel sport;
 
   SportPositionModel copyWith({
     String name,
+    String tName,
     SportModel sport,
     int id,
     int version,
   }) {
     return SportPositionModel(
       name: name ?? this.name,
+      tName: tName ?? this.tName,
       sport: sport ?? this.sport,
       id: id ?? this.id,
       version: version ?? this.version,
@@ -40,6 +45,7 @@ class SportPositionModel extends VersionModel with EquatableMixin {
     return [
       name,
       sport,
+      tName,
       id,
       version,
     ];

@@ -107,6 +107,20 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           () => super.replaceVideoError,
           name: '_ProfileViewmodelBase.replaceVideoError'))
       .value;
+  Computed<bool> _$personalLoadingComputed;
+
+  @override
+  bool get personalLoading =>
+      (_$personalLoadingComputed ??= Computed<bool>(() => super.personalLoading,
+              name: '_ProfileViewmodelBase.personalLoading'))
+          .value;
+  Computed<bool> _$addressLoadingComputed;
+
+  @override
+  bool get addressLoading =>
+      (_$addressLoadingComputed ??= Computed<bool>(() => super.addressLoading,
+              name: '_ProfileViewmodelBase.addressLoading'))
+          .value;
   Computed<File> _$imageFileComputed;
 
   @override
@@ -623,6 +637,8 @@ deleteVideoLoading: ${deleteVideoLoading},
 deleteVideoError: ${deleteVideoError},
 replaceVideoLoading: ${replaceVideoLoading},
 replaceVideoError: ${replaceVideoError},
+personalLoading: ${personalLoading},
+addressLoading: ${addressLoading},
 imageFile: ${imageFile}
     ''';
   }

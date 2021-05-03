@@ -255,6 +255,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
         'data': {
           'partner': {'id': playerId},
           'video': {'id': videoFileId},
+          'status': 'PENDING',
           'version': videoVersion
         },
       },

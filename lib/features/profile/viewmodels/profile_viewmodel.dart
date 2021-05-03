@@ -146,6 +146,12 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   bool get replaceVideoError => replaceVideoFuture?.isFailure ?? false;
 
   @computed
+  bool get personalLoading => editPersonalPlayerFuture?.isPending ?? false;
+
+  @computed
+  bool get addressLoading => editAddressPlayerFuture?.isPending ?? false;
+
+  @computed
   File get imageFile => image;
 
   //* ACTIONS *//
@@ -329,8 +335,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       int videoVersion,
       int videoId,
       bool withDelete}) {
-    startLoading();
-
+    print('debug upload video');
     imageId = _profileRepository
         .uploadFile(
             file: file,

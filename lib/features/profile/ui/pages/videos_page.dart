@@ -60,6 +60,11 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       fileName = video.path.split('/').last;
       fileType = fileName.split('.').last;
       fileSize = await video.length();
+
+      print(video);
+      print(fileName);
+      print(fileType);
+      print(fileSize);
       if (fileSize <= 5000000) {
         viewmodel.uploadVideo(
           fileSize: fileSize,
@@ -114,6 +119,12 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       fileName = video.path.split('/').last;
       fileType = fileName.split('.').last;
       fileSize = await video.length();
+
+      print(video);
+      print(fileName);
+      print(fileType);
+      print(fileSize);
+
       if (fileSize <= 5000000) {
         viewmodel.uploadVideo(
           fileSize: fileSize,
@@ -223,6 +234,8 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
@@ -253,15 +266,17 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           ),
           Stack(
             children: [
-              Container(
-                  height: context.fullHeight * 0.3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child:
-                      mawahebVideoWidget(videoId: videoShowId, token: token)),
+              Center(
+                child: Container(
+                    height: context.fullHeight * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child:
+                        mawahebVideoWidget(videoId: videoShowId, token: token)),
+              ),
               Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.all(10),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
@@ -271,10 +286,15 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                           videoId: videoId,
                           videoVersion: videoVersion);
                     },
-                    icon: const Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
-                      size: 28,
+                    icon: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.transparent.withOpacity(0.6)),
+                      child: const Icon(
+                        Icons.more_horiz,
+                        color: Colors.white,
+                        size: 28,
+                      ),
                     ),
                   ),
                 ),
@@ -384,7 +404,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     onPressed: () {
                       viewmodel.deleteVideo(
                           videoVersion: videoVersion, videoId: videoId);
-                      context.pop();
+                      bc.pop();
                     },
                   ),
                 ),
@@ -395,7 +415,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                   textColor: Colors.black,
                   borderColor: Colors.black,
                   onPressed: () {
-                    context.pop();
+                    bc.pop();
                   },
                 ),
               ],
@@ -540,6 +560,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         const Spacer(),
         InkWell(
             onTap: () {
+              context.pop();
               _removeVideoBottomSheet(
                   context: context,
                   videoId: videoId,
