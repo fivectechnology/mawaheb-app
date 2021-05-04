@@ -1,4 +1,3 @@
-import 'package:core_sdk/utils/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';

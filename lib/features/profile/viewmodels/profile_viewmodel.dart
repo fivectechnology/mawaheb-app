@@ -295,6 +295,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @action
   // ignore: missing_return
   Future<int> uploadImage({
+    int playerId,
+    int playerVersion,
     File file,
     int fileSize,
     String fileName,
@@ -311,9 +313,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
       await _profileRepository
           .updateImageProfile(
-              imageId: res,
-              version: playerFuture.value.version,
-              id: playerFuture.value.id)
+              imageId: res, version: playerVersion + 1, id: playerId)
           .whenSuccess((res) => apply(() {
                 print('image updated');
                 getContext((context) => App.navKey.currentState.context
@@ -335,7 +335,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       int videoVersion,
       int videoId,
       bool withDelete}) {
-    print('debug upload video');
+    print('debug upload video1');
     imageId = _profileRepository
         .uploadFile(
             file: file,

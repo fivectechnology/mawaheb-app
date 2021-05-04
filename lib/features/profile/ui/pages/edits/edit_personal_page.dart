@@ -93,7 +93,7 @@ class _EditPersonalPageState
     if (pickedFile != null) {
       viewmodel.image = File(pickedFile.path);
       fileName = viewmodel.image.path.split('/').last;
-      fileType = fileName.split('.').last;
+      fileType = 'image/' + fileName.split('.').last;
       fileSize = await viewmodel.image.length();
     } else {
       print('No image selected.');
@@ -231,6 +231,8 @@ class _EditPersonalPageState
                               onPressed: () async {
                                 if (viewmodel.image != null) {
                                   viewmodel.uploadImage(
+                                      playerId: viewmodel.player.id,
+                                      playerVersion: viewmodel.player.version,
                                       file: viewmodel.image,
                                       fileType: fileType,
                                       fileName: fileName,

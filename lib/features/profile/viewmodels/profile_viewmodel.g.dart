@@ -542,11 +542,18 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
 
   @override
   Future<int> uploadImage(
-      {File file, int fileSize, String fileName, String fileType}) {
+      {int playerId,
+      int playerVersion,
+      File file,
+      int fileSize,
+      String fileName,
+      String fileType}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
         name: '_ProfileViewmodelBase.uploadImage');
     try {
       return super.uploadImage(
+          playerId: playerId,
+          playerVersion: playerVersion,
           file: file,
           fileSize: fileSize,
           fileName: fileName,

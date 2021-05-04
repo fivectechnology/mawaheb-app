@@ -540,6 +540,8 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @action
   // ignore: missing_return
   Future<int> uploadFile({
+    int playerId,
+    int playerVersion,
     File file,
     int fileSize,
     String fileName,
@@ -556,9 +558,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
 
       await _profileRepository
           .updateImageProfile(
-              imageId: res,
-              version: prefsRepository.player.version + 1,
-              id: prefsRepository.player.id)
+              imageId: res, version: playerVersion + 1, id: playerId)
           .whenSuccess((res) => res.data.first.apply(() {
                 registerFuture = ObservableFuture.value(res.data.first);
                 print('image updated');

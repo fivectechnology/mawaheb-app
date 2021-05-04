@@ -8,6 +8,7 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
+import 'package:mawaheb_app/base/widgets/uploading_video_loader.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -58,7 +59,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     if (pickedFile != null) {
       video = File(pickedFile.path);
       fileName = video.path.split('/').last;
-      fileType = fileName.split('.').last;
+      fileType = 'video/' + fileName.split('.').last;
       fileSize = await video.length();
 
       print(video);
@@ -76,30 +77,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           videoVersion: videoVersion,
         );
 
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (
-            BuildContext context,
-          ) {
-            return Dialog(
-              key: VideosPage.keyLoader,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: CircularProgressIndicator(),
-                    ),
-                    Text(context.translate('msg_uploading_video')),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+        uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
             scaffoldKey: VideosPage.scaffoldKey,
@@ -117,7 +95,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     if (pickedFile != null) {
       video = File(pickedFile.path);
       fileName = video.path.split('/').last;
-      fileType = fileName.split('.').last;
+      fileType = 'video/' + fileName.split('.').last;
       fileSize = await video.length();
 
       print(video);
@@ -136,30 +114,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           videoVersion: videoVersion,
         );
 
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (
-            BuildContext context,
-          ) {
-            return Dialog(
-              key: VideosPage.keyLoader,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: CircularProgressIndicator(),
-                    ),
-                    Text(context.translate('msg_uploading_video')),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+        uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
             scaffoldKey: VideosPage.scaffoldKey,

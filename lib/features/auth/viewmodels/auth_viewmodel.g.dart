@@ -695,11 +695,18 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
 
   @override
   Future<int> uploadFile(
-      {File file, int fileSize, String fileName, String fileType}) {
+      {int playerId,
+      int playerVersion,
+      File file,
+      int fileSize,
+      String fileName,
+      String fileType}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.uploadFile');
     try {
       return super.uploadFile(
+          playerId: playerId,
+          playerVersion: playerVersion,
           file: file,
           fileSize: fileSize,
           fileName: fileName,

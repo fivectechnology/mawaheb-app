@@ -30,9 +30,9 @@ class _VideoPlayerPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // if (viewmodel?.videos == null) {
-    //   viewmodel.fetchVideos(playerId: viewmodel.player.id);
-    // }
+    if (viewmodel.videos == null) {
+      viewmodel.fetchVideos(playerId: viewmodel.player.id);
+    }
   }
 
   @override
@@ -40,26 +40,29 @@ class _VideoPlayerPageState
     return Scaffold(
       backgroundColor: Colors.white,
       body: Observer(builder: (_) {
-        return Column(
-          children: [
-            if (viewmodel.player.videos != null)
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: viewmodel.player.videos.length,
-                  itemBuilder: (context, index) {
-                    return viewmodel.player.videos[index].status == 'APPROVED'
-                        ? videoRow(
-                            videoId: viewmodel.player.videos[index].video.id,
-                            token: viewmodel.prefsRepository.token)
-                        : const SizedBox();
-                  }),
-            if (viewmodel.player.videos == null)
-              Center(
-                heightFactor: 10,
-                child: Text(context.translate('msg_no_videos'),
-                    style: textTheme.subtitle1),
-              ),
-          ],
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              if (viewmodel.videos != null)
+                ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: viewmodel.videos.length,
+                    itemBuilder: (context, index) {
+                      return viewmodel.videos[index].status == 'APPROVED'
+                          ? videoRow(
+                              videoId: viewmodel.videos[index].video.id,
+                              token: viewmodel.prefsRepository.token)
+                          : const SizedBox();
+                    }),
+              if (viewmodel.videos == null || viewmodel.videos.isEmpty)
+                Center(
+                  heightFactor: 10,
+                  child: Text(context.translate('msg_no_videos'),
+                      style: textTheme.subtitle1),
+                ),
+            ],
+          ),
         );
       }),
     );
@@ -76,7 +79,7 @@ class _VideoPlayerPageState
                 height: context.fullHeight * 0.3,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                // child: mawahebVideoWidget(token: token, videoId: videoId),
+                child: mawahebVideoWidget(token: token, videoId: videoId),
               ),
             ],
           ),

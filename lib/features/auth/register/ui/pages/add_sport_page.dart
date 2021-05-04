@@ -14,6 +14,7 @@ import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'package:mawaheb_app/base/widgets/uploading_video_loader.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
@@ -88,7 +89,7 @@ class _AddSportPageState
     if (pickedFile != null) {
       video = File(pickedFile.path);
       fileName = video.path.split('/').last;
-      fileType = fileName.split('.').last;
+      fileType = 'video/' + fileName.split('.').last;
       fileSize = await video.length();
       if (fileSize <= 5000000) {
         viewmodel.uploadVideo(
@@ -97,30 +98,7 @@ class _AddSportPageState
           fileType: fileType,
           file: video,
         );
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (
-            BuildContext context,
-          ) {
-            return Dialog(
-              key: RegisterPage.keyLoader,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: CircularProgressIndicator(),
-                    ),
-                    Text(context.translate('msg_uploading_video')),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+        uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
             scaffoldKey: RegisterPage.scaffoldKey,
@@ -143,33 +121,10 @@ class _AddSportPageState
         viewmodel.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
-          fileType: fileType,
+          fileType: 'video/' + fileType,
           file: video,
         );
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (
-            BuildContext context,
-          ) {
-            return Dialog(
-              key: RegisterPage.keyLoader,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: CircularProgressIndicator(),
-                    ),
-                    Text(context.translate('msg_uploading_video')),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+        uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
             scaffoldKey: RegisterPage.scaffoldKey,

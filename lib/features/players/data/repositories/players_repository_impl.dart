@@ -6,6 +6,7 @@ import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/players/data/datasources/players_datasource.dart';
 import 'package:mawaheb_app/features/players/domain/repositiories/players_repository.dart';
+import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 
 @LazySingleton(as: PlayersRepository)
 class PlayersRepositoryImpl extends PlayersRepository {
@@ -58,6 +59,11 @@ class PlayersRepositoryImpl extends PlayersRepository {
           {int memberShipId, int memberShipVersion}) =>
       playersDataSource.releasePlayer(
           memberShipId: memberShipId, memberShipVersion: memberShipVersion);
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos(
+          {int playerId}) =>
+      playersDataSource.fetchApprovedVideos(playerId: playerId);
 
   // @override
   // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>

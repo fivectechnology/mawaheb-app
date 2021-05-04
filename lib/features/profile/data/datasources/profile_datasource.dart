@@ -184,6 +184,8 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
     String fileName,
     String fileType,
   }) async {
+    print('debug upload video');
+
     final Dio dio = Dio();
     int id;
     final Response response =
@@ -196,7 +198,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
               'X-File-Size': fileSize,
               'Content-Length': fileSize,
               'X-File-Name': fileName,
-              'X-File-Type': 'image/' + fileType
+              'X-File-Type': fileType
             }));
 
     if (response.statusCode == 200) {
