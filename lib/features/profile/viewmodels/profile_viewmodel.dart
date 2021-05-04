@@ -128,6 +128,12 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   List<SportPositionModel> get positions => positionFuture?.value;
 
   @computed
+  bool get positionsLoading => positionFuture?.isPending ?? false;
+
+  @computed
+  bool get sportLoading => sportFuture?.isPending ?? false;
+
+  @computed
   List<EmirateModel> get emirates => emirateFuture?.value;
 
   @computed

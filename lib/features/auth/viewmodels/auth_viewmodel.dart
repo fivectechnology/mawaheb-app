@@ -201,6 +201,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   bool get transactionError => confirmTransactionFuture?.isFailure ?? false;
 
   @computed
+  bool get positionsLoading => positionFuture?.isPending ?? false;
+
+  @computed
+  bool get sportLoading => sportFuture?.isPending ?? false;
+
+  @computed
   File get imageFile => image;
 
   //* ACTIONS *//
