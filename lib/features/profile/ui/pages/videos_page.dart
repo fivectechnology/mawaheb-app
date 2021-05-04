@@ -8,6 +8,7 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
+import 'package:mawaheb_app/base/widgets/uploading_video_loader.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
@@ -51,14 +52,20 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     }
   }
 
-  Future getVideo({bool deleteVideo, int videoId, int videoVersion}) async {
+  Future getVideoGallery(
+      {bool deleteVideo, int videoId, int videoVersion}) async {
     final pickedFile = await picker.getVideo(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       video = File(pickedFile.path);
       fileName = video.path.split('/').last;
-      fileType = fileName.split('.').last;
+      fileType = 'video/' + fileName.split('.').last;
       fileSize = await video.length();
+
+      print(video);
+      print(fileName);
+      print(fileType);
+      print(fileSize);
       if (fileSize <= 5000000) {
         viewmodel.uploadVideo(
           fileSize: fileSize,
@@ -70,30 +77,44 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           videoVersion: videoVersion,
         );
 
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (
-            BuildContext context,
-          ) {
-            return Dialog(
-              key: VideosPage.keyLoader,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: CircularProgressIndicator(),
-                    ),
-                    Text(context.translate('msg_uploading_video')),
-                  ],
-                ),
-              ),
-            );
-          },
+        uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
+      } else {
+        viewmodel.showSnack(context.translate('msg_video_size'),
+            scaffoldKey: VideosPage.scaffoldKey,
+            duration: const Duration(seconds: 3));
+      }
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future getVideoCamera(
+      {bool deleteVideo, int videoId, int videoVersion}) async {
+    final pickedFile = await picker.getVideo(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      video = File(pickedFile.path);
+      fileName = video.path.split('/').last;
+      fileType = 'video/' + fileName.split('.').last;
+      fileSize = await video.length();
+
+      print(video);
+      print(fileName);
+      print(fileType);
+      print(fileSize);
+
+      if (fileSize <= 5000000) {
+        viewmodel.uploadVideo(
+          fileSize: fileSize,
+          fileName: fileName,
+          fileType: fileType,
+          file: video,
+          withDelete: deleteVideo,
+          videoId: videoId,
+          videoVersion: videoVersion,
         );
+
+        uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
             scaffoldKey: VideosPage.scaffoldKey,
@@ -108,24 +129,22 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: VideosPage.scaffoldKey,
-      floatingActionButton: Visibility(
-        visible: isPlayer,
-        child: FloatingActionButton(
-          onPressed: () {
-            if (viewmodel.videos.length == 3) {
-              _selectVideoBottomSheet(
-                context: context,
-              );
-            } else {
-              getVideo(deleteVideo: true);
-            }
-          },
-          backgroundColor: YELLOW,
-          child: const Icon(
-            Icons.add,
-            color: Colors.black87,
-            size: 36,
-          ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (viewmodel.videos.length == 3) {
+            _selectVideoBottomSheet(
+              context: context,
+            );
+          } else {
+            _optionPickerBottomSheet(context: context);
+            // getVideo(deleteVideo: true);
+          }
+        },
+        backgroundColor: YELLOW,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black87,
+          size: 36,
         ),
       ),
       backgroundColor: Colors.white,
@@ -170,6 +189,8 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
@@ -200,15 +221,17 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
           ),
           Stack(
             children: [
-              Container(
-                  height: context.fullHeight * 0.3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child:
-                      mawahebVideoWidget(videoId: videoShowId, token: token)),
+              Center(
+                child: Container(
+                    height: context.fullHeight * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child:
+                        mawahebVideoWidget(videoId: videoShowId, token: token)),
+              ),
               Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.all(10),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
@@ -218,10 +241,15 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                           videoId: videoId,
                           videoVersion: videoVersion);
                     },
-                    icon: const Icon(
-                      Icons.more_horiz,
-                      color: Colors.white,
-                      size: 28,
+                    icon: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.transparent.withOpacity(0.6)),
+                      child: const Icon(
+                        Icons.more_horiz,
+                        color: Colors.white,
+                        size: 28,
+                      ),
                     ),
                   ),
                 ),
@@ -331,7 +359,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     onPressed: () {
                       viewmodel.deleteVideo(
                           videoVersion: videoVersion, videoId: videoId);
-                      context.pop();
+                      bc.pop();
                     },
                   ),
                 ),
@@ -342,7 +370,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                   textColor: Colors.black,
                   borderColor: Colors.black,
                   onPressed: () {
-                    context.pop();
+                    bc.pop();
                   },
                 ),
               ],
@@ -365,7 +393,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
               children: [
                 InkWell(
                   onTap: () {
-                    getVideo(
+                    getVideoGallery(
                         deleteVideo: false,
                         videoId: videoId,
                         videoVersion: videoVersion);
@@ -412,6 +440,64 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         });
   }
 
+  void _optionPickerBottomSheet({
+    BuildContext context,
+  }) {
+    showModalBottomSheet(
+        useRootNavigator: true,
+        context: context,
+        builder: (BuildContext bc) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: context.fullWidth * 0.08,
+                vertical: context.fullHeight * 0.03),
+            child: Wrap(
+              children: [
+                InkWell(
+                  onTap: () {
+                    getVideoCamera(deleteVideo: true);
+                    bc.pop();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.02),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        context.translate('lbl_camera'),
+                        textAlign: TextAlign.center,
+                        style: textTheme.bodyText1.copyWith(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.grey[600],
+                  height: 1.0,
+                ),
+                InkWell(
+                  onTap: () {
+                    getVideoGallery(deleteVideo: true);
+                    bc.pop();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.02),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        context.translate('lbl_gallery'),
+                        style: textTheme.bodyText1.copyWith(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   Widget currentVideoRow(
       {BuildContext context, int videoNumber, int videoId, int videoVersion}) {
     return Row(
@@ -429,6 +515,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         const Spacer(),
         InkWell(
             onTap: () {
+              context.pop();
               _removeVideoBottomSheet(
                   context: context,
                   videoId: videoId,

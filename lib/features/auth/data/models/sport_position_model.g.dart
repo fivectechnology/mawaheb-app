@@ -9,6 +9,7 @@ part of 'sport_position_model.dart';
 SportPositionModel _$SportPositionModelFromJson(Map<String, dynamic> json) {
   return SportPositionModel(
     name: json['name'] as String,
+    tName: json[r'$t:name'] as String,
     sport: json['sport'] == null
         ? null
         : SportModel.fromJson(json['sport'] as Map<String, dynamic>),
@@ -21,6 +22,7 @@ Map<String, dynamic> _$SportPositionModelToJson(SportPositionModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'version': instance.version,
+      r'$t:name': instance.tName,
       'name': instance.name,
       'sport': instance.sport,
     };

@@ -14,7 +14,7 @@ class CountryModel extends VersionModel with EquatableMixin {
     @required int version,
   }) : super(id, version);
 
-  @JsonKey(name: '\$t:name')
+  @JsonKey(name: r'$t:name')
   final String tName;
   final String name;
 

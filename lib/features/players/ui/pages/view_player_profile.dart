@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_dialog.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/features/players/ui/pages/personal_info_page.dart';
@@ -125,48 +126,55 @@ class _ViewPlayerProfileState
                                 context: context,
                                 text: 'lbl_confirm_player',
                                 isLoading: viewmodel.confirmPlayerLoading,
-                                onPressed: () {
-                                  showConfirmDialog(context,
-                                      context.translate('msg_confirm_player'),
-                                      () {
-                                    context.pop(context);
-                                    viewmodel.confirmPlayer();
-                                    _confirmationBottomSheet(
-                                        context: context, state: 'confirmed');
-                                  });
+                                onPressed: () async {
+                                  await mawahebShowConfirmDialog(
+                                      context: context,
+                                      message: context
+                                          .translate('msg_confirm_player'),
+                                      onConfirm: () {
+                                        context.pop(context);
+                                        viewmodel.confirmPlayer();
+
+                                        _confirmationBottomSheet(
+                                            context: context,
+                                            state: 'confirmed');
+                                      });
                                 }),
                           if (viewmodel.player.availability == 'CONFIRMED')
                             MawahebGradientButton(
                                 context: context,
                                 text: 'lbl_released_player',
                                 isLoading: viewmodel.releasePlayerLoading,
-                                onPressed: () {
-                                  showConfirmDialog(context,
-                                      context.translate('msg_release_player'),
-                                      () {
-                                    context.pop(context);
-                                    viewmodel.releasePlayer();
-                                    _confirmationBottomSheet(
-                                        context: context, state: 'released');
-                                  });
+                                onPressed: () async {
+                                  await mawahebShowConfirmDialog(
+                                      context: context,
+                                      message: context
+                                          .translate('msg_release_player'),
+                                      onConfirm: () {
+                                        context.pop(context);
+                                        viewmodel.releasePlayer();
+                                        _confirmationBottomSheet(
+                                            context: context,
+                                            state: 'released');
+                                      });
                                 }),
                           if (viewmodel.player.availability == 'RELEASED')
                             MawahebGradientButton(
                                 context: context,
                                 text: 'lbl_book_player',
                                 isLoading: viewmodel.bookPlayerLoading,
-                                onPressed: () {
-                                  showConfirmDialog(context,
-                                      context.translate('msg_book_player'), () {
-                                    context.pop(context);
-
-                                    viewmodel.bookPlayer(
-                                        playerId: viewmodel.player.id);
-                                    _confirmationBottomSheet(
-                                        context: context, state: 'booked');
-                                    _confirmationBottomSheet(
-                                        context: context, state: 'booked');
-                                  });
+                                onPressed: () async {
+                                  await mawahebShowConfirmDialog(
+                                      context: context,
+                                      message:
+                                          context.translate('msg_book_player'),
+                                      onConfirm: () {
+                                        context.pop(context);
+                                        viewmodel.bookPlayer(
+                                            playerId: viewmodel.player.id);
+                                        _confirmationBottomSheet(
+                                            context: context, state: 'booked');
+                                      });
                                 }),
                         ],
                       ))

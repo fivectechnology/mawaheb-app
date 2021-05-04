@@ -67,6 +67,7 @@ class _EditAddressPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: WHITE,
       appBar: customAppBar(
           context: context,
@@ -135,7 +136,8 @@ class _EditAddressPageState
                               textColor: Colors.black,
                               borderColor: Colors.black,
                               buttonColor: WHITE,
-                              isLoading: viewmodel.playerLoading,
+                              progressColor: RED,
+                              isLoading: viewmodel.addressLoading,
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();

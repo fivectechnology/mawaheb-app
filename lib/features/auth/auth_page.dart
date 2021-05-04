@@ -2,7 +2,6 @@ import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,8 @@ import 'package:provider/provider.dart';
 class AuthPage extends StatefulWidget {
   const AuthPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AuthPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const AuthPage());
 
   static const String route = '/auth';
 
@@ -44,9 +44,20 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
 
     return Scaffold(
       backgroundColor: WHITE,
-      appBar: MawahebAppBar(
-        appViewModel: appViewmodel,
-        title: 'Mawahaeb',
+      appBar: AppBar(
+        title: const Text(
+          'Mawaheb',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            color: TEXT_COLOR,
+            fontWeight: FontWeight.w500,
+            fontSize: 19,
+            letterSpacing: 0.15,
+          ),
+        ),
+        toolbarHeight: 56.0,
+        elevation: 0,
+        centerTitle: false,
       ),
       key: viewmodel.scaffoldKey,
       body: Provider(create: (_) => viewmodel, child: const PublicInfoPage()),

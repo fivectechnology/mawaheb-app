@@ -20,7 +20,8 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState
+    extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -53,13 +54,15 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                   ? const SizedBox()
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: context.fullWidth * 0.02),
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
-                          fileName: viewmodel.prefsRepository.languageCode == 'en'
-                              ? downloads[index].title
-                              : downloads[index].titleAr,
+                          fileName:
+                              viewmodel.prefsRepository.languageCode == 'en'
+                                  ? downloads[index].title
+                                  : downloads[index].titleAr,
                           onPress: () => viewmodel.downloadFile(
                             id: downloads[index].source.id,
                             parentId: downloads[index].id,
@@ -82,7 +85,9 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Expanded(child: Text(fileName, style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
+              Expanded(
+                  child: Text(fileName,
+                      style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
             ],
           ),
           Row(

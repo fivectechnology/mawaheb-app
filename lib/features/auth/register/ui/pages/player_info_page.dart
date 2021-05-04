@@ -100,7 +100,7 @@ class _PlayerInfoPageState
     if (pickedFile != null) {
       viewmodel.image = File(pickedFile.path);
       fileName = viewmodel.image.path.split('/').last;
-      fileType = fileName.split('.').last;
+      fileType = 'image/' + fileName.split('.').last;
       fileSize = await viewmodel.image.length();
     } else {
       print('No image selected.');
@@ -212,6 +212,9 @@ class _PlayerInfoPageState
                           onPressed: () async {
                             if (viewmodel.image != null) {
                               viewmodel.uploadFile(
+                                  playerVersion:
+                                      viewmodel.prefsRepository.player.version,
+                                  playerId: viewmodel.prefsRepository.player.id,
                                   file: viewmodel.image,
                                   fileType: fileType,
                                   fileName: fileName,

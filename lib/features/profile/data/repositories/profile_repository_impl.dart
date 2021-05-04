@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/profile/data/datasources/profile_datasource.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
@@ -68,4 +69,26 @@ class ProfileRepositoryImpl extends ProfileRepository {
   Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchPlayerVideos(
           {int playerId}) =>
       profileDataSource.fetchPlayerVideos(playerId: playerId);
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateSportInfo(
+          {int id,
+          int version,
+          int weight,
+          int height,
+          String hand,
+          String leg,
+          String brief,
+          SportModel sport,
+          sportPositionModel}) =>
+      profileDataSource.updateSportInfo(
+          id: id,
+          version: version,
+          weight: weight,
+          height: height,
+          hand: hand,
+          leg: leg,
+          brief: brief,
+          sport: sport,
+          sportPositionModel: sportPositionModel);
 }

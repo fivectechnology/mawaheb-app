@@ -9,19 +9,24 @@ part 'category_model.g.dart';
 class CategoryModel extends VersionModel with EquatableMixin {
   const CategoryModel({
     @required this.title,
+    @required this.tName,
     @required int id,
     @required int version,
   }) : super(id, version);
 
+  @JsonKey(name: r'$t:name')
+  final String tName;
   final String title;
 
   CategoryModel copyWith({
     String title,
+    String tName,
     int id,
     int version,
   }) {
     return CategoryModel(
       title: title ?? this.title,
+      tName: tName ?? this.tName,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -34,6 +39,7 @@ class CategoryModel extends VersionModel with EquatableMixin {
   List<Object> get props {
     return [
       title,
+      tName,
       id,
       version,
     ];

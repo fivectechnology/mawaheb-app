@@ -10,6 +10,7 @@ import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
+import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 
 abstract class PlayersDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
@@ -38,6 +39,9 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
     @required int memberShipId,
     @required int memberShipVersion,
   });
+
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos(
+      {@required int playerId});
 
 // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
 //     getMemberShips({
@@ -190,6 +194,26 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
           'data': {'version': memberShipVersion, 'status': 'RELEASED'},
           'fields': ['partner', 'player', 'status', 'version']
         });
+  }
+
+  @override
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos(
+      {int playerId}) {
+    return mawahebRequest(
+        method: METHOD.POST,
+        modelName: 'PartnerVideo',
+        action: EndPointAction.search,
+        data: {
+          'data': {
+            'criteria': [
+              {'fieldName': 'partner.id', 'operator': '=', 'value': playerId},
+              {'fieldName': 'status', 'operator': '=', 'value': 'APPROVED'}
+            ],
+            'operator': 'AND'
+          },
+          'fields': ['status', 'video']
+        },
+        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
   }
 
 // @override

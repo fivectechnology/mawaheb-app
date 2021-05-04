@@ -27,7 +27,8 @@ class RegisterPage extends StatefulWidget {
 
   static final GlobalKey<State> keyLoader = GlobalKey<State>();
 
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
@@ -38,7 +39,8 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState
+    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
   AppViewmodel appViewmodel;
 
@@ -68,13 +70,15 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.registerSliderModel,
+          (PageSliderModel sliderModel) {
         slidePage(sliderModel);
         viewmodel.registerSliderModel = null;
       }),
     ]);
 
-    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)..refreshUserStatus();
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)
+      ..refreshUserStatus();
   }
 
   @override
@@ -104,7 +108,9 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
             return PageView(
               controller: _pageController,
               physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (int pageIndex) => changeTitle(pageIndex),
+              onPageChanged: (int pageIndex) => !appViewmodel.userRegested
+                  ? changeTitle(pageIndex)
+                  : changeTitle2(pageIndex),
               // children: viewmodel.prefsRepository.player == null ? pages1 : pages2,
               children: !appViewmodel.userRegested ? pages1 : pages2,
             );
@@ -115,21 +121,19 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
   }
 
   void changeTitle(int pageIndex) {
-    print('ttttttttt');
-    print(pageIndex);
     String newTitle;
     switch (pageIndex) {
       case 0:
         onBackButton = () => context.pop();
-        newTitle = viewmodel.prefsRepository.player == null ? 'lbl_sign_up' : 'lbl_personal_info';
+        newTitle = 'lbl_sign_up';
         break;
       case 1:
         onBackButton = () => slidePage(const PageSliderBackwardModel());
 
-        newTitle = viewmodel.prefsRepository.player == null ? 'lbl_otp' : 'lbl_address';
+        newTitle = 'lbl_otp';
         break;
       case 2:
-        newTitle = viewmodel.prefsRepository.player == null ? 'lbl_personal_info' : 'lbl_add_sport';
+        newTitle = 'lbl_personal_info';
         break;
       case 3:
         newTitle = 'lbl_address';
@@ -142,12 +146,33 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
     setState(() => pageTitle = newTitle);
   }
 
+  void changeTitle2(int pageIndex) {
+    print('ttttt2');
+    print(!appViewmodel.userRegested);
+    String newTitle;
+    switch (pageIndex) {
+      case 0:
+        newTitle = 'lbl_personal_info';
+        break;
+      case 1:
+        newTitle = 'lbl_address';
+        break;
+      case 2:
+        newTitle = 'lbl_add_sport';
+        break;
+    }
+
+    setState(() => pageTitle = newTitle);
+  }
+
   void slidePage(PageSliderModel sliderModel) {
     if (sliderModel == null) {
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(
+            duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(
+            duration: 400.milliseconds, curve: Curves.easeOut);
   }
 }
