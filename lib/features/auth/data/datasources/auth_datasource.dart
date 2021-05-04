@@ -297,7 +297,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': ['id', 'version', 'name'],
+        // 'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(SportModel.fromJson),
     );
@@ -310,7 +310,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': ['id', 'version', 'title'],
+        // 'fields': ['id', 'version', 'title'],
       },
       mapper: ListBaseResponseModel.fromJson(CategoryModel.fromJson),
     );
@@ -323,7 +323,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': ['id', 'version', 'name'],
+        // 'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(CountryModel.fromJson),
     );
@@ -336,7 +336,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': ['id', 'version', 'name'],
+        // 'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(EmirateModel.fromJson),
     );
@@ -357,7 +357,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        'fields': ['id', 'version', 'name'],
+        // 'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson),
     );
