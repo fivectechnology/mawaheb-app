@@ -79,7 +79,7 @@ class _VideoPlayerPageState
                 height: context.fullHeight * 0.3,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                child: mawahebVideoWidget(token: token, videoId: videoId),
+                // child: mawahebVideoWidget(token: token, videoId: videoId),
               ),
             ],
           ),

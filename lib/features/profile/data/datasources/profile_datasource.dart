@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
@@ -186,11 +187,18 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
   }) async {
     print('debug upload video');
 
-    final Dio dio = Dio();
     int id;
-    final Response response =
-        await dio.post(BASE_API + WEB_SERVICE + '/files/upload',
-            data: file.openRead(),
+
+    Dio dio = Dio();
+
+    // final FormData formData = FormData.fromMap({
+    //   'file': await MultipartFile.fromFile(file.path, filename: fileName),
+    // });
+    final Response response = await dio
+        .post(BASE_API + WEB_SERVICE + '/files/upload', data: file.openRead(),
+            onSendProgress: (int sent, int total) {
+      print('$sent $total');
+    },
             options: Options(headers: {
               'Authorization': 'Basic ${prefsRepository.token}',
               'Content-Type': 'application/octet-stream',
@@ -198,14 +206,25 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
               'X-File-Size': fileSize,
               'Content-Length': fileSize,
               'X-File-Name': fileName,
-              'X-File-Type': fileType
+              'X-File-Type': fileType,
+              // 'Accept-Encoding': 'gzip, deflate, br',
+              // 'Accept': '*/*',
+              // 'Connection': 'keep-alive',
+              // 'Accept-Language': 'en',
             }));
+
+    print(response.statusCode);
+    print(response.data);
 
     if (response.statusCode == 200) {
       print(response.data);
       var data = response.data;
       id = data['id'] as int;
       print(id);
+
+      // return jsonDecode(response.data)['id']
+      //     as int; // var data = response.data;
+
     }
 
     return id;
