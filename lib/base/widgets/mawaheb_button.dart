@@ -15,6 +15,8 @@ class MawahebButton extends StatelessWidget {
     this.progressColor,
     this.isLoading = false,
     this.enable = true,
+    this.textStyle,
+    this.shape,
   }) : super(key: key);
 
   final String text;
@@ -26,6 +28,8 @@ class MawahebButton extends StatelessWidget {
   final bool isLoading;
   final bool enable;
   final Color progressColor;
+  final TextStyle textStyle;
+  final ShapeBorder shape;
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +47,19 @@ class MawahebButton extends StatelessWidget {
         hoverElevation: 0,
         focusElevation: 0,
         highlightElevation: 0,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(80.0),
-            side: BorderSide(color: borderColor, width: 1.0)),
-        padding: const EdgeInsets.all(0.0),
+        shape: shape ??
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(80.0),
+              side: BorderSide(color: borderColor, width: 1.0),
+            ),
+        padding: EdgeInsets.zero,
         child: Container(
           decoration: BoxDecoration(
-              color: buttonColor,
-              borderRadius: BorderRadius.circular(80.0),
-              border: Border.all(color: borderColor, width: 1.0)),
-          constraints:
-              const BoxConstraints(minWidth: double.infinity, minHeight: 55),
+            color: buttonColor,
+            borderRadius: BorderRadius.circular(80.0),
+            border: Border.all(color: borderColor, width: 1.0),
+          ),
+          constraints: const BoxConstraints(minWidth: double.infinity, minHeight: 55),
           // min sizes for Material buttons
           alignment: Alignment.center,
 
@@ -62,12 +68,13 @@ class MawahebButton extends StatelessWidget {
             children: [
               Text(
                 context.translate(text),
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
-                ),
+                style: textStyle ??
+                    TextStyle(
+                      color: textColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
                 textAlign: TextAlign.center,
               ),
               ProgressBar(

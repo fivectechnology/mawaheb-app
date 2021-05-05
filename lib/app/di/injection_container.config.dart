@@ -70,7 +70,7 @@ Future<GetIt> $inject(
   gh.factory<BaseOptions>(
       () => appModule.dioOption(get<String>(instanceName: 'ApiBaseUrl')));
   gh.lazySingleton<DownloadHelper>(
-      () => DownloadHelper(get<PrefsRepository>()));
+      () => DownloadHelper(get<PrefsRepository>(), get<Dio>()));
   gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
         client: get<Dio>(),
         prefsRepository: get<PrefsRepository>(),

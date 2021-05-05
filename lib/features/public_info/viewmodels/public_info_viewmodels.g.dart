@@ -252,11 +252,19 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
   }
 
   @override
-  void downloadFile({@required int id, @required int parentId}) {
+  void downloadFile(
+      {@required int id,
+      @required int parentId,
+      @required void Function(int) onReceiveProgress,
+      @required dynamic Function(String) onSuccess}) {
     final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
         name: '_PublicInfoViewmodelBase.downloadFile');
     try {
-      return super.downloadFile(id: id, parentId: parentId);
+      return super.downloadFile(
+          id: id,
+          parentId: parentId,
+          onReceiveProgress: onReceiveProgress,
+          onSuccess: onSuccess);
     } finally {
       _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
     }

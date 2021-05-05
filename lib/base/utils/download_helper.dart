@@ -1,96 +1,85 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:isolate';
-import 'dart:ui';
 
 import 'package:core_sdk/error/failures.dart';
 import 'package:core_sdk/utils/network_result.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/base/utils/permissions_helper.dart';
 import 'package:meta/meta.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:open_file/open_file.dart';
 
 @lazySingleton
 class DownloadHelper {
-  DownloadHelper(this._prefsRepository) {
-    _init();
-  }
+  DownloadHelper(
+    this._prefsRepository,
+    this._client,
+  );
 
-  static const String DOWNLOADER_SEND_PORT = 'downloader_send_port';
-  final processingTasks = <String, String>{};
   final PrefsRepository _prefsRepository;
-  final _port = ReceivePort();
-  String _localPath;
-  bool _prepared = false;
+  final Dio _client;
 
-  Future<void> _init() async {
-    await FlutterDownloader.initialize();
-    FlutterDownloader.registerCallback(downloadCallback);
-    _bindBackgroundIsolate();
-    // _prepare();
-  }
-
-  static void downloadCallback(String id, DownloadTaskStatus status, int progress) {
-    final SendPort send = IsolateNameServer.lookupPortByName(DOWNLOADER_SEND_PORT);
-    send.send([id, status, progress]);
-  }
-
-  void _bindBackgroundIsolate() {
-    final bool isSuccess = IsolateNameServer.registerPortWithName(_port.sendPort, DOWNLOADER_SEND_PORT);
-    if (!isSuccess) {
-      IsolateNameServer.removePortNameMapping(DOWNLOADER_SEND_PORT);
-      _bindBackgroundIsolate();
-      return;
-    }
-    _port.listen((data) {
-      print('Downloading => taskId = ${data[0]}, status = ${data[1]}, progress = ${data[2]}');
-      if (data[1] != DownloadTaskStatus.running) {
-        processingTasks.remove(data[0]);
-      }
-    });
-  }
-
-  Future<void> _prepare() async {
+  Future<String> getPath() async {
     try {
       if (await Permission.storage.request().isGranted) {
-        _localPath = (await findLocalPath(forDownload: true)) + '/Mawaheb';
-        final savedDir = Directory(_localPath);
+        final path = (await findLocalPath(forDownload: true)) + '/Mawaheb/';
+        final savedDir = Directory(path);
         if (!savedDir.existsSync()) {
           savedDir.create();
         }
-        _prepared = true;
+        return path;
       } else
         throw Exception('Error: Unable to get STORAGE permission!');
     } catch (e) {
-      print('');
+      print(e);
+      throw Exception('Error: Unable to get STORAGE permission!');
     }
   }
 
   Future<NetworkResult<bool>> requestDownload({
     @required int id,
     @required int parentId,
+    @required void Function(int progress) onReceiveProgress,
+    @required Function(String filePath) onSuccess,
+    bool openWhenFinish = true,
   }) async {
-    final fileUrl = _fixUrl(id: id, parentId: parentId);
     try {
-      if (!_prepared) {
-        await _prepare();
-      }
-      if (processingTasks.containsValue(fileUrl)) {
-        return Success(false);
-      }
-      final taskId = await FlutterDownloader.enqueue(
-        url: fileUrl,
-        headers: {'Authorization': 'Basic ${_prefsRepository.token}'},
-        savedDir: _localPath,
-        showNotification: true,
-        openFileFromNotification: true,
-      );
-      processingTasks[taskId] = fileUrl;
+      final fileUrl = _fixUrl(id: id, parentId: parentId);
+      final String folderPath = await getPath();
+      String filePath;
+      onReceiveProgress(1);
+      final res = await _client.download(
+        fileUrl,
+        (Headers responseHeaders) {
+          final String contentHeader = responseHeaders.value('content-disposition');
+          final resPath = contentHeader.substring(contentHeader.lastIndexOf('=') + 2, contentHeader.length - 1);
+          filePath = folderPath + '${DateTime.now().microsecondsSinceEpoch}${resPath.trim()}';
+          return filePath;
+        },
+        options: Options(
+          method: 'GET',
+          headers: {
+            'Authorization': 'Basic ${_prefsRepository.token}',
+            'Accept': '*/*',
+          },
+        ),
+        // onReceiveProgress: (int count, int total) {
+        //   onReceiveProgress(count);
+        // },
+      ).then((res) {
+        if (openWhenFinish) {
+          OpenFile.open(filePath);
+        }
+        return res;
+      }).whenComplete(() => onSuccess(filePath));
+      print('my debug success download res ${res.data},');
       return Success(true);
     } catch (e) {
+      print('my debug fail download res $e');
+
       return NetworkError(PermissionFailure('Error: Unable to get STORAGE permission!'));
     }
   }

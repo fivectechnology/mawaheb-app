@@ -99,6 +99,7 @@
   "lbl_pending_account": "Profile pending, payment required",
   "lbl_empty_notifications": "You donnot have any notifications yet!",
   "lbl_download": "Download",
+  "lbl_downloading": "Downloading",
   "lbl_players": "Players",
   "lbl_confirmed_player": "confirmed player",
   "lbl_search_name": "Search by name",

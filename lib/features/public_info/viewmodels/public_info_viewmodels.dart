@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
+import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/base/utils/download_helper.dart';
 import 'package:mawaheb_app/features/auth/login/ui/pages/login_page.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
@@ -21,6 +22,7 @@ import 'package:injectable/injectable.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'public_info_viewmodels.g.dart';
 
@@ -202,6 +204,36 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   void downloadFile({
     @required int id,
     @required int parentId,
+    @required void Function(int progress) onReceiveProgress,
+    @required Function(String filePath) onSuccess,
   }) =>
-      _downloadHelper.requestDownload(id: id, parentId: parentId);
+      _downloadHelper.requestDownload(
+        id: id,
+        parentId: parentId,
+        onReceiveProgress: onReceiveProgress,
+        onSuccess: onSuccess,
+      );
+
+  /*  async {
+    print(
+        'my debug ${await canLaunch(_fixUrl(id: id, parentId: parentId))}, url: ${_fixUrl(id: id, parentId: parentId)}');
+
+    launch(
+      _fixUrl(id: id, parentId: parentId),
+      headers: {'Authorization': Uri.encodeFull('Basic ${prefsRepository.token}')},
+      forceSafariVC: true,
+      forceWebView: false,
+      enableJavaScript: true,
+    );
+  } */
+  // _downloadHelper.requestDownload(id: id, parentId: parentId);
+
+  // String _fixUrl({
+  //   @required int id,
+  //   @required int parentId,
+  // }) =>
+  //     Uri.encodeFull(
+  //       BASE_REST_API +
+  //           '/com.axelor.meta.db.MetaFile/$id/content/download?parentId=$parentId&parentModel=com.axelor.mawaheb.base.db.DownloadCentreItem',
+  //     );
 }
