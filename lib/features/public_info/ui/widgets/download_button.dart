@@ -27,23 +27,26 @@ class _DownlaodButtonState extends State<DownlaodButton> {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: () {
-        widget.viewmodel.downloadFile(
-          id: widget.id,
-          parentId: widget.parentId,
-          onReceiveProgress: (int progress) {
-            setState(() {
-              this.progress = progress;
-            });
-          },
-          onSuccess: (filePath) {
-            setState(() {
-              progress = null;
-            });
-          },
-        );
-      },
+      onPressed: isLoading
+          ? null
+          : () {
+              widget.viewmodel.downloadFile(
+                id: widget.id,
+                parentId: widget.parentId,
+                onReceiveProgress: (int progress) {
+                  setState(() {
+                    this.progress = progress;
+                  });
+                },
+                onSuccess: (filePath) {
+                  setState(() {
+                    progress = null;
+                  });
+                },
+              );
+            },
       color: YELLOW,
+      disabledColor: LIGHT_GREY,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
       ),
