@@ -8,13 +8,13 @@ class DownlaodButton extends StatefulWidget {
   const DownlaodButton({
     Key key,
     @required this.viewmodel,
-    @required this.id,
-    @required this.parentId,
+    @required this.sourceId,
   }) : super(key: key);
 
   final PublicInfoViewmodel viewmodel;
-  final int id;
-  final int parentId;
+  final String sourceId;
+  // final int id;
+  // final int parentId;
 
   @override
   _DownlaodButtonState createState() => _DownlaodButtonState();
@@ -31,8 +31,8 @@ class _DownlaodButtonState extends State<DownlaodButton> {
           ? null
           : () {
               widget.viewmodel.downloadFile(
-                id: widget.id,
-                parentId: widget.parentId,
+                sourceId: widget.sourceId,
+
                 onReceiveProgress: (int progress) {
                   setState(() {
                     this.progress = progress;
@@ -54,8 +54,11 @@ class _DownlaodButtonState extends State<DownlaodButton> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            progress == null ? context.translate('lbl_download') : context.translate('lbl_downloading'),
-            style: context.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+            progress == null
+                ? context.translate('lbl_download')
+                : context.translate('lbl_downloading'),
+            style: context.textTheme.subtitle1
+                .copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           ProgressBar(

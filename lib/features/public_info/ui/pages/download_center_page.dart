@@ -60,20 +60,22 @@ class _DownLoadCenterPageState
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
-                          fileName:
-                              viewmodel.prefsRepository.languageCode == 'en'
-                                  ? downloads[index].title
-                                  : downloads[index].titleAr,
-                          id: downloads[index].source.id,
-                          parentId: downloads[index].id,
-                        );
+                            fileName:
+                                viewmodel.prefsRepository.languageCode == 'en'
+                                    ? downloads[index].title
+                                    : downloads[index].titleAr,
+                            sourceId: downloads[index].sourceId
+                            // id: downloads[index].source.id,
+                            // parentId: downloads[index].id,
+
+                            );
                       });
             }),
       ),
     );
   }
 
-  Widget downloadButton({String fileName, int id, int parentId}) {
+  Widget downloadButton({String fileName, String sourceId}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
       child: Column(
@@ -93,8 +95,7 @@ class _DownLoadCenterPageState
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               DownlaodButton(
-                id: id,
-                parentId: parentId,
+                sourceId: sourceId,
                 viewmodel: viewmodel,
               ),
             ],

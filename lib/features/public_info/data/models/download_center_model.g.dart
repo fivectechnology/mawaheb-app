@@ -9,6 +9,7 @@ part of 'download_center_model.dart';
 DownloadCenterModel _$DownloadCenterModelFromJson(Map<String, dynamic> json) {
   return DownloadCenterModel(
     title: json['title'] as String,
+    sourceId: json['source.fileUUID'] as String,
     source: json['source'] == null
         ? null
         : SourceModel.fromJson(json['source'] as Map<String, dynamic>),
@@ -23,6 +24,7 @@ Map<String, dynamic> _$DownloadCenterModelToJson(
     <String, dynamic>{
       'id': instance.id,
       'version': instance.version,
+      'source.fileUUID': instance.sourceId,
       'title': instance.title,
       'titleAr': instance.titleAr,
       'source': instance.source,

@@ -60,7 +60,7 @@ class _StrategicPartnersPageState
                       title: viewmodel.prefsRepository.languageCode == 'en'
                           ? partners[index].title
                           : partners[index].titleAr,
-                      idSource: partners[index].source.id);
+                      sourceId: partners[index].sourceId);
                 });
           },
         ));
