@@ -56,14 +56,22 @@ dependencies:
   image_picker: ^0.6.5 
   google_maps_flutter: ^1.2.0
   cached_network_image: ^2.3.0
-  better_player: ^0.0.60
+
+  # better_player: ^0.0.60
   # flutter_downloader: ^1.4.0
-  full_screen_image: any
+
+  # better_player: ^0.0.60
+  # flutter_downloader: ^1.4.0
+
+  full_screen_image: any 
   # downloads_path_provider: any
   path_provider: ^1.6.10
   permission_handler: ^5.1.0
   # video_player: ^1.0.1
   open_file: ^3.0.3 
+  video_player: ^1.0.0
+  chewie: ^0.12.2
+
 
 
 

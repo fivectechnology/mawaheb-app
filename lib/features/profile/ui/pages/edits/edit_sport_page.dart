@@ -92,7 +92,8 @@ class _EditSportPageState
                 .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
           }),
       body: Observer(builder: (_) {
-        return viewmodel.sports == null
+        return viewmodel.sportLoading == true ||
+                viewmodel.positionsLoading == true
             ? const Center(child: MawahebLoader())
             : Form(
                 key: _formKey,
@@ -102,6 +103,7 @@ class _EditSportPageState
                   child: ListView(
                     children: [
                       mawhaebDropDown(
+                        value: currentSport,
                         hint: context.translate('lbl_sport_name'),
                         context: context,
                         onChanged: (value) {

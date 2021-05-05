@@ -138,13 +138,15 @@ class _AddSportPageState
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return viewmodel.sports == null
+      return viewmodel.sportLoading == true ||
+              viewmodel.positionsLoading == true
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
               child: ListView(
                 children: [
                   mawhaebDropDown(
+                    value: currentSport,
                     hint: context.translate('lbl_sport_name'),
                     context: context,
                     onChanged: (value) {
