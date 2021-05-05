@@ -141,7 +141,6 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         bottom: context.fullHeight * 0.04,
                       ),
                       child: MawahebGradientButton(
-                        // TODO(ahmad): ask backend for username and password validation
                         // enable: !_userNameController.text.isNullOrEmpty && !_passwordController.text.isNullOrEmpty,
                         isLoading: viewmodel.loginLoading,
                         text: 'lbl_login',

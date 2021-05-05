@@ -163,6 +163,20 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
           () => super.transactionError,
           name: '_AuthViewmodelBase.transactionError'))
       .value;
+  Computed<bool> _$positionsLoadingComputed;
+
+  @override
+  bool get positionsLoading => (_$positionsLoadingComputed ??= Computed<bool>(
+          () => super.positionsLoading,
+          name: '_AuthViewmodelBase.positionsLoading'))
+      .value;
+  Computed<bool> _$sportLoadingComputed;
+
+  @override
+  bool get sportLoading =>
+      (_$sportLoadingComputed ??= Computed<bool>(() => super.sportLoading,
+              name: '_AuthViewmodelBase.sportLoading'))
+          .value;
   Computed<File> _$imageFileComputed;
 
   @override
@@ -829,6 +843,8 @@ subscription: ${subscription},
 transaction: ${transaction},
 transactionLoading: ${transactionLoading},
 transactionError: ${transactionError},
+positionsLoading: ${positionsLoading},
+sportLoading: ${sportLoading},
 imageFile: ${imageFile}
     ''';
   }

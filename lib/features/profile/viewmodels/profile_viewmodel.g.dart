@@ -65,6 +65,20 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           Computed<List<SportPositionModel>>(() => super.positions,
               name: '_ProfileViewmodelBase.positions'))
       .value;
+  Computed<bool> _$positionsLoadingComputed;
+
+  @override
+  bool get positionsLoading => (_$positionsLoadingComputed ??= Computed<bool>(
+          () => super.positionsLoading,
+          name: '_ProfileViewmodelBase.positionsLoading'))
+      .value;
+  Computed<bool> _$sportLoadingComputed;
+
+  @override
+  bool get sportLoading =>
+      (_$sportLoadingComputed ??= Computed<bool>(() => super.sportLoading,
+              name: '_ProfileViewmodelBase.sportLoading'))
+          .value;
   Computed<List<EmirateModel>> _$emiratesComputed;
 
   @override
@@ -638,6 +652,8 @@ categories: ${categories},
 sports: ${sports},
 countries: ${countries},
 positions: ${positions},
+positionsLoading: ${positionsLoading},
+sportLoading: ${sportLoading},
 emirates: ${emirates},
 views: ${views},
 deleteVideoLoading: ${deleteVideoLoading},
