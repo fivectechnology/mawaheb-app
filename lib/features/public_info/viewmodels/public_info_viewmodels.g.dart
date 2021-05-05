@@ -186,17 +186,6 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       ActionController(name: '_PublicInfoViewmodelBase');
 
   @override
-  void userLoggedIn() {
-    final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
-        name: '_PublicInfoViewmodelBase.userLoggedIn');
-    try {
-      return super.userLoggedIn();
-    } finally {
-      _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void getaboutUs() {
     final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
         name: '_PublicInfoViewmodelBase.getaboutUs');

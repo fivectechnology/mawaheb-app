@@ -1,10 +1,13 @@
+import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
@@ -12,6 +15,9 @@ import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_passwo
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
+import 'package:provider/provider.dart';
+
+import '../../../auth_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -34,6 +40,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   bool showPassword = false;
   String type = 'PLAYER';
   final _formKey = GlobalKey<FormState>();
+  AppViewmodel appViewmodel;
 
   @override
   void initState() {
@@ -43,6 +50,12 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
   }
 
   @override
@@ -63,14 +76,21 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 50,
+                    padding: const EdgeInsets.only(
+                      top: 50,
+                      bottom: 5,
                     ),
                     child: GradientText(
                       text: context.translate('lbl_welcome_to_mawaheb'),
                       colors: const [YELLOW, RED],
                       style: context.textTheme.headline1
                           .copyWith(fontSize: 26, letterSpacing: 0.3),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 40),
+                    child: SvgPicture.asset(
+                      'assets/images/slogan.svg',
                     ),
                   ),
                   MawahebTextField(
@@ -164,6 +184,40 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         arguments: viewmodel),
                     context: context,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 50),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.language,
+                          color: GREY,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          context.translate('lbl_language'),
+                          style: textTheme.bodyText1.copyWith(color: GREY),
+                        ),
+                        const SizedBox(width: 16),
+                        InkWell(
+                          onTap: () {
+                            appViewmodel.changeLanguage(
+                                viewmodel.prefsRepository.languageCode ==
+                                        LANGUAGE_ENGLISH
+                                    ? LANGUAGE_ARABIC
+                                    : LANGUAGE_ENGLISH);
+                          },
+                          child: Text(
+                            viewmodel.prefsRepository.languageCode ==
+                                    LANGUAGE_ENGLISH
+                                ? 'Arabic'
+                                : 'English',
+                            style: textTheme.bodyText1.copyWith(color: RED),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
