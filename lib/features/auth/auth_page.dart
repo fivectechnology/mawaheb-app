@@ -5,6 +5,7 @@ import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart';
 import 'package:provider/provider.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key key}) : super(key: key);
@@ -45,9 +46,9 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
     return Scaffold(
       backgroundColor: WHITE,
       appBar: AppBar(
-        title: const Text(
-          'Mawaheb',
-          style: TextStyle(
+        title: Text(
+          context.translate('lbl_public_info'),
+          style: const TextStyle(
             fontFamily: 'Poppins',
             color: TEXT_COLOR,
             fontWeight: FontWeight.w500,

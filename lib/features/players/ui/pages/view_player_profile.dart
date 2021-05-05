@@ -1,4 +1,3 @@
-import 'package:core_sdk/utils/dialogs.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
