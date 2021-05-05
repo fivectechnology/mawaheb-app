@@ -17,8 +17,6 @@ import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:provider/provider.dart';
 
-import '../../../auth_page.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({
     Key key,

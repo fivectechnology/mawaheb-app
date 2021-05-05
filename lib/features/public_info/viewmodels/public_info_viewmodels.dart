@@ -1,11 +1,8 @@
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
-import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/base/utils/download_helper.dart';
-import 'package:mawaheb_app/features/auth/login/ui/pages/login_page.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
 import 'package:mawaheb_app/features/public_info/data/models/contact_us_model.dart';
 import 'package:mawaheb_app/features/public_info/data/models/download_center_model.dart';
@@ -22,7 +19,6 @@ import 'package:injectable/injectable.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'public_info_viewmodels.g.dart';
 
