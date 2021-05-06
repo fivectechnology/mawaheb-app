@@ -96,7 +96,7 @@ class _EditAddressPageState
                       },
                       items: viewmodel.emirates
                           .map((em) => DropdownMenuItem(
-                                child: Text(em.name),
+                                child: Text(em.tName ?? em.name),
                                 value: em,
                               ))
                           .toList(),

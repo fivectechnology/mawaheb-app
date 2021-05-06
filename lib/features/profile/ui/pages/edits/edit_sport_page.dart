@@ -112,7 +112,7 @@ class _EditSportPageState
                         },
                         items: viewmodel.sports
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.name),
+                                  child: Text(em.tName ?? em.name),
                                   value: em,
                                 ))
                             .toList(),
@@ -127,7 +127,7 @@ class _EditSportPageState
                           },
                           items: viewmodel.positions
                               .map((em) => DropdownMenuItem(
-                                    child: Text(em.name),
+                                    child: Text(em.tName ?? em.name),
                                     value: em,
                                   ))
                               .toList(),
