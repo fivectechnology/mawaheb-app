@@ -126,7 +126,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'sport',
           'viewers',
           'availability',
-          'photo',
+          'photo.fileUUID',
           'membership'
         ]
       },
@@ -148,7 +148,12 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        'fields': ['player', 'partner', 'partner.photo', 'partner.type']
+        'fields': [
+          'player',
+          'partner',
+          'partner.photo.fileUUID',
+          'partner.type'
+        ]
       },
       mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
     );
@@ -296,7 +301,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
             ],
             'operator': 'AND'
           },
-          'fields': ['status', 'video']
+          'fields': ['partner', 'status', 'video', 'video.fileUUID']
         },
         mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
   }

@@ -213,14 +213,12 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void downloadFile({
-    @required int id,
-    @required int parentId,
+    @required String sourceId,
     @required void Function(int progress) onReceiveProgress,
     @required Function(String filePath) onSuccess,
   }) =>
       _downloadHelper.requestDownload(
-        id: id,
-        parentId: parentId,
+        sourceId: sourceId,
         onReceiveProgress: onReceiveProgress,
         onSuccess: onSuccess,
       );

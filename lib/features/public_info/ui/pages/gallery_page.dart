@@ -59,7 +59,7 @@ class _GalleryPageState
                         title: viewmodel.prefsRepository.languageCode == 'en'
                             ? gallery[index].title
                             : gallery[index].titleAr,
-                        idSource: gallery[index].source.id);
+                        sourceId: gallery[index].sourceId);
                   });
             }));
   }

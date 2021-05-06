@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
 import 'package:mawaheb_app/base/widgets/uploading_video_loader.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
@@ -34,52 +36,15 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   int fileSize;
 
   final picker = ImagePicker();
-  VideoPlayerController _controller;
-  ChewieController _chewieController;
 
   @override
   void initState() {
     super.initState();
-    // _initPlayer();
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-    _chewieController = ChewieController(
-      allowedScreenSleep: false,
-      allowFullScreen: true,
-
-      // deviceOrientationsAfterFullScreen: [
-      //   DeviceOrientation.landscapeRight,
-      //   DeviceOrientation.landscapeLeft,
-      //   DeviceOrientation.portraitUp,
-      //   DeviceOrientation.portraitDown,
-      // ],
-      videoPlayerController: _controller,
-      aspectRatio: 16 / 9,
-      autoInitialize: true,
-      autoPlay: false,
-      showControls: true,
-    );
-  }
-
-  Future<void> _initPlayer() async {
-    _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-      videoPlayerOptions: VideoPlayerOptions(
-        mixWithOthers: true,
-      ),
-    );
-
-    _controller.addListener(() {
-      setState(() {});
-    });
-    await _controller.setLooping(true);
-    await _controller.initialize();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
   }
 
   @override
@@ -167,24 +132,24 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: VideosPage.scaffoldKey,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     if (viewmodel.videos.length == 3) {
-      //       _selectVideoBottomSheet(
-      //         context: context,
-      //       );
-      //     } else {
-      //       _optionPickerBottomSheet(context: context);
-      //       // getVideo(deleteVideo: true);
-      //     }
-      //   },
-      //   backgroundColor: YELLOW,
-      //   child: const Icon(
-      //     Icons.add,
-      //     color: Colors.black87,
-      //     size: 36,
-      //   ),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (viewmodel.videos.length == 3) {
+            _selectVideoBottomSheet(
+              context: context,
+            );
+          } else {
+            _optionPickerBottomSheet(context: context);
+            // getVideo(deleteVideo: true);
+          }
+        },
+        backgroundColor: YELLOW,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black87,
+          size: 36,
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Observer(builder: (_) {
         return viewmodel.videosLoading != false
@@ -199,6 +164,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                           itemCount: viewmodel.videos.length,
                           itemBuilder: (context, index) {
                             return videoRow(
+                                videoUid: viewmodel.videos[index].videoUid,
                                 videoVersion: viewmodel.videos[index].version,
                                 videoId: viewmodel.videos[index].id,
                                 videoShowId: viewmodel.videos[index].video.id,
@@ -221,6 +187,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   Widget videoRow(
       {int videoShowId,
       String token,
+      String videoUid,
       String status,
       int videoVersion,
       int videoId}) {
@@ -261,21 +228,19 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
             children: [
               Center(
                 child: Container(
-                  height: context.fullHeight * 0.3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Chewie(
-                    controller: _chewieController,
-                  ),
-                  // _controller.value.initialized
-                  //     ? AspectRatio(
-                  //         aspectRatio: _controller.value.aspectRatio,
-                  //         child: VideoPlayer(_controller),
-                  //       )
-                  //     : Container(),
-                  // mawahebVideoWidget(videoId: videoShowId, token: token)
-                ),
+                    height: context.fullHeight * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: VideoPlayerWidget(
+                      videoUid: videoUid,
+                    )
+
+                    // Chewie(
+                    //   controller: _chewieController,
+                    // ),
+
+                    ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10),

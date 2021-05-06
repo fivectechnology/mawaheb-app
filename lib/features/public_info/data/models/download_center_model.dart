@@ -10,11 +10,15 @@ part 'download_center_model.g.dart';
 class DownloadCenterModel extends VersionModel with EquatableMixin {
   const DownloadCenterModel({
     @required this.title,
+    @required this.sourceId,
     @required this.source,
     @required this.titleAr,
     @required int id,
     @required int version,
   }) : super(id, version);
+
+  @JsonKey(name: 'source.fileUUID')
+  final String sourceId;
 
   final String title;
   final String titleAr;
@@ -24,6 +28,7 @@ class DownloadCenterModel extends VersionModel with EquatableMixin {
     String title,
     String titleAr,
     SourceModel source,
+    String sourceId,
     int id,
     int version,
   }) {
@@ -31,6 +36,7 @@ class DownloadCenterModel extends VersionModel with EquatableMixin {
       title: title ?? this.title,
       titleAr: titleAr ?? this.titleAr,
       source: source ?? this.source,
+      sourceId: sourceId ?? this.sourceId,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -41,7 +47,14 @@ class DownloadCenterModel extends VersionModel with EquatableMixin {
 
   @override
   List<Object> get props {
-    return [title, source, id, version, titleAr];
+    return [
+      title,
+      source,
+      id,
+      version,
+      titleAr,
+      sourceId,
+    ];
   }
 
   static DownloadCenterModel fromJson(Object json) =>

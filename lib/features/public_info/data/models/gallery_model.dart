@@ -9,6 +9,7 @@ part 'gallery_model.g.dart';
 @JsonSerializable()
 class GalleryModel extends VersionModel with EquatableMixin {
   const GalleryModel({
+    @required this.sourceId,
     @required this.title,
     @required this.source,
     @required this.titleAr,
@@ -16,6 +17,8 @@ class GalleryModel extends VersionModel with EquatableMixin {
     @required int version,
   }) : super(id, version);
 
+  @JsonKey(name: 'source.fileUUID')
+  final String sourceId;
   final String title;
   final String titleAr;
   final SourceModel source;
@@ -24,6 +27,7 @@ class GalleryModel extends VersionModel with EquatableMixin {
     String title,
     String titleAr,
     SourceModel source,
+    String sourceId,
     int id,
     int version,
   }) {
@@ -31,6 +35,7 @@ class GalleryModel extends VersionModel with EquatableMixin {
       title: title ?? this.title,
       titleAr: titleAr ?? this.titleAr,
       source: source ?? this.source,
+      sourceId: sourceId ?? this.sourceId,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -45,6 +50,7 @@ class GalleryModel extends VersionModel with EquatableMixin {
       title,
       titleAr,
       source,
+      sourceId,
       id,
       version,
     ];

@@ -11,6 +11,7 @@ class VideoModel extends VersionModel with EquatableMixin {
   const VideoModel({
     @required this.status,
     @required this.video,
+    @required this.videoUid,
     @required int id,
     @required int version,
   }) : super(id, version);
@@ -18,15 +19,20 @@ class VideoModel extends VersionModel with EquatableMixin {
   final String status;
   final SourceModel video;
 
+  @JsonKey(name: 'video.fileUUID')
+  final String videoUid;
+
   VideoModel copyWith({
     String status,
     SourceModel video,
     int id,
     int version,
+    String videoUid,
   }) {
     return VideoModel(
       status: status ?? this.status,
       video: video ?? this.video,
+      videoUid: videoUid ?? this.videoUid,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -40,6 +46,7 @@ class VideoModel extends VersionModel with EquatableMixin {
     return [
       status,
       video,
+      videoUid,
       id,
       version,
     ];

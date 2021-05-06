@@ -79,11 +79,15 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
               cardInfoPlayer(context: context, rows: [
                 infoRow(
                     title: 'lbl_sport_name',
-                    value: viewmodel.player.sport?.name ?? 'N/A',
+                    value: viewmodel.player.sport?.tName ??
+                        viewmodel.player.sport?.name ??
+                        'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_position',
-                    value: viewmodel.player.position?.name ?? 'N/A',
+                    value: viewmodel.player.position?.tName ??
+                        viewmodel.player.position?.name ??
+                        'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_weight',
@@ -148,7 +152,9 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     context: context),
                 infoRow(
                     title: 'lbl_nationality',
-                    value: viewmodel.player.country?.name ?? 'N/A',
+                    value: viewmodel.player.country?.tName ??
+                        viewmodel.player.country?.name ??
+                        'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_category',
@@ -189,7 +195,9 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
               cardInfoPlayer(context: context, rows: [
                 infoRow(
                     title: 'lbl_emirate',
-                    value: viewmodel.player.emirate?.name ?? 'N/A',
+                    value: viewmodel.player.emirate?.tName ??
+                        viewmodel.player.emirate?.name ??
+                        'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_state/province/area',

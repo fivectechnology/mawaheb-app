@@ -9,19 +9,23 @@ part 'source_model.g.dart';
 class SourceModel extends VersionModel with EquatableMixin {
   const SourceModel({
     @required this.fileName,
+    @required this.fileUUID,
     @required int id,
     @required int version,
   }) : super(id, version);
 
   final String fileName;
+  final String fileUUID;
 
   SourceModel copyWith({
     String fileName,
     int id,
     int version,
+    String fileUUID,
   }) {
     return SourceModel(
       fileName: fileName ?? this.fileName,
+      fileUUID: fileUUID ?? this.fileUUID,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -34,6 +38,7 @@ class SourceModel extends VersionModel with EquatableMixin {
   List<Object> get props {
     return [
       fileName,
+      fileUUID,
       id,
       version,
     ];

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
-import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 
-Widget userListTile({String name, SourceModel photo, String token, String type}) {
+Widget userListTile({String name, String photoId, String token, String type}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
     child: ListTile(
@@ -14,12 +13,12 @@ Widget userListTile({String name, SourceModel photo, String token, String type})
           image: DecorationImage(
               alignment: Alignment.center,
               fit: BoxFit.fill,
-              image: photo == null
+              image: photoId == null
                   ? const AssetImage(
                       'assets/images/logo_image.png',
                     )
                   : NetworkImage(
-                      '$BASE_REST_API/com.axelor.meta.db.MetaFile/${photo.id}/view',
+                      '$BASE_PUBLIC_API/metaFiles/$photoId/view',
                       headers: {'Authorization': 'Basic $token'},
                     )),
         ),

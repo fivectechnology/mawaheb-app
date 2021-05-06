@@ -8,6 +8,7 @@ part of 'gallery_model.dart';
 
 GalleryModel _$GalleryModelFromJson(Map<String, dynamic> json) {
   return GalleryModel(
+    sourceId: json['source.fileUUID'] as String,
     title: json['title'] as String,
     source: json['source'] == null
         ? null
@@ -22,6 +23,7 @@ Map<String, dynamic> _$GalleryModelToJson(GalleryModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'version': instance.version,
+      'source.fileUUID': instance.sourceId,
       'title': instance.title,
       'titleAr': instance.titleAr,
       'source': instance.source,

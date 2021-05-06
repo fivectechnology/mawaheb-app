@@ -159,7 +159,7 @@ class _PlayerInfoPageState
                     },
                     items: viewmodel.countries
                         .map((em) => DropdownMenuItem(
-                              child: Text(em.name),
+                              child: Text(em.tName ?? em.name),
                               value: em,
                             ))
                         .toList(),

@@ -10,23 +10,32 @@ part 'strategic_partners_model.g.dart';
 class StrategicPartnersModel extends VersionModel with EquatableMixin {
   const StrategicPartnersModel({
     @required this.title,
+    @required this.sourceId,
     @required this.source,
     @required this.titleAr,
     @required int id,
     @required int version,
   }) : super(id, version);
 
+  @JsonKey(name: 'source.fileUUID')
+  final String sourceId;
   final String title;
   final String titleAr;
-
   final SourceModel source;
 
-  StrategicPartnersModel copyWith(
-      {String title, SourceModel source, int id, int version, String titleAr}) {
+  StrategicPartnersModel copyWith({
+    String title,
+    SourceModel source,
+    int id,
+    int version,
+    String sourceId,
+    String titleAr,
+  }) {
     return StrategicPartnersModel(
       title: title ?? this.title,
       titleAr: titleAr ?? this.titleAr,
       source: source ?? this.source,
+      sourceId: sourceId ?? this.sourceId,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -42,6 +51,7 @@ class StrategicPartnersModel extends VersionModel with EquatableMixin {
       titleAr,
       source,
       id,
+      sourceId,
       version,
     ];
   }

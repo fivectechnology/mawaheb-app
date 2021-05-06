@@ -172,7 +172,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                               },
                               child: userListTile(
                                   name: viewmodel.players[index].name,
-                                  photo: viewmodel.players[index].photo,
+                                  photoId: viewmodel.players[index].photoId,
                                   token: viewmodel.prefsRepository.token),
                             );
                           }),
@@ -218,7 +218,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         },
                         items: viewmodel.countries
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.name),
+                                  child: Text(em.tName ?? em.name),
                                   value: em,
                                 ))
                             .toList(),
@@ -232,7 +232,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         },
                         items: viewmodel.sports
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.name),
+                                  child: Text(em.tName ?? em.name),
                                   value: em,
                                 ))
                             .toList(),
@@ -246,7 +246,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         },
                         items: viewmodel.positions
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.name),
+                                  child: Text(em.tName ?? em.name),
                                   value: em,
                                 ))
                             .toList(),
