@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
+import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
@@ -20,7 +22,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(
-        '$BASE_API/ws/public/metaFiles/${widget.videoUid}/view');
+      '$BASE_API/ws/public/metaFiles/${widget.videoUid}/view',
+    );
     _chewieController = ChewieController(
       allowedScreenSleep: false,
       allowFullScreen: true,
