@@ -20,8 +20,7 @@ class PlayerInfoPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const PlayerInfoPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const PlayerInfoPage());
 
   static const String route = '/player_info';
 
@@ -29,8 +28,7 @@ class PlayerInfoPage extends StatefulWidget {
   _PlayerInfoPageState createState() => _PlayerInfoPageState();
 }
 
-class _PlayerInfoPageState
-    extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
+class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dateOfBirth = TextEditingController();
@@ -95,7 +93,7 @@ class _PlayerInfoPageState
   }
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       viewmodel.image = File(pickedFile.path);
@@ -212,8 +210,7 @@ class _PlayerInfoPageState
                           onPressed: () async {
                             if (viewmodel.image != null) {
                               viewmodel.uploadFile(
-                                  playerVersion:
-                                      viewmodel.prefsRepository.player.version,
+                                  playerVersion: viewmodel.prefsRepository.player.version,
                                   playerId: viewmodel.prefsRepository.player.id,
                                   file: viewmodel.image,
                                   fileType: fileType,
@@ -229,10 +226,8 @@ class _PlayerInfoPageState
                                 name: _nameController.text,
                                 gender: gender ?? 'MALE',
                                 dateOfBirth: dateOfBirth,
-                                categoryModel: currentCategory ??
-                                    viewmodel.categories.first,
-                                country:
-                                    currentCountry ?? viewmodel.countries.first,
+                                categoryModel: currentCategory ?? viewmodel.categories.first,
+                                country: currentCountry ?? viewmodel.countries.first,
                               );
                             }
                           });
@@ -277,8 +272,7 @@ class _PlayerInfoPageState
           },
           child: Text(
             context.translate('lbl_add_image'),
-            style:
-                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+            style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
           ),
         )
       ],

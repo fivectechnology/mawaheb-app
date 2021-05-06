@@ -26,8 +26,7 @@ class AddSportPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AddSportPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AddSportPage());
 
   static const String route = '/add_sport';
 
@@ -35,8 +34,7 @@ class AddSportPage extends StatefulWidget {
   _AddSportPageState createState() => _AddSportPageState();
 }
 
-class _AddSportPageState
-    extends ProviderMobxState<AddSportPage, AuthViewmodel> {
+class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> {
   final TextEditingController _hightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _briefController = TextEditingController();
@@ -84,7 +82,7 @@ class _AddSportPageState
   }
 
   Future getVideoCamera() async {
-    final pickedFile = await picker.getVideo(source: ImageSource.camera);
+    final pickedFile = await ImagePicker.pickVideo(source: ImageSource.camera);
 
     if (pickedFile != null) {
       video = File(pickedFile.path);
@@ -101,8 +99,7 @@ class _AddSportPageState
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
-            scaffoldKey: RegisterPage.scaffoldKey,
-            duration: const Duration(seconds: 3));
+            scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
       print('No image selected.');
@@ -110,7 +107,7 @@ class _AddSportPageState
   }
 
   Future getVideoGallery() async {
-    final pickedFile = await picker.getVideo(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker.pickVideo(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       video = File(pickedFile.path);
@@ -127,8 +124,7 @@ class _AddSportPageState
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
-            scaffoldKey: RegisterPage.scaffoldKey,
-            duration: const Duration(seconds: 3));
+            scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
       print('No image selected.');
@@ -138,8 +134,7 @@ class _AddSportPageState
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return viewmodel.sportLoading == true ||
-              viewmodel.positionsLoading == true
+      return viewmodel.sportLoading == true || viewmodel.positionsLoading == true
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
@@ -178,10 +173,8 @@ class _AddSportPageState
                   if (viewmodel.positions == null)
                     InkWell(
                       onTap: () {
-                        viewmodel.showSnack(
-                            context.translate('msg_select_sport'),
-                            duration: const Duration(seconds: 3),
-                            scaffoldKey: RegisterPage.scaffoldKey);
+                        viewmodel.showSnack(context.translate('msg_select_sport'),
+                            duration: const Duration(seconds: 3), scaffoldKey: RegisterPage.scaffoldKey);
                       },
                       child: mawhaebDropDown(
                         hint: context.translate('lbl_position'),
@@ -241,8 +234,7 @@ class _AddSportPageState
                         leg = v;
                       }),
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: context.fullHeight * 0.03),
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
                     child: SizedBox(
                       height: context.fullHeight * 0.15,
                       child: TextFormField(
@@ -250,13 +242,10 @@ class _AddSportPageState
                         maxLines: 10,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: const BorderSide(color: Colors.grey)),
+                              borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
                           hintText: context.translate('msg_brief'),
-                          hintStyle: const TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w200,
-                              fontFamily: 'Poppins'),
+                          hintStyle:
+                              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
                         ),
                       ),
                     ),
@@ -293,10 +282,8 @@ class _AddSportPageState
                         isLoading: viewmodel.registerLoading,
                         onPressed: () {
                           if (currentSport == null) {
-                            viewmodel.showSnack(
-                                context.translate('msg_select_sport'),
-                                scaffoldKey: RegisterPage.scaffoldKey,
-                                duration: const Duration(seconds: 3));
+                            viewmodel.showSnack(context.translate('msg_select_sport'),
+                                scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
                           } else {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
@@ -326,18 +313,13 @@ class _AddSportPageState
   Widget uploadSpace({Function onPress}) {
     return Container(
       height: context.fullHeight * 0.14,
-      decoration: DottedDecoration(
-          shape: Shape.box,
-          dash: const [10, 10],
-          borderRadius: BorderRadius.circular(10),
-          color: RED),
+      decoration:
+          DottedDecoration(shape: Shape.box, dash: const [10, 10], borderRadius: BorderRadius.circular(10), color: RED),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InkWell(
-                onTap: onPress,
-                child: SvgPicture.asset('assets/icons/ic_upload.svg')),
+            InkWell(onTap: onPress, child: SvgPicture.asset('assets/icons/ic_upload.svg')),
             Text(
               context.translate('lbl_upload_video'),
               style: textTheme.headline6,
@@ -352,8 +334,7 @@ class _AddSportPageState
     );
   }
 
-  Widget currentVideoRow(
-      {BuildContext context, int videoNumber, int videoId, int videoVersion}) {
+  Widget currentVideoRow({BuildContext context, int videoNumber, int videoId, int videoVersion}) {
     return Row(
       children: [
         const Icon(
@@ -361,16 +342,13 @@ class _AddSportPageState
           color: Colors.grey,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: context.fullHeight * 0.02,
-              horizontal: context.fullWidth * 0.03),
+          padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02, horizontal: context.fullWidth * 0.03),
           child: Text('video$videoNumber'),
         ),
         const Spacer(),
         InkWell(
             onTap: () {
-              viewmodel.deleteVideo(
-                  videoVersion: videoVersion, videoId: videoId);
+              viewmodel.deleteVideo(videoVersion: videoVersion, videoId: videoId);
             },
             child: SvgPicture.asset('assets/icons/ic_delete.svg')),
       ],
@@ -394,8 +372,7 @@ class _AddSportPageState
                     Expanded(
                       child: Text(
                         context.translate('msg_delete_videos_note'),
-                        style: textTheme.headline2
-                            .copyWith(color: Colors.black, fontSize: 18),
+                        style: textTheme.headline2.copyWith(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
@@ -430,9 +407,7 @@ class _AddSportPageState
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.08,
-                vertical: context.fullHeight * 0.03),
+            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08, vertical: context.fullHeight * 0.03),
             child: Wrap(
               children: [
                 InkWell(
@@ -441,8 +416,7 @@ class _AddSportPageState
                     bc.pop();
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: context.fullHeight * 0.02),
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -463,8 +437,7 @@ class _AddSportPageState
                     bc.pop();
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: context.fullHeight * 0.02),
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(

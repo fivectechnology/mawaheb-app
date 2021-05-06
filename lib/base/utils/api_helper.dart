@@ -16,7 +16,7 @@ const String PUBLIC_SERVICE = '/public';
 const String BASE_REST_API = '$BASE_API$WEB_SERVICE/rest';
 const String BASE_PUBLIC_API = '$BASE_API$WEB_SERVICE$PUBLIC_SERVICE';
 
-enum EndPointAction { search, remove, fetch }
+enum EndPointAction { search, remove, fetch, upload }
 
 extension OrderStatusExtension on EndPointAction {
   String get raw => describeEnum(this);

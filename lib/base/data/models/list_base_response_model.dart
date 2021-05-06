@@ -55,6 +55,12 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
             (contentJson) => fromJsonT(contentJson),
           );
 
+  static List<R> Function(Object) dataTypeMapper<R>(R Function(Object) fromJsonT) =>
+      (Object baseJson) => _$ListBaseResponseModelFromJson(
+            baseJson,
+            fromJsonT,
+          ).data;
+
   static VersionResponse Function(Object) get versionMapper => (Object baseJson) => _$ListBaseResponseModelFromJson(
         baseJson,
         VersionResponse.fromJson,

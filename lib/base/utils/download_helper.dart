@@ -56,7 +56,7 @@ class DownloadHelper {
         (Headers responseHeaders) {
           final String contentHeader = responseHeaders.value('content-disposition');
           final resPath = contentHeader.substring(contentHeader.lastIndexOf('=') + 2, contentHeader.length - 1);
-          filePath = folderPath + '${DateTime.now().microsecondsSinceEpoch}${resPath.trim()}';
+          filePath = folderPath + '${DateTime.now().microsecondsSinceEpoch}_${resPath.trim()}';
           return filePath;
         },
         options: Options(

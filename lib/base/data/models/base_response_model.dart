@@ -47,6 +47,12 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
         fromJsonT,
       );
 
+  static R Function(Object) dataTypeMapper<R>(R Function(Object) fromJsonT) =>
+      (Object baseJson) => _$BaseResponseModelFromJson(
+            baseJson,
+            fromJsonT,
+          ).data;
+
   static bool Function(Object) get successMapper =>
       (Object baseJson) => _$BaseResponseModelFromJson(baseJson, (_) => Null).status == 0;
 
