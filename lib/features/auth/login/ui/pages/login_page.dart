@@ -1,6 +1,7 @@
 import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:core_sdk/utils/utils.dart';
 import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
 import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,7 @@ class LoginPage extends StatefulWidget {
   static const String route = '/login';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const LoginPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const LoginPage());
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -81,8 +81,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     child: GradientText(
                       text: context.translate('lbl_welcome_to_mawaheb'),
                       colors: const [YELLOW, RED],
-                      style: context.textTheme.headline1
-                          .copyWith(fontSize: 26, letterSpacing: 0.3),
+                      style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
                     ),
                   ),
                   Padding(
@@ -108,8 +107,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       context: context,
                       hintText: 'lbl_password',
                       validator: (value) {
-                        return passwordValidator(
-                            context: context, password: value);
+                        return passwordValidator(context: context, password: value);
                       },
                       isSuffixIcon: true,
                       useObscure: true,
@@ -139,15 +137,12 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     children: [
                       InkWell(
                         onTap: () {
-                          context.pushNamed(ForgotPasswordPage.route,
-                              arguments: viewmodel);
+                          context.pushNamed(ForgotPasswordPage.route, arguments: viewmodel);
                         },
                         child: Text(
                           context.translate('lbl_forget_password'),
                           style: context.textTheme.subtitle1.copyWith(
-                              fontSize: 12,
-                              decoration: TextDecoration.underline,
-                              color: const Color(0xFF9F9F9F)),
+                              fontSize: 12, decoration: TextDecoration.underline, color: const Color(0xFF9F9F9F)),
                         ),
                       )
                     ],
@@ -178,8 +173,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   }),
                   MawahebGradientButton(
                     text: 'lbl_sign_up_player',
-                    onPressed: () => context.pushNamed(RegisterPage.route,
-                        arguments: viewmodel),
+                    onPressed: () => context.pushNamed(RegisterPage.route, arguments: viewmodel),
                     context: context,
                   ),
                   Padding(
@@ -189,28 +183,23 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       children: [
                         const Icon(
                           Icons.language,
-                          color: GREY,
+                          color: DARK_GREY,
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          context.translate('lbl_language'),
-                          style: textTheme.bodyText1.copyWith(color: GREY),
+                          context.translate('lbl_switch_language_to'),
+                          style: textTheme.bodyText1.copyWith(color: DARK_GREY),
                         ),
                         const SizedBox(width: 16),
                         InkWell(
                           onTap: () {
                             appViewmodel.changeLanguage(
-                                viewmodel.prefsRepository.languageCode ==
-                                        LANGUAGE_ENGLISH
-                                    ? LANGUAGE_ARABIC
-                                    : LANGUAGE_ENGLISH);
+                              isArabic(context: context) ? LANGUAGE_ENGLISH : LANGUAGE_ARABIC,
+                            );
                           },
                           child: Text(
-                            viewmodel.prefsRepository.languageCode ==
-                                    LANGUAGE_ENGLISH
-                                ? 'Arabic'
-                                : 'English',
-                            style: textTheme.bodyText1.copyWith(color: RED),
+                            isArabic(localizations: context.locale) ? 'English' : 'العربية',
+                            style: textTheme.bodyText1.copyWith(color: RED, fontWeight: FontWeight.w600),
                           ),
                         )
                       ],

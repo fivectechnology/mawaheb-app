@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
-import 'package:mawaheb_app/app/theme/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
@@ -32,6 +30,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       autoInitialize: true,
       autoPlay: false,
       showControls: true,
+      showControlsOnInitialize: false,
     );
   }
 
