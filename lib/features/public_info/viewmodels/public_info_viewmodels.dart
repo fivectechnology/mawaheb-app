@@ -22,17 +22,10 @@ import 'package:supercharged/supercharged.dart';
 
 part 'public_info_viewmodels.g.dart';
 
-enum PublicInfoTabs {
-  about_us,
-  gallery,
-  contacts,
-  strategic_partners,
-  download_center
-}
+enum PublicInfoTabs { about_us, gallery, contacts, strategic_partners, download_center }
 
 @injectable
-class PublicInfoViewmodel extends _PublicInfoViewmodelBase
-    with _$PublicInfoViewmodel {
+class PublicInfoViewmodel extends _PublicInfoViewmodelBase with _$PublicInfoViewmodel {
   PublicInfoViewmodel(
     Logger logger,
     PublicInfoRepository publicinfoRepository,
@@ -175,17 +168,13 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getaboutUs() => aboutUsFuture = futureWrapper(
-        () => _publicinfoRepository
-            .getAboutUs()
-            .whenSuccess((res) => res.data.first),
+        () => _publicinfoRepository.getAboutUs().whenSuccess((res) => res.data.first),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
   @action
   void getcontactUs() => contactsFuture = futureWrapper(
-        () => _publicinfoRepository
-            .getContactUs()
-            .whenSuccess((res) => res.data.first),
+        () => _publicinfoRepository.getContactUs().whenSuccess((res) => res.data.first),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
@@ -197,28 +186,26 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getDownloads() => downloadsFuture = futureWrapper(
-        () => _publicinfoRepository
-            .getDownloadCenter()
-            .whenSuccess((res) => res.data),
+        () => _publicinfoRepository.getDownloadCenter().whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
   @action
   void getPartners() => partnersFuture = futureWrapper(
-        () => _publicinfoRepository
-            .getStrategicPartners()
-            .whenSuccess((res) => res.data),
+        () => _publicinfoRepository.getStrategicPartners().whenSuccess((res) => res.data),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
   @action
   void downloadFile({
-    @required String sourceId,
+    @required int id,
+    @required int parentId,
     @required void Function(int progress) onReceiveProgress,
     @required Function(String filePath) onSuccess,
   }) =>
       _downloadHelper.requestDownload(
-        sourceId: sourceId,
+        id: id,
+        parentId: parentId,
         onReceiveProgress: onReceiveProgress,
         onSuccess: onSuccess,
       );
