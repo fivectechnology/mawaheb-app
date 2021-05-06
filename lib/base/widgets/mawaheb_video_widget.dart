@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
-import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:video_player/video_player.dart';
 

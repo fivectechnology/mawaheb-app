@@ -45,7 +45,6 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
   }
 
   @override
