@@ -3,10 +3,8 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 
 import 'mawaheb_loader.dart';
 
-Future<void> uploadingVideoLoader({
-  BuildContext context,
-  GlobalKey<State> key,
-}) async {
+Future<void> uploadingVideoLoader(
+    {BuildContext context, GlobalKey<State> key, String text}) async {
   await showDialog(
     context: context,
     barrierDismissible: false,
@@ -25,7 +23,7 @@ Future<void> uploadingVideoLoader({
                 child: MawahebLoader(),
               ),
               Text(
-                context.translate('msg_uploading_video'),
+                context.translate(text ?? 'msg_uploading_video'),
               ),
             ],
           ),

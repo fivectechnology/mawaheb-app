@@ -18,7 +18,7 @@ const LIGHT_ACCENT = Color.fromARGB(255, 164, 208, 220);
 const BORDER_COLOR = Color(0xFFE6E6E6);
 
 //SECONDARY
-const ACCENT = Color(0xFF00D28F);
+const ACCENT = Color(0xFFFE0000);
 const FUCHSIA = Color.fromARGB(255, 229, 13, 80);
 const GREY = Color.fromARGB(255, 194, 194, 194);
 const DARK_GREY = Color.fromARGB(255, 75, 75, 75);
