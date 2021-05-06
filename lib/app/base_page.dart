@@ -1,5 +1,4 @@
 import 'package:animations/animations.dart';
-import 'package:core_sdk/utils/dialogs.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/side_effect_mixin.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

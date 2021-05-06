@@ -8,7 +8,8 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 class ViewsPage extends StatefulWidget {
   const ViewsPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
 
   @override
   _ViewsPageState createState() => _ViewsPageState();
@@ -50,7 +51,8 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
                       Padding(
                         padding: const EdgeInsets.all(26),
                         child: Text(context.translate('lbl_clubs_view'),
-                            style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                            style: textTheme.subtitle1.copyWith(
+                                fontSize: 14, fontWeight: FontWeight.bold)),
                       ),
                       ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -60,7 +62,7 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> {
                             return userListTile(
                                 name: viewmodel.views[index].partner.name,
                                 type: viewmodel.views[index].type,
-                                photo: viewmodel.views[index].partnerPhoto,
+                                photoId: viewmodel.views[index].photoId,
                                 token: viewmodel.prefsRepository.token);
                           })
                     ],

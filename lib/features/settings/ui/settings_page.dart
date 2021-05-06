@@ -1,5 +1,4 @@
 import 'package:core_sdk/utils/constants.dart';
-import 'package:core_sdk/utils/dialogs.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/widgets/progress_bar.dart';
 import 'package:flutter/cupertino.dart';

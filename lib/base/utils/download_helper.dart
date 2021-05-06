@@ -40,14 +40,14 @@ class DownloadHelper {
   }
 
   Future<NetworkResult<bool>> requestDownload({
-    @required int id,
-    @required int parentId,
+    @required String sourceId,
+    // @required int parentId,
     @required void Function(int progress) onReceiveProgress,
     @required Function(String filePath) onSuccess,
     bool openWhenFinish = true,
   }) async {
     try {
-      final fileUrl = _fixUrl(id: id, parentId: parentId);
+      final fileUrl = _fixUrl(sourceId: sourceId);
       final String folderPath = await getPath();
       String filePath;
       onReceiveProgress(1);
@@ -56,7 +56,7 @@ class DownloadHelper {
         (Headers responseHeaders) {
           final String contentHeader = responseHeaders.value('content-disposition');
           final resPath = contentHeader.substring(contentHeader.lastIndexOf('=') + 2, contentHeader.length - 1);
-          filePath = folderPath + '${DateTime.now().microsecondsSinceEpoch}_${resPath.trim()}';
+          filePath = folderPath + '${DateTime.now().microsecondsSinceEpoch}${resPath.trim()}';
           return filePath;
         },
         options: Options(
@@ -85,11 +85,10 @@ class DownloadHelper {
   }
 
   String _fixUrl({
-    @required int id,
-    @required int parentId,
+    @required String sourceId,
+    // @required int parentId,
   }) =>
-      BASE_REST_API +
-      '/com.axelor.meta.db.MetaFile/$id/content/download?parentId=$parentId&parentModel=com.axelor.mawaheb.base.db.DownloadCentreItem';
+      '$BASE_PUBLIC_API/metaFiles/$sourceId/view';
 }
 
 class PermissionFailure extends Failure {

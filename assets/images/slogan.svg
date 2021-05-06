@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="213.179" height="40.782" viewBox="0 0 213.179 40.782">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.338" y1="0.382" x2="0" y2="0.368" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fe0000"/>
+      <stop offset="0.787" stop-color="#ff913e"/>
+      <stop offset="1" stop-color="#ffdb5d"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_19938" data-name="Group 19938" transform="translate(-49.256 -218.396)">
+    <text id="Where_Athletes_Founds" data-name="Where Athletes Founds" transform="translate(61.303 243.421)" fill="#fe6e2f" font-size="17" font-family="MVBoli, MV Boli"><tspan x="0" y="0">Where Athletes Founds</tspan></text>
+    <path id="Path_14965" data-name="Path 14965" d="M6.83,0C8.01,0,3.713,6.7,4.2,9.42s1.928,5.011,7.7,6.553a22.751,22.751,0,0,0,6.213.721,33.489,33.489,0,0,0,7.8-.72c7.027-1.337,14-5.427,14.089-4.7s-6.131,5.348-13.715,7.6S13.689,21.7,9.659,20.283s-8.9-3.79-9.6-8.861S5.667,0,6.83,0Z" transform="matrix(0.961, 0.276, -0.276, 0.961, 55.06, 227.913)" fill="url(#linear-gradient)"/>
+    <path id="Path_14965-2" data-name="Path 14965" d="M6.83,0C8.01,0,3.713,6.7,4.2,9.42s1.928,5.011,7.7,6.553a22.751,22.751,0,0,0,6.213.721,33.489,33.489,0,0,0,7.8-.72c7.027-1.337,14-5.427,14.089-4.7s-6.131,5.348-13.715,7.6S13.689,21.7,9.659,20.283s-8.9-3.79-9.6-8.861S5.667,0,6.83,0Z" transform="translate(257.34 248.502) rotate(-166)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

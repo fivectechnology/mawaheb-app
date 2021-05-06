@@ -4,7 +4,7 @@ import 'package:mawaheb_app/base/widgets/network_image_widget.dart';
 Widget imageRow({
   BuildContext context,
   String title,
-  int idSource,
+  String sourceId,
   String token,
 }) {
   return Padding(
@@ -15,14 +15,15 @@ Widget imageRow({
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
         ),
         const SizedBox(height: 7.0),
         AspectRatio(
           aspectRatio: 16 / 9,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5.0),
-            child: networkImageCached(sourceId: idSource, token: token),
+            child: networkImageCached(sourceId: sourceId, token: token),
           ),
         )
       ],

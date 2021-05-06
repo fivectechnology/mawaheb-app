@@ -120,7 +120,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
           'sport',
           'viewers',
           'availability',
-          'photo',
+          'photo.fileUUID',
           'membership'
         ]
       },
@@ -141,7 +141,12 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
           ],
           'operator': 'and'
         },
-        'fields': ['player', 'partner', 'partner.photo', 'partner.type']
+        'fields': [
+          'player',
+          'partner',
+          'partner.photo.fileUUID',
+          'partner.type'
+        ]
       },
       mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
     );
@@ -260,7 +265,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
             ],
             'operator': 'AND'
           },
-          'fields': ['status', 'video']
+          'fields': ['partner', 'status', 'video', 'video.fileUUID']
         },
         mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
   }

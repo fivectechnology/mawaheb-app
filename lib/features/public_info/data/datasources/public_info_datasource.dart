@@ -88,7 +88,13 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        // 'fields': ['id', 'version', 'title', 'source'],
+        'fields': [
+          'id',
+          'version',
+          'title',
+          'source.fileUUID',
+          'titleAr',
+        ],
       },
       mapper: ListBaseResponseModel.fromJson(StrategicPartnersModel.fromJson),
     );
@@ -102,7 +108,13 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        // 'fields': ['id', 'version', 'title', 'source'],
+        'fields': [
+          'id',
+          'version',
+          'title',
+          'source.fileUUID',
+          'titleAr',
+        ],
       },
       mapper: ListBaseResponseModel.fromJson(DownloadCenterModel.fromJson),
     );
@@ -115,7 +127,13 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        // 'fields': ['id', 'version', 'title', 'source'],
+        'fields': [
+          'id',
+          'version',
+          'title',
+          'source.fileUUID',
+          'titleAr',
+        ],
       },
       mapper: ListBaseResponseModel.fromJson(GalleryModel.fromJson),
     );

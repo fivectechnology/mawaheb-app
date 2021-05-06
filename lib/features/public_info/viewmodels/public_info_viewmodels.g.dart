@@ -186,17 +186,6 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       ActionController(name: '_PublicInfoViewmodelBase');
 
   @override
-  void userLoggedIn() {
-    final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
-        name: '_PublicInfoViewmodelBase.userLoggedIn');
-    try {
-      return super.userLoggedIn();
-    } finally {
-      _$_PublicInfoViewmodelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void getaboutUs() {
     final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
         name: '_PublicInfoViewmodelBase.getaboutUs');
@@ -253,16 +242,14 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
 
   @override
   void downloadFile(
-      {@required int id,
-      @required int parentId,
+      {@required String sourceId,
       @required void Function(int) onReceiveProgress,
       @required dynamic Function(String) onSuccess}) {
     final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
         name: '_PublicInfoViewmodelBase.downloadFile');
     try {
       return super.downloadFile(
-          id: id,
-          parentId: parentId,
+          sourceId: sourceId,
           onReceiveProgress: onReceiveProgress,
           onSuccess: onSuccess);
     } finally {

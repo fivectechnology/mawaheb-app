@@ -10,6 +10,7 @@ StrategicPartnersModel _$StrategicPartnersModelFromJson(
     Map<String, dynamic> json) {
   return StrategicPartnersModel(
     title: json['title'] as String,
+    sourceId: json['source.fileUUID'] as String,
     source: json['source'] == null
         ? null
         : SourceModel.fromJson(json['source'] as Map<String, dynamic>),
@@ -24,6 +25,7 @@ Map<String, dynamic> _$StrategicPartnersModelToJson(
     <String, dynamic>{
       'id': instance.id,
       'version': instance.version,
+      'source.fileUUID': instance.sourceId,
       'title': instance.title,
       'titleAr': instance.titleAr,
       'source': instance.source,

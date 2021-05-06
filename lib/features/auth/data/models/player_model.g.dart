@@ -57,6 +57,7 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
         : SubscriptionModel.fromJson(
             json['subscription'] as Map<String, dynamic>),
     fullNameAr: json['fullNameAr'] as String,
+    photoId: json['photo.fileUUID'] as String,
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -94,4 +95,5 @@ Map<String, dynamic> _$PlayerModelToJson(PlayerModel instance) =>
       'membership': instance.membership,
       'subscription': instance.subscription,
       'fullNameAr': instance.fullNameAr,
+      'photo.fileUUID': instance.photoId,
     };
