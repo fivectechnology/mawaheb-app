@@ -23,7 +23,8 @@ import 'package:supercharged/supercharged.dart';
 part 'settings_viewmodel.g.dart';
 
 @injectable
-class SettingsViewmodel extends _SettingsViewmodelBase with _$SettingsViewmodel {
+class SettingsViewmodel extends _SettingsViewmodelBase
+    with _$SettingsViewmodel {
   SettingsViewmodel(
     Logger logger,
     SettingsRepository settingsRepository,
@@ -67,6 +68,9 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<bool> validateEmailFuture;
 
+  @observable
+  ObservableFuture<bool> updateLang;
+
   //* COMPUTED *//
   @computed
   bool get logoutLoading => logoutFuture?.isPending ?? false;
@@ -98,7 +102,23 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get otpVerifyError => verifyOTPFuture?.isFailure ?? false;
 
+  bool get updateLangLoading => updateLang?.isPending ?? false;
+
   //* ACTIONS *//
+  @action
+  void updateUserLanguage({
+    String lang,
+  }) {
+    updateLang = futureWrapper(
+      () => _settingsRepository
+          .updateLanguage(id: _prefsRepository.player.id, language: lang)
+          .whenSuccess(
+            (res) => res.apply(() {}),
+          ),
+      useLoader: true,
+    );
+  }
+
   @action
   void logout() {
     logoutFuture = futureWrapper(
@@ -111,9 +131,11 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   Future<bool> logoutAsFuture() {
     return _authRepository.logout().then(
           (res) => res.apply(() {
-            App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+            App.navKey.currentState
+                .pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
             getContext(
-              (context) => Provider.of<AppViewmodel>(context, listen: false).navigateTo(PageIndex.home),
+              (context) => Provider.of<AppViewmodel>(context, listen: false)
+                  .navigateTo(PageIndex.home),
             );
           }),
         );
@@ -132,11 +154,14 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
       ));
     }
     sendOtp = futureWrapper(
-      () => _settingsRepository.sendOTP(email: player.email, password: player.password).whenSuccess(
+      () => _settingsRepository
+          .sendOTP(email: player.email, password: player.password)
+          .whenSuccess(
             (res) => res.apply(() {
               logger.d('otp success with res: $res');
               if (!resend) {
-                getContext((context) => context.navigator.push(SettingOtpPage.pageRoute(this)));
+                getContext((context) =>
+                    context.navigator.push(SettingOtpPage.pageRoute(this)));
               } else {
                 //showSnack()
               }
@@ -163,7 +188,9 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _settingsRepository.verifyOTP(email: player.email, code: code).whenSuccess((res) async {
+      () => _settingsRepository
+          .verifyOTP(email: player.email, code: code)
+          .whenSuccess((res) async {
         logger.d('otp verify success with res: $res');
         await _settingsRepository
             .changeEmail(email: player.email, code: res.data.data)
@@ -193,7 +220,10 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   void changePassword({String newPassword, String currentPassword}) {
     changePasswordFuture = futureWrapper(
       () => _settingsRepository
-          .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player.id)
+          .changePassword(
+              newPassword: newPassword,
+              currentPassword: currentPassword,
+              id: _prefsRepository.player.id)
           .whenSuccess((res) => res)
           .then((res) => logoutAsFuture()),
       catchBlock: (err) => showSnack(

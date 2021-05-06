@@ -32,6 +32,10 @@ abstract class SettingsDataSource extends BaseRemoteDataSource {
     @required String newPassword,
     @required int id,
   });
+  Future<NetworkResult<bool>> updateLanguage({
+    @required int id,
+    @required String language,
+  });
 }
 
 @LazySingleton(as: SettingsDataSource)
@@ -109,5 +113,30 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource
           }
         },
         mapper: BaseResponseModel.successMapper);
+  }
+
+  @override
+  Future<NetworkResult<bool>> updateLanguage({int id, String language}) async {
+    return mawahebRequest(
+      method: METHOD.POST,
+      withAuth: true,
+      mawahebModel: false,
+      modelName: 'auth.db.User',
+      id: id,
+      data: {
+        'data': {
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
+          'language': language,
+          'id': id
+        }
+      },
+    );
   }
 }
