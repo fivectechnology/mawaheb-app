@@ -12,6 +12,7 @@ VideoModel _$VideoModelFromJson(Map<String, dynamic> json) {
     video: json['video'] == null
         ? null
         : SourceModel.fromJson(json['video'] as Map<String, dynamic>),
+    videoUid: json['video.fileUUID'] as String,
     id: json['id'] as int,
     version: json['version'] as int,
   );
@@ -23,4 +24,5 @@ Map<String, dynamic> _$VideoModelToJson(VideoModel instance) =>
       'version': instance.version,
       'status': instance.status,
       'video': instance.video,
+      'video.fileUUID': instance.videoUid,
     };

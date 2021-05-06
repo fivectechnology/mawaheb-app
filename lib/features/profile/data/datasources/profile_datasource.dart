@@ -301,7 +301,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
             ],
             'operator': 'AND'
           },
-          'fields': ['status', 'video']
+          'fields': ['partner', 'status', 'video', 'video.fileUUID']
         },
         mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
   }
