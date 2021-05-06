@@ -20,18 +20,15 @@ abstract class PublicInfoDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<ListBaseResponseModel<ContactUsModel>>> getContactUs();
 
-  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>>
-      getStrategicPartners();
+  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>> getStrategicPartners();
 
-  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>>
-      getDownloadCenter();
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>> getDownloadCenter();
 
   Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery();
 }
 
 @LazySingleton(as: PublicInfoDataSource)
-class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
-    implements PublicInfoDataSource {
+class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements PublicInfoDataSource {
   PublicInfoDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -81,8 +78,7 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>>
-      getStrategicPartners() {
+  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>> getStrategicPartners() {
     return mawahebRequest(
       modelName: 'StrategicPartner',
       method: METHOD.POST,
@@ -101,20 +97,13 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>>
-      getDownloadCenter() {
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>> getDownloadCenter() {
     return mawahebRequest(
       modelName: 'DownloadCentreItem',
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        'fields': [
-          'id',
-          'version',
-          'title',
-          'source.fileUUID',
-          'titleAr',
-        ],
+        // 'fields': ['id', 'version', 'title', 'source'],
       },
       mapper: ListBaseResponseModel.fromJson(DownloadCenterModel.fromJson),
     );

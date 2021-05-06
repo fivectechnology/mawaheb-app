@@ -14,8 +14,7 @@ class SplashPage extends StatefulWidget {
 
   static const String route = '/';
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const SplashPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const SplashPage());
 
   @override
   _SplashPageState createState() => _SplashPageState();
@@ -44,16 +43,17 @@ class _SplashPageState extends MobxState<SplashPage, SplashViewmodel> {
             Row(
               children: [
                 Expanded(
-                  child: SvgPicture.asset('assets/images/ic_logo.svg',
-                      fit: BoxFit.fitHeight),
+                  child: SvgPicture.asset(
+                    'assets/images/ic_logo.svg',
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ],
             ),
             GradientText(
               text: context.translate('lbl_public_info'),
               colors: const [YELLOW, RED],
-              style: context.textTheme.headline1
-                  .copyWith(fontSize: 26, letterSpacing: 0.3),
+              style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -74,8 +74,7 @@ class _SplashPageState extends MobxState<SplashPage, SplashViewmodel> {
                   style: TextStyle(
                     color: TEXT_COLOR,
                     fontSize: 14,
-                    fontFamily:
-                        Theme.of(context).textTheme.headline1.fontFamily,
+                    fontFamily: Theme.of(context).textTheme.headline1.fontFamily,
                   ),
                 ),
                 const Icon(Icons.copyright, color: TEXT_COLOR),
@@ -85,8 +84,7 @@ class _SplashPageState extends MobxState<SplashPage, SplashViewmodel> {
                   style: TextStyle(
                     color: TEXT_COLOR,
                     fontSize: 14,
-                    fontFamily:
-                        Theme.of(context).textTheme.headline1.fontFamily,
+                    fontFamily: Theme.of(context).textTheme.headline1.fontFamily,
                   ),
                 ),
               ],
