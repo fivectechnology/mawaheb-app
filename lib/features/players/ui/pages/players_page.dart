@@ -1,7 +1,9 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/app.dart';
+import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
@@ -19,8 +21,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
 
   // static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -71,22 +72,40 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
       return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: viewmodel.getPlayers == false
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Card(
-                        elevation: 10,
-                        child: TextField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.search,
-                                color: Colors.grey,
+              ? FocusDetector(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: LIGHT_GREY, width: 0.5),
+                            color: WHITE,
+                            boxShadow: const [BoxShadow(blurRadius: 6, offset: Offset(0, 3), color: LIGHT_GREY)],
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: nameController,
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(
+                                        Icons.search,
+                                        color: Colors.grey,
+                                      ),
+                                      hintStyle: context.textTheme.bodyText1.copyWith(color: Colors.grey),
+                                      hintText: context.translate('lbl_search_name'),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      contentPadding: EdgeInsets.all(context.fullWidth * 0.03),
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none),
+                                ),
                               ),
-                              suffixIcon: InkWell(
+                              InkWell(
                                 onTap: () {
                                   viewmodel.sport = null;
                                   viewmodel.country = null;
@@ -110,78 +129,54 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                                   ),
                                 ),
                               ),
-                              hintStyle: context.textTheme.bodyText1
-                                  .copyWith(color: Colors.grey),
-                              hintText: context.translate('lbl_search_name'),
-                              fillColor: Colors.white,
-                              filled: true,
-                              contentPadding:
-                                  EdgeInsets.all(context.fullWidth * 0.03),
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: context.fullHeight * 0.01,
-                          horizontal: context.fullWidth * 0.05),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.start,
-                        children: [
-                          if (viewmodel.sport != null)
-                            filterChip(
-                                context: context, text: viewmodel.sport.name),
-                          if (viewmodel.country != null)
-                            filterChip(
-                                context: context, text: viewmodel.country.name),
-                          if (viewmodel.position != null)
-                            filterChip(
-                                context: context,
-                                text: viewmodel.position.name),
-                          if (viewmodel.hand != null)
-                            filterChip(
-                                context: context,
-                                text: viewmodel.hand.toLowerCase() + ' hand'),
-                          if (viewmodel.leg != null)
-                            filterChip(
-                                context: context,
-                                text: viewmodel.leg.toLowerCase() + ' leg'),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: context.fullHeight * 0.01, horizontal: context.fullWidth * 0.05),
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          children: [
+                            if (viewmodel.sport != null) filterChip(context: context, text: viewmodel.sport.name),
+                            if (viewmodel.country != null) filterChip(context: context, text: viewmodel.country.name),
+                            if (viewmodel.position != null) filterChip(context: context, text: viewmodel.position.name),
+                            if (viewmodel.hand != null)
+                              filterChip(context: context, text: viewmodel.hand.toLowerCase() + ' hand'),
+                            if (viewmodel.leg != null)
+                              filterChip(context: context, text: viewmodel.leg.toLowerCase() + ' leg'),
+                          ],
+                        ),
                       ),
-                    ),
-                    if (viewmodel.players != null)
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: viewmodel.players.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                viewmodel.playerName =
-                                    viewmodel.players[index].name;
+                      if (viewmodel.players != null)
+                        ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: viewmodel.players.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  viewmodel.playerName = viewmodel.players[index].name;
 
-                                viewmodel.viewProfilePlayer(
-                                    id: viewmodel.players[index].id);
+                                  viewmodel.viewProfilePlayer(id: viewmodel.players[index].id);
 
-                                viewmodel.playerId =
-                                    viewmodel.players[index].id;
+                                  viewmodel.playerId = viewmodel.players[index].id;
 
-                                App.navKey.currentState.push(
-                                    ViewPlayerProfile.pageRoute(viewmodel));
-                              },
-                              child: userListTile(
-                                  name: viewmodel.players[index].name,
-                                  photoId: viewmodel.players[index].photoId,
-                                  token: viewmodel.prefsRepository.token),
-                            );
-                          }),
-                    if (viewmodel.players == null)
-                      Center(
-                          child: Text(context.translate('msg_no_match_players'),
-                              style:
-                                  textTheme.headline2.copyWith(fontSize: 20)))
-                  ],
+                                  App.navKey.currentState.push(ViewPlayerProfile.pageRoute(viewmodel));
+                                },
+                                child: userListTile(
+                                    name: viewmodel.players[index].name,
+                                    photoId: viewmodel.players[index].photoId,
+                                    token: viewmodel.prefsRepository.token),
+                              );
+                            }),
+                      if (viewmodel.players == null)
+                        Center(
+                            child: Text(context.translate('msg_no_match_players'),
+                                style: textTheme.headline2.copyWith(fontSize: 20)))
+                    ],
+                  ),
                 )
               : const SizedBox(
                   child: Center(
@@ -202,14 +197,12 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
         builder: (context) => Wrap(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
+                  padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(context.translate('lbl_filter'),
-                          style: context.textTheme.headline2.copyWith(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
+                          style: context.textTheme.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
                       mawhaebDropDown(
                         hint: 'lbl_nationality',
                         context: context,
@@ -284,8 +277,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_confirmed_by_us'),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                           Observer(
                             builder: (_) {
                               return mawahebSwitchButton(
@@ -302,8 +294,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_booked_by_us'),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                           Observer(
                             builder: (_) {
                               return mawahebSwitchButton(

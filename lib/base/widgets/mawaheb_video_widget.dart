@@ -19,8 +19,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        '$BASE_API/ws/public/metaFiles/${widget.videoUid}/view');
+    _controller = VideoPlayerController.network('$BASE_API/ws/public/metaFiles/${widget.videoUid}/view');
     _chewieController = ChewieController(
       allowedScreenSleep: false,
       allowFullScreen: true,
@@ -29,6 +28,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       autoInitialize: true,
       autoPlay: false,
       showControls: true,
+      showControlsOnInitialize: false,
     );
   }
 

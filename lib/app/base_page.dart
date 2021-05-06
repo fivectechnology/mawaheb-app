@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
+import 'package:mawaheb_app/base/utils/app_bar_params.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_app_bar.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_bottom_nav.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_dialog.dart';
@@ -21,8 +22,7 @@ class BasePage extends StatefulWidget {
 
   static const String route = '/base';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
 
   @override
   _BasePageState createState() => _BasePageState();
@@ -30,18 +30,10 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   final List<Widget> pages = <Widget>[
-    Navigator(
-        key: HomePage.navKey,
-        onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-    Navigator(
-        key: NotificationsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
-    Navigator(
-        key: PublicInfoPage.navKey,
-        onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
-    Navigator(
-        key: SettingsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
+    Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+    Navigator(key: NotificationsPage.navKey, onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
+    Navigator(key: PublicInfoPage.navKey, onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
+    Navigator(key: SettingsPage.navKey, onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
   ];
 
   AppViewmodel appViewmodel;
@@ -56,6 +48,9 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
+    if (appViewmodel.pageIndex == PageIndex.home) {
+      appViewmodel.appBarParams = AppBarParams.initial(appViewmodel.isPlayer);
+    }
   }
 
   @override
@@ -67,11 +62,9 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
         body: buildBaseScreenBody,
         bottomNavigationBar: Container(
           height: 60.0 + context.mediaQuery.padding.bottom,
-          decoration: const BoxDecoration(
-              color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
+          decoration: const BoxDecoration(color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
           child: Column(children: <Widget>[
-            Expanded(
-                child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
+            Expanded(child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
           ]),
         ),
       ),
@@ -107,9 +100,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
     if (appViewmodel.pageIndex == PageIndex.home) {
       bool exitConfirmed = false;
       await mawahebShowConfirmDialog(
-          context: context,
-          message: context.translate('msg_close_app'),
-          onConfirm: () => exitConfirmed = true);
+          context: context, message: context.translate('msg_close_app'), onConfirm: () => exitConfirmed = true);
       // await showConfirmDialog(
       //   context,
       //   context.translate('msg_close_app'),
