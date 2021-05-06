@@ -13,6 +13,7 @@ import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'package:mawaheb_app/base/widgets/uploading_video_loader.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
@@ -24,7 +25,8 @@ class EditPersonalPage extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
           value: profileViewmodel,
           child: const EditPersonalPage(),
@@ -32,12 +34,14 @@ class EditPersonalPage extends StatefulWidget {
       );
 
   static const String route = '/edit_player_info';
+  static final GlobalKey<State> keyLoader = GlobalKey<State>();
 
   @override
   _EditPersonalPageState createState() => _EditPersonalPageState();
 }
 
-class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
+class _EditPersonalPageState
+    extends ProviderMobxState<EditPersonalPage, ProfileViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dateOfBirth = TextEditingController();
@@ -123,7 +127,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
           title: 'lbl_personal_info',
           withTitle: true,
           onBackButton: () {
-            App.navKey.currentState.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+            App.navKey.currentState.context
+                .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
           }),
       body: Observer(builder: (_) {
         return viewmodel.countries == null || viewmodel.categories == null
@@ -131,7 +136,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
             : Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -164,7 +170,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
                           hintColor: Colors.grey,
                           textEditingController: _phoneController,
                           validator: (value) {
-                            return phoneValidator(context: context, phone: value);
+                            return phoneValidator(
+                                context: context, phone: value);
                           },
                           context: context),
                       const SizedBox(height: 26),
@@ -232,17 +239,43 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
                                       fileType: fileType,
                                       fileName: fileName,
                                       fileSize: fileSize);
-                                }
-                                if (_formKey.currentState.validate()) {
-                                  _formKey.currentState.save();
+
                                   viewmodel.editPersonalInfo(
-                                    phone: _phoneController.text ?? viewmodel.player.phone,
-                                    name: _nameController.text ?? viewmodel.player,
+                                    phone: _phoneController.text != ''
+                                        ? _phoneController.text
+                                        : viewmodel.player.phone,
+                                    name: _nameController.text != ''
+                                        ? _nameController.text
+                                        : viewmodel.player.name,
                                     gender: gender ?? viewmodel.player.gender,
-                                    dateOfBirth: dateOfBirth ?? viewmodel.player.dateOfBirth,
-                                    categoryModel: currentCategory ?? viewmodel.player.category,
-                                    country: currentCountry ?? viewmodel.player.country,
+                                    dateOfBirth: dateOfBirth ??
+                                        viewmodel.player.dateOfBirth,
+                                    categoryModel: currentCategory ??
+                                        viewmodel.player.category,
+                                    country: currentCountry ??
+                                        viewmodel.player.country,
                                   );
+                                  uploadingVideoLoader(
+                                      context: context,
+                                      key: EditPersonalPage.keyLoader,
+                                      text: 'msg_uploading_image');
+                                } else {
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    viewmodel.editPersonalInfo(
+                                      phone: _phoneController.text ??
+                                          viewmodel.player.phone,
+                                      name: _nameController.text ??
+                                          viewmodel.player,
+                                      gender: gender ?? viewmodel.player.gender,
+                                      dateOfBirth: dateOfBirth ??
+                                          viewmodel.player.dateOfBirth,
+                                      categoryModel: currentCategory ??
+                                          viewmodel.player.category,
+                                      country: currentCountry ??
+                                          viewmodel.player.country,
+                                    );
+                                  }
                                 }
                               });
                         },
@@ -288,7 +321,8 @@ class _EditPersonalPageState extends ProviderMobxState<EditPersonalPage, Profile
           },
           child: Text(
             context.translate('lbl_add_image'),
-            style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+            style:
+                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
           ),
         )
       ],
