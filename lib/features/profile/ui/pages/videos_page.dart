@@ -129,25 +129,22 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: VideosPage.scaffoldKey,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 48),
-        child: FloatingActionButton(
-          onPressed: () {
-            if (viewmodel.videos.length == 3) {
-              _selectVideoBottomSheet(
-                context: context,
-              );
-            } else {
-              _optionPickerBottomSheet(context: context);
-              // getVideo(deleteVideo: true);
-            }
-          },
-          backgroundColor: YELLOW,
-          child: const Icon(
-            Icons.add,
-            color: Colors.black87,
-            size: 36,
-          ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (viewmodel.videos.length == 3) {
+            _selectVideoBottomSheet(
+              context: context,
+            );
+          } else {
+            _optionPickerBottomSheet(context: context);
+            // getVideo(deleteVideo: true);
+          }
+        },
+        backgroundColor: YELLOW,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black87,
+          size: 36,
         ),
       ),
       backgroundColor: Colors.white,
@@ -163,14 +160,20 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                           shrinkWrap: true,
                           itemCount: viewmodel.videos.length,
                           itemBuilder: (context, index) {
-                            return videoRow(
-                              videoUid: viewmodel.videos[index].videoUid,
-                              videoVersion: viewmodel.videos[index].version,
-                              videoId: viewmodel.videos[index].id,
-                              videoShowId: viewmodel.videos[index].video.id,
-                              token: viewmodel.prefsRepository.token,
-                              status: viewmodel.videos[index].statusEn,
-                              tStatus: viewmodel.videos[index].status,
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: viewmodel.videos.length == index + 1
+                                      ? 45
+                                      : 1),
+                              child: videoRow(
+                                videoUid: viewmodel.videos[index].videoUid,
+                                videoVersion: viewmodel.videos[index].version,
+                                videoId: viewmodel.videos[index].id,
+                                videoShowId: viewmodel.videos[index].video.id,
+                                token: viewmodel.prefsRepository.token,
+                                status: viewmodel.videos[index].statusEn,
+                                tStatus: viewmodel.videos[index].status,
+                              ),
                             );
                           }),
                     if (viewmodel.videos.isEmpty)
@@ -237,16 +240,10 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     ),
                     child: VideoPlayerWidget(
                       videoUid: videoUid,
-                    )
-
-                    // Chewie(
-                    //   controller: _chewieController,
-                    // ),
-
-                    ),
+                    )),
               ),
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(top: 16),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
@@ -269,21 +266,6 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                   ),
                 ),
               ),
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: IconButton(
-              //     onPressed: () {
-              //       setState(() {
-              //         _controller.value.isPlaying
-              //             ? _controller.pause()
-              //             : _controller.play();
-              //       });
-              //     },
-              //     icon: Icon(_controller.value.isPlaying
-              //         ? Icons.play_circle_fill
-              //         : Icons.pause_circle_filled),
-              //   ),
-              // )
             ],
           ),
         ],
