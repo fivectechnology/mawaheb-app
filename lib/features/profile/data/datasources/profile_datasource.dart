@@ -300,7 +300,14 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
       id: id,
       data: {
         'data': {
-          'version': version,
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
           'sport': {'id': sport.id},
           'position': {'id': sportPositionModel.id},
           'weight': weight,

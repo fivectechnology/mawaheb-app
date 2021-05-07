@@ -207,7 +207,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
     @required String dateOfBirth,
     @required String gender,
     @required String phone,
-  }) {
+  }) async {
     return mawahebRequest(
       method: METHOD.POST,
       withAuth: true,
@@ -217,7 +217,14 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {
           'name': name,
-          'version': version,
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
           'dateOfBirth': dateOfBirth,
           'gender': gender,
           'phone': phone,
@@ -236,7 +243,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
     @required EmirateModel emirateModel,
     @required String area,
     @required String address,
-  }) {
+  }) async {
     return mawahebRequest(
       method: METHOD.POST,
       mawahebModel: false,
@@ -245,7 +252,14 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       withAuth: true,
       data: {
         'data': {
-          'version': version,
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
           'emirate': {'id': emirateModel.id},
           'area': area,
           'address': address,
@@ -266,7 +280,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
     @required String brief,
     @required SportModel sport,
     @required SportPositionModel sportPositionModel,
-  }) {
+  }) async {
     return mawahebRequest(
       method: METHOD.POST,
       withAuth: true,
@@ -275,7 +289,14 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       id: id,
       data: {
         'data': {
-          'version': version,
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
           'sport': {'id': sport.id},
           'position': {'id': sportPositionModel.id},
           'weight': weight,
