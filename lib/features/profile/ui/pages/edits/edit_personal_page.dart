@@ -290,42 +290,42 @@ class _EditPersonalPageState
   }
 
   Widget imageRow() {
-    return Row(
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.03),
-          height: context.fullHeight * 0.12,
-          width: context.fullHeight * 0.12,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey, width: 2.0),
-          ),
-          child: viewmodel.imageFile == null
-              ? IconButton(
-                  onPressed: () async {
-                    await getImage();
-                  },
-                  icon: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey,
+    return InkWell(
+      onTap: () async {
+        await getImage();
+      },
+      child: Row(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.03),
+            height: context.fullHeight * 0.12,
+            width: context.fullHeight * 0.12,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.grey, width: 2.0),
+            ),
+            child: viewmodel.imageFile == null
+                ? IconButton(
+                    onPressed: () async {
+                      await getImage();
+                    },
+                    icon: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey,
+                    ),
+                  )
+                : CircleAvatar(
+                    backgroundImage: FileImage(viewmodel.imageFile),
+                    radius: 200.0,
                   ),
-                )
-              : CircleAvatar(
-                  backgroundImage: FileImage(viewmodel.imageFile),
-                  radius: 200.0,
-                ),
-        ),
-        InkWell(
-          onTap: () async {
-            await getImage();
-          },
-          child: Text(
+          ),
+          Text(
             context.translate('lbl_add_image'),
             style:
                 textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
