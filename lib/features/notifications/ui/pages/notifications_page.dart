@@ -53,6 +53,7 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
               canLoadMore: viewmodel.canLoadMoreNotifications,
               dataList: notifications.data,
               scrollController: scrollController,
+              shrinkWrap: false,
               padding: 0,
               emptyWidget: Center(child: Text(context.translate('lbl_empty_notifications'))),
               cardBuilder: (notification) => notificationTile(

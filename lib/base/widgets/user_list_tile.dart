@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 
-Widget userListTile({String name, String photoId, String token, String type}) {
+Widget userListTile({
+  String name,
+  String photoId,
+  String token,
+  String type,
+  VoidCallback onTap,
+}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
     child: ListTile(
+      onTap: onTap ?? () {},
       leading: Container(
         height: 60,
         width: 60,

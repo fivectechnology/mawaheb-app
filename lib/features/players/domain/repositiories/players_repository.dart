@@ -7,10 +7,11 @@ import 'package:mawaheb_app/features/players/data/datasources/players_datasource
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 
 abstract class PlayersRepository extends BaseRepository {
-  const PlayersRepository(PlayersDataSource playersDataSource)
-      : super(playersDataSource);
+  const PlayersRepository(PlayersDataSource playersDataSource) : super(playersDataSource);
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
+    @required int offset,
+    @required int limit,
     @required int countryId,
     @required int sportId,
     @required int positionId,
@@ -36,8 +37,7 @@ abstract class PlayersRepository extends BaseRepository {
     @required int memberShipVersion,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos(
-      {int playerId});
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({int playerId});
 
 // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
   //     getMemberShips({int partnerId});

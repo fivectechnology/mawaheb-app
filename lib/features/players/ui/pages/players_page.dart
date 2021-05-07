@@ -1,340 +1,247 @@
+import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:core_sdk/utils/pagination_mixin.dart';
+import 'package:core_sdk/utils/search_mixin.dart';
+import 'package:core_sdk/utils/widgets/pagination_list.dart';
 import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
-import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
+import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
+import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/base/widgets/user_list_tile.dart';
-import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
-import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
-import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
+import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
+import 'package:mawaheb_app/features/players/data/models/player_filter_model.dart';
 import 'package:mawaheb_app/features/players/ui/pages/view_player_profile.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/filter_chip_widget.dart';
+import 'package:mawaheb_app/features/players/ui/widgets/player_filter_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
-import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);
 
   static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
 
-  // static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
-
   @override
   _PlayersPageState createState() => _PlayersPageState();
 }
 
-class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
-  TextEditingController nameController = TextEditingController();
-  SportModel currentSport;
-  SportPositionModel position;
-  CountryModel currentCountry;
-  String hand;
-  String leg;
-
+class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with SearchMixin, PaginationMixin {
   @override
   void initState() {
     super.initState();
+    initSearch();
+    initPagination();
   }
 
   @override
   void dispose() {
-    nameController.dispose();
+    disposeSearch();
+    disposePagination();
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (viewmodel?.players == null) {
-      viewmodel.searchPlayers();
-    }
-
-    if (viewmodel?.sports == null) {
-      viewmodel.getSports();
-    }
-    if (viewmodel?.positions == null) {
-      viewmodel.getPositions();
-    }
-    if (viewmodel?.countries == null) {
-      viewmodel.getCountries();
-    }
-  }
+  PlayerFilterModel get filter => viewmodel.filter;
 
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return Scaffold(
+        key: viewmodel.scaffoldKey,
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: viewmodel.getPlayers == false
-              ? FocusDetector(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: LIGHT_GREY, width: 0.5),
-                            color: WHITE,
-                            boxShadow: const [BoxShadow(blurRadius: 6, offset: Offset(0, 3), color: LIGHT_GREY)],
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: nameController,
-                                  decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.search,
-                                        color: Colors.grey,
-                                      ),
-                                      hintStyle: context.textTheme.bodyText1.copyWith(color: Colors.grey),
-                                      hintText: context.translate('lbl_search_name'),
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      contentPadding: EdgeInsets.all(context.fullWidth * 0.03),
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  viewmodel.sport = null;
-                                  viewmodel.country = null;
-                                  viewmodel.position = null;
-                                  viewmodel.leg = null;
-                                  viewmodel.hand = null;
-                                  currentSport = null;
-                                  currentCountry = null;
-                                  hand = null;
-                                  leg = null;
-                                  position = null;
-                                  viewmodel.confirmed = false;
-                                  viewmodel.booked = false;
-
-                                  filterBottomSheet();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/ic_filter.svg',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: context.fullHeight * 0.01, horizontal: context.fullWidth * 0.05),
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          children: [
-                            if (viewmodel.sport != null) filterChip(context: context, text: viewmodel.sport.name),
-                            if (viewmodel.country != null) filterChip(context: context, text: viewmodel.country.name),
-                            if (viewmodel.position != null) filterChip(context: context, text: viewmodel.position.name),
-                            if (viewmodel.hand != null)
-                              filterChip(context: context, text: viewmodel.hand.toLowerCase() + ' hand'),
-                            if (viewmodel.leg != null)
-                              filterChip(context: context, text: viewmodel.leg.toLowerCase() + ' leg'),
-                          ],
-                        ),
-                      ),
-                      if (viewmodel.players != null)
-                        ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: viewmodel.players.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  viewmodel.playerName = viewmodel.players[index].name;
-
-                                  viewmodel.viewProfilePlayer(id: viewmodel.players[index].id);
-
-                                  viewmodel.playerId = viewmodel.players[index].id;
-
-                                  App.navKey.currentState.push(ViewPlayerProfile.pageRoute(viewmodel));
-                                },
-                                child: userListTile(
-                                    name: viewmodel.players[index].name,
-                                    photoId: viewmodel.players[index].photoId,
-                                    token: viewmodel.prefsRepository.token),
-                              );
-                            }),
-                      if (viewmodel.players == null)
-                        Center(
-                            child: Text(context.translate('msg_no_match_players'),
-                                style: textTheme.headline2.copyWith(fontSize: 20)))
-                    ],
-                  ),
-                )
-              : const SizedBox(
-                  child: Center(
-                    heightFactor: 25,
-                    child: MawahebLoader(),
-                  ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: LIGHT_GREY, width: 0.5),
+                  color: WHITE,
+                  boxShadow: const [BoxShadow(blurRadius: 6, offset: Offset(0, 3), color: LIGHT_GREY)],
                 ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                          hintStyle: context.textTheme.bodyText1.copyWith(color: Colors.grey),
+                          hintText: context.translate('lbl_search_name'),
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding: EdgeInsets.all(context.fullWidth * 0.03),
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => PlayerFilterWidget.show(
+                        context,
+                        viewmodel: viewmodel,
+                        query: searchController.text,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset('assets/icons/ic_filter.svg'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: Observer(builder: (_) {
+                print('my debug obs called with ${viewmodel.filter}');
+                return Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  alignment: WrapAlignment.start,
+                  children: [
+                    if (viewmodel?.filter?.sport != null)
+                      filterChip(
+                        context: context,
+                        text: viewmodel.filter.sport.name,
+                        onRemove: () {
+                          viewmodel.filter = PlayerFilterModel(
+                            country: filter?.country,
+                            sport: null,
+                            position: filter?.position,
+                            hand: filter?.hand,
+                            leg: filter?.leg,
+                            name: filter?.name,
+                            partnerId: filter?.partnerId,
+                            isConfirmed: filter?.isConfirmed,
+                            isBooked: filter?.isBooked,
+                          );
+                          viewmodel.searchPlayers(fresh: true, query: searchController.text);
+                        },
+                      ),
+                    if (viewmodel?.filter?.country != null)
+                      filterChip(
+                        context: context,
+                        text: viewmodel.filter.country.name,
+                        onRemove: () {
+                          viewmodel.filter = PlayerFilterModel(
+                            country: null,
+                            sport: filter?.sport,
+                            position: filter?.position,
+                            hand: filter?.hand,
+                            leg: filter?.leg,
+                            name: filter?.name,
+                            partnerId: filter?.partnerId,
+                            isConfirmed: filter?.isConfirmed,
+                            isBooked: filter?.isBooked,
+                          );
+                          viewmodel.searchPlayers(fresh: true, query: searchController.text);
+                        },
+                      ),
+                    if (viewmodel?.filter?.position != null)
+                      filterChip(
+                        context: context,
+                        text: viewmodel.filter.position.name,
+                        onRemove: () {
+                          viewmodel.filter = PlayerFilterModel(
+                            country: filter?.country,
+                            sport: filter?.sport,
+                            position: null,
+                            hand: filter?.hand,
+                            leg: filter?.leg,
+                            name: filter?.name,
+                            partnerId: filter?.partnerId,
+                            isConfirmed: filter?.isConfirmed,
+                            isBooked: filter?.isBooked,
+                          );
+                          viewmodel.searchPlayers(fresh: true, query: searchController.text);
+                        },
+                      ),
+                    if (viewmodel?.filter?.hand != null)
+                      // TODO(ahmad): add localization to hand string
+                      filterChip(
+                        context: context,
+                        text: viewmodel.filter.hand.toLowerCase() + ' hand',
+                        onRemove: () {
+                          viewmodel.filter = PlayerFilterModel(
+                            country: filter?.country,
+                            sport: filter?.sport,
+                            position: filter?.position,
+                            hand: null,
+                            leg: filter?.leg,
+                            name: filter?.name,
+                            partnerId: filter?.partnerId,
+                            isConfirmed: filter?.isConfirmed,
+                            isBooked: filter?.isBooked,
+                          );
+                          viewmodel.searchPlayers(fresh: true, query: searchController.text);
+                        },
+                      ),
+                    if (viewmodel?.filter?.leg != null)
+                      // TODO(ahmad): add localization to leg string
+
+                      filterChip(
+                        context: context,
+                        text: viewmodel.filter.leg.toLowerCase() + ' leg',
+                        onRemove: () {
+                          viewmodel.filter = PlayerFilterModel(
+                            country: filter?.country,
+                            sport: filter?.sport,
+                            position: filter?.position,
+                            hand: filter?.hand,
+                            leg: null,
+                            name: filter?.name,
+                            partnerId: filter?.partnerId,
+                            isConfirmed: filter?.isConfirmed,
+                            isBooked: filter?.isBooked,
+                          );
+                          viewmodel.searchPlayers(fresh: true, query: searchController.text);
+                        },
+                      ),
+                  ],
+                );
+              }),
+            ),
+            Expanded(
+              child: MawahebFutureBuilder<ListBaseResponseModel<PlayerModel>>(
+                  future: viewmodel.playersFuture,
+                  onRetry: () => viewmodel.searchPlayers(fresh: true, query: searchController.text),
+                  onSuccess: (ListBaseResponseModel<PlayerModel> players) {
+                    return FocusDetector(
+                      child: PaginationList<PlayerModel>(
+                        canLoadMore: viewmodel.canLoadMorePlayers,
+                        dataList: players.data,
+                        scrollController: scrollController,
+                        shrinkWrap: false,
+                        padding: 0,
+                        emptyWidget: Center(child: Text(context.translate('msg_no_match_players'))),
+                        cardBuilder: (player) => userListTile(
+                          name: player.name,
+                          photoId: player.photoId,
+                          token: viewmodel.prefsRepository.token,
+                          onTap: () {
+                            // viewmodel.playerName = player.name;
+                            viewmodel.viewProfilePlayer(id: player.id);
+                            viewmodel.fetchPlayer(id: player.id);
+                            // viewmodel.playerId = player.id;
+                            App.navKey.currentState.push(ViewPlayerProfile.pageRoute(viewmodel));
+                          },
+                        ),
+                      ),
+                    );
+                  }),
+            ),
+          ],
         ),
       );
     });
   }
 
-  void filterBottomSheet() {
-    showModalBottomSheet(
-        useRootNavigator: true,
-        isScrollControlled: true,
-        context: context,
-        builder: (context) => Wrap(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(context.translate('lbl_filter'),
-                          style: context.textTheme.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
-                      mawhaebDropDown(
-                        hint: 'lbl_nationality',
-                        context: context,
-                        onChanged: (value) {
-                          currentCountry = value;
-                        },
-                        items: viewmodel.countries
-                            .map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
-                                  value: em,
-                                ))
-                            .toList(),
-                      ),
-                      const SizedBox(height: 26),
-                      mawhaebDropDown(
-                        hint: context.translate('lbl_sport_name'),
-                        context: context,
-                        onChanged: (value) {
-                          currentSport = value;
-                        },
-                        items: viewmodel.sports
-                            .map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
-                                  value: em,
-                                ))
-                            .toList(),
-                      ),
-                      const SizedBox(height: 26),
-                      mawhaebDropDown(
-                        hint: context.translate('lbl_position'),
-                        context: context,
-                        onChanged: (value) {
-                          position = value;
-                        },
-                        items: viewmodel.positions
-                            .map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
-                                  value: em,
-                                ))
-                            .toList(),
-                      ),
-                      const SizedBox(height: 26),
-                      mawhaebDropDown(
-                          hint: context.translate('lbl_prefer_hand'),
-                          context: context,
-                          items: ['RIGHT', 'LEFT', 'BOTH']
-                              .map((e) => DropdownMenuItem(
-                                    child: Text(e),
-                                    value: e,
-                                  ))
-                              .toList(),
-                          onChanged: (v) {
-                            hand = v;
-                          }),
-                      const SizedBox(height: 26),
-                      mawhaebDropDown(
-                          hint: context.translate('lbl_prefer_leg'),
-                          context: context,
-                          items: ['RIGHT', 'LEFT', 'BOTH']
-                              .map((e) => DropdownMenuItem(
-                                    child: Text(e),
-                                    value: e,
-                                  ))
-                              .toList(),
-                          onChanged: (v) {
-                            print(v);
-                            print(leg);
-                            leg = v;
-                          }),
-                      const SizedBox(height: 26),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(context.translate('lbl_confirmed_by_us'),
-                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                          Observer(
-                            builder: (_) {
-                              return mawahebSwitchButton(
-                                isSelected: viewmodel.confirmed,
-                                onChanged: (value) {
-                                  viewmodel.confirmed = value;
-                                },
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(context.translate('lbl_booked_by_us'),
-                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                          Observer(
-                            builder: (_) {
-                              return mawahebSwitchButton(
-                                isSelected: viewmodel.booked,
-                                onChanged: (value) {
-                                  viewmodel.booked = value;
-                                },
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 26),
-                      MawahebButton(
-                        context: context,
-                        buttonColor: Colors.white,
-                        textColor: Colors.black,
-                        borderColor: Colors.black,
-                        text: 'lbl_filter',
-                        onPressed: () {
-                          // print(viewmodel.booked);
-                          viewmodel.searchPlayers(
-                              countryId: currentCountry?.id ?? 0,
-                              sportId: currentSport?.id ?? 0,
-                              positionId: position?.id ?? 0,
-                              hand: hand ?? '',
-                              name: nameController.text ?? '',
-                              leg: leg ?? '');
-                          viewmodel.sport = currentSport;
-                          viewmodel.country = currentCountry;
-                          viewmodel.position = position;
-                          viewmodel.leg = leg;
-                          viewmodel.hand = hand;
-                          context.pop();
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ));
-  }
+  @override
+  void onLoadMore() => viewmodel.searchPlayers(query: searchController.text);
+
+  @override
+  void onSearch(String qurey) => viewmodel.searchPlayers(query: qurey, fresh: true);
 }

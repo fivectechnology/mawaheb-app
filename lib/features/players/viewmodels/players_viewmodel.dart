@@ -2,12 +2,15 @@ import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
+import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:mawaheb_app/features/players/data/models/player_filter_model.dart';
 import 'package:mawaheb_app/features/players/domain/repositiories/players_repository.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
@@ -27,14 +30,22 @@ class PlayersViewmodel extends _PlayersViewmodelBase with _$PlayersViewmodel {
     AuthRepository authRepository,
     ProfileRepository profileRepository,
     PrefsRepository prefsRepository,
-  ) : super(logger, playersRepository, authRepository, profileRepository,
-            prefsRepository);
+  ) : super(logger, playersRepository, authRepository, profileRepository, prefsRepository);
 }
 
 abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
-  _PlayersViewmodelBase(Logger logger, this._playersRepository,
-      this._authRepository, this._profileRepository, this.prefsRepository)
-      : super(logger);
+  _PlayersViewmodelBase(
+    Logger logger,
+    this._playersRepository,
+    this._authRepository,
+    this._profileRepository,
+    this.prefsRepository,
+  ) : super(logger) {
+    searchPlayers(fresh: true);
+    getCountries();
+    getPositions();
+    getSports();
+  }
   final PlayersRepository _playersRepository;
   final AuthRepository _authRepository;
   final ProfileRepository _profileRepository;
@@ -48,6 +59,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<List<VideoModel>> fetchVideoFuture;
 
   @observable
+  ObservableFuture<ListBaseResponseModel<PlayerModel>> playersFuture;
+
+  @observable
   ObservableFuture<bool> bookPlayerFuture;
 
   @observable
@@ -57,37 +71,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<bool> releasePlayerFuture;
 
   @observable
-  bool booked = false;
-
-  @observable
-  bool confirmed = false;
-
-  @observable
-  int playerId;
-
-  @observable
-  String playerName;
-
-  @observable
-  String searchName;
-
-  @observable
-  SportModel sport;
-
-  @observable
-  CountryModel country;
-
-  @observable
-  SportPositionModel position;
-
-  @observable
-  String leg;
-
-  @observable
-  String hand;
-
-  @observable
-  ObservableFuture<List<PlayerModel>> playersFuture;
+  PlayerFilterModel filter = PlayerFilterModel.initial();
 
   @observable
   ObservableFuture<List<SportModel>> sportFuture;
@@ -103,6 +87,29 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   // @observable
   // ObservableFuture<List<PartnerMemberModel>> membersFuture;
+
+  //* COMPUTED *//
+
+  @computed
+  ListBaseResponseModel<PlayerModel> get players => playersFuture?.value;
+
+  @computed
+  bool get getPlayers => playersFuture?.isPending ?? false;
+
+  @computed
+  List<SportModel> get sports => sportFuture?.value;
+
+  @computed
+  List<CountryModel> get countries => countryFuture?.value;
+
+  @computed
+  List<SportPositionModel> get positions => positionFuture?.value;
+
+  @computed
+  PlayerModel get player => playerFuture?.value;
+
+  @computed
+  bool get playerLoading => playerFuture?.isPending ?? false;
 
   @computed
   bool get viewProfileLoading => viewProfileFuture?.isPending ?? false;
@@ -134,47 +141,22 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get releasePlayerError => releasePlayerFuture?.isFailure ?? false;
 
-  //* COMPUTED *//
-
   @computed
-  SportModel get filterCountry => sport;
+  bool get canLoadMorePlayers {
+    if (players == null) {
+      return true;
+    }
+    if (players.offset + PAGE_SIZE < players.total) {
+      return true;
+    }
 
-  @computed
-  SportModel get filterPosition => sport;
-
-  @computed
-  List<PlayerModel> get players => playersFuture?.value;
-
-  @computed
-  bool get getPlayers => playersFuture?.isPending ?? false;
-
-  // @computed
-  // List<PartnerMemberModel> get members => membersFuture?.value;
-
-  @computed
-  List<SportModel> get sports => sportFuture?.value;
-
-  @computed
-  List<CountryModel> get countries => countryFuture?.value;
-
-  @computed
-  List<SportPositionModel> get positions => positionFuture?.value;
-
-  @computed
-  PlayerModel get player => playerFuture?.value;
-
-  @computed
-  bool get playerLoading => playerFuture?.isPending ?? false;
-
-  // @computed
-  // bool get playerLoading => playersFuture?.value ?? false;
+    return false;
+  }
 
   //* ACTIONS *//
   @action
   void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository
-            .fetchPlayer(id: id)
-            .whenSuccess((res) => res.data.first.apply(() async {})),
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res.data.first.apply(() async {})),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
       );
 
@@ -197,30 +179,36 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void searchPlayers({
-    int countryId,
-    int sportId,
-    int positionId,
-    String hand,
-    String name,
-    String leg,
-  }) =>
-      playersFuture = futureWrapper(
+  void searchPlayers({bool fresh = false, String query}) {
+    if (fresh || canLoadMorePlayers) {
+      int offset = (players?.offset ?? -PAGE_SIZE) + PAGE_SIZE;
+      if (fresh) {
+        playersFuture = null;
+        offset = 0;
+      }
+
+      final ObservableFuture<ListBaseResponseModel<PlayerModel>> future = futureWrapper(
         () => _playersRepository
             .searchPlayers(
-              name: name,
-              positionId: positionId ?? 0,
-              countryId: countryId ?? 0,
-              sportId: sportId ?? 0,
-              leg: leg,
-              isBooked: booked,
-              isConfirmed: confirmed,
+              offset: offset,
+              limit: PAGE_SIZE,
+              name: query,
+              positionId: filter?.positionId ?? 0,
+              countryId: filter?.countryId ?? 0,
+              sportId: filter?.sportId ?? 0,
+              leg: filter?.leg,
+              isBooked: filter?.isBooked ?? false,
+              isConfirmed: filter?.isConfirmed ?? false,
+              hand: filter?.hand,
               partnerId: prefsRepository?.player?.id ?? 0,
-              hand: hand,
             )
-            .whenSuccess((res) => res.data),
+            .replace(oldValue: playersFuture, onSuccess: () {}),
         catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        unknownErrorHandler: (err) => showSnack(err, duration: 2.seconds),
       );
+      playersFuture = playersFuture?.replace(future) ?? future;
+    }
+  }
 
   // @action
   // void getMembers({int partnerId}) => membersFuture = futureWrapper(
@@ -261,9 +249,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void confirmPlayer() {
     confirmPlayerFuture = futureWrapper(
       () => _playersRepository
-          .confirmPlayer(
-              memberShipId: player.membership.id,
-              memberShipVersion: player.membership.$version)
+          .confirmPlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} confirmed');
@@ -278,9 +264,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void releasePlayer() {
     releasePlayerFuture = futureWrapper(
       () => _playersRepository
-          .releasePlayer(
-              memberShipId: player.membership.id,
-              memberShipVersion: player.membership.$version)
+          .releasePlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
           .whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} released');
@@ -294,9 +278,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @action
   void fetchVideos({int playerId}) {
     fetchVideoFuture = futureWrapper(
-      () => _playersRepository
-          .fetchApprovedVideos(playerId: playerId)
-          .whenSuccess(
+      () => _playersRepository.fetchApprovedVideos(playerId: playerId).whenSuccess(
             (res) => res.data.apply(() {
               print('fetch videos');
             }),
@@ -304,4 +286,54 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
       catchBlock: (err) => showSnack(err, duration: 2.seconds),
     );
   }
+
+  @action
+  void changePlayerFilter({
+    CountryModel country,
+    SportModel sport,
+    SportPositionModel position,
+    String hand,
+    String leg,
+    String name,
+    int partnerId,
+    bool isConfirmed,
+    bool isBooked,
+  }) {
+    filter = filter.copyWith(
+      country: country,
+      sport: sport,
+      position: position,
+      hand: hand,
+      leg: leg,
+      name: name,
+      partnerId: partnerId,
+      isConfirmed: isConfirmed,
+      isBooked: isBooked,
+    );
+  }
+
+  // @action
+  // void changePlayerFilter({
+  //   CountryModel country,
+  //   SportModel sport,
+  //   SportPositionModel position,
+  //   String hand,
+  //   String leg,
+  //   String name,
+  //   int partnerId,
+  //   bool isConfirmed,
+  //   bool isBooked,
+  // }) {
+  //   filter = filter.copyWith(
+  //     country: country,
+  //     sport: sport,
+  //     position: position,
+  //     hand: hand,
+  //     leg: leg,
+  //     name: name,
+  //     partnerId: partnerId,
+  //     isConfirmed: isConfirmed,
+  //     isBooked: isBooked,
+  //   );
+  // }
 }

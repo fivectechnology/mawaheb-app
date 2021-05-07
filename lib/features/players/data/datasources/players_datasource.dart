@@ -14,6 +14,8 @@ import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 
 abstract class PlayersDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
+    @required int offset,
+    @required int limit,
     @required int countryId,
     @required int sportId,
     @required int positionId,
@@ -27,8 +29,7 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
 
-  Future<NetworkResult<bool>> bookPlayer(
-      {@required int playerId, @required int partnerId});
+  Future<NetworkResult<bool>> bookPlayer({@required int playerId, @required int partnerId});
 
   Future<NetworkResult<bool>> confirmPlayer({
     @required int memberShipId,
@@ -40,8 +41,7 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
     @required int memberShipVersion,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos(
-      {@required int playerId});
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({@required int playerId});
 
 // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
 //     getMemberShips({
@@ -50,8 +50,7 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
 }
 
 @LazySingleton(as: PlayersDataSource)
-class PlayersDataSourceImpl extends MawahebRemoteDataSource
-    implements PlayersDataSource {
+class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDataSource {
   PlayersDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -66,6 +65,8 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
+    @required int offset,
+    @required int limit,
     @required int countryId,
     @required int sportId,
     @required int positionId,
@@ -82,6 +83,8 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
       modelName: 'auth.db.User',
       action: EndPointAction.search,
       data: {
+        'limit': limit,
+        'offset': offset,
         'data': {
           'criteria': [
             {'fieldName': 'type', 'operator': '=', 'value': 'PLAYER'},
@@ -90,40 +93,20 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
             // {'fieldName': 'blocked', 'operator': '=', 'value': false},
             // {'fieldName': 'status', 'operator': '=', 'value': 'INACTIVE'},
             // {'fieldName': 'availability', 'operator': '=', 'value': 'RELEASED'}
-            if (name != '' && name != null)
-              {'fieldName': 'name', 'operator': '=', 'value': name},
+            if (name != '' && name != null) {'fieldName': 'name', 'operator': 'like', 'value': name},
 
-            if (countryId != 0 && countryId != null)
-              {'fieldName': 'country.id', 'operator': '=', 'value': countryId},
+            if (countryId != 0 && countryId != null) {'fieldName': 'country.id', 'operator': '=', 'value': countryId},
 
-            if (sportId != 0 && sportId != null)
-              {'fieldName': 'sport.id', 'operator': '=', 'value': sportId},
+            if (sportId != 0 && sportId != null) {'fieldName': 'sport.id', 'operator': '=', 'value': sportId},
 
             if (positionId != 0 && positionId != null)
-              {
-                'fieldName': 'position.id',
-                'operator': '=',
-                'value': positionId
-              },
-            if (hand != '' && hand != null)
-              {'fieldName': 'hand', 'operator': '=', 'value': hand},
-            if (leg != null && leg != '')
-              {'fieldName': 'leg', 'operator': '=', 'value': leg},
-            if (isBooked)
-              {'fieldName': 'availability', 'operator': '=', 'value': 'BOOKED'},
-            if (isConfirmed)
-              {
-                'fieldName': 'availability',
-                'operator': '=',
-                'value': 'CONFIRMED'
-              },
+              {'fieldName': 'position.id', 'operator': '=', 'value': positionId},
+            if (hand != '' && hand != null) {'fieldName': 'hand', 'operator': '=', 'value': hand},
+            if (leg != null && leg != '') {'fieldName': 'leg', 'operator': '=', 'value': leg},
+            if (isBooked) {'fieldName': 'availability', 'operator': '=', 'value': 'BOOKED'},
+            if (isConfirmed) {'fieldName': 'availability', 'operator': '=', 'value': 'CONFIRMED'},
 
-            if (isBooked || isConfirmed)
-              {
-                'fieldName': 'partners.partner.id',
-                'operator': '=',
-                'value': partnerId
-              }
+            if (isBooked || isConfirmed) {'fieldName': 'partners.partner.id', 'operator': '=', 'value': partnerId}
           ],
           'operator': 'and'
         },
@@ -171,14 +154,10 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
     @required int memberShipId,
     @required int memberShipVersion,
   }) {
-    return mawahebRequest(
-        method: METHOD.POST,
-        id: memberShipId,
-        modelName: 'Membership',
-        data: {
-          'data': {'version': memberShipVersion, 'status': 'CONFIRMED'},
-          'fields': ['partner', 'player', 'status', 'version']
-        });
+    return mawahebRequest(method: METHOD.POST, id: memberShipId, modelName: 'Membership', data: {
+      'data': {'version': memberShipVersion, 'status': 'CONFIRMED'},
+      'fields': ['partner', 'player', 'status', 'version']
+    });
   }
 
   @override
@@ -186,19 +165,14 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource
     @required int memberShipId,
     @required int memberShipVersion,
   }) {
-    return mawahebRequest(
-        method: METHOD.POST,
-        id: memberShipId,
-        modelName: 'Membership',
-        data: {
-          'data': {'version': memberShipVersion, 'status': 'RELEASED'},
-          'fields': ['partner', 'player', 'status', 'version']
-        });
+    return mawahebRequest(method: METHOD.POST, id: memberShipId, modelName: 'Membership', data: {
+      'data': {'version': memberShipVersion, 'status': 'RELEASED'},
+      'fields': ['partner', 'player', 'status', 'version']
+    });
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos(
-      {int playerId}) {
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({int playerId}) {
     return mawahebRequest(
         method: METHOD.POST,
         modelName: 'PartnerVideo',

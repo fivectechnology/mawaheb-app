@@ -10,59 +10,57 @@ import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 
 @LazySingleton(as: PlayersRepository)
 class PlayersRepositoryImpl extends PlayersRepository {
-  const PlayersRepositoryImpl(this.playersDataSource, this.prefsRepository)
-      : super(playersDataSource);
+  const PlayersRepositoryImpl(this.playersDataSource, this.prefsRepository) : super(playersDataSource);
   final PlayersDataSource playersDataSource;
   final PrefsRepository prefsRepository;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers(
-          {@required int countryId,
-          @required int sportId,
-          @required int positionId,
-          @required String hand,
-          @required String leg,
-          @required int partnerId,
-          @required bool isConfirmed,
-          @required bool isBooked,
-          @required String name}) =>
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
+    @required int offset,
+    @required int limit,
+    @required int countryId,
+    @required int sportId,
+    @required int positionId,
+    @required String hand,
+    @required String leg,
+    @required int partnerId,
+    @required bool isConfirmed,
+    @required bool isBooked,
+    @required String name,
+  }) =>
       playersDataSource.searchPlayers(
-          hand: hand,
-          leg: leg,
-          sportId: sportId,
-          countryId: countryId,
-          name: name,
-          positionId: positionId,
-          partnerId: partnerId,
-          isConfirmed: isConfirmed,
-          isBooked: isBooked);
+        offset: offset,
+        limit: limit,
+        hand: hand,
+        leg: leg,
+        sportId: sportId,
+        countryId: countryId,
+        name: name,
+        positionId: positionId,
+        partnerId: partnerId,
+        isConfirmed: isConfirmed,
+        isBooked: isBooked,
+      );
 
   @override
-  Future<NetworkResult<bool>> viewPlayerProfile({int id}) =>
-      playersDataSource.viewPlayerProfile(id: id);
+  Future<NetworkResult<bool>> viewPlayerProfile({int id}) => playersDataSource.viewPlayerProfile(id: id);
 
   @override
   Future<NetworkResult<bool>> bookPlayer({
     int playerId,
   }) =>
-      playersDataSource.bookPlayer(
-          playerId: playerId, partnerId: prefsRepository.player.id);
+      playersDataSource.bookPlayer(playerId: playerId, partnerId: prefsRepository.player.id);
 
   @override
-  Future<NetworkResult<bool>> confirmPlayer(
-          {int memberShipId, int memberShipVersion}) =>
-      playersDataSource.confirmPlayer(
-          memberShipId: memberShipId, memberShipVersion: memberShipVersion);
+  Future<NetworkResult<bool>> confirmPlayer({int memberShipId, int memberShipVersion}) =>
+      playersDataSource.confirmPlayer(memberShipId: memberShipId, memberShipVersion: memberShipVersion);
 
   @override
-  Future<NetworkResult<bool>> releasePlayer(
-          {int memberShipId, int memberShipVersion}) =>
-      playersDataSource.releasePlayer(
-          memberShipId: memberShipId, memberShipVersion: memberShipVersion);
+  Future<NetworkResult<bool>> releasePlayer({int memberShipId, int memberShipVersion}) =>
+      playersDataSource.releasePlayer(memberShipId: memberShipId, memberShipVersion: memberShipVersion);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos(
-          {int playerId}) =>
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({int playerId}) =>
       playersDataSource.fetchApprovedVideos(playerId: playerId);
 
   // @override

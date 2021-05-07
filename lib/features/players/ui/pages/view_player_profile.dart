@@ -6,6 +6,7 @@ import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_dialog.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
+import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/players/ui/pages/personal_info_page.dart';
 import 'package:mawaheb_app/features/players/ui/pages/video_player_page.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
@@ -19,8 +20,7 @@ class ViewPlayerProfile extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
-  static MaterialPageRoute pageRoute(PlayersViewmodel playersViewmodel) =>
-      MaterialPageRoute(
+  static MaterialPageRoute pageRoute(PlayersViewmodel playersViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: playersViewmodel,
           child: const ViewPlayerProfile(),
@@ -31,10 +31,11 @@ class ViewPlayerProfile extends StatefulWidget {
   _ViewPlayerProfileState createState() => _ViewPlayerProfileState();
 }
 
-class _ViewPlayerProfileState
-    extends ProviderMobxState<ViewPlayerProfile, PlayersViewmodel>
+class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, PlayersViewmodel>
     with TickerProviderStateMixin {
   TabController _tabController;
+
+  PlayerModel get player => viewmodel.player;
 
   @override
   void initState() {
@@ -46,8 +47,6 @@ class _ViewPlayerProfileState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    viewmodel.fetchPlayer(id: viewmodel.playerId);
   }
 
   @override
@@ -61,14 +60,12 @@ class _ViewPlayerProfileState
             : Column(
                 children: [
                   profileDetails(
-                      context: context,
-                      name: viewmodel.playerName,
-                      photo: viewmodel.player.photo,
-                      token: viewmodel.prefsRepository.token,
-                      // ignore: avoid_bool_literals_in_conditional_expressions
-                      isConfirmed: viewmodel.player.availability == 'CONFIRMED'
-                          ? true
-                          : false),
+                    context: context,
+                    name: player.name,
+                    photo: player.photo,
+                    token: viewmodel.prefsRepository.token,
+                    isConfirmed: viewmodel.player.availability == 'CONFIRMED',
+                  ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     height: context.fullHeight * 0.07,
@@ -103,8 +100,7 @@ class _ViewPlayerProfileState
                   ),
                   const SizedBox(height: 26),
                   Expanded(
-                    child:
-                        TabBarView(controller: _tabController, children: const [
+                    child: TabBarView(controller: _tabController, children: const [
                       PersonalInfoPage(),
                       VideoPlayerPage(),
                     ]),
@@ -128,15 +124,12 @@ class _ViewPlayerProfileState
                                 onPressed: () async {
                                   await mawahebShowConfirmDialog(
                                       context: context,
-                                      message: context
-                                          .translate('msg_confirm_player'),
+                                      message: context.translate('msg_confirm_player'),
                                       onConfirm: () {
                                         context.pop(context);
                                         viewmodel.confirmPlayer();
 
-                                        _confirmationBottomSheet(
-                                            context: context,
-                                            state: 'confirmed');
+                                        _confirmationBottomSheet(context: context, state: 'confirmed');
                                       });
                                 }),
                           if (viewmodel.player.availability == 'CONFIRMED')
@@ -147,14 +140,11 @@ class _ViewPlayerProfileState
                                 onPressed: () async {
                                   await mawahebShowConfirmDialog(
                                       context: context,
-                                      message: context
-                                          .translate('msg_release_player'),
+                                      message: context.translate('msg_release_player'),
                                       onConfirm: () {
                                         context.pop(context);
                                         viewmodel.releasePlayer();
-                                        _confirmationBottomSheet(
-                                            context: context,
-                                            state: 'released');
+                                        _confirmationBottomSheet(context: context, state: 'released');
                                       });
                                 }),
                           if (viewmodel.player.availability == 'RELEASED')
@@ -165,14 +155,11 @@ class _ViewPlayerProfileState
                                 onPressed: () async {
                                   await mawahebShowConfirmDialog(
                                       context: context,
-                                      message:
-                                          context.translate('msg_book_player'),
+                                      message: context.translate('msg_book_player'),
                                       onConfirm: () {
                                         context.pop(context);
-                                        viewmodel.bookPlayer(
-                                            playerId: viewmodel.player.id);
-                                        _confirmationBottomSheet(
-                                            context: context, state: 'booked');
+                                        viewmodel.bookPlayer(playerId: viewmodel.player.id);
+                                        _confirmationBottomSheet(context: context, state: 'booked');
                                       });
                                 }),
                         ],
@@ -201,15 +188,13 @@ class _ViewPlayerProfileState
                         color: Colors.white,
                         size: 40,
                       ),
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Color(0xFF00D28F)),
+                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF00D28F)),
                     ),
                     SizedBox(width: context.fullWidth * 0.04),
                     Expanded(
                       child: Text(
                         context.translate('msg_player_$state'),
-                        style: textTheme.headline2
-                            .copyWith(color: Colors.black, fontSize: 18),
+                        style: textTheme.headline2.copyWith(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
