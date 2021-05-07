@@ -164,12 +164,14 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                           itemCount: viewmodel.videos.length,
                           itemBuilder: (context, index) {
                             return videoRow(
-                                videoUid: viewmodel.videos[index].videoUid,
-                                videoVersion: viewmodel.videos[index].version,
-                                videoId: viewmodel.videos[index].id,
-                                videoShowId: viewmodel.videos[index].video.id,
-                                token: viewmodel.prefsRepository.token,
-                                status: viewmodel.videos[index].status);
+                              videoUid: viewmodel.videos[index].videoUid,
+                              videoVersion: viewmodel.videos[index].version,
+                              videoId: viewmodel.videos[index].id,
+                              videoShowId: viewmodel.videos[index].video.id,
+                              token: viewmodel.prefsRepository.token,
+                              status: viewmodel.videos[index].statusEn,
+                              tStatus: viewmodel.videos[index].status,
+                            );
                           }),
                     if (viewmodel.videos.isEmpty)
                       Center(
@@ -189,6 +191,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       String token,
       String videoUid,
       String status,
+      String tStatus,
       int videoVersion,
       int videoId}) {
     return Padding(
@@ -216,7 +219,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                 ),
               const SizedBox(width: 10),
               Text(
-                status,
+                tStatus,
                 style: textTheme.headline2.copyWith(
                     fontSize: 12,
                     color: Colors.grey,

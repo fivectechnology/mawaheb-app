@@ -183,7 +183,7 @@ class _EditPersonalPageState
                         },
                         items: viewmodel.countries
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
+                                  child: Text(em.name),
                                   value: em,
                                 ))
                             .toList(),

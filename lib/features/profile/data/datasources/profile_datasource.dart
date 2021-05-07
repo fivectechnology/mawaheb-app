@@ -125,7 +125,8 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'availability',
           'photo.fileUUID',
           'membership',
-          'language'
+          'language',
+          'fullNameAr'
         ]
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),

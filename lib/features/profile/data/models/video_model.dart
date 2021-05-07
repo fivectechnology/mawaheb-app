@@ -9,28 +9,36 @@ part 'video_model.g.dart';
 @JsonSerializable()
 class VideoModel extends VersionModel with EquatableMixin {
   const VideoModel({
-    @required this.status,
+    @required this.tStatus,
+    @required this.statusEn,
     @required this.video,
     @required this.videoUid,
     @required int id,
     @required int version,
   }) : super(id, version);
 
-  final String status;
   final SourceModel video;
 
   @JsonKey(name: 'video.fileUUID')
   final String videoUid;
 
+  @JsonKey(name: 'statusTitle')
+  final String tStatus;
+
+  @JsonKey(name: 'status')
+  final String statusEn;
+
   VideoModel copyWith({
-    String status,
+    String statusEn,
+    String tStatus,
     SourceModel video,
     int id,
     int version,
     String videoUid,
   }) {
     return VideoModel(
-      status: status ?? this.status,
+      statusEn: statusEn ?? this.statusEn,
+      tStatus: tStatus ?? this.tStatus,
       video: video ?? this.video,
       videoUid: videoUid ?? this.videoUid,
       id: id ?? this.id,
@@ -41,10 +49,13 @@ class VideoModel extends VersionModel with EquatableMixin {
   @override
   bool get stringify => true;
 
+  String get status => tStatus ?? statusEn;
+
   @override
   List<Object> get props {
     return [
-      status,
+      tStatus,
+      statusEn,
       video,
       videoUid,
       id,

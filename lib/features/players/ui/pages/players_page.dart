@@ -21,7 +21,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
 
   // static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -84,7 +85,12 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                           decoration: BoxDecoration(
                             border: Border.all(color: LIGHT_GREY, width: 0.5),
                             color: WHITE,
-                            boxShadow: const [BoxShadow(blurRadius: 6, offset: Offset(0, 3), color: LIGHT_GREY)],
+                            boxShadow: const [
+                              BoxShadow(
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                  color: LIGHT_GREY)
+                            ],
                           ),
                           child: Row(
                             children: [
@@ -96,11 +102,14 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                                         Icons.search,
                                         color: Colors.grey,
                                       ),
-                                      hintStyle: context.textTheme.bodyText1.copyWith(color: Colors.grey),
-                                      hintText: context.translate('lbl_search_name'),
+                                      hintStyle: context.textTheme.bodyText1
+                                          .copyWith(color: Colors.grey),
+                                      hintText:
+                                          context.translate('lbl_search_name'),
                                       fillColor: Colors.white,
                                       filled: true,
-                                      contentPadding: EdgeInsets.all(context.fullWidth * 0.03),
+                                      contentPadding: EdgeInsets.all(
+                                          context.fullWidth * 0.03),
                                       focusedBorder: InputBorder.none,
                                       enabledBorder: InputBorder.none),
                                 ),
@@ -135,17 +144,30 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: context.fullHeight * 0.01, horizontal: context.fullWidth * 0.05),
+                            vertical: context.fullHeight * 0.01,
+                            horizontal: context.fullWidth * 0.05),
                         child: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.start,
                           children: [
-                            if (viewmodel.sport != null) filterChip(context: context, text: viewmodel.sport.name),
-                            if (viewmodel.country != null) filterChip(context: context, text: viewmodel.country.name),
-                            if (viewmodel.position != null) filterChip(context: context, text: viewmodel.position.name),
+                            if (viewmodel.sport != null)
+                              filterChip(
+                                  context: context, text: viewmodel.sport.name),
+                            if (viewmodel.country != null)
+                              filterChip(
+                                  context: context,
+                                  text: viewmodel.country.name),
+                            if (viewmodel.position != null)
+                              filterChip(
+                                  context: context,
+                                  text: viewmodel.position.name),
                             if (viewmodel.hand != null)
-                              filterChip(context: context, text: viewmodel.hand.toLowerCase() + ' hand'),
+                              filterChip(
+                                  context: context,
+                                  text: viewmodel.hand.toLowerCase() + ' hand'),
                             if (viewmodel.leg != null)
-                              filterChip(context: context, text: viewmodel.leg.toLowerCase() + ' leg'),
+                              filterChip(
+                                  context: context,
+                                  text: viewmodel.leg.toLowerCase() + ' leg'),
                           ],
                         ),
                       ),
@@ -157,13 +179,17 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  viewmodel.playerName = viewmodel.players[index].name;
+                                  viewmodel.playerName =
+                                      viewmodel.players[index].name;
 
-                                  viewmodel.viewProfilePlayer(id: viewmodel.players[index].id);
+                                  viewmodel.viewProfilePlayer(
+                                      id: viewmodel.players[index].id);
 
-                                  viewmodel.playerId = viewmodel.players[index].id;
+                                  viewmodel.playerId =
+                                      viewmodel.players[index].id;
 
-                                  App.navKey.currentState.push(ViewPlayerProfile.pageRoute(viewmodel));
+                                  App.navKey.currentState.push(
+                                      ViewPlayerProfile.pageRoute(viewmodel));
                                 },
                                 child: userListTile(
                                     name: viewmodel.players[index].name,
@@ -173,8 +199,10 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                             }),
                       if (viewmodel.players == null)
                         Center(
-                            child: Text(context.translate('msg_no_match_players'),
-                                style: textTheme.headline2.copyWith(fontSize: 20)))
+                            child: Text(
+                                context.translate('msg_no_match_players'),
+                                style:
+                                    textTheme.headline2.copyWith(fontSize: 20)))
                     ],
                   ),
                 )
@@ -197,12 +225,14 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
         builder: (context) => Wrap(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(context.translate('lbl_filter'),
-                          style: context.textTheme.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+                          style: context.textTheme.headline2.copyWith(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
                       mawhaebDropDown(
                         hint: 'lbl_nationality',
                         context: context,
@@ -211,7 +241,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         },
                         items: viewmodel.countries
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
+                                  child: Text(em.name),
                                   value: em,
                                 ))
                             .toList(),
@@ -225,7 +255,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         },
                         items: viewmodel.sports
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
+                                  child: Text(em.name),
                                   value: em,
                                 ))
                             .toList(),
@@ -239,7 +269,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         },
                         items: viewmodel.positions
                             .map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
+                                  child: Text(em.name),
                                   value: em,
                                 ))
                             .toList(),
@@ -277,7 +307,8 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_confirmed_by_us'),
-                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                              style: textTheme.subtitle1.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
                           Observer(
                             builder: (_) {
                               return mawahebSwitchButton(
@@ -294,7 +325,8 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(context.translate('lbl_booked_by_us'),
-                              style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                              style: textTheme.subtitle1.copyWith(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
                           Observer(
                             builder: (_) {
                               return mawahebSwitchButton(

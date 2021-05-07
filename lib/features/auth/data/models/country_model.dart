@@ -9,24 +9,25 @@ part 'country_model.g.dart';
 class CountryModel extends VersionModel with EquatableMixin {
   const CountryModel({
     @required this.tName,
-    @required this.name,
+    @required this.nameEn,
     @required int id,
     @required int version,
   }) : super(id, version);
 
   @JsonKey(name: r'$t:name')
   final String tName;
-  final String name;
+  @JsonKey(name: 'name')
+  final String nameEn;
 
   CountryModel copyWith({
-    String name,
+    String nameEn,
     String tName,
     int id,
     int version,
   }) {
     return CountryModel(
       tName: tName ?? this.tName,
-      name: name ?? this.name,
+      nameEn: nameEn ?? this.nameEn,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -35,11 +36,13 @@ class CountryModel extends VersionModel with EquatableMixin {
   @override
   bool get stringify => true;
 
+  String get name => tName ?? nameEn;
+
   @override
   List<Object> get props {
     return [
       tName,
-      name,
+      nameEn,
       id,
       version,
     ];

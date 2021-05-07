@@ -8,7 +8,7 @@ part 'emirate_model.g.dart';
 @JsonSerializable()
 class EmirateModel extends VersionModel with EquatableMixin {
   const EmirateModel({
-    @required this.name,
+    @required this.nameEn,
     @required this.tName,
     @required int id,
     @required int version,
@@ -16,16 +16,17 @@ class EmirateModel extends VersionModel with EquatableMixin {
 
   @JsonKey(name: r'$t:name')
   final String tName;
-  final String name;
+  @JsonKey(name: 'name')
+  final String nameEn;
 
   EmirateModel copyWith({
-    String name,
+    String nameEn,
     String tName,
     int id,
     int version,
   }) {
     return EmirateModel(
-      name: name ?? this.name,
+      nameEn: nameEn ?? this.nameEn,
       tName: tName ?? this.tName,
       id: id ?? this.id,
       version: version ?? this.version,
@@ -35,10 +36,12 @@ class EmirateModel extends VersionModel with EquatableMixin {
   @override
   bool get stringify => true;
 
+  String get name => tName ?? nameEn;
+
   @override
   List<Object> get props {
     return [
-      name,
+      nameEn,
       tName,
       id,
       version,

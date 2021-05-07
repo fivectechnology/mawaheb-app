@@ -8,25 +8,26 @@ part 'category_model.g.dart';
 @JsonSerializable()
 class CategoryModel extends VersionModel with EquatableMixin {
   const CategoryModel({
-    @required this.title,
-    @required this.tName,
+    @required this.titleEn,
+    @required this.tTitle,
     @required int id,
     @required int version,
   }) : super(id, version);
 
-  @JsonKey(name: r'$t:name')
-  final String tName;
-  final String title;
+  @JsonKey(name: r'$t:title')
+  final String tTitle;
+  @JsonKey(name: 'title')
+  final String titleEn;
 
   CategoryModel copyWith({
-    String title,
-    String tName,
+    String titleEn,
+    String tTitle,
     int id,
     int version,
   }) {
     return CategoryModel(
-      title: title ?? this.title,
-      tName: tName ?? this.tName,
+      titleEn: titleEn ?? this.titleEn,
+      tTitle: tTitle ?? this.tTitle,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -35,11 +36,13 @@ class CategoryModel extends VersionModel with EquatableMixin {
   @override
   bool get stringify => true;
 
+  String get title => tTitle ?? titleEn;
+
   @override
   List<Object> get props {
     return [
-      title,
-      tName,
+      titleEn,
+      tTitle,
       id,
       version,
     ];
