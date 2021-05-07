@@ -11,16 +11,12 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mobx/mobx.dart';
-import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
-import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:core_sdk/utils/extensions/object.dart';
-import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:supercharged/supercharged.dart';
 
 part 'edit_sport_viewmodel.g.dart';
 

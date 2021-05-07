@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'category_model.g.dart';
 

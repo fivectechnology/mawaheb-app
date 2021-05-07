@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 
 part 'sport_position_model.g.dart';

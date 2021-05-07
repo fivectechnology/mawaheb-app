@@ -2,8 +2,7 @@ import 'package:core_sdk/utils/Fimber/logger_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/datasources/auth_datasource.dart';
-import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
-import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
+
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 
 import '../global_di.dart';
@@ -194,10 +193,6 @@ void main() {
         gender: 'MALE',
         name: 'testtt',
         dateOfBirth: '2020-02-02',
-        country:
-            const CountryModel(name: 'UAE', id: 1, version: 0, tName: 'tname'),
-        categoryModel: const CategoryModel(
-            tName: 'test', title: 'test', id: 1, version: 0),
       );
       expect(res.isSuccess, equals(true));
       expect(res.getOrThrow().status, equals(0));
