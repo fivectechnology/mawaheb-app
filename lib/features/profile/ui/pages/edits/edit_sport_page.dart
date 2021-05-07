@@ -31,6 +31,9 @@ class EditSportPage extends StatefulWidget {
         ),
       );
 
+  // static MaterialPageRoute<dynamic> get pageRoute =>
+  //     MaterialPageRoute<dynamic>(builder: (_) => const EditSportPage());
+
   static const String route = '/edit_sport_page';
 
   @override
@@ -70,9 +73,9 @@ class _EditSportPageState
     // weightController = TextEditingController(text: viewmodel.player.weight);
     // briefController = TextEditingController(text: viewmodel.player.brief);
 
-    // if (viewmodel?.positionFuture == null) {
-    //   viewmodel.getPositions();
-    // }
+    if (viewmodel?.positionFuture == null) {
+      viewmodel.getPositions(sportId: viewmodel.player.sport.id);
+    }
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
     }
@@ -103,7 +106,7 @@ class _EditSportPageState
                   child: ListView(
                     children: [
                       mawhaebDropDown(
-                        value: currentSport,
+                        value: currentSport ?? viewmodel.player.sport,
                         hint: context.translate('lbl_sport_name'),
                         context: context,
                         onChanged: (value) {
@@ -120,6 +123,9 @@ class _EditSportPageState
                       const SizedBox(height: 26),
                       if (viewmodel.positions != null)
                         mawhaebDropDown(
+                          value: currentSport == null
+                              ? viewmodel.player.position
+                              : null,
                           hint: context.translate('lbl_position'),
                           context: context,
                           onChanged: (value) {
@@ -132,19 +138,19 @@ class _EditSportPageState
                                   ))
                               .toList(),
                         ),
-                      if (viewmodel.positions == null)
-                        InkWell(
-                          onTap: () {
-                            viewmodel.showSnack(
-                                context.translate('msg_select_sport'),
-                                duration: const Duration(seconds: 3),
-                                scaffoldKey: EditSportPage.scaffoldKey);
-                          },
-                          child: mawhaebDropDown(
-                            hint: context.translate('lbl_position'),
-                            context: context,
-                          ),
-                        ),
+                      // if (viewmodel.positions == null)
+                      //   InkWell(
+                      //     onTap: () {
+                      //       viewmodel.showSnack(
+                      //           context.translate('msg_select_sport'),
+                      //           duration: const Duration(seconds: 3),
+                      //           scaffoldKey: EditSportPage.scaffoldKey);
+                      //     },
+                      //     child: mawhaebDropDown(
+                      //       hint: context.translate('lbl_position'),
+                      //       context: context,
+                      //     ),
+                      //   ),
                       const SizedBox(height: 26),
                       MawahebTextField(
                         keyboardType: TextInputType.number,
@@ -154,26 +160,27 @@ class _EditSportPageState
                           return weightValidator(
                               context: context, value: value);
                         },
-                        textEditingController: hightController,
+                        textEditingController: weightController,
                         context: context,
                       ),
                       const SizedBox(height: 26),
                       MawahebTextField(
                         keyboardType: TextInputType.number,
-
                         hintText: context.translate('lbl_hight'),
                         hintColor: Colors.grey,
                         context: context,
                         validator: (value) {
                           return heightValidator(
                               context: context, value: value);
-                        }, // onChanged: (value) {
+                        },
+                        // onChanged: (value) {
                         //   hightController.text = value;
                         // },
-                        textEditingController: weightController,
+                        textEditingController: hightController,
                       ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
+                          value: viewmodel.player.handEn,
                           hint: context.translate('lbl_prefer_hand'),
                           context: context,
                           items: ['RIGHT', 'LEFT', 'BOTH']
@@ -187,6 +194,7 @@ class _EditSportPageState
                           }),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
+                          value: viewmodel.player.legEn,
                           hint: context.translate('lbl_prefer_leg'),
                           context: context,
                           items: ['RIGHT', 'LEFT', 'BOTH']

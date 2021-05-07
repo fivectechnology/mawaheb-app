@@ -6,30 +6,28 @@ import 'package:mawaheb_app/base/data/models/version_model.dart';
 part 'country_model.g.dart';
 
 @JsonSerializable()
-class CountryModel extends VersionModel with EquatableMixin {
+class CountryModel with EquatableMixin {
   const CountryModel({
     @required this.tName,
     @required this.nameEn,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.id,
+  });
 
   @JsonKey(name: r'$t:name')
   final String tName;
   @JsonKey(name: 'name')
   final String nameEn;
+  final int id;
 
   CountryModel copyWith({
     String nameEn,
     String tName,
     int id,
-    int version,
   }) {
     return CountryModel(
       tName: tName ?? this.tName,
       nameEn: nameEn ?? this.nameEn,
       id: id ?? this.id,
-      version: version ?? this.version,
     );
   }
 
@@ -44,7 +42,6 @@ class CountryModel extends VersionModel with EquatableMixin {
       tName,
       nameEn,
       id,
-      version,
     ];
   }
 

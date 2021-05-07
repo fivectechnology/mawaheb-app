@@ -357,7 +357,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        // 'fields': ['id', 'version', 'name'],
+        'fields': ['id', 'name', r'$t:name'],
       },
       mapper: ListBaseResponseModel.fromJson(EmirateModel.fromJson),
     );
@@ -378,7 +378,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        // 'fields': ['id', 'version', 'name'],
+        'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson),
     );

@@ -176,6 +176,7 @@ class _EditPersonalPageState
                           context: context),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
+                        value: viewmodel.player.country,
                         hint: 'lbl_nationality',
                         context: context,
                         onChanged: (value) {
@@ -190,6 +191,7 @@ class _EditPersonalPageState
                       ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
+                        value: viewmodel.player.category,
                         hint: 'lbl_category',
                         context: context,
                         onChanged: (value) {

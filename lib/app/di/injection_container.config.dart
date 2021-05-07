@@ -23,6 +23,9 @@ import '../../features/auth/domain/repositories/auth_repositories.dart';
 import '../../features/auth/data/repositories/auth_repositories_impl.dart';
 import '../../features/auth/viewmodels/auth_viewmodel.dart';
 import '../../base/utils/download_helper.dart';
+import '../../features/profile/viewmodels/edit_address_viewmodel.dart';
+import '../../features/profile/viewmodels/edit_personal_viewmodel.dart';
+import '../../features/profile/viewmodels/edit_sport_viewmodel.dart';
 import '../../features/home/data/datasources/home_datasource.dart';
 import '../../features/home/domain/repositories/home_repository.dart';
 import '../../features/home/data/repositories/home_repository_impl.dart';
@@ -170,6 +173,24 @@ Future<GetIt> $inject(
         get<AuthRepository>(),
         get<PrefsRepository>(),
         get<ProfileRepository>(),
+      ));
+  gh.factory<EditAddressViewmodel>(() => EditAddressViewmodel(
+        get<Logger>(),
+        get<ProfileRepository>(),
+        get<PrefsRepository>(),
+        get<AuthRepository>(),
+      ));
+  gh.factory<EditPersonalViewmodel>(() => EditPersonalViewmodel(
+        get<Logger>(),
+        get<ProfileRepository>(),
+        get<PrefsRepository>(),
+        get<AuthRepository>(),
+      ));
+  gh.factory<EditSportViewmodel>(() => EditSportViewmodel(
+        get<Logger>(),
+        get<ProfileRepository>(),
+        get<PrefsRepository>(),
+        get<AuthRepository>(),
       ));
   gh.factory<PlayersViewmodel>(() => PlayersViewmodel(
         get<Logger>(),

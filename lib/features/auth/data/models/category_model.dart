@@ -6,30 +6,29 @@ import 'package:mawaheb_app/base/data/models/version_model.dart';
 part 'category_model.g.dart';
 
 @JsonSerializable()
-class CategoryModel extends VersionModel with EquatableMixin {
+class CategoryModel with EquatableMixin {
   const CategoryModel({
     @required this.titleEn,
     @required this.tTitle,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.id,
+  });
 
   @JsonKey(name: r'$t:title')
   final String tTitle;
   @JsonKey(name: 'title')
   final String titleEn;
 
+  final int id;
+
   CategoryModel copyWith({
     String titleEn,
     String tTitle,
     int id,
-    int version,
   }) {
     return CategoryModel(
       titleEn: titleEn ?? this.titleEn,
       tTitle: tTitle ?? this.tTitle,
       id: id ?? this.id,
-      version: version ?? this.version,
     );
   }
 
@@ -44,7 +43,6 @@ class CategoryModel extends VersionModel with EquatableMixin {
       titleEn,
       tTitle,
       id,
-      version,
     ];
   }
 

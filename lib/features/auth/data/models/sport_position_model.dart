@@ -7,14 +7,13 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 part 'sport_position_model.g.dart';
 
 @JsonSerializable()
-class SportPositionModel extends VersionModel with EquatableMixin {
+class SportPositionModel with EquatableMixin {
   const SportPositionModel({
     @required this.nameEn,
     @required this.tName,
     @required this.sport,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.id,
+  });
 
   @JsonKey(name: r'$t:name')
   final String tName;
@@ -22,20 +21,19 @@ class SportPositionModel extends VersionModel with EquatableMixin {
   final String nameEn;
 
   final SportModel sport;
+  final int id;
 
   SportPositionModel copyWith({
     String nameEn,
     String tName,
     SportModel sport,
     int id,
-    int version,
   }) {
     return SportPositionModel(
       nameEn: nameEn ?? this.nameEn,
       tName: tName ?? this.tName,
       sport: sport ?? this.sport,
       id: id ?? this.id,
-      version: version ?? this.version,
     );
   }
 
@@ -51,7 +49,6 @@ class SportPositionModel extends VersionModel with EquatableMixin {
       sport,
       tName,
       id,
-      version,
     ];
   }
 

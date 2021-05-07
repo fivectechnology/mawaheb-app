@@ -89,6 +89,7 @@ class _EditAddressPageState
                 child: Column(
                   children: [
                     mawhaebDropDown(
+                      value: viewmodel.player.emirate,
                       hint: 'lbl_emirate',
                       context: context,
                       onChanged: (value) {
