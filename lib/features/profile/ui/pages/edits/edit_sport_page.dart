@@ -61,12 +61,14 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
     }
 
     if (viewmodel?.positionFuture == null) {
-      viewmodel.getPositions(
-          sportId: viewmodel.prefsRepository.player.sport.id);
+      viewmodel.getPositions(sportId: widget.player.sport.id);
     }
     if (viewmodel?.sportFuture == null) {
       viewmodel.getSports();
     }
+
+    hand = widget.player.handEn;
+    leg = widget.player.legEn;
 
     hightController = TextEditingController(text: widget.player.height);
     weightController = TextEditingController(text: widget.player.weight);

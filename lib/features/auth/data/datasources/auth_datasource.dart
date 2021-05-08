@@ -37,7 +37,8 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions({@required int sportId});
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
+      {@required int sportId});
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
 
@@ -95,11 +96,13 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
     @required String email,
   });
 
-  Future<NetworkResult<bool>> resetPassword({@required String email, @required String password, @required int code});
+  Future<NetworkResult<bool>> resetPassword(
+      {@required String email, @required String password, @required int code});
 
   Future<int> getPlayerId({String token});
 
-  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>> getSubscription();
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
+      getSubscription();
 
   //sign up step 5.1
   Future<NetworkResult<bool>> subscriptionPlayer({
@@ -108,10 +111,11 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
   });
 
   //sign up step 5.2
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>> playerTransaction(
-      {@required int amount, @required int playerId});
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      playerTransaction({@required int amount, @required int playerId});
 
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>> getPlayerTransaction();
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      getPlayerTransaction();
 
   //sign up step 5.3
   Future<NetworkResult<bool>> confirmTransaction({
@@ -121,7 +125,8 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
 }
 
 @LazySingleton(as: AuthDataSource)
-class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSource {
+class AuthDataSourceImpl extends MawahebRemoteDataSource
+    implements AuthDataSource {
   AuthDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -359,7 +364,8 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions({@required int sportId}) {
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
+      {@required int sportId}) {
     return mawahebRequest(
       modelName: 'SportPosition',
       method: METHOD.POST,
@@ -367,11 +373,12 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       data: {
         'data': {
           'criteria': [
-            if (sportId != null) {'fieldName': 'sport.id', 'operator': '=', 'value': sportId}
+            if (sportId != null)
+              {'fieldName': 'sport.id', 'operator': '=', 'value': sportId}
           ],
           'operator': 'and'
         },
-        'fields': ['id', 'version', 'name'],
+        'fields': ['id', r'$t:name', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson),
     );
@@ -383,12 +390,14 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       endpoint: OTP_SEND_ENDPOINT,
       method: METHOD.POST,
       data: {'data': email},
-      mapper: BaseResponseModel.dataTypeMapper((json) => (json as Map<String, dynamic>)['message'] as String),
+      mapper: BaseResponseModel.dataTypeMapper(
+          (json) => (json as Map<String, dynamic>)['message'] as String),
     );
   }
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({String email, int code}) {
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
+      {String email, int code}) {
     return mawahebRequest(
       endpoint: OTP_VERIFY_ENDPOINT,
       method: METHOD.POST,
@@ -421,13 +430,15 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   Future<NetworkResult<bool>> forgetPassword({String email}) {
     return mawahebRequest(
         method: METHOD.POST,
-        endpoint: BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
+        endpoint:
+            BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
         data: {'data': email},
         mapper: BaseResponseModel.successMapper);
   }
 
   @override
-  Future<NetworkResult<bool>> resetPassword({String email, String password, int code}) {
+  Future<NetworkResult<bool>> resetPassword(
+      {String email, String password, int code}) {
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: BASE_PUBLIC_API + '/auth/password/forgot/update',
@@ -448,7 +459,8 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>> getSubscription() {
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
+      getSubscription() {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Subscription',
@@ -462,20 +474,25 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }
 
   @override
-  Future<NetworkResult<bool>> subscriptionPlayer({int playerId, int subscriptionId}) {
+  Future<NetworkResult<bool>> subscriptionPlayer(
+      {int playerId, int subscriptionId}) {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-    return mawahebRequest(method: METHOD.POST, modelName: 'PartnerSubscription', data: {
-      'data': {
-        'partner': {'id': playerId},
-        'subscription': {'id': subscriptionId},
-        'startedAt': formatter.format(DateTime.now()).toString()
-      }
-    });
+    return mawahebRequest(
+        method: METHOD.POST,
+        modelName: 'PartnerSubscription',
+        data: {
+          'data': {
+            'partner': {'id': playerId},
+            'subscription': {'id': subscriptionId},
+            'startedAt': formatter.format(DateTime.now()).toString()
+          }
+        });
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>> playerTransaction({int amount, int playerId}) {
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      playerTransaction({int amount, int playerId}) {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Transaction',
@@ -490,7 +507,8 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>> getPlayerTransaction() {
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
+      getPlayerTransaction() {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Transaction',
@@ -510,7 +528,8 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
   }
 
   @override
-  Future<NetworkResult<bool>> confirmTransaction({int transactionId, int transactionVersion}) {
+  Future<NetworkResult<bool>> confirmTransaction(
+      {int transactionId, int transactionVersion}) {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Transaction',
