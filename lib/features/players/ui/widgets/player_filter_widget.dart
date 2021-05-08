@@ -8,6 +8,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 import 'package:mawaheb_app/features/players/data/models/player_filter_model.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:mawaheb_app/features/settings/ui/widgets/switch_button.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class PlayerFilterWidget extends StatefulWidget {
   const PlayerFilterWidget({
@@ -64,46 +65,60 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
             children: [
               Text(
                 context.translate('lbl_filter'),
-                style: context.textTheme.headline2
-                    .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                style: context.textTheme.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              mawhaebDropDown(
-                hint: 'lbl_nationality',
-                value: filter?.country,
-                context: context,
-                onChanged: (value) => changePlayerFilter(country: value),
-                items: widget.viewmodel.countries
-                    .map((em) => DropdownMenuItem(
-                          child: Text(em.tName ?? em.name),
-                          value: em,
-                        ))
-                    .toList(),
-              ),
-              const SizedBox(height: 26),
-              mawhaebDropDown(
-                hint: context.translate('lbl_sport_name'),
-                context: context,
-                value: filter?.sport,
-                onChanged: (value) => changePlayerFilter(sport: value),
-                items: widget.viewmodel.sports
-                    .map((em) => DropdownMenuItem(
-                          child: Text(em.tName ?? em.name),
-                          value: em,
-                        ))
-                    .toList(),
+              Observer(
+                builder: (_) {
+                  return mawhaebDropDown(
+                    hint: 'lbl_nationality',
+                    value: filter?.country,
+                    context: context,
+                    onChanged: (value) => changePlayerFilter(country: value),
+                    items: widget?.viewmodel?.countries
+                            ?.map((em) => DropdownMenuItem(
+                                  child: Text(em.tName ?? em.name),
+                                  value: em,
+                                ))
+                            ?.toList() ??
+                        <DropdownMenuItem<CountryModel>>[],
+                  );
+                },
               ),
               const SizedBox(height: 26),
-              mawhaebDropDown(
-                hint: context.translate('lbl_position'),
-                context: context,
-                value: filter?.position,
-                onChanged: (value) => changePlayerFilter(position: value),
-                items: widget.viewmodel.positions
-                    .map((em) => DropdownMenuItem(
-                          child: Text(em.tName ?? em.name),
-                          value: em,
-                        ))
-                    .toList(),
+              Observer(
+                builder: (_) {
+                  return mawhaebDropDown(
+                    hint: context.translate('lbl_sport_name'),
+                    context: context,
+                    value: filter?.sport,
+                    onChanged: (value) => changePlayerFilter(sport: value),
+                    items: widget.viewmodel?.sports
+                            ?.map((em) => DropdownMenuItem(
+                                  child: Text(em.tName ?? em.name),
+                                  value: em,
+                                ))
+                            ?.toList() ??
+                        <DropdownMenuItem<SportModel>>[],
+                  );
+                },
+              ),
+              const SizedBox(height: 26),
+              Observer(
+                builder: (_) {
+                  return mawhaebDropDown(
+                    hint: context.translate('lbl_position'),
+                    context: context,
+                    value: filter?.position,
+                    onChanged: (value) => changePlayerFilter(position: value),
+                    items: widget.viewmodel?.positions
+                            ?.map((em) => DropdownMenuItem(
+                                  child: Text(em.tName ?? em.name),
+                                  value: em,
+                                ))
+                            ?.toList() ??
+                        <DropdownMenuItem<SportPositionModel>>[],
+                  );
+                },
               ),
               const SizedBox(height: 26),
               mawhaebDropDown(
@@ -147,8 +162,7 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                 children: [
                   Text(
                     context.translate('lbl_confirmed_by_us'),
-                    style: textTheme.subtitle1
-                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   mawahebSwitchButton(
                     isSelected: filter.isConfirmed,
@@ -164,8 +178,7 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(context.translate('lbl_booked_by_us'),
-                      style: textTheme.subtitle1
-                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                      style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                   mawahebSwitchButton(
                     isSelected: filter.isBooked,
                     onChanged: (value) {
@@ -185,8 +198,7 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                 text: 'lbl_filter',
                 onPressed: () {
                   widget.viewmodel.filter = filter;
-                  widget.viewmodel
-                      .searchPlayers(fresh: true, query: widget.query);
+                  widget.viewmodel.searchPlayers(fresh: true, query: widget.query);
                   context.pop();
                 },
               )
