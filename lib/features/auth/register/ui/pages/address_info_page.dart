@@ -70,7 +70,7 @@ class _AddressInfoPageState
                   },
                   items: viewmodel.emirates
                       .map((em) => DropdownMenuItem(
-                            child: Text(em.tName ?? em.name),
+                            child: Text(em.name),
                             value: em,
                           ))
                       .toList(),

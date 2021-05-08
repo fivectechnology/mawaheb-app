@@ -1,47 +1,46 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'country_model.g.dart';
 
 @JsonSerializable()
-class CountryModel extends VersionModel with EquatableMixin {
+class CountryModel with EquatableMixin {
   const CountryModel({
     @required this.tName,
-    @required this.name,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.nameEn,
+    @required this.id,
+  });
 
   @JsonKey(name: r'$t:name')
   final String tName;
-  final String name;
+  @JsonKey(name: 'name')
+  final String nameEn;
+  final int id;
 
   CountryModel copyWith({
-    String name,
+    String nameEn,
     String tName,
     int id,
-    int version,
   }) {
     return CountryModel(
       tName: tName ?? this.tName,
-      name: name ?? this.name,
+      nameEn: nameEn ?? this.nameEn,
       id: id ?? this.id,
-      version: version ?? this.version,
     );
   }
 
   @override
   bool get stringify => true;
 
+  String get name => tName ?? nameEn;
+
   @override
   List<Object> get props {
     return [
       tName,
-      name,
+      nameEn,
       id,
-      version,
     ];
   }
 

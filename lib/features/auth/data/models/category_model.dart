@@ -1,47 +1,47 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'category_model.g.dart';
 
 @JsonSerializable()
-class CategoryModel extends VersionModel with EquatableMixin {
+class CategoryModel with EquatableMixin {
   const CategoryModel({
-    @required this.title,
-    @required this.tName,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.titleEn,
+    @required this.tTitle,
+    @required this.id,
+  });
 
-  @JsonKey(name: r'$t:name')
-  final String tName;
-  final String title;
+  @JsonKey(name: r'$t:title')
+  final String tTitle;
+  @JsonKey(name: 'title')
+  final String titleEn;
+
+  final int id;
 
   CategoryModel copyWith({
-    String title,
-    String tName,
+    String titleEn,
+    String tTitle,
     int id,
-    int version,
   }) {
     return CategoryModel(
-      title: title ?? this.title,
-      tName: tName ?? this.tName,
+      titleEn: titleEn ?? this.titleEn,
+      tTitle: tTitle ?? this.tTitle,
       id: id ?? this.id,
-      version: version ?? this.version,
     );
   }
 
   @override
   bool get stringify => true;
 
+  String get title => tTitle ?? titleEn;
+
   @override
   List<Object> get props {
     return [
-      title,
-      tName,
+      titleEn,
+      tTitle,
       id,
-      version,
     ];
   }
 

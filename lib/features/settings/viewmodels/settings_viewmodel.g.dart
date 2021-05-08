@@ -182,8 +182,34 @@ mixin _$SettingsViewmodel on _SettingsViewmodelBase, Store {
     });
   }
 
+  final _$updateLangAtom = Atom(name: '_SettingsViewmodelBase.updateLang');
+
+  @override
+  ObservableFuture<bool> get updateLang {
+    _$updateLangAtom.reportRead();
+    return super.updateLang;
+  }
+
+  @override
+  set updateLang(ObservableFuture<bool> value) {
+    _$updateLangAtom.reportWrite(value, super.updateLang, () {
+      super.updateLang = value;
+    });
+  }
+
   final _$_SettingsViewmodelBaseActionController =
       ActionController(name: '_SettingsViewmodelBase');
+
+  @override
+  void updateUserLanguage({String lang}) {
+    final _$actionInfo = _$_SettingsViewmodelBaseActionController.startAction(
+        name: '_SettingsViewmodelBase.updateUserLanguage');
+    try {
+      return super.updateUserLanguage(lang: lang);
+    } finally {
+      _$_SettingsViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void logout() {
@@ -239,6 +265,7 @@ changePasswordFuture: ${changePasswordFuture},
 playerEmailFuture: ${playerEmailFuture},
 verifyOTPFuture: ${verifyOTPFuture},
 validateEmailFuture: ${validateEmailFuture},
+updateLang: ${updateLang},
 logoutLoading: ${logoutLoading},
 otpLoading: ${otpLoading},
 otpError: ${otpError},

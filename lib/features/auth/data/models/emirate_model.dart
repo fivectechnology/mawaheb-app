@@ -1,47 +1,47 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'emirate_model.g.dart';
 
 @JsonSerializable()
-class EmirateModel extends VersionModel with EquatableMixin {
+class EmirateModel with EquatableMixin {
   const EmirateModel({
-    @required this.name,
+    @required this.nameEn,
     @required this.tName,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.id,
+  });
 
   @JsonKey(name: r'$t:name')
   final String tName;
-  final String name;
+  @JsonKey(name: 'name')
+  final String nameEn;
+
+  final int id;
 
   EmirateModel copyWith({
-    String name,
+    String nameEn,
     String tName,
     int id,
-    int version,
   }) {
     return EmirateModel(
-      name: name ?? this.name,
+      nameEn: nameEn ?? this.nameEn,
       tName: tName ?? this.tName,
       id: id ?? this.id,
-      version: version ?? this.version,
     );
   }
 
   @override
   bool get stringify => true;
 
+  String get name => tName ?? nameEn;
+
   @override
   List<Object> get props {
     return [
-      name,
+      nameEn,
       tName,
       id,
-      version,
     ];
   }
 

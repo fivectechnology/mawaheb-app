@@ -25,4 +25,8 @@ class SettingsRepositoryImpl extends SettingsRepository {
   @override
   Future<NetworkResult<bool>> changePassword({String currentPassword, String newPassword, int id}) =>
       settingsDataSource.changePassword(currentPassword: currentPassword, newPassword: newPassword, id: id);
+
+  @override
+  Future<NetworkResult<bool>> updateLanguage({int id, String language}) =>
+      settingsDataSource.updateLanguage(id: id, language: language);
 }

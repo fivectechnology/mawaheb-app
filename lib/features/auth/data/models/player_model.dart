@@ -19,15 +19,19 @@ class PlayerModel extends VersionModel with EquatableMixin {
   const PlayerModel({
     @required this.code,
     @required this.name,
+    @required this.tName,
     @required this.email,
     @required this.language,
     @required this.type,
-    @required this.leg,
-    @required this.hand,
+    @required this.legEn,
+    @required this.tLeg,
+    @required this.handEn,
+    @required this.tHand,
     @required this.brief,
     @required this.height,
     @required this.weight,
-    @required this.gender,
+    @required this.genderEn,
+    @required this.tGender,
     @required this.address,
     @required this.dateOfBirth,
     @required this.phone,
@@ -44,23 +48,39 @@ class PlayerModel extends VersionModel with EquatableMixin {
     @required this.photo,
     @required this.membership,
     @required this.subscription,
-    @required this.fullNameAr,
     @required this.photoId,
     @required int id,
     @required int version,
   }) : super(id, version);
 
+  @JsonKey(name: 'fullNameAr')
+  final String tName;
+  @JsonKey(name: 'name')
   final String name;
+
+  @JsonKey(name: 'legTitle')
+  final String tLeg;
+  @JsonKey(name: 'leg')
+  final String legEn;
+
+  @JsonKey(name: 'handTitle')
+  final String tHand;
+  @JsonKey(name: 'hand')
+  final String handEn;
+
+  @JsonKey(name: 'genderTitle')
+  final String tGender;
+  @JsonKey(name: 'gender')
+  final String genderEn;
+
   final String email;
   final String code;
   final String language;
   final String type;
-  final String leg;
-  final String hand;
+
   final String brief;
   final String height;
   final String weight;
-  final String gender;
   final String address;
   final String dateOfBirth;
   final String phone;
@@ -77,7 +97,6 @@ class PlayerModel extends VersionModel with EquatableMixin {
   final SourceModel photo;
   final PartnerMemberModel membership;
   final SubscriptionModel subscription;
-  final String fullNameAr;
   @JsonKey(name: 'photo.fileUUID')
   final String photoId;
 
@@ -85,17 +104,19 @@ class PlayerModel extends VersionModel with EquatableMixin {
       {String code,
       String name,
       String email,
-      String languag,
+      String language,
       String type,
-      String leg,
-      String hand,
+      String legEn,
+      String tLeg,
+      String handEn,
+      String tHand,
       String brief,
       int height,
       int weight,
-      String gender,
+      String tGender,
+      String genderEn,
       String address,
       String dateOfBirth,
-      String language,
       String phone,
       String area,
       int id,
@@ -111,22 +132,26 @@ class PlayerModel extends VersionModel with EquatableMixin {
       SourceModel photo,
       PartnerMemberModel membership,
       SubscriptionModel subscription,
-      String fullNameAr,
+      String tName,
       String photoId,
       List<VideoModel> videos}) {
     return PlayerModel(
       code: code ?? this.code,
       photoId: photoId ?? this.photoId,
       name: name ?? this.name,
+      tName: tName ?? this.tName,
       email: email ?? this.email,
       language: language ?? this.language,
       type: type ?? this.type,
-      leg: leg ?? this.leg,
-      hand: hand ?? this.hand,
+      tLeg: tLeg ?? this.tLeg,
+      tHand: tHand ?? this.tHand,
+      legEn: legEn ?? this.legEn,
+      handEn: handEn ?? this.handEn,
       brief: brief ?? this.brief,
       height: height ?? this.height,
       weight: weight ?? this.weight,
-      gender: gender ?? this.gender,
+      genderEn: genderEn ?? this.genderEn,
+      tGender: tGender ?? this.tGender,
       address: address ?? this.address,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       phone: phone ?? this.phone,
@@ -143,7 +168,6 @@ class PlayerModel extends VersionModel with EquatableMixin {
       videos: videos ?? this.videos,
       membership: membership ?? this.membership,
       subscription: subscription ?? this.subscription,
-      fullNameAr: fullNameAr ?? this.fullNameAr,
       id: id ?? this.id,
       version: version ?? this.version,
     );
@@ -152,20 +176,32 @@ class PlayerModel extends VersionModel with EquatableMixin {
   @override
   bool get stringify => true;
 
+  // String get name => tName ?? nameEn;
+
+  String get leg => tLeg ?? legEn;
+
+  String get hand => tHand ?? handEn;
+
+  String get gender => tGender ?? genderEn;
+
   @override
   List<Object> get props {
     return [
       code,
       name,
+      tName,
       email,
       language,
       type,
-      leg,
-      hand,
+      tHand,
+      tLeg,
+      handEn,
+      legEn,
       brief,
       height,
       weight,
-      gender,
+      genderEn,
+      tGender,
       address,
       dateOfBirth,
       id,
@@ -182,7 +218,6 @@ class PlayerModel extends VersionModel with EquatableMixin {
       photo,
       membership,
       subscription,
-      fullNameAr,
       photoId,
     ];
   }
@@ -195,6 +230,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
   }) =>
       PlayerModel(
           name: null,
+          tName: null,
           email: email,
           password: password,
           code: null,
@@ -203,12 +239,15 @@ class PlayerModel extends VersionModel with EquatableMixin {
           language: null,
           type: null,
           photo: null,
-          leg: null,
-          hand: null,
+          tLeg: null,
+          tHand: null,
+          handEn: null,
+          legEn: null,
           brief: null,
           height: null,
           weight: null,
-          gender: null,
+          tGender: null,
+          genderEn: null,
           address: null,
           dateOfBirth: null,
           phone: null,
@@ -223,7 +262,6 @@ class PlayerModel extends VersionModel with EquatableMixin {
           status: null,
           subscription: null,
           videos: null,
-          fullNameAr: null,
           availability: null);
 
   static PlayerModel loggedPlayerId({
@@ -232,6 +270,7 @@ class PlayerModel extends VersionModel with EquatableMixin {
       PlayerModel(
           id: id,
           name: null,
+          tName: null,
           email: null,
           photoId: null,
           password: null,
@@ -239,12 +278,15 @@ class PlayerModel extends VersionModel with EquatableMixin {
           code: null,
           language: null,
           type: null,
-          leg: null,
-          hand: null,
+          tLeg: null,
+          tHand: null,
+          handEn: null,
+          legEn: null,
           brief: null,
           height: null,
           weight: null,
-          gender: null,
+          tGender: null,
+          genderEn: null,
           address: null,
           dateOfBirth: null,
           phone: null,
@@ -258,7 +300,6 @@ class PlayerModel extends VersionModel with EquatableMixin {
           emirate: null,
           status: null,
           videos: null,
-          fullNameAr: null,
           subscription: null,
           availability: null);
 

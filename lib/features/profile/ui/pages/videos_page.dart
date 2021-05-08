@@ -1,19 +1,16 @@
 import 'dart:io';
-import 'package:chewie/chewie.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
-import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_video_widget.dart';
 import 'package:mawaheb_app/base/widgets/uploading_video_loader.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
-import 'package:video_player/video_player.dart';
 
 class VideosPage extends StatefulWidget {
   const VideosPage({Key key}) : super(key: key);
@@ -129,25 +126,22 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: VideosPage.scaffoldKey,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 48),
-        child: FloatingActionButton(
-          onPressed: () {
-            if (viewmodel.videos.length == 3) {
-              _selectVideoBottomSheet(
-                context: context,
-              );
-            } else {
-              _optionPickerBottomSheet(context: context);
-              // getVideo(deleteVideo: true);
-            }
-          },
-          backgroundColor: YELLOW,
-          child: const Icon(
-            Icons.add,
-            color: Colors.black87,
-            size: 36,
-          ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (viewmodel.videos.length == 3) {
+            _selectVideoBottomSheet(
+              context: context,
+            );
+          } else {
+            _optionPickerBottomSheet(context: context);
+            // getVideo(deleteVideo: true);
+          }
+        },
+        backgroundColor: YELLOW,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black87,
+          size: 36,
         ),
       ),
       backgroundColor: Colors.white,
@@ -163,13 +157,21 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                           shrinkWrap: true,
                           itemCount: viewmodel.videos.length,
                           itemBuilder: (context, index) {
-                            return videoRow(
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: viewmodel.videos.length == index + 1
+                                      ? 45
+                                      : 1),
+                              child: videoRow(
                                 videoUid: viewmodel.videos[index].videoUid,
                                 videoVersion: viewmodel.videos[index].version,
                                 videoId: viewmodel.videos[index].id,
                                 videoShowId: viewmodel.videos[index].video.id,
                                 token: viewmodel.prefsRepository.token,
-                                status: viewmodel.videos[index].status);
+                                status: viewmodel.videos[index].statusEn,
+                                tStatus: viewmodel.videos[index].status,
+                              ),
+                            );
                           }),
                     if (viewmodel.videos.isEmpty)
                       Center(
@@ -189,6 +191,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       String token,
       String videoUid,
       String status,
+      String tStatus,
       int videoVersion,
       int videoId}) {
     return Padding(
@@ -216,7 +219,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                 ),
               const SizedBox(width: 10),
               Text(
-                status,
+                tStatus,
                 style: textTheme.headline2.copyWith(
                     fontSize: 12,
                     color: Colors.grey,
@@ -234,16 +237,10 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     ),
                     child: VideoPlayerWidget(
                       videoUid: videoUid,
-                    )
-
-                    // Chewie(
-                    //   controller: _chewieController,
-                    // ),
-
-                    ),
+                    )),
               ),
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(top: 16),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
@@ -266,21 +263,6 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                   ),
                 ),
               ),
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: IconButton(
-              //     onPressed: () {
-              //       setState(() {
-              //         _controller.value.isPlaying
-              //             ? _controller.pause()
-              //             : _controller.play();
-              //       });
-              //     },
-              //     icon: Icon(_controller.value.isPlaying
-              //         ? Icons.play_circle_fill
-              //         : Icons.pause_circle_filled),
-              //   ),
-              // )
             ],
           ),
         ],

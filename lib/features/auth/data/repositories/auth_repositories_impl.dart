@@ -58,6 +58,8 @@ class AuthRepositoryImpl extends AuthRepository {
               .then((res) => getPlayerId(token: _prefsRepository.token))
               .then((res) => _profileRepository.fetchPlayer(id: res))
               .whenSuccessWrapped((res) async {
+              await _prefsRepository
+                  .setApplicationLanguage(res.data.first.language);
               await _appRepository.modifyDevice(true);
               await _prefsRepository.setPlayer(res.data.first);
               return res.data.first;

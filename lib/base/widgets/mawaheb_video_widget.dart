@@ -22,6 +22,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _controller = VideoPlayerController.network(
       '$BASE_API/ws/public/metaFiles/${widget.videoUid}/view',
     );
+
     _chewieController = ChewieController(
       allowedScreenSleep: false,
       allowFullScreen: true,
@@ -32,6 +33,13 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       showControls: true,
       showControlsOnInitialize: false,
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+    _chewieController.dispose();
   }
 
   @override

@@ -11,31 +11,34 @@ import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
+import 'package:mawaheb_app/features/profile/viewmodels/edit_address_viewmodel.dart';
+import 'package:mawaheb_app/features/profile/viewmodels/edit_personal_viewmodel.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class EditAddressPage extends StatefulWidget {
-  const EditAddressPage({
-    Key key,
-  }) : super(key: key);
+  const EditAddressPage({Key key, this.player}) : super(key: key);
 
-  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
-      MaterialPageRoute(
-        builder: (context) => Provider.value(
-          value: profileViewmodel,
-          child: const EditAddressPage(),
-        ),
-      );
+  // static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
+  //     MaterialPageRoute(
+  //       builder: (context) => Provider.value(
+  //         value: profileViewmodel,
+  //         child: const EditAddressPage(),
+  //       ),
+  //     );
 
-  static const String route = '/edit_address_info';
+  final PlayerModel player;
+  // static MaterialPageRoute<dynamic> get pageRoute =>
+  //     MaterialPageRoute<dynamic>(builder: (_) => const EditAddressPage());
 
   @override
   _EditAddressPageState createState() => _EditAddressPageState();
 }
 
 class _EditAddressPageState
-    extends ProviderMobxState<EditAddressPage, ProfileViewmodel> {
+    extends MobxState<EditAddressPage, EditAddressViewmodel> {
   TextEditingController stateController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -45,6 +48,18 @@ class _EditAddressPageState
   @override
   void initState() {
     super.initState();
+    if (viewmodel?.player == null) {
+      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player.id);
+    }
+
+    if (viewmodel?.emirates == null) {
+      viewmodel.getEmirates();
+    }
+    stateController = TextEditingController(text: widget.player.area);
+    addressController = TextEditingController(text: widget.player.address);
+
+    // stateController.text = viewmodel.player.status;
+    // stateController.text = viewmodel.player.status;
   }
 
   @override
@@ -57,10 +72,7 @@ class _EditAddressPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.emirates == null) {
-      viewmodel.getEmirates();
-    }
-    // stateController = TextEditingController(text: viewmodel.player.area);
+
     // addressController = TextEditingController(text: viewmodel.player.address);
   }
 
@@ -74,8 +86,7 @@ class _EditAddressPageState
           title: 'lbl_address',
           withTitle: true,
           onBackButton: () {
-            App.navKey.currentState.context
-                .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+            context.navigator.pop();
           }),
       body: MawahebFutureBuilder<List<EmirateModel>>(
           future: viewmodel.emirateFuture,
@@ -89,6 +100,7 @@ class _EditAddressPageState
                 child: Column(
                   children: [
                     mawhaebDropDown(
+                      value: widget.player.emirate,
                       hint: 'lbl_emirate',
                       context: context,
                       onChanged: (value) {
@@ -96,7 +108,7 @@ class _EditAddressPageState
                       },
                       items: viewmodel.emirates
                           .map((em) => DropdownMenuItem(
-                                child: Text(em.tName ?? em.name),
+                                child: Text(em.name),
                                 value: em,
                               ))
                           .toList(),
@@ -107,7 +119,8 @@ class _EditAddressPageState
                       hintColor: Colors.grey,
                       validator: (value) {
                         return stateValidator(context: context, value: value);
-                      }, // onChanged: (value) {
+                      },
+                      // onChanged: (value) {
                       //   stateController.text = value;
                       // },
                       textEditingController: stateController,

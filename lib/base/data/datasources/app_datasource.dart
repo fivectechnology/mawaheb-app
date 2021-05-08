@@ -16,7 +16,8 @@ import 'mawaheb_datasource.dart';
 abstract class AppDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<int>>> getNotificationsCount();
 
-  Future<NetworkResult<BaseResponseModel<Object>>> deleteDevice({String firebaseToken});
+  Future<NetworkResult<BaseResponseModel<Object>>> deleteDevice(
+      {String firebaseToken});
 
   Future<NetworkResult<VersionResponse>> registerDevice({
     String firebaseToken,
@@ -34,7 +35,8 @@ abstract class AppDataSource extends BaseRemoteDataSource {
 }
 
 @LazySingleton(as: AppDataSource)
-class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource {
+class AppDataSourceImpl extends MawahebRemoteDataSource
+    implements AppDataSource {
   AppDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -48,7 +50,8 @@ class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource
         );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<int>>> getNotificationsCount() => mawahebRequest(
+  Future<NetworkResult<ListBaseResponseModel<int>>> getNotificationsCount() =>
+      mawahebRequest(
           method: METHOD.POST,
           modelName: 'NotificationMessage',
           mapper: ListBaseResponseModel.fromJson((obj) => obj as int),
@@ -87,7 +90,9 @@ class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource
       );
 
   @override
-  Future<NetworkResult<BaseResponseModel<Object>>> deleteDevice({String firebaseToken}) => mawahebRequest(
+  Future<NetworkResult<BaseResponseModel<Object>>> deleteDevice(
+          {String firebaseToken}) =>
+      mawahebRequest(
         method: METHOD.POST,
         modelName: 'NotificationDevice',
         mapper: BaseResponseModel.fromJson((obj) => obj),
@@ -114,7 +119,8 @@ class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource
   }
 
   @override
-  Future<NetworkResult<VersionResponse>> getDevice({String fbToken}) => mawahebRequest(
+  Future<NetworkResult<VersionResponse>> getDevice({String fbToken}) =>
+      mawahebRequest(
         method: METHOD.POST,
         modelName: 'NotificationDevice',
         id: fbToken == null ? prefsRepository.fbId : null,

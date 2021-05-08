@@ -1,35 +1,33 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mawaheb_app/base/data/models/version_model.dart';
 
 part 'sport_model.g.dart';
 
 @JsonSerializable()
-class SportModel extends VersionModel with EquatableMixin {
+class SportModel with EquatableMixin {
   const SportModel({
     @required this.name2,
     @required this.tName,
-    @required int id,
-    @required int version,
-  }) : super(id, version);
+    @required this.id,
+  });
 
   @JsonKey(name: r'$t:name')
   final String tName;
   @JsonKey(name: 'name')
   final String name2;
 
+  final int id;
+
   SportModel copyWith({
     String name2,
     String tName,
     int id,
-    int version,
   }) {
     return SportModel(
       name2: name2 ?? this.name2,
       tName: tName ?? this.tName,
       id: id ?? this.id,
-      version: version ?? this.version,
     );
   }
 
@@ -44,7 +42,6 @@ class SportModel extends VersionModel with EquatableMixin {
       name,
       tName,
       id,
-      version,
     ];
   }
 

@@ -202,7 +202,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
     @required String dateOfBirth,
     @required String gender,
     @required String phone,
-  }) {
+  }) async {
     return mawahebRequest(
       method: METHOD.POST,
       withAuth: true,
@@ -212,7 +212,14 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       data: {
         'data': {
           'name': name,
-          'version': version,
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
           'dateOfBirth': dateOfBirth,
           'gender': gender,
           'phone': phone,
@@ -231,7 +238,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
     @required EmirateModel emirateModel,
     @required String area,
     @required String address,
-  }) {
+  }) async {
     return mawahebRequest(
       method: METHOD.POST,
       mawahebModel: false,
@@ -240,7 +247,14 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       withAuth: true,
       data: {
         'data': {
-          'version': version,
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
           'emirate': {'id': emirateModel.id},
           'area': area,
           'address': address,
@@ -261,7 +275,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
     @required String brief,
     @required SportModel sport,
     @required SportPositionModel sportPositionModel,
-  }) {
+  }) async {
     return mawahebRequest(
       method: METHOD.POST,
       withAuth: true,
@@ -270,7 +284,14 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       id: id,
       data: {
         'data': {
-          'version': version,
+          'version': (await getVersion(
+            modelId: id,
+            modelName: 'auth.db.User',
+            mawahebModel: false,
+            asList: true,
+          ))
+              .getOrThrow()
+              .version,
           'sport': {'id': sport.id},
           'position': {'id': sportPositionModel.id},
           'weight': weight,
@@ -331,7 +352,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
       method: METHOD.POST,
       action: EndPointAction.search,
       data: {
-        // 'fields': ['id', 'version', 'name'],
+        'fields': ['id', 'name', r'$t:name'],
       },
       mapper: ListBaseResponseModel.fromJson(EmirateModel.fromJson),
     );
@@ -350,7 +371,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
           ],
           'operator': 'and'
         },
-        // 'fields': ['id', 'version', 'name'],
+        'fields': ['id', 'version', 'name'],
       },
       mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson),
     );

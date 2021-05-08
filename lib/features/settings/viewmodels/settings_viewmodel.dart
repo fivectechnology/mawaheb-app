@@ -67,6 +67,9 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<bool> validateEmailFuture;
 
+  @observable
+  ObservableFuture<bool> updateLang;
+
   //* COMPUTED *//
   @computed
   bool get logoutLoading => logoutFuture?.isPending ?? false;
@@ -107,7 +110,21 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     return null;
   }
 
+  bool get updateLangLoading => updateLang?.isPending ?? false;
+
   //* ACTIONS *//
+  @action
+  void updateUserLanguage({
+    String lang,
+  }) {
+    updateLang = futureWrapper(
+      () => _settingsRepository.updateLanguage(id: _prefsRepository.player.id, language: lang).whenSuccess(
+            (res) => res.apply(() {}),
+          ),
+      useLoader: true,
+    );
+  }
+
   @action
   void logout() {
     logoutFuture = futureWrapper(

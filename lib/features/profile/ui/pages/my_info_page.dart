@@ -65,29 +65,28 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: DARK_GREY,
+                        icon: const Icon(
+                          Icons.edit,
+                          color: DARK_GREY,
+                        ),
+                        onPressed: () =>
+                            App.navKey.currentState.push(MaterialPageRoute(
+                          builder: (context) => EditSportPage(
+                            player: viewmodel.player,
                           ),
-                          onPressed: () => App.navKey.currentState
-                              .pushAndRemoveUntil(
-                                  EditSportPage.pageRoute(viewmodel),
-                                  (_) => false)),
+                        )),
+                      )
                   ],
                 ),
               ),
               cardInfoPlayer(context: context, rows: [
                 infoRow(
                     title: 'lbl_sport_name',
-                    value: viewmodel.player.sport?.tName ??
-                        viewmodel.player.sport?.name ??
-                        'N/A',
+                    value: viewmodel.player.sport?.name ?? 'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_position',
-                    value: viewmodel.player.position?.tName ??
-                        viewmodel.player.position?.name ??
-                        'N/A',
+                    value: viewmodel.player.position?.name ?? 'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_weight',
@@ -126,14 +125,17 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: DARK_GREY,
+                        icon: const Icon(
+                          Icons.edit,
+                          color: DARK_GREY,
+                        ),
+                        onPressed: () =>
+                            App.navKey.currentState.push(MaterialPageRoute(
+                          builder: (context) => EditPersonalPage(
+                            player: viewmodel.player,
                           ),
-                          onPressed: () => App.navKey.currentState
-                              .pushAndRemoveUntil(
-                                  EditPersonalPage.pageRoute(viewmodel),
-                                  (_) => false)),
+                        )),
+                      )
                   ],
                 ),
               ),
@@ -152,9 +154,7 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     context: context),
                 infoRow(
                     title: 'lbl_nationality',
-                    value: viewmodel.player.country?.tName ??
-                        viewmodel.player.country?.name ??
-                        'N/A',
+                    value: viewmodel.player.country?.name ?? 'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_category',
@@ -181,23 +181,24 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: DARK_GREY,
+                        icon: const Icon(
+                          Icons.edit,
+                          color: DARK_GREY,
+                        ),
+                        onPressed: () =>
+                            App.navKey.currentState.push(MaterialPageRoute(
+                          builder: (context) => EditAddressPage(
+                            player: viewmodel.player,
                           ),
-                          onPressed: () => App.navKey.currentState
-                              .pushAndRemoveUntil(
-                                  EditAddressPage.pageRoute(viewmodel),
-                                  (_) => false)),
+                        )),
+                      ),
                   ],
                 ),
               ),
               cardInfoPlayer(context: context, rows: [
                 infoRow(
                     title: 'lbl_emirate',
-                    value: viewmodel.player.emirate?.tName ??
-                        viewmodel.player.emirate?.name ??
-                        'N/A',
+                    value: viewmodel.player.emirate?.name ?? 'N/A',
                     context: context),
                 infoRow(
                     title: 'lbl_state/province/area',
