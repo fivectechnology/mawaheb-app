@@ -65,17 +65,19 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: DARK_GREY,
-                        ),
-                        onPressed: () =>
-                            App.navKey.currentState.push(MaterialPageRoute(
-                          builder: (context) => EditSportPage(
-                            player: viewmodel.player,
+                          icon: const Icon(
+                            Icons.edit,
+                            color: DARK_GREY,
                           ),
-                        )),
-                      )
+                          onPressed: () async {
+                            await App.navKey.currentState
+                                .push(MaterialPageRoute(
+                              builder: (context) => EditSportPage(
+                                player: viewmodel.player,
+                              ),
+                            ));
+                            viewmodel.fetchPlayer(id: viewmodel.player.id);
+                          })
                   ],
                 ),
               ),
@@ -125,17 +127,19 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: DARK_GREY,
-                        ),
-                        onPressed: () =>
-                            App.navKey.currentState.push(MaterialPageRoute(
-                          builder: (context) => EditPersonalPage(
-                            player: viewmodel.player,
+                          icon: const Icon(
+                            Icons.edit,
+                            color: DARK_GREY,
                           ),
-                        )),
-                      )
+                          onPressed: () async {
+                            await App.navKey.currentState
+                                .push(MaterialPageRoute(
+                              builder: (context) => EditPersonalPage(
+                                player: viewmodel.player,
+                              ),
+                            ));
+                            viewmodel.fetchPlayer(id: viewmodel.player.id);
+                          })
                   ],
                 ),
               ),
@@ -181,17 +185,19 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: DARK_GREY,
-                        ),
-                        onPressed: () =>
-                            App.navKey.currentState.push(MaterialPageRoute(
-                          builder: (context) => EditAddressPage(
-                            player: viewmodel.player,
+                          icon: const Icon(
+                            Icons.edit,
+                            color: DARK_GREY,
                           ),
-                        )),
-                      ),
+                          onPressed: () async {
+                            await App.navKey.currentState
+                                .push(MaterialPageRoute(
+                              builder: (context) => EditAddressPage(
+                                player: viewmodel.player,
+                              ),
+                            ));
+                            viewmodel.fetchPlayer(id: viewmodel.player.id);
+                          }),
                   ],
                 ),
               ),

@@ -44,8 +44,8 @@ class _AddSportPageState
 
   SportModel currentSport;
   SportPositionModel position;
-  String leg;
-  String hand;
+  String leg = 'RIGHT';
+  String hand = 'RIGHT';
   File video;
   String fileType;
   String fileName;
@@ -137,6 +137,12 @@ class _AddSportPageState
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> test = {
+      'RIGHT': context.translate('lbl_right'),
+      'LEFT': context.translate('lbl_left'),
+      'BOTH': context.translate('lbl_both'),
+    };
+
     return Observer(builder: (_) {
       return viewmodel.sportLoading == true ||
               viewmodel.positionsLoading == true
@@ -212,32 +218,48 @@ class _AddSportPageState
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
-                      helperText: context.translate('lbl_prefer_hand'),
-                      value: 'RIGHT',
+                      value: hand,
                       hint: context.translate('lbl_prefer_hand'),
                       context: context,
-                      items: ['RIGHT', 'LEFT', 'BOTH']
-                          .map((e) => DropdownMenuItem(
-                                child: Text(e),
-                                value: e,
-                              ))
+                      items: test
+                          .map((key, value) {
+                            return MapEntry(
+                                key,
+                                DropdownMenuItem(
+                                  value: key,
+                                  child: Text(value),
+                                ));
+                          })
+                          .values
                           .toList(),
+                      // ['RIGHT', 'LEFT', 'BOTH']
+                      //     .map((e) => DropdownMenuItem(
+                      //           child: Text(e),
+                      //           value: e,
+                      //         ))
+                      //     .toList(),
                       onChanged: (v) {
                         hand = v;
                       }),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
-                      helperText: context.translate('lbl_prefer_leg'),
-                      value: 'RIGHT',
+                      value: leg,
                       hint: context.translate('lbl_prefer_leg'),
                       context: context,
-                      items: ['RIGHT', 'LEFT', 'BOTH']
-                          .map((e) => DropdownMenuItem(
-                                child: Text(e),
-                                value: e,
-                              ))
+                      items: test
+                          .map((key, value) {
+                            return MapEntry(
+                                key,
+                                DropdownMenuItem(
+                                  value: key,
+                                  child: Text(value),
+                                ));
+                          })
+                          .values
                           .toList(),
                       onChanged: (v) {
+                        print(v);
+                        print(leg);
                         leg = v;
                       }),
                   Padding(
