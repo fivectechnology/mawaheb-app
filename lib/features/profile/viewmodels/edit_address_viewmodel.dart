@@ -56,6 +56,9 @@ abstract class _EditAddressViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get playerLoading => playerFuture?.isPending ?? false;
 
+  @computed
+  bool get addressLoading => editAddressPlayerFuture?.isPending ?? false;
+
 //* ACTIONS *//
 
   @action
@@ -90,8 +93,7 @@ abstract class _EditAddressViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              getContext((context) => context.pop());
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),

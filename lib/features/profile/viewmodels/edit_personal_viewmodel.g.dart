@@ -16,12 +16,12 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
           Computed<List<CategoryModel>>(() => super.categories,
               name: '_EditPersonalViewmodelBase.categories'))
       .value;
-  Computed<List<CountryModel>> _$positionsComputed;
+  Computed<List<CountryModel>> _$countriesComputed;
 
   @override
-  List<CountryModel> get positions => (_$positionsComputed ??=
-          Computed<List<CountryModel>>(() => super.positions,
-              name: '_EditPersonalViewmodelBase.positions'))
+  List<CountryModel> get countries => (_$countriesComputed ??=
+          Computed<List<CountryModel>>(() => super.countries,
+              name: '_EditPersonalViewmodelBase.countries'))
       .value;
   Computed<bool> _$countryLoadingComputed;
 
@@ -36,6 +36,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
   bool get categoryLoading =>
       (_$categoryLoadingComputed ??= Computed<bool>(() => super.categoryLoading,
               name: '_EditPersonalViewmodelBase.categoryLoading'))
+          .value;
+  Computed<bool> _$personalLoadingComputed;
+
+  @override
+  bool get personalLoading =>
+      (_$personalLoadingComputed ??= Computed<bool>(() => super.personalLoading,
+              name: '_EditPersonalViewmodelBase.personalLoading'))
           .value;
   Computed<File> _$imageFileComputed;
 
@@ -105,6 +112,23 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
     });
   }
 
+  final _$editPersonalPlayerFutureAtom =
+      Atom(name: '_EditPersonalViewmodelBase.editPersonalPlayerFuture');
+
+  @override
+  ObservableFuture<PlayerModel> get editPersonalPlayerFuture {
+    _$editPersonalPlayerFutureAtom.reportRead();
+    return super.editPersonalPlayerFuture;
+  }
+
+  @override
+  set editPersonalPlayerFuture(ObservableFuture<PlayerModel> value) {
+    _$editPersonalPlayerFutureAtom
+        .reportWrite(value, super.editPersonalPlayerFuture, () {
+      super.editPersonalPlayerFuture = value;
+    });
+  }
+
   final _$categoryFutureAtom =
       Atom(name: '_EditPersonalViewmodelBase.categoryFuture');
 
@@ -134,23 +158,6 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
   set countryFuture(ObservableFuture<List<CountryModel>> value) {
     _$countryFutureAtom.reportWrite(value, super.countryFuture, () {
       super.countryFuture = value;
-    });
-  }
-
-  final _$editPersonalPlayerFutureAtom =
-      Atom(name: '_EditPersonalViewmodelBase.editPersonalPlayerFuture');
-
-  @override
-  ObservableFuture<PlayerModel> get editPersonalPlayerFuture {
-    _$editPersonalPlayerFutureAtom.reportRead();
-    return super.editPersonalPlayerFuture;
-  }
-
-  @override
-  set editPersonalPlayerFuture(ObservableFuture<PlayerModel> value) {
-    _$editPersonalPlayerFutureAtom
-        .reportWrite(value, super.editPersonalPlayerFuture, () {
-      super.editPersonalPlayerFuture = value;
     });
   }
 
@@ -244,13 +251,14 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
 imageId: ${imageId},
 image: ${image},
 playerFuture: ${playerFuture},
+editPersonalPlayerFuture: ${editPersonalPlayerFuture},
 categoryFuture: ${categoryFuture},
 countryFuture: ${countryFuture},
-editPersonalPlayerFuture: ${editPersonalPlayerFuture},
 categories: ${categories},
-positions: ${positions},
+countries: ${countries},
 countryLoading: ${countryLoading},
 categoryLoading: ${categoryLoading},
+personalLoading: ${personalLoading},
 imageFile: ${imageFile},
 player: ${player},
 playerLoading: ${playerLoading}

@@ -50,6 +50,9 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<PlayerModel> playerFuture;
 
   @observable
+  ObservableFuture<PlayerModel> editPersonalPlayerFuture;
+
+  @observable
   ObservableFuture<List<CategoryModel>> categoryFuture;
 
   @observable
@@ -59,7 +62,7 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
   List<CategoryModel> get categories => categoryFuture?.value;
 
   @computed
-  List<CountryModel> get positions => countryFuture?.value;
+  List<CountryModel> get countries => countryFuture?.value;
 
   @computed
   bool get countryLoading => countryFuture?.isPending ?? false;
@@ -67,8 +70,8 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get categoryLoading => categoryFuture?.isPending ?? false;
 
-  @observable
-  ObservableFuture<PlayerModel> editPersonalPlayerFuture;
+  @computed
+  bool get personalLoading => editPersonalPlayerFuture?.isPending ?? false;
 
   @computed
   File get imageFile => image;
@@ -128,8 +131,7 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
                 Navigator.of(EditPersonalPage.keyLoader.currentContext,
                         rootNavigator: true)
                     .pop();
-                getContext((context) => App.navKey.currentState.context
-                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                getContext((context) => context.pop());
               }));
       // updateProfileImage(
       //     id: player.id, version: player.version, imageId: await imageId);
@@ -161,8 +163,7 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res.data.first.apply(() {
               if (image == null) {
-                getContext((context) => App.navKey.currentState.context
-                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                getContext((context) => context.pop());
               }
             }),
           ),

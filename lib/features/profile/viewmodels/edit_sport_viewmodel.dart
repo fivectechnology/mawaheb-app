@@ -119,8 +119,7 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
               sportPositionModel: position)
           .whenSuccess(
             (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              getContext((context) => context.pop());
             }),
           ),
       catchBlock: (err) => showSnack(err, duration: 2.seconds),

@@ -65,14 +65,17 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: DARK_GREY,
+                        icon: const Icon(
+                          Icons.edit,
+                          color: DARK_GREY,
+                        ),
+                        onPressed: () =>
+                            App.navKey.currentState.push(MaterialPageRoute(
+                          builder: (context) => EditSportPage(
+                            player: viewmodel.player,
                           ),
-                          onPressed: () => App.navKey.currentState
-                              .pushAndRemoveUntil(
-                                  EditSportPage.pageRoute(viewmodel),
-                                  (_) => false)),
+                        )),
+                      )
                   ],
                 ),
               ),
@@ -122,14 +125,17 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: DARK_GREY,
+                        icon: const Icon(
+                          Icons.edit,
+                          color: DARK_GREY,
+                        ),
+                        onPressed: () =>
+                            App.navKey.currentState.push(MaterialPageRoute(
+                          builder: (context) => EditPersonalPage(
+                            player: viewmodel.player,
                           ),
-                          onPressed: () => App.navKey.currentState
-                              .pushAndRemoveUntil(
-                                  EditPersonalPage.pageRoute(viewmodel),
-                                  (_) => false)),
+                        )),
+                      )
                   ],
                 ),
               ),
@@ -175,14 +181,17 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                     ),
                     if (viewmodel.prefsRepository.type == 'PLAYER')
                       IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: DARK_GREY,
+                        icon: const Icon(
+                          Icons.edit,
+                          color: DARK_GREY,
+                        ),
+                        onPressed: () =>
+                            App.navKey.currentState.push(MaterialPageRoute(
+                          builder: (context) => EditAddressPage(
+                            player: viewmodel.player,
                           ),
-                          onPressed: () => App.navKey.currentState
-                              .pushAndRemoveUntil(
-                                  EditAddressPage.pageRoute(viewmodel),
-                                  (_) => false)),
+                        )),
+                      ),
                   ],
                 ),
               ),

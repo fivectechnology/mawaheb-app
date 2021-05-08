@@ -37,6 +37,13 @@ mixin _$EditAddressViewmodel on _EditAddressViewmodelBase, Store {
       (_$playerLoadingComputed ??= Computed<bool>(() => super.playerLoading,
               name: '_EditAddressViewmodelBase.playerLoading'))
           .value;
+  Computed<bool> _$addressLoadingComputed;
+
+  @override
+  bool get addressLoading =>
+      (_$addressLoadingComputed ??= Computed<bool>(() => super.addressLoading,
+              name: '_EditAddressViewmodelBase.addressLoading'))
+          .value;
 
   final _$playerFutureAtom =
       Atom(name: '_EditAddressViewmodelBase.playerFuture');
@@ -134,7 +141,8 @@ editAddressPlayerFuture: ${editAddressPlayerFuture},
 emirates: ${emirates},
 emiratesLoading: ${emiratesLoading},
 player: ${player},
-playerLoading: ${playerLoading}
+playerLoading: ${playerLoading},
+addressLoading: ${addressLoading}
     ''';
   }
 }

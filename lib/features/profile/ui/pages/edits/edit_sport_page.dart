@@ -11,37 +11,37 @@ import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:mawaheb_app/features/profile/viewmodels/edit_sport_viewmodel.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class EditSportPage extends StatefulWidget {
-  const EditSportPage({
-    Key key,
-  }) : super(key: key);
-  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  const EditSportPage({Key key, this.player}) : super(key: key);
 
-  static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
-      MaterialPageRoute(
-        builder: (context) => Provider.value(
-          value: profileViewmodel,
-          child: const EditSportPage(),
-        ),
-      );
+  final PlayerModel player;
+
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  //
+  // static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
+  //     MaterialPageRoute(
+  //       builder: (context) => Provider.value(
+  //         value: profileViewmodel,
+  //         child: const EditSportPage(),
+  //       ),
+  //     );
 
   // static MaterialPageRoute<dynamic> get pageRoute =>
   //     MaterialPageRoute<dynamic>(builder: (_) => const EditSportPage());
-
-  static const String route = '/edit_sport_page';
 
   @override
   _EditSportPageState createState() => _EditSportPageState();
 }
 
-class _EditSportPageState
-    extends ProviderMobxState<EditSportPage, ProfileViewmodel> {
+class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
   TextEditingController hightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController briefController = TextEditingController();
@@ -55,6 +55,22 @@ class _EditSportPageState
   @override
   void initState() {
     super.initState();
+
+    if (viewmodel?.player == null) {
+      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player.id);
+    }
+
+    if (viewmodel?.positionFuture == null) {
+      viewmodel.getPositions(
+          sportId: viewmodel.prefsRepository.player.sport.id);
+    }
+    if (viewmodel?.sportFuture == null) {
+      viewmodel.getSports();
+    }
+
+    hightController = TextEditingController(text: widget.player.height);
+    weightController = TextEditingController(text: widget.player.weight);
+    briefController = TextEditingController(text: widget.player.brief);
   }
 
   @override
@@ -69,20 +85,16 @@ class _EditSportPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // hightController = TextEditingController(text: viewmodel.player.height);
-    // weightController = TextEditingController(text: viewmodel.player.weight);
-    // briefController = TextEditingController(text: viewmodel.player.brief);
-
-    if (viewmodel?.positionFuture == null) {
-      viewmodel.getPositions(sportId: viewmodel.player.sport.id);
-    }
-    if (viewmodel?.sportFuture == null) {
-      viewmodel.getSports();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> test = {
+      'RIGHT': context.translate('lbl_right'),
+      'LEFT': context.translate('lbl_left'),
+      'BOTH': context.translate('lbl_both'),
+    };
+
     return Scaffold(
       key: EditSportPage.scaffoldKey,
       backgroundColor: WHITE,
@@ -91,8 +103,7 @@ class _EditSportPageState
           title: 'lbl_sport',
           withTitle: true,
           onBackButton: () {
-            App.navKey.currentState.context
-                .pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+            context.navigator.pop();
           }),
       body: Observer(builder: (_) {
         return viewmodel.sportLoading == true ||
@@ -106,7 +117,7 @@ class _EditSportPageState
                   child: ListView(
                     children: [
                       mawhaebDropDown(
-                        value: currentSport ?? viewmodel.player.sport,
+                        value: currentSport ?? widget.player.sport,
                         hint: context.translate('lbl_sport_name'),
                         context: context,
                         onChanged: (value) {
@@ -124,7 +135,7 @@ class _EditSportPageState
                       if (viewmodel.positions != null)
                         mawhaebDropDown(
                           value: currentSport == null
-                              ? viewmodel.player.position
+                              ? widget.player.position
                               : null,
                           hint: context.translate('lbl_position'),
                           context: context,
@@ -180,28 +191,44 @@ class _EditSportPageState
                       ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          value: viewmodel.player.handEn,
+                          value: widget.player.handEn,
                           hint: context.translate('lbl_prefer_hand'),
                           context: context,
-                          items: ['RIGHT', 'LEFT', 'BOTH']
-                              .map((e) => DropdownMenuItem(
-                                    child: Text(e),
-                                    value: e,
-                                  ))
+                          items: test
+                              .map((key, value) {
+                                return MapEntry(
+                                    key,
+                                    DropdownMenuItem(
+                                      value: key,
+                                      child: Text(value),
+                                    ));
+                              })
+                              .values
                               .toList(),
+                          // ['RIGHT', 'LEFT', 'BOTH']
+                          //     .map((e) => DropdownMenuItem(
+                          //           child: Text(e),
+                          //           value: e,
+                          //         ))
+                          //     .toList(),
                           onChanged: (v) {
                             hand = v;
                           }),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
-                          value: viewmodel.player.legEn,
+                          value: widget.player.legEn,
                           hint: context.translate('lbl_prefer_leg'),
                           context: context,
-                          items: ['RIGHT', 'LEFT', 'BOTH']
-                              .map((e) => DropdownMenuItem(
-                                    child: Text(e),
-                                    value: e,
-                                  ))
+                          items: test
+                              .map((key, value) {
+                                return MapEntry(
+                                    key,
+                                    DropdownMenuItem(
+                                      value: key,
+                                      child: Text(value),
+                                    ));
+                              })
+                              .values
                               .toList(),
                           onChanged: (v) {
                             print(v);
