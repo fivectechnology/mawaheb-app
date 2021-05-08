@@ -27,7 +27,8 @@ class ViewPlayerProfile extends StatefulWidget {
       builder: (context) => Provider.value(
         value: playersViewmodel
           ..viewProfilePlayer(id: player.id)
-          ..fetchPlayer(id: player.id),
+          ..fetchPlayer(id: player.id)
+          ..fetchVideos(playerId: player.id),
         child: ViewPlayerProfile(player: player),
       ),
     );
