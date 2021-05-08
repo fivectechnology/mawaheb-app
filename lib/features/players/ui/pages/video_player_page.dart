@@ -16,7 +16,8 @@ class VideoPlayerPage extends StatefulWidget {
   _VideoPlayerPageState createState() => _VideoPlayerPageState();
 }
 
-class _VideoPlayerPageState extends ProviderMobxState<VideoPlayerPage, PlayersViewmodel> {
+class _VideoPlayerPageState
+    extends ProviderMobxState<VideoPlayerPage, PlayersViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -64,17 +65,16 @@ class _VideoPlayerPageState extends ProviderMobxState<VideoPlayerPage, PlayersVi
                           shrinkWrap: true,
                           itemCount: viewmodel.videos.length,
                           itemBuilder: (context, index) {
-                            return viewmodel.videos[index].status == 'APPROVED'
-                                ? videoRow(
-                                    videoUid: viewmodel.videos[index].videoUid,
-                                    videoId: viewmodel.videos[index].video.id,
-                                    token: viewmodel.prefsRepository.token)
-                                : const SizedBox();
+                            return videoRow(
+                                videoUid: viewmodel.videos[index].videoUid,
+                                videoId: viewmodel.videos[index].video.id,
+                                token: viewmodel.prefsRepository.token);
                           }),
                     if (viewmodel.videos == null || viewmodel.videos.isEmpty)
                       Center(
                         heightFactor: 10,
-                        child: Text(context.translate('msg_no_videos'), style: textTheme.subtitle1),
+                        child: Text(context.translate('msg_no_videos'),
+                            style: textTheme.subtitle1),
                       ),
                   ],
                 ),
@@ -92,7 +92,8 @@ class _VideoPlayerPageState extends ProviderMobxState<VideoPlayerPage, PlayersVi
             children: [
               Container(
                 height: context.fullHeight * 0.3,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
                 child: VideoPlayerWidget(
                   videoUid: videoUid,
                 ),
