@@ -8,7 +8,7 @@ abstract class SettingsRepository extends BaseRepository {
   const SettingsRepository(SettingsDataSource settingsDataSource)
       : super(settingsDataSource);
 
-  Future<NetworkResult<bool>> sendOTP({String email, String password});
+  Future<NetworkResult<String>> sendOTP({String email, String password});
 
   Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
       {String email, int code});

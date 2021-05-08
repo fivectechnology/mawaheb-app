@@ -98,6 +98,15 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
               SizedBox(
                 height: context.fullHeight * 0.08,
               ),
+              Observer(builder: (_) {
+                return Text(
+                  viewmodel?.otpCodeMessage ?? '',
+                  style: context.textTheme.bodyText1.copyWith(color: Colors.black, fontSize: 16),
+                );
+              }),
+              SizedBox(
+                height: context.fullHeight * 0.08,
+              ),
               codeField(true),
               Padding(
                 padding: EdgeInsets.only(

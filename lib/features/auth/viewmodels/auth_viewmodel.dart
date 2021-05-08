@@ -20,7 +20,6 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/forgot_password_page.dart';
-import 'package:mawaheb_app/features/auth/forgot_password/ui/pages/reset_password_page.dart';
 import 'package:mawaheb_app/features/auth/otp/ui/pages/otp_page.dart';
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/subscription/ui/pages/test_subscription.dart';
@@ -81,10 +80,13 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   PageSliderModel registerSliderModel;
 
   @observable
+  PageSliderModel forgotPasswordSliderModel;
+
+  @observable
   ObservableFuture<bool> loginFuture;
 
   @observable
-  ObservableFuture<bool> sendOtp;
+  ObservableFuture<String> sendOtp;
 
   @observable
   ObservableFuture<bool> validateEmailFuture;
@@ -208,6 +210,15 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
   @computed
   File get imageFile => image;
 
+  @computed
+  String get otpCodeMessage {
+    final value = sendOtp?.value;
+    if (value != null) {
+      return ' ' + value.substring(value.length - 4);
+    }
+    return null;
+  }
+
   //* ACTIONS *//
 
   @action
@@ -277,11 +288,12 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
       registerFuture = ObservableFuture.value(PlayerModel.fromUi(email: email, password: password));
     }
     sendOtp = futureWrapper(
-      () => _authRepository.sendOTP(email: player.email).whenSuccess(
+      () => _authRepository.sendOTP(email: player?.email ?? email).whenSuccess(
             (res) => res.apply(() {
               logger.d('otp success with res: $res');
               if (!resend) {
                 changeRegisterSlider(const PageSliderForawardModel());
+                changeForgotPasswordSlider(const PageSliderForawardModel());
               } else {
                 //showSnack()
               }
@@ -334,24 +346,41 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
         return res.data;
       }),
       catchBlock: (err) {
-        getContext((context) => showSnack(
-              context.translate('msg_otp_error'),
-              duration: 2.seconds,
-              scaffoldKey: RegisterPage.scaffoldKey,
-            ));
-        // throw Exception('');
-      },
-      unknownErrorHandler: (err) => getContext((context) => showSnack(
+        getContext((context) {
+          showSnack(
             context.translate('msg_otp_error'),
             duration: 2.seconds,
-            scaffoldKey: RegisterPage.scaffoldKey,
-          )),
+            scaffoldKey: ForgotPasswordPage.scaffoldKey,
+          );
+          // showSnack(
+          //   context.translate('msg_otp_error'),
+          //   duration: 2.seconds,
+          //   scaffoldKey: RegisterPage.scaffoldKey,
+          // );
+        });
+        // throw Exception('');
+      },
+      unknownErrorHandler: (err) => getContext((context) {
+        showSnack(
+          context.translate('msg_otp_error'),
+          duration: 2.seconds,
+          scaffoldKey: ForgotPasswordPage.scaffoldKey,
+        );
+        // showSnack(
+        //   context.translate('msg_otp_error'),
+        //   duration: 2.seconds,
+        //   scaffoldKey: RegisterPage.scaffoldKey,
+        // );
+      }),
       useLoader: true,
     );
   }
 
   @action
   void changeRegisterSlider(PageSliderModel pageSliderModel) => registerSliderModel = pageSliderModel;
+
+  @action
+  void changeForgotPasswordSlider(PageSliderModel pageSliderModel) => forgotPasswordSliderModel = pageSliderModel;
 
   @action
   void addPersonalInfo({
@@ -464,7 +493,7 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
               logger.d('otp success with res: $res');
               forgetPasswordEmail = email;
 
-              getContext((context) => context.navigator.push(OtpPage.pageRoute(this)));
+              changeForgotPasswordSlider(const PageSliderForawardModel());
             }),
           ),
       catchBlock: (err) => getContext((context) => showSnack(
@@ -488,30 +517,53 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
     verifyOTPFuture = futureWrapper(
       () => _authRepository.verifyOTP(email: forgetPasswordEmail, code: code).whenSuccess(
             (res) => res.data.apply(() async {
-              getContext((context) => context.navigator.push(ResetPasswordPagee.pageRoute(this)));
+              // getContext((context) => context.navigator.push(ResetPasswordPagee.pageRoute(this)));
+              changeForgotPasswordSlider(const PageSliderForawardModel());
             }),
           ),
-      catchBlock: (err) => getContext((context) => showSnack(
+      catchBlock: (err) {
+        getContext((context) {
+          // showSnack(
+          //   context.translate('msg_otp_error'),
+          //   duration: 2.seconds,
+          //   scaffoldKey: RegisterPage.scaffoldKey,
+          // );
+          showSnack(
             context.translate('msg_otp_error'),
             duration: 2.seconds,
-            scaffoldKey: OtpPage.scaffoldKey,
-          )),
-      unknownErrorHandler: (err) => getContext((context) => showSnack(
+            scaffoldKey: ForgotPasswordPage.scaffoldKey,
+          );
+        });
+      },
+      unknownErrorHandler: (err) {
+        getContext((context) {
+          showSnack(
             context.translate('msg_otp_error'),
             duration: 2.seconds,
-            scaffoldKey: OtpPage.scaffoldKey,
-          )),
+            scaffoldKey: RegisterPage.scaffoldKey,
+          );
+          showSnack(
+            context.translate('msg_otp_error'),
+            duration: 2.seconds,
+            scaffoldKey: ForgotPasswordPage.scaffoldKey,
+          );
+        });
+      },
       useLoader: true,
     );
   }
 
   @action
   void resetPassword({String password, String email, int code}) {
-    forgetPasswordFuture = futureWrapper(() => _authRepository
-        .resetPassword(email: forgetPasswordEmail, code: verifyOTPFuture.value.data, password: password)
-        .whenSuccess((res) => res.apply(() {
-              getContext((context) => App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
-            })));
+    forgetPasswordFuture = futureWrapper(
+      () => _authRepository
+          .resetPassword(email: forgetPasswordEmail, code: verifyOTPFuture.value.data, password: password)
+          .whenSuccess((res) => res.apply(() {
+                // getContext((context) => App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
+                getContext((context) => App.navKey.currentState.pop());
+              })),
+      useLoader: true,
+    );
   }
 
   @action

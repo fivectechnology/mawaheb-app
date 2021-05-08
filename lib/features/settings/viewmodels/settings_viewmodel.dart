@@ -53,7 +53,7 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<bool> logoutFuture;
 
   @observable
-  ObservableFuture<bool> sendOtp;
+  ObservableFuture<String> sendOtp;
 
   @observable
   ObservableFuture<bool> changePasswordFuture;
@@ -97,6 +97,15 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   bool get otpVerifyError => verifyOTPFuture?.isFailure ?? false;
+
+  @computed
+  String get otpCodeMessage {
+    final value = sendOtp?.value;
+    if (value != null) {
+      return ' ' + value.substring(value.length - 4);
+    }
+    return null;
+  }
 
   //* ACTIONS *//
   @action

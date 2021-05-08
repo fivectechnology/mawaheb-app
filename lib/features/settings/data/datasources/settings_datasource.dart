@@ -12,7 +12,7 @@ import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 
 abstract class SettingsDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<bool>> sendOTP({
+  Future<NetworkResult<String>> sendOTP({
     @required String email,
     @required String password,
   });
@@ -35,8 +35,7 @@ abstract class SettingsDataSource extends BaseRemoteDataSource {
 }
 
 @LazySingleton(as: SettingsDataSource)
-class SettingsDataSourceImpl extends MawahebRemoteDataSource
-    implements SettingsDataSource {
+class SettingsDataSourceImpl extends MawahebRemoteDataSource implements SettingsDataSource {
   SettingsDataSourceImpl({
     @required Dio client,
     @required PrefsRepository prefsRepository,
@@ -50,22 +49,22 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource
         );
 
   @override
-  Future<NetworkResult<bool>> sendOTP({String email, String password}) {
+  Future<NetworkResult<String>> sendOTP({String email, String password}) {
     return mawahebRequest(
-        endpoint: BASE_API + WEB_SERVICE + '/auth/email/change',
-        method: METHOD.POST,
-        data: {
-          'data': {
-            'email': email,
-            'currentPassword': password,
-          }
-        },
-        mapper: BaseResponseModel.successMapper);
+      endpoint: BASE_API + WEB_SERVICE + '/auth/email/change',
+      method: METHOD.POST,
+      data: {
+        'data': {
+          'email': email,
+          'currentPassword': password,
+        }
+      },
+      mapper: BaseResponseModel.dataTypeMapper((json) => (json as Map<String, dynamic>)['message'] as String),
+    );
   }
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
-      {String email, int code}) {
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({String email, int code}) {
     return mawahebRequest(
       endpoint: OTP_VERIFY_ENDPOINT,
       method: METHOD.POST,
@@ -94,19 +93,13 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<bool>> changePassword(
-      {String currentPassword, String newPassword, int id}) {
+  Future<NetworkResult<bool>> changePassword({String currentPassword, String newPassword, int id}) {
     return mawahebRequest(
         method: METHOD.POST,
         modelName: 'auth.db.User',
         mawahebModel: false,
         data: {
-          'data': {
-            'id': id,
-            'oldPassword': currentPassword,
-            'newPassword': newPassword,
-            'chkPassword': newPassword
-          }
+          'data': {'id': id, 'oldPassword': currentPassword, 'newPassword': newPassword, 'chkPassword': newPassword}
         },
         mapper: BaseResponseModel.successMapper);
   }

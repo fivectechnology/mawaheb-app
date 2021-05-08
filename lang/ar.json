@@ -176,5 +176,9 @@
   "msg_book_player": "هل انت متأكد من  حجز اللاعب؟",
   "msg_video_size": "يرجى اختيار فيديو حجمه اقل من 5 ميجابايت",
   "msg_select_sport": "يرحى اختيار الرياضة اولا",
-  "msg_uploading_image": "جاري رفع الصورة..."
+  "msg_uploading_image": "جاري رفع الصورة...",
+  "lbl_retry": "إعادة المحاولة",
+  "msg_something_wrong": "هناك خطأ ما! حاول مرة اخرى"
+
+
 }

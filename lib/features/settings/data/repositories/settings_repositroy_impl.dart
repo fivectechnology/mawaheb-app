@@ -7,17 +7,15 @@ import 'package:mawaheb_app/features/settings/domain/repositories/settings_repos
 
 @LazySingleton(as: SettingsRepository)
 class SettingsRepositoryImpl extends SettingsRepository {
-  const SettingsRepositoryImpl(this.settingsDataSource)
-      : super(settingsDataSource);
+  const SettingsRepositoryImpl(this.settingsDataSource) : super(settingsDataSource);
   final SettingsDataSource settingsDataSource;
 
   @override
-  Future<NetworkResult<bool>> sendOTP({String email, String password}) =>
+  Future<NetworkResult<String>> sendOTP({String email, String password}) =>
       settingsDataSource.sendOTP(email: email, password: password);
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
-          {String email, int code}) =>
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({String email, int code}) =>
       settingsDataSource.verifyOTP(email: email, code: code);
 
   @override
@@ -25,8 +23,6 @@ class SettingsRepositoryImpl extends SettingsRepository {
       settingsDataSource.changeEmail(email: email, code: code);
 
   @override
-  Future<NetworkResult<bool>> changePassword(
-          {String currentPassword, String newPassword, int id}) =>
-      settingsDataSource.changePassword(
-          currentPassword: currentPassword, newPassword: newPassword, id: id);
+  Future<NetworkResult<bool>> changePassword({String currentPassword, String newPassword, int id}) =>
+      settingsDataSource.changePassword(currentPassword: currentPassword, newPassword: newPassword, id: id);
 }

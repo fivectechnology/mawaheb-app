@@ -142,6 +142,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   bool get releasePlayerError => releasePlayerFuture?.isFailure ?? false;
 
   @computed
+  bool get statusButtonLoading => bookPlayerLoading || confirmPlayerLoading || releasePlayerLoading || playerLoading;
+
+  @computed
   bool get canLoadMorePlayers {
     if (players == null) {
       return true;
@@ -233,9 +236,9 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void bookPlayer({@required int playerId}) {
+  void bookPlayer() {
     bookPlayerFuture = futureWrapper(
-      () => _playersRepository.bookPlayer(playerId: playerId).whenSuccess(
+      () => _playersRepository.bookPlayer(playerId: player.id).whenSuccess(
             (res) => res.apply(() {
               print('player ${player.name} booked');
               fetchPlayer(id: player.id);

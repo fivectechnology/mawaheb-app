@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/pagination_mixin.dart';
@@ -18,6 +19,8 @@ import 'package:mawaheb_app/features/players/ui/pages/view_player_profile.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/filter_chip_widget.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/player_filter_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
+import 'package:provider/provider.dart';
+import 'package:supercharged/supercharged.dart';
 
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);
@@ -97,7 +100,6 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: Observer(builder: (_) {
-                print('my debug obs called with ${viewmodel.filter}');
                 return Wrap(
                   crossAxisAlignment: WrapCrossAlignment.start,
                   alignment: WrapAlignment.start,
@@ -205,33 +207,40 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
               }),
             ),
             Expanded(
-              child: MawahebFutureBuilder<ListBaseResponseModel<PlayerModel>>(
-                  future: viewmodel.playersFuture,
-                  onRetry: () => viewmodel.searchPlayers(fresh: true, query: searchController.text),
-                  onSuccess: (ListBaseResponseModel<PlayerModel> players) {
-                    return FocusDetector(
-                      child: PaginationList<PlayerModel>(
-                        canLoadMore: viewmodel.canLoadMorePlayers,
-                        dataList: players.data,
-                        scrollController: scrollController,
-                        shrinkWrap: false,
-                        padding: 0,
-                        emptyWidget: Center(child: Text(context.translate('msg_no_match_players'))),
-                        cardBuilder: (player) => userListTile(
-                          name: player.name,
-                          photoId: player.photoId,
-                          token: viewmodel.prefsRepository.token,
-                          onTap: () {
-                            // viewmodel.playerName = player.name;
-                            viewmodel.viewProfilePlayer(id: player.id);
-                            viewmodel.fetchPlayer(id: player.id);
-                            // viewmodel.playerId = player.id;
-                            App.navKey.currentState.push(ViewPlayerProfile.pageRoute(viewmodel));
-                          },
-                        ),
-                      ),
-                    );
-                  }),
+              child: Observer(builder: (_) {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    searchController.text = '';
+                    viewmodel.searchPlayers(fresh: true, query: searchController.text);
+                  },
+                  child: MawahebFutureBuilder<ListBaseResponseModel<PlayerModel>>(
+                      future: viewmodel.playersFuture,
+                      onRetry: () => viewmodel.searchPlayers(fresh: true, query: searchController.text),
+                      onSuccess: (ListBaseResponseModel<PlayerModel> players) {
+                        return FocusDetector(
+                          child: PaginationList<PlayerModel>(
+                              canLoadMore: viewmodel.canLoadMorePlayers,
+                              dataList: players.data,
+                              scrollController: scrollController,
+                              shrinkWrap: false,
+                              padding: 0,
+                              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                              emptyWidget: Center(child: Text(context.translate('msg_no_match_players'))),
+                              cardBuilder: (player) {
+                                return heroUserListTile(
+                                  context,
+                                  name: player.name,
+                                  id: player.id,
+                                  photoId: player.photoId,
+                                  token: viewmodel.prefsRepository.token,
+                                  onTap: () =>
+                                      App.navKey.currentState.push(ViewPlayerProfile.pageRoute(viewmodel, player)),
+                                );
+                              }),
+                        );
+                      }),
+                );
+              }),
             ),
           ],
         ),

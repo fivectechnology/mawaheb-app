@@ -184,6 +184,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       (_$imageFileComputed ??= Computed<File>(() => super.imageFile,
               name: '_AuthViewmodelBase.imageFile'))
           .value;
+  Computed<String> _$otpCodeMessageComputed;
+
+  @override
+  String get otpCodeMessage =>
+      (_$otpCodeMessageComputed ??= Computed<String>(() => super.otpCodeMessage,
+              name: '_AuthViewmodelBase.otpCodeMessage'))
+          .value;
 
   final _$imageAtom = Atom(name: '_AuthViewmodelBase.image');
 
@@ -231,6 +238,23 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
     });
   }
 
+  final _$forgotPasswordSliderModelAtom =
+      Atom(name: '_AuthViewmodelBase.forgotPasswordSliderModel');
+
+  @override
+  PageSliderModel get forgotPasswordSliderModel {
+    _$forgotPasswordSliderModelAtom.reportRead();
+    return super.forgotPasswordSliderModel;
+  }
+
+  @override
+  set forgotPasswordSliderModel(PageSliderModel value) {
+    _$forgotPasswordSliderModelAtom
+        .reportWrite(value, super.forgotPasswordSliderModel, () {
+      super.forgotPasswordSliderModel = value;
+    });
+  }
+
   final _$loginFutureAtom = Atom(name: '_AuthViewmodelBase.loginFuture');
 
   @override
@@ -249,13 +273,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$sendOtpAtom = Atom(name: '_AuthViewmodelBase.sendOtp');
 
   @override
-  ObservableFuture<bool> get sendOtp {
+  ObservableFuture<String> get sendOtp {
     _$sendOtpAtom.reportRead();
     return super.sendOtp;
   }
 
   @override
-  set sendOtp(ObservableFuture<bool> value) {
+  set sendOtp(ObservableFuture<String> value) {
     _$sendOtpAtom.reportWrite(value, super.sendOtp, () {
       super.sendOtp = value;
     });
@@ -614,6 +638,17 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
+  void changeForgotPasswordSlider(PageSliderModel pageSliderModel) {
+    final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
+        name: '_AuthViewmodelBase.changeForgotPasswordSlider');
+    try {
+      return super.changeForgotPasswordSlider(pageSliderModel);
+    } finally {
+      _$_AuthViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addPersonalInfo(
       {String dateOfBirth,
       String gender,
@@ -805,6 +840,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
 image: ${image},
 imageId: ${imageId},
 registerSliderModel: ${registerSliderModel},
+forgotPasswordSliderModel: ${forgotPasswordSliderModel},
 loginFuture: ${loginFuture},
 sendOtp: ${sendOtp},
 validateEmailFuture: ${validateEmailFuture},
@@ -845,7 +881,8 @@ transactionLoading: ${transactionLoading},
 transactionError: ${transactionError},
 positionsLoading: ${positionsLoading},
 sportLoading: ${sportLoading},
-imageFile: ${imageFile}
+imageFile: ${imageFile},
+otpCodeMessage: ${otpCodeMessage}
     ''';
   }
 }

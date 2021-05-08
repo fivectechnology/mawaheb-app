@@ -79,6 +79,13 @@ mixin _$SettingsViewmodel on _SettingsViewmodelBase, Store {
       (_$otpVerifyErrorComputed ??= Computed<bool>(() => super.otpVerifyError,
               name: '_SettingsViewmodelBase.otpVerifyError'))
           .value;
+  Computed<String> _$otpCodeMessageComputed;
+
+  @override
+  String get otpCodeMessage =>
+      (_$otpCodeMessageComputed ??= Computed<String>(() => super.otpCodeMessage,
+              name: '_SettingsViewmodelBase.otpCodeMessage'))
+          .value;
 
   final _$logoutFutureAtom = Atom(name: '_SettingsViewmodelBase.logoutFuture');
 
@@ -98,13 +105,13 @@ mixin _$SettingsViewmodel on _SettingsViewmodelBase, Store {
   final _$sendOtpAtom = Atom(name: '_SettingsViewmodelBase.sendOtp');
 
   @override
-  ObservableFuture<bool> get sendOtp {
+  ObservableFuture<String> get sendOtp {
     _$sendOtpAtom.reportRead();
     return super.sendOtp;
   }
 
   @override
-  set sendOtp(ObservableFuture<bool> value) {
+  set sendOtp(ObservableFuture<String> value) {
     _$sendOtpAtom.reportWrite(value, super.sendOtp, () {
       super.sendOtp = value;
     });
@@ -241,7 +248,8 @@ player: ${player},
 playerEmailLoading: ${playerEmailLoading},
 otpCode: ${otpCode},
 verifyOTPLoading: ${verifyOTPLoading},
-otpVerifyError: ${otpVerifyError}
+otpVerifyError: ${otpVerifyError},
+otpCodeMessage: ${otpCodeMessage}
     ''';
   }
 }

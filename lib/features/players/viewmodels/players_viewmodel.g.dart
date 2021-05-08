@@ -128,6 +128,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
           Computed<bool>(() => super.releasePlayerError,
               name: '_PlayersViewmodelBase.releasePlayerError'))
       .value;
+  Computed<bool> _$statusButtonLoadingComputed;
+
+  @override
+  bool get statusButtonLoading => (_$statusButtonLoadingComputed ??=
+          Computed<bool>(() => super.statusButtonLoading,
+              name: '_PlayersViewmodelBase.statusButtonLoading'))
+      .value;
   Computed<bool> _$canLoadMorePlayersComputed;
 
   @override
@@ -378,11 +385,11 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
-  void bookPlayer({@required int playerId}) {
+  void bookPlayer() {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.bookPlayer');
     try {
-      return super.bookPlayer(playerId: playerId);
+      return super.bookPlayer();
     } finally {
       _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -422,6 +429,35 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
+  void changePlayerFilter(
+      {CountryModel country,
+      SportModel sport,
+      SportPositionModel position,
+      String hand,
+      String leg,
+      String name,
+      int partnerId,
+      bool isConfirmed,
+      bool isBooked}) {
+    final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
+        name: '_PlayersViewmodelBase.changePlayerFilter');
+    try {
+      return super.changePlayerFilter(
+          country: country,
+          sport: sport,
+          position: position,
+          hand: hand,
+          leg: leg,
+          name: name,
+          partnerId: partnerId,
+          isConfirmed: isConfirmed,
+          isBooked: isBooked);
+    } finally {
+      _$_PlayersViewmodelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 viewProfileFuture: ${viewProfileFuture},
@@ -452,6 +488,7 @@ confirmPlayerLoading: ${confirmPlayerLoading},
 confirmPlayerError: ${confirmPlayerError},
 releasePlayerLoading: ${releasePlayerLoading},
 releasePlayerError: ${releasePlayerError},
+statusButtonLoading: ${statusButtonLoading},
 canLoadMorePlayers: ${canLoadMorePlayers}
     ''';
   }

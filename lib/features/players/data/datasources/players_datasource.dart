@@ -110,7 +110,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
           ],
           'operator': 'and'
         },
-        'fields': ['name', 'id', 'photo.fileUUID']
+        'fields': ['name', 'id', 'photo.fileUUID', 'availability']
       },
       mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
     );

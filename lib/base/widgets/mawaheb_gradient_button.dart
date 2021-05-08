@@ -37,10 +37,12 @@ class MawahebGradientButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
         padding: const EdgeInsets.all(0.0),
         child: Ink(
-          decoration: const BoxDecoration(
-            gradient: BUTTON_GRADIENT,
-            borderRadius: BorderRadius.all(Radius.circular(80.0)),
-          ),
+          decoration: (isLoading || !enable)
+              ? null
+              : const BoxDecoration(
+                  gradient: BUTTON_GRADIENT,
+                  borderRadius: BorderRadius.all(Radius.circular(80.0)),
+                ),
           child: Container(
             constraints:
                 const BoxConstraints(minWidth: double.infinity, minHeight: 55), // min sizes for Material buttons
