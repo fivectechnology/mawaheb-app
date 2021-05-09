@@ -1,7 +1,6 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
-import 'package:mawaheb_app/app/app.dart';
-import 'package:mawaheb_app/app/base_page.dart';
+
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
@@ -13,9 +12,7 @@ import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/edit_address_viewmodel.dart';
-import 'package:mawaheb_app/features/profile/viewmodels/edit_personal_viewmodel.dart';
-import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
-import 'package:provider/provider.dart';
+
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class EditAddressPage extends StatefulWidget {

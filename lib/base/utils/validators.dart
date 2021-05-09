@@ -49,7 +49,7 @@ String phoneValidator({String phone, BuildContext context}) {
   final RegExp regExp = RegExp(pattern);
   if (phone.isEmpty) {
     return context.translate('msg_phone_empty');
-  } else if (!regExp.hasMatch(phone)) {
+  } else if (!regExp.hasMatch(phone) || phone.length != 10) {
     return context.translate('msg_phone_valid');
   }
   return null;

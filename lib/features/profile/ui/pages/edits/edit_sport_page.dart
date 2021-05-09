@@ -1,8 +1,6 @@
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:mawaheb_app/app/app.dart';
-import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
@@ -16,8 +14,6 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/features/profile/viewmodels/edit_sport_viewmodel.dart';
-import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
-import 'package:provider/provider.dart';
 
 class EditSportPage extends StatefulWidget {
   const EditSportPage({Key key, this.player}) : super(key: key);
