@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/pagination_mixin.dart';
@@ -19,8 +18,6 @@ import 'package:mawaheb_app/features/players/ui/pages/view_player_profile.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/filter_chip_widget.dart';
 import 'package:mawaheb_app/features/players/ui/widgets/player_filter_widget.dart';
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
-import 'package:provider/provider.dart';
-import 'package:supercharged/supercharged.dart';
 
 class PlayersPage extends StatefulWidget {
   const PlayersPage({Key key}) : super(key: key);

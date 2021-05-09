@@ -146,7 +146,8 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       ),
       backgroundColor: Colors.white,
       body: Observer(builder: (_) {
-        return viewmodel.videosLoading != false
+        return viewmodel.videosLoading != false ||
+                viewmodel.deleteVideoLoading == true
             ? const Center(child: MawahebLoader())
             : SingleChildScrollView(
                 child: Column(
