@@ -145,7 +145,8 @@ class _AddSportPageState
 
     return Observer(builder: (_) {
       return viewmodel.sportLoading == true ||
-              viewmodel.positionsLoading == true
+              viewmodel.positionsLoading == true ||
+              viewmodel.deleteVideoLoading == true
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
@@ -346,29 +347,31 @@ class _AddSportPageState
   }
 
   Widget uploadSpace({Function onPress}) {
-    return Container(
-      height: context.fullHeight * 0.14,
-      decoration: DottedDecoration(
-          shape: Shape.box,
-          dash: const [10, 10],
-          borderRadius: BorderRadius.circular(10),
-          color: RED),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: onPress,
-                child: SvgPicture.asset('assets/icons/ic_upload.svg')),
-            Text(
-              context.translate('lbl_upload_video'),
-              style: textTheme.headline6,
-            ),
-            Text(
-              context.translate('lbl_max_video'),
-              style: textTheme.bodyText2.copyWith(color: Colors.grey),
-            ),
-          ],
+    return InkWell(
+      onTap: onPress,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 6),
+        height: context.fullHeight * 0.14,
+        decoration: DottedDecoration(
+            shape: Shape.box,
+            dash: const [10, 10],
+            borderRadius: BorderRadius.circular(10),
+            color: RED),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset('assets/icons/ic_upload.svg'),
+              Text(
+                context.translate('lbl_upload_video'),
+                style: textTheme.headline6,
+              ),
+              Text(
+                context.translate('lbl_max_video'),
+                style: textTheme.bodyText2.copyWith(color: Colors.grey),
+              ),
+            ],
+          ),
         ),
       ),
     );
