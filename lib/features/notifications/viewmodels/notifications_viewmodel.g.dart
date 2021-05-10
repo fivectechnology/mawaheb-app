@@ -9,30 +9,30 @@ part of 'notifications_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$NotificationsViewmodel on _NotificationsViewmodelBase, Store {
-  Computed<ListBaseResponseModel<NotificationModel>> _$notificationsComputed;
+  Computed<ListBaseResponseModel<NotificationModel>?>? _$notificationsComputed;
 
   @override
-  ListBaseResponseModel<NotificationModel> get notifications =>
+  ListBaseResponseModel<NotificationModel>? get notifications =>
       (_$notificationsComputed ??=
-              Computed<ListBaseResponseModel<NotificationModel>>(
+              Computed<ListBaseResponseModel<NotificationModel>?>(
                   () => super.notifications,
                   name: '_NotificationsViewmodelBase.notifications'))
           .value;
-  Computed<bool> _$notificationsLoadingComputed;
+  Computed<bool>? _$notificationsLoadingComputed;
 
   @override
   bool get notificationsLoading => (_$notificationsLoadingComputed ??=
           Computed<bool>(() => super.notificationsLoading,
               name: '_NotificationsViewmodelBase.notificationsLoading'))
       .value;
-  Computed<bool> _$notificationsErrorComputed;
+  Computed<bool>? _$notificationsErrorComputed;
 
   @override
   bool get notificationsError => (_$notificationsErrorComputed ??=
           Computed<bool>(() => super.notificationsError,
               name: '_NotificationsViewmodelBase.notificationsError'))
       .value;
-  Computed<bool> _$canLoadMoreNotificationsComputed;
+  Computed<bool>? _$canLoadMoreNotificationsComputed;
 
   @override
   bool get canLoadMoreNotifications => (_$canLoadMoreNotificationsComputed ??=
@@ -44,7 +44,7 @@ mixin _$NotificationsViewmodel on _NotificationsViewmodelBase, Store {
       Atom(name: '_NotificationsViewmodelBase.notificationsFuture');
 
   @override
-  ObservableFuture<ListBaseResponseModel<NotificationModel>>
+  ObservableFuture<ListBaseResponseModel<NotificationModel>>?
       get notificationsFuture {
     _$notificationsFutureAtom.reportRead();
     return super.notificationsFuture;
@@ -52,7 +52,7 @@ mixin _$NotificationsViewmodel on _NotificationsViewmodelBase, Store {
 
   @override
   set notificationsFuture(
-      ObservableFuture<ListBaseResponseModel<NotificationModel>> value) {
+      ObservableFuture<ListBaseResponseModel<NotificationModel>>? value) {
     _$notificationsFutureAtom.reportWrite(value, super.notificationsFuture, () {
       super.notificationsFuture = value;
     });

@@ -8,7 +8,7 @@ import 'package:mawaheb_app/features/public_info/ui/widgets/download_row_widget.
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
 class StrategicPartnersPage extends StatefulWidget {
-  const StrategicPartnersPage({Key key}) : super(key: key);
+  const StrategicPartnersPage({Key? key}) : super(key: key);
 
   static const String route = '/strategic_partners';
 
@@ -21,8 +21,7 @@ class StrategicPartnersPage extends StatefulWidget {
   _StrategicPartnersPageState createState() => _StrategicPartnersPageState();
 }
 
-class _StrategicPartnersPageState
-    extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
+class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -36,7 +35,7 @@ class _StrategicPartnersPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.partners == null) {
+    if (viewmodel.partners == null) {
       viewmodel.getPartners();
     }
   }
@@ -52,14 +51,14 @@ class _StrategicPartnersPageState
             return ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 physics: const BouncingScrollPhysics(),
-                itemCount: partners.length,
+                itemCount: partners?.length,
                 itemBuilder: (context, index) {
                   return imageRow(
                       context: context,
                       token: viewmodel.prefsRepository.token,
                       title: viewmodel.prefsRepository.languageCode == 'en'
-                          ? partners[index].title
-                          : partners[index].titleAr,
+                          ? partners![index].title!
+                          : partners![index].titleAr!,
                       sourceId: partners[index].sourceId);
                 });
           },

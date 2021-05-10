@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -24,133 +24,127 @@ import 'package:mawaheb_app/features/profile/data/models/transaction_model.dart'
 import 'package:intl/intl.dart';
 
 abstract class AuthDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<BaseResponseModel<LoginResponseModel>>> login({
-    @required String userName,
-    @required String password,
-    @required String type,
-    Dio client,
+  Future<NetworkResult<BaseResponseModel<LoginResponseModel>?>> login({
+    required String? userName,
+    required String? password,
+    required String? type,
+    Dio? client,
   });
 
-  Future<NetworkResult<BaseResponseModel<String>>> logout();
+  Future<NetworkResult<BaseResponseModel<String>?>> logout();
 
-  Future<NetworkResult<bool>> validateEmail({@required String email});
+  Future<NetworkResult<bool?>> validateEmail({required String? email});
 
-  Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports();
+  Future<NetworkResult<ListBaseResponseModel<SportModel>?>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
-      {@required int sportId});
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>?>> getPositions({required int? sportId});
 
-  Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries();
+  Future<NetworkResult<ListBaseResponseModel<CountryModel>?>> getCountries();
 
-  Future<NetworkResult<ListBaseResponseModel<CategoryModel>>> getCategories();
+  Future<NetworkResult<ListBaseResponseModel<CategoryModel>?>> getCategories();
 
-  Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates();
+  Future<NetworkResult<ListBaseResponseModel<EmirateModel>?>> getEmirates();
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
-    @required int code,
-    @required String email,
-    @required String password,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> signUp({
+    required int? code,
+    required String? email,
+    required String? password,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addPersonalInfo({
-    @required String name,
-    @required int id,
-    @required int version,
-    @required String dateOfBirth,
-    @required String gender,
-    @required String phone,
-    @required CountryModel country,
-    @required CategoryModel categoryModel,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addPersonalInfo({
+    required String? name,
+    required int? id,
+    required int? version,
+    required String? dateOfBirth,
+    required String? gender,
+    required String? phone,
+    required CountryModel? country,
+    required CategoryModel? categoryModel,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addAddressInfo({
-    @required int id,
-    @required int version,
-    @required EmirateModel emirateModel,
-    @required String area,
-    @required String address,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addAddressInfo({
+    required int? id,
+    required int? version,
+    required EmirateModel? emirateModel,
+    required String? area,
+    required String? address,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addSportInfo({
-    @required int id,
-    @required int version,
-    @required int weight,
-    @required int height,
-    @required String hand,
-    @required String leg,
-    @required String brief,
-    @required SportModel sport,
-    @required SportPositionModel sportPositionModel,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addSportInfo({
+    required int? id,
+    required int? version,
+    required int? weight,
+    required int? height,
+    required String? hand,
+    required String? leg,
+    required String? brief,
+    required SportModel? sport,
+    required SportPositionModel? sportPositionModel,
   });
 
-  Future<NetworkResult<String>> sendOTP({
-    @required String email,
+  Future<NetworkResult<String?>> sendOTP({
+    required String? email,
   });
 
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({
-    @required String email,
-    @required int code,
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP({
+    required String? email,
+    required int? code,
   });
 
-  Future<NetworkResult<bool>> forgetPassword({
-    @required String email,
+  Future<NetworkResult<bool?>> forgetPassword({
+    required String? email,
   });
 
-  Future<NetworkResult<bool>> resetPassword(
-      {@required String email, @required String password, @required int code});
+  Future<NetworkResult<bool?>> resetPassword({required String? email, required String? password, required int? code});
 
-  Future<int> getPlayerId({String token});
+  Future<int?> getPlayerId({String? token});
 
-  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
-      getSubscription();
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>?>> getSubscription();
 
   //sign up step 5.1
-  Future<NetworkResult<bool>> subscriptionPlayer({
-    @required int playerId,
-    @required int subscriptionId,
+  Future<NetworkResult<bool?>> subscriptionPlayer({
+    required int? playerId,
+    required int? subscriptionId,
   });
 
   //sign up step 5.2
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
-      playerTransaction({@required int amount, @required int playerId});
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> playerTransaction(
+      {required int? amount, required int? playerId});
 
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
-      getPlayerTransaction();
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> getPlayerTransaction();
 
   //sign up step 5.3
-  Future<NetworkResult<bool>> confirmTransaction({
-    @required int transactionId,
-    @required int transactionVersion,
+  Future<NetworkResult<bool?>> confirmTransaction({
+    required int? transactionId,
+    required int? transactionVersion,
   });
 }
 
 @LazySingleton(as: AuthDataSource)
-class AuthDataSourceImpl extends MawahebRemoteDataSource
-    implements AuthDataSource {
+class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSource {
   AuthDataSourceImpl({
-    @required Dio client,
-    @required PrefsRepository prefsRepository,
-    @required DataConnectionChecker connectionChecker,
-    @required Logger logger,
+    required Dio client,
+    required PrefsRepository? prefsRepository,
+    required Logger logger,
   }) : super(
           prefsRepository: prefsRepository,
           client: client,
-          connectionChecker: connectionChecker,
           logger: logger,
         );
 
   @override
-  Future<NetworkResult<BaseResponseModel<LoginResponseModel>>> login({
-    @required String userName,
-    @required String password,
-    @required String type,
-    Dio client,
+  Future<NetworkResult<BaseResponseModel<LoginResponseModel>?>> login({
+    required String? userName,
+    required String? password,
+    required String? type,
+    Dio? client,
   }) {
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: '$BASE_PUBLIC_API/auth/login/$type',
       withAuth: false,
-      mapper: BaseResponseModel.fromJson(LoginResponseModel.fromJson),
+      mapper: BaseResponseModel.fromJson(LoginResponseModel.fromJson) as BaseResponseModel<LoginResponseModel> Function(
+          Object?)?,
       data: {
         'data': {'username': userName, 'password': password}
       },
@@ -158,7 +152,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<BaseResponseModel<String>>> logout() {
+  Future<NetworkResult<BaseResponseModel<String>?>> logout() {
     return mawahebRequest(
       method: METHOD.GET,
       endpoint: LOGIN_ENDPOINT,
@@ -166,10 +160,10 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> signUp({
-    @required int code,
-    @required String email,
-    @required String password,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> signUp({
+    required int? code,
+    required String? email,
+    required String? password,
   }) {
     return mawahebRequest(
       method: METHOD.POST,
@@ -181,32 +175,34 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
         'data': {
           'group': {'id': 5, 'code': 'players'},
           'oldPassword': 'welcome1',
-          'name': email.split('@').first,
+          'name': email!.split('@').first,
           'code': email,
           'email': email,
           'newPassword': password,
           'chkPassword': password,
-          'language': prefsRepository.languageCode,
+          'language': prefsRepository!.languageCode,
           'blocked': false,
           'type': 'PLAYER',
           'status': 'INACTIVE',
           'otp': code,
         }
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      // mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      mapper:
+          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addPersonalInfo({
-    @required String name,
-    @required int id,
-    @required int version,
-    @required CountryModel country,
-    @required CategoryModel categoryModel,
-    @required String dateOfBirth,
-    @required String gender,
-    @required String phone,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addPersonalInfo({
+    required String? name,
+    required int? id,
+    required int? version,
+    required CountryModel? country,
+    required CategoryModel? categoryModel,
+    required String? dateOfBirth,
+    required String? gender,
+    required String? phone,
   }) async {
     return mawahebRequest(
       method: METHOD.POST,
@@ -223,26 +219,27 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
             mawahebModel: false,
             asList: true,
           ))
-              .getOrThrow()
+              .getOrThrow()!
               .version,
           'dateOfBirth': dateOfBirth,
           'gender': gender,
           'phone': phone,
-          'category': {'id': categoryModel.id},
-          'country': {'id': country.id},
+          'category': {'id': categoryModel!.id},
+          'country': {'id': country!.id},
         }
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      mapper:
+          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addAddressInfo({
-    @required int id,
-    @required int version,
-    @required EmirateModel emirateModel,
-    @required String area,
-    @required String address,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addAddressInfo({
+    required int? id,
+    required int? version,
+    required EmirateModel? emirateModel,
+    required String? area,
+    required String? address,
   }) async {
     return mawahebRequest(
       method: METHOD.POST,
@@ -258,28 +255,29 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
             mawahebModel: false,
             asList: true,
           ))
-              .getOrThrow()
+              .getOrThrow()!
               .version,
-          'emirate': {'id': emirateModel.id},
+          'emirate': {'id': emirateModel!.id},
           'area': area,
           'address': address,
         }
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      mapper:
+          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> addSportInfo({
-    @required int id,
-    @required int version,
-    @required int weight,
-    @required int height,
-    @required String hand,
-    @required String leg,
-    @required String brief,
-    @required SportModel sport,
-    @required SportPositionModel sportPositionModel,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addSportInfo({
+    required int? id,
+    required int? version,
+    required int? weight,
+    required int? height,
+    required String? hand,
+    required String? leg,
+    required String? brief,
+    required SportModel? sport,
+    required SportPositionModel? sportPositionModel,
   }) async {
     return mawahebRequest(
       method: METHOD.POST,
@@ -295,10 +293,10 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
             mawahebModel: false,
             asList: true,
           ))
-              .getOrThrow()
+              .getOrThrow()!
               .version,
-          'sport': {'id': sport.id},
-          'position': {'id': sportPositionModel.id},
+          'sport': {'id': sport!.id},
+          'position': {'id': sportPositionModel!.id},
           'weight': weight,
           'height': height,
           'hand': hand,
@@ -307,12 +305,13 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'status': 'ACTIVE'
         }
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      mapper:
+          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportModel>>> getSports() {
+  Future<NetworkResult<ListBaseResponseModel<SportModel>?>> getSports() {
     return mawahebRequest(
       modelName: 'Sport',
       method: METHOD.POST,
@@ -320,12 +319,13 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       data: {
         // 'fields': ['id', 'version', 'name'],
       },
-      mapper: ListBaseResponseModel.fromJson(SportModel.fromJson),
+      mapper:
+          ListBaseResponseModel.fromJson(SportModel.fromJson) as ListBaseResponseModel<SportModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CategoryModel>>> getCategories() {
+  Future<NetworkResult<ListBaseResponseModel<CategoryModel>?>> getCategories() {
     return mawahebRequest(
       modelName: 'Category',
       method: METHOD.POST,
@@ -333,12 +333,13 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       data: {
         // 'fields': ['id', 'version', 'title'],
       },
-      mapper: ListBaseResponseModel.fromJson(CategoryModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(CategoryModel.fromJson) as ListBaseResponseModel<CategoryModel> Function(
+          Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CountryModel>>> getCountries() {
+  Future<NetworkResult<ListBaseResponseModel<CountryModel>?>> getCountries() {
     return mawahebRequest(
       modelName: 'Country',
       method: METHOD.POST,
@@ -346,12 +347,13 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       data: {
         // 'fields': ['id', 'version', 'name'],
       },
-      mapper: ListBaseResponseModel.fromJson(CountryModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(CountryModel.fromJson) as ListBaseResponseModel<CountryModel> Function(
+          Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<EmirateModel>>> getEmirates() {
+  Future<NetworkResult<ListBaseResponseModel<EmirateModel>?>> getEmirates() {
     return mawahebRequest(
       modelName: 'Emirate',
       method: METHOD.POST,
@@ -359,13 +361,13 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'fields': ['id', 'name', r'$t:name'],
       },
-      mapper: ListBaseResponseModel.fromJson(EmirateModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(EmirateModel.fromJson) as ListBaseResponseModel<EmirateModel> Function(
+          Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>>> getPositions(
-      {@required int sportId}) {
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>?>> getPositions({required int? sportId}) {
     return mawahebRequest(
       modelName: 'SportPosition',
       method: METHOD.POST,
@@ -373,31 +375,30 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
       data: {
         'data': {
           'criteria': [
-            if (sportId != null)
-              {'fieldName': 'sport.id', 'operator': '=', 'value': sportId}
+            if (sportId != null) {'fieldName': 'sport.id', 'operator': '=', 'value': sportId}
           ],
           'operator': 'and'
         },
         'fields': ['id', r'$t:name', 'name'],
       },
-      mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(SportPositionModel.fromJson) as ListBaseResponseModel<SportPositionModel>
+          Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<String>> sendOTP({String email}) {
+  Future<NetworkResult<String?>> sendOTP({String? email}) {
     return mawahebRequest(
       endpoint: OTP_SEND_ENDPOINT,
       method: METHOD.POST,
       data: {'data': email},
       mapper: BaseResponseModel.dataTypeMapper(
-          (json) => (json as Map<String, dynamic>)['message'] as String),
+          ((json) => ((json as Map<String, dynamic>)['message'] as String?)!) as String Function(Object?)),
     );
   }
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
-      {String email, int code}) {
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP({String? email, int? code}) {
     return mawahebRequest(
       endpoint: OTP_VERIFY_ENDPOINT,
       method: METHOD.POST,
@@ -407,19 +408,20 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'code': code,
         }
       },
-      mapper: BaseResponseModel.fromJson(OTPResponseModel.fromJson),
+      mapper: BaseResponseModel.fromJson(OTPResponseModel.fromJson) as BaseResponseModel<OTPResponseModel> Function(
+          Object?)?,
     );
   }
 
   @override
-  Future<int> getPlayerId({String token}) async {
+  Future<int?> getPlayerId({String? token}) async {
     final Response response = await client.get(
       '$BASE_API$WEB_SERVICE/app/info',
       options: Options(headers: {'Authorization': 'Basic $token'}),
     );
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.data)['user.id'] as int;
+      return jsonDecode(response.data)['user.id'] as int?;
     }
 
     return null;
@@ -427,18 +429,16 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<bool>> forgetPassword({String email}) {
+  Future<NetworkResult<bool?>> forgetPassword({String? email}) {
     return mawahebRequest(
         method: METHOD.POST,
-        endpoint:
-            BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
+        endpoint: BASE_API + WEB_SERVICE + PUBLIC_SERVICE + '/auth/password/forgot',
         data: {'data': email},
         mapper: BaseResponseModel.successMapper);
   }
 
   @override
-  Future<NetworkResult<bool>> resetPassword(
-      {String email, String password, int code}) {
+  Future<NetworkResult<bool?>> resetPassword({String? email, String? password, int? code}) {
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: BASE_PUBLIC_API + '/auth/password/forgot/update',
@@ -449,7 +449,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<bool>> validateEmail({String email}) {
+  Future<NetworkResult<bool?>> validateEmail({String? email}) {
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: BASE_PUBLIC_API + '/auth/email/validate/unique',
@@ -459,8 +459,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>>>
-      getSubscription() {
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>?>> getSubscription() {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Subscription',
@@ -469,30 +468,26 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
         'data': {'criteria': [], 'operator': 'and'},
         'fields': ['period', 'amount', 'active', 'name', 'id']
       },
-      mapper: ListBaseResponseModel.fromJson(SubscriptionModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(SubscriptionModel.fromJson) as ListBaseResponseModel<SubscriptionModel>
+          Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<bool>> subscriptionPlayer(
-      {int playerId, int subscriptionId}) {
+  Future<NetworkResult<bool?>> subscriptionPlayer({int? playerId, int? subscriptionId}) {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-    return mawahebRequest(
-        method: METHOD.POST,
-        modelName: 'PartnerSubscription',
-        data: {
-          'data': {
-            'partner': {'id': playerId},
-            'subscription': {'id': subscriptionId},
-            'startedAt': formatter.format(DateTime.now()).toString()
-          }
-        });
+    return mawahebRequest(method: METHOD.POST, modelName: 'PartnerSubscription', data: {
+      'data': {
+        'partner': {'id': playerId},
+        'subscription': {'id': subscriptionId},
+        'startedAt': formatter.format(DateTime.now()).toString()
+      }
+    });
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
-      playerTransaction({int amount, int playerId}) {
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> playerTransaction({int? amount, int? playerId}) {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Transaction',
@@ -502,13 +497,13 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'actor': {'id': playerId},
         },
       },
-      mapper: ListBaseResponseModel.fromJson(TransactionModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(TransactionModel.fromJson) as ListBaseResponseModel<TransactionModel>
+          Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>>>
-      getPlayerTransaction() {
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> getPlayerTransaction() {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Transaction',
@@ -523,13 +518,13 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
           'operator': 'AND'
         }
       },
-      mapper: ListBaseResponseModel.fromJson(TransactionModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(TransactionModel.fromJson) as ListBaseResponseModel<TransactionModel>
+          Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<bool>> confirmTransaction(
-      {int transactionId, int transactionVersion}) {
+  Future<NetworkResult<bool?>> confirmTransaction({int? transactionId, int? transactionVersion}) {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Transaction',

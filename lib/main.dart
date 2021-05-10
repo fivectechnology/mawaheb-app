@@ -1,4 +1,3 @@
-import 'package:core_sdk/utils/injectable/environments.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,8 @@ Future<void> main() async {
 
   await setupNotifications();
 
-  await inject(environment: prod.name);
+  // await inject(environment: prod.name);
+  await inject();
 
   runApp(const App());
 }

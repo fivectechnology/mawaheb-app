@@ -7,7 +7,7 @@ import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class VideoPlayerPage extends StatefulWidget {
-  const VideoPlayerPage({Key key}) : super(key: key);
+  const VideoPlayerPage({Key? key}) : super(key: key);
 
   static MaterialPageRoute<dynamic> get pageRoute =>
       MaterialPageRoute<dynamic>(builder: (_) => const VideoPlayerPage());
@@ -16,8 +16,7 @@ class VideoPlayerPage extends StatefulWidget {
   _VideoPlayerPageState createState() => _VideoPlayerPageState();
 }
 
-class _VideoPlayerPageState
-    extends ProviderMobxState<VideoPlayerPage, PlayersViewmodel> {
+class _VideoPlayerPageState extends ProviderMobxState<VideoPlayerPage, PlayersViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -63,18 +62,17 @@ class _VideoPlayerPageState
                       ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: viewmodel.videos.length,
+                          itemCount: viewmodel.videos!.length,
                           itemBuilder: (context, index) {
                             return videoRow(
-                                videoUid: viewmodel.videos[index].videoUid,
-                                videoId: viewmodel.videos[index].video.id,
+                                videoUid: viewmodel.videos![index].videoUid,
+                                videoId: viewmodel.videos![index].video!.id,
                                 token: viewmodel.prefsRepository.token);
                           }),
-                    if (viewmodel.videos == null || viewmodel.videos.isEmpty)
+                    if (viewmodel.videos == null || viewmodel.videos!.isEmpty)
                       Center(
                         heightFactor: 10,
-                        child: Text(context.translate('msg_no_videos'),
-                            style: textTheme.subtitle1),
+                        child: Text(context.translate('msg_no_videos'), style: textTheme.subtitle1),
                       ),
                   ],
                 ),
@@ -83,7 +81,7 @@ class _VideoPlayerPageState
     );
   }
 
-  Widget videoRow({int videoId, String token, String videoUid}) {
+  Widget videoRow({int? videoId, String? token, String? videoUid}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Column(
@@ -92,8 +90,7 @@ class _VideoPlayerPageState
             children: [
               Container(
                 height: context.fullHeight * 0.3,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
                 child: VideoPlayerWidget(
                   videoUid: videoUid,
                 ),

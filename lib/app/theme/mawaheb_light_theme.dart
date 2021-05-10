@@ -58,7 +58,7 @@ ThemeData _buildTawreedLightTheme() {
     buttonTheme: ButtonThemeData(
       colorScheme: _lightColorScheme.copyWith(secondary: Colors.white),
       textTheme: ButtonTextTheme.accent,
-      buttonColor: _lightColorScheme.secondary,
+      // buttonColor: _lightColorScheme.secondary,
 
       /* shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(2)),

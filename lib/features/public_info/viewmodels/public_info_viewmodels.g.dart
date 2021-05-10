@@ -9,77 +9,77 @@ part of 'public_info_viewmodels.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
-  Computed<AboutUsModel> _$aboutUsComputed;
+  Computed<AboutUsModel?>? _$aboutUsComputed;
 
   @override
-  AboutUsModel get aboutUs =>
-      (_$aboutUsComputed ??= Computed<AboutUsModel>(() => super.aboutUs,
+  AboutUsModel? get aboutUs =>
+      (_$aboutUsComputed ??= Computed<AboutUsModel?>(() => super.aboutUs,
               name: '_PublicInfoViewmodelBase.aboutUs'))
           .value;
-  Computed<bool> _$aboutUsLoadingComputed;
+  Computed<bool>? _$aboutUsLoadingComputed;
 
   @override
   bool get aboutUsLoading =>
       (_$aboutUsLoadingComputed ??= Computed<bool>(() => super.aboutUsLoading,
               name: '_PublicInfoViewmodelBase.aboutUsLoading'))
           .value;
-  Computed<ContactUsModel> _$contactsComputed;
+  Computed<ContactUsModel?>? _$contactsComputed;
 
   @override
-  ContactUsModel get contacts =>
-      (_$contactsComputed ??= Computed<ContactUsModel>(() => super.contacts,
+  ContactUsModel? get contacts =>
+      (_$contactsComputed ??= Computed<ContactUsModel?>(() => super.contacts,
               name: '_PublicInfoViewmodelBase.contacts'))
           .value;
-  Computed<bool> _$contactsLoadingComputed;
+  Computed<bool>? _$contactsLoadingComputed;
 
   @override
   bool get contactsLoading =>
       (_$contactsLoadingComputed ??= Computed<bool>(() => super.contactsLoading,
               name: '_PublicInfoViewmodelBase.contactsLoading'))
           .value;
-  Computed<List<GalleryModel>> _$galleryComputed;
+  Computed<List<GalleryModel>?>? _$galleryComputed;
 
   @override
-  List<GalleryModel> get gallery =>
-      (_$galleryComputed ??= Computed<List<GalleryModel>>(() => super.gallery,
+  List<GalleryModel>? get gallery =>
+      (_$galleryComputed ??= Computed<List<GalleryModel>?>(() => super.gallery,
               name: '_PublicInfoViewmodelBase.gallery'))
           .value;
-  Computed<bool> _$galleryLoadingComputed;
+  Computed<bool>? _$galleryLoadingComputed;
 
   @override
   bool get galleryLoading =>
       (_$galleryLoadingComputed ??= Computed<bool>(() => super.galleryLoading,
               name: '_PublicInfoViewmodelBase.galleryLoading'))
           .value;
-  Computed<List<StrategicPartnersModel>> _$partnersComputed;
+  Computed<List<StrategicPartnersModel>?>? _$partnersComputed;
 
   @override
-  List<StrategicPartnersModel> get partners => (_$partnersComputed ??=
-          Computed<List<StrategicPartnersModel>>(() => super.partners,
+  List<StrategicPartnersModel>? get partners => (_$partnersComputed ??=
+          Computed<List<StrategicPartnersModel>?>(() => super.partners,
               name: '_PublicInfoViewmodelBase.partners'))
       .value;
-  Computed<bool> _$partnersLoadingComputed;
+  Computed<bool>? _$partnersLoadingComputed;
 
   @override
   bool get partnersLoading =>
       (_$partnersLoadingComputed ??= Computed<bool>(() => super.partnersLoading,
               name: '_PublicInfoViewmodelBase.partnersLoading'))
           .value;
-  Computed<List<DownloadCenterModel>> _$downloadsComputed;
+  Computed<List<DownloadCenterModel>?>? _$downloadsComputed;
 
   @override
-  List<DownloadCenterModel> get downloads => (_$downloadsComputed ??=
-          Computed<List<DownloadCenterModel>>(() => super.downloads,
+  List<DownloadCenterModel>? get downloads => (_$downloadsComputed ??=
+          Computed<List<DownloadCenterModel>?>(() => super.downloads,
               name: '_PublicInfoViewmodelBase.downloads'))
       .value;
-  Computed<bool> _$downloadsLoadingComputed;
+  Computed<bool>? _$downloadsLoadingComputed;
 
   @override
   bool get downloadsLoading => (_$downloadsLoadingComputed ??= Computed<bool>(
           () => super.downloadsLoading,
           name: '_PublicInfoViewmodelBase.downloadsLoading'))
       .value;
-  Computed<bool> _$isLoggedComputed;
+  Computed<bool>? _$isLoggedComputed;
 
   @override
   bool get isLogged =>
@@ -91,13 +91,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.aboutUsFuture');
 
   @override
-  ObservableFuture<AboutUsModel> get aboutUsFuture {
+  ObservableFuture<AboutUsModel>? get aboutUsFuture {
     _$aboutUsFutureAtom.reportRead();
     return super.aboutUsFuture;
   }
 
   @override
-  set aboutUsFuture(ObservableFuture<AboutUsModel> value) {
+  set aboutUsFuture(ObservableFuture<AboutUsModel>? value) {
     _$aboutUsFutureAtom.reportWrite(value, super.aboutUsFuture, () {
       super.aboutUsFuture = value;
     });
@@ -107,13 +107,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.contactsFuture');
 
   @override
-  ObservableFuture<ContactUsModel> get contactsFuture {
+  ObservableFuture<ContactUsModel>? get contactsFuture {
     _$contactsFutureAtom.reportRead();
     return super.contactsFuture;
   }
 
   @override
-  set contactsFuture(ObservableFuture<ContactUsModel> value) {
+  set contactsFuture(ObservableFuture<ContactUsModel>? value) {
     _$contactsFutureAtom.reportWrite(value, super.contactsFuture, () {
       super.contactsFuture = value;
     });
@@ -123,13 +123,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.galleryFuture');
 
   @override
-  ObservableFuture<List<GalleryModel>> get galleryFuture {
+  ObservableFuture<List<GalleryModel>>? get galleryFuture {
     _$galleryFutureAtom.reportRead();
     return super.galleryFuture;
   }
 
   @override
-  set galleryFuture(ObservableFuture<List<GalleryModel>> value) {
+  set galleryFuture(ObservableFuture<List<GalleryModel>>? value) {
     _$galleryFutureAtom.reportWrite(value, super.galleryFuture, () {
       super.galleryFuture = value;
     });
@@ -139,13 +139,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.partnersFuture');
 
   @override
-  ObservableFuture<List<StrategicPartnersModel>> get partnersFuture {
+  ObservableFuture<List<StrategicPartnersModel>>? get partnersFuture {
     _$partnersFutureAtom.reportRead();
     return super.partnersFuture;
   }
 
   @override
-  set partnersFuture(ObservableFuture<List<StrategicPartnersModel>> value) {
+  set partnersFuture(ObservableFuture<List<StrategicPartnersModel>>? value) {
     _$partnersFutureAtom.reportWrite(value, super.partnersFuture, () {
       super.partnersFuture = value;
     });
@@ -155,13 +155,13 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
       Atom(name: '_PublicInfoViewmodelBase.downloadsFuture');
 
   @override
-  ObservableFuture<List<DownloadCenterModel>> get downloadsFuture {
+  ObservableFuture<List<DownloadCenterModel>>? get downloadsFuture {
     _$downloadsFutureAtom.reportRead();
     return super.downloadsFuture;
   }
 
   @override
-  set downloadsFuture(ObservableFuture<List<DownloadCenterModel>> value) {
+  set downloadsFuture(ObservableFuture<List<DownloadCenterModel>>? value) {
     _$downloadsFutureAtom.reportWrite(value, super.downloadsFuture, () {
       super.downloadsFuture = value;
     });
@@ -242,10 +242,10 @@ mixin _$PublicInfoViewmodel on _PublicInfoViewmodelBase, Store {
 
   @override
   void downloadFile(
-      {@required int id,
-      @required int parentId,
-      @required void Function(int) onReceiveProgress,
-      @required dynamic Function(String) onSuccess}) {
+      {required int? id,
+      required int? parentId,
+      required void Function(int) onReceiveProgress,
+      required dynamic Function(String?) onSuccess}) {
     final _$actionInfo = _$_PublicInfoViewmodelBaseActionController.startAction(
         name: '_PublicInfoViewmodelBase.downloadFile');
     try {

@@ -6,23 +6,23 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 
 class MawahebBottomNavigationBar extends StatelessWidget {
-  const MawahebBottomNavigationBar({Key key, @required this.appViewModel})
+  const MawahebBottomNavigationBar({Key? key, required this.appViewModel})
       : super(key: key);
 
-  final AppViewmodel appViewModel;
+  final AppViewmodel? appViewModel;
 
   @override
   Widget build(BuildContext context) {
-    final bool isPlayer = appViewModel.isPlayer;
+    final bool isPlayer = appViewModel!.isPlayer;
     return Observer(
       builder: (_) {
         return BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           backgroundColor: WHITE,
-          currentIndex: appViewModel.pageIndex.index,
+          currentIndex: appViewModel!.pageIndex.index,
           onTap: (int index) =>
-              appViewModel.navigateTo(PageIndex.values[index]),
+              appViewModel!.navigateTo(PageIndex.values[index]),
           selectedLabelStyle: const TextStyle(
             fontSize: 12.0,
           ),
@@ -36,10 +36,10 @@ class MawahebBottomNavigationBar extends StatelessWidget {
               title:
                   context.translate(getBottomTitle(PageIndex.home, isPlayer)),
               index: PageIndex.home.index,
-              icon: appViewModel.isPlayer
+              icon: appViewModel!.isPlayer
                   ? 'assets/icons/ic_profile.svg'
                   : 'assets/icons/ic_profile.svg',
-              activeIcon: appViewModel.isPlayer
+              activeIcon: appViewModel!.isPlayer
                   ? 'assets/icons/ic_active_profile.svg'
                   : 'assets/icons/ic_active_profile.svg',
             ),
@@ -51,12 +51,12 @@ class MawahebBottomNavigationBar extends StatelessWidget {
               // activeIcon: 'assets/icons/ic_notification.svg',
               child: navigationButtonWithCount(
                 PageIndex.notifications.index,
-                count: appViewModel.notificationsCount,
+                count: appViewModel!.notificationsCount,
                 icon: 'assets/icons/ic_notification.svg',
               ),
               activeChild: navigationButtonWithCount(
                 PageIndex.notifications.index,
-                count: appViewModel.notificationsCount,
+                count: appViewModel!.notificationsCount,
                 icon: 'assets/icons/ic_notification.svg',
               ),
             ),
@@ -82,35 +82,35 @@ class MawahebBottomNavigationBar extends StatelessWidget {
   }
 
   BottomNavigationBarItem bottomNavigationBarTile({
-    @required String title,
-    @required int index,
-    String icon,
-    Widget child,
-    String activeIcon,
-    Widget activeChild,
+    required String title,
+    required int index,
+    String? icon,
+    Widget? child,
+    String? activeIcon,
+    Widget? activeChild,
   }) {
     return BottomNavigationBarItem(
       backgroundColor: WHITE,
       icon: addPadding(
         child ??
             SvgPicture.asset(
-              icon,
+              icon!,
               width: 24.0,
               height: 24.0,
               fit: BoxFit.cover,
               color:
-                  appViewModel.pageIndex.index == index ? Colors.black : GREY,
+                  appViewModel!.pageIndex.index == index ? Colors.black : GREY,
             ),
       ),
       activeIcon: addPadding(
         activeChild ??
             SvgPicture.asset(
-              activeIcon,
+              activeIcon!,
               width: 24.0,
               height: 24.0,
               fit: BoxFit.cover,
               color:
-                  appViewModel.pageIndex.index == index ? Colors.black : GREY,
+                  appViewModel!.pageIndex.index == index ? Colors.black : GREY,
             ),
       ),
       label: title,
@@ -120,7 +120,7 @@ class MawahebBottomNavigationBar extends StatelessWidget {
   Widget addPadding(Widget child) =>
       Padding(padding: const EdgeInsets.only(top: 2.0), child: child);
 
-  Widget navigationButtonWithCount(int index, {String icon, int count}) {
+  Widget navigationButtonWithCount(int index, {required String icon, required int count}) {
     return Row(
       children: [
         Expanded(
@@ -133,7 +133,7 @@ class MawahebBottomNavigationBar extends StatelessWidget {
                   width: 24.0,
                   height: 24.0,
                   fit: BoxFit.cover,
-                  color: appViewModel.pageIndex.index == index
+                  color: appViewModel!.pageIndex.index == index
                       ? Colors.black
                       : GREY,
                 ),

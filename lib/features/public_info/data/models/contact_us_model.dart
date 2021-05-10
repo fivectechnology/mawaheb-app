@@ -11,39 +11,39 @@ part 'contact_us_model.g.dart';
 @JsonSerializable()
 class ContactUsModel extends VersionModel with EquatableMixin {
   const ContactUsModel(
-      {@required int id,
-      @required int version,
-      @required this.country,
-      @required this.emirate,
-      @required this.address,
-      @required this.phone,
-      @required this.latitude,
-      @required this.longitude,
-      @required this.email,
-      @required this.addressAr})
+      {required int? id,
+      required int? version,
+      required this.country,
+      required this.emirate,
+      required this.address,
+      required this.phone,
+      required this.latitude,
+      required this.longitude,
+      required this.email,
+      required this.addressAr})
       : super(id, version);
 
-  final CountryModel country;
-  final EmirateModel emirate;
-  final String address;
-  final String phone;
-  final String longitude;
-  final String latitude;
-  final String addressAr;
-  final String email;
+  final CountryModel? country;
+  final EmirateModel? emirate;
+  final String? address;
+  final String? phone;
+  final String? longitude;
+  final String? latitude;
+  final String? addressAr;
+  final String? email;
 
   ContactUsModel copyWith(
-      {int id,
-      int version,
-      CountryModel country,
-      EmirateModel emirate,
-      String address,
-      String phone,
-      String googleMapsCoordination,
-      String email,
-      String longitude,
-      String addressAr,
-      String latitude}) {
+      {int? id,
+      int? version,
+      CountryModel? country,
+      EmirateModel? emirate,
+      String? address,
+      String? phone,
+      String? googleMapsCoordination,
+      String? email,
+      String? longitude,
+      String? addressAr,
+      String? latitude}) {
     return ContactUsModel(
       id: id ?? this.id,
       version: version ?? this.version,
@@ -62,7 +62,7 @@ class ContactUsModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       country,
       emirate,
@@ -75,6 +75,6 @@ class ContactUsModel extends VersionModel with EquatableMixin {
     ];
   }
 
-  static ContactUsModel fromJson(Object json) => _$ContactUsModelFromJson(json);
+  static ContactUsModel fromJson(Object json) => _$ContactUsModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$ContactUsModelToJson(this);
 }

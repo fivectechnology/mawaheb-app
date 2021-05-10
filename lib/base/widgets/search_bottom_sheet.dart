@@ -5,7 +5,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'mawaheb_button.dart';
 
 void searchModalBottomSheet(
-    {BuildContext context, String title, Function onPress, List list}) {
+    {required BuildContext context, String? title, Function? onPress, List? list}) {
   showMaterialModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
@@ -19,8 +19,8 @@ void searchModalBottomSheet(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.translate(title),
-                    style: context.textTheme.headline1
+                    context.translate(title!),
+                    style: context.textTheme.headline1!
                         .copyWith(fontSize: 20, letterSpacing: 0.2),
                   ),
                   Padding(
@@ -31,7 +31,7 @@ void searchModalBottomSheet(
                       child: TextField(
                         decoration: InputDecoration(
                             hintText: context.translate('lbl_search_sport'),
-                            hintStyle: context.textTheme.bodyText1
+                            hintStyle: context.textTheme.bodyText1!
                                 .copyWith(color: Colors.grey, fontSize: 12),
                             suffixIcon: IconButton(
                               onPressed: () {},

@@ -20,17 +20,15 @@ import 'package:mawaheb_app/features/players/ui/widgets/player_filter_widget.dar
 import 'package:mawaheb_app/features/players/viewmodels/players_viewmodel.dart';
 
 class PlayersPage extends StatefulWidget {
-  const PlayersPage({Key key}) : super(key: key);
+  const PlayersPage({Key? key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PlayersPage());
 
   @override
   _PlayersPageState createState() => _PlayersPageState();
 }
 
-class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
-    with SearchMixin, PaginationMixin {
+class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with SearchMixin, PaginationMixin {
   @override
   void initState() {
     super.initState();
@@ -45,7 +43,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
     super.dispose();
   }
 
-  PlayerFilterModel get filter => viewmodel.filter;
+  PlayerFilterModel? get filter => viewmodel.filter;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +66,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                 decoration: BoxDecoration(
                   border: Border.all(color: LIGHT_GREY, width: 0.5),
                   color: WHITE,
-                  boxShadow: const [
-                    BoxShadow(
-                        blurRadius: 6, offset: Offset(0, 3), color: LIGHT_GREY)
-                  ],
+                  boxShadow: const [BoxShadow(blurRadius: 6, offset: Offset(0, 3), color: LIGHT_GREY)],
                 ),
                 child: Row(
                   children: [
@@ -79,15 +74,12 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                       child: TextField(
                         controller: searchController,
                         decoration: InputDecoration(
-                          prefixIcon:
-                              const Icon(Icons.search, color: Colors.grey),
-                          hintStyle: context.textTheme.bodyText1
-                              .copyWith(color: Colors.grey),
+                          prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                          hintStyle: context.textTheme.bodyText1!.copyWith(color: Colors.grey),
                           hintText: context.translate('lbl_search_name'),
                           fillColor: Colors.white,
                           filled: true,
-                          contentPadding:
-                              EdgeInsets.all(context.fullWidth * 0.03),
+                          contentPadding: EdgeInsets.all(context.fullWidth * 0.03),
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
                         ),
@@ -97,7 +89,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                       onTap: () => PlayerFilterWidget.show(
                         context,
                         viewmodel: viewmodel,
-                        query: searchController.text,
+                        query: searchController!.text,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -109,17 +101,16 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: Observer(builder: (_) {
                 return Wrap(
                   crossAxisAlignment: WrapCrossAlignment.start,
                   alignment: WrapAlignment.start,
                   children: [
-                    if (viewmodel?.filter?.sport != null)
+                    if (viewmodel.filter?.sport != null)
                       filterChip(
                         context: context,
-                        text: viewmodel.filter.sport.name,
+                        text: viewmodel.filter!.sport!.name!,
                         onRemove: () {
                           viewmodel.filter = PlayerFilterModel(
                             country: filter?.country,
@@ -132,14 +123,13 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(
-                              fresh: true, query: searchController.text);
+                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel?.filter?.country != null)
+                    if (viewmodel.filter?.country != null)
                       filterChip(
                         context: context,
-                        text: viewmodel.filter.country.name,
+                        text: viewmodel.filter!.country!.name!,
                         onRemove: () {
                           viewmodel.filter = PlayerFilterModel(
                             country: null,
@@ -152,14 +142,13 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(
-                              fresh: true, query: searchController.text);
+                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel?.filter?.position != null)
+                    if (viewmodel.filter?.position != null)
                       filterChip(
                         context: context,
-                        text: viewmodel.filter.position.name,
+                        text: viewmodel.filter!.position!.name!,
                         onRemove: () {
                           viewmodel.filter = PlayerFilterModel(
                             country: filter?.country,
@@ -172,16 +161,14 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(
-                              fresh: true, query: searchController.text);
+                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel?.filter?.hand != null)
+                    if (viewmodel.filter?.hand != null)
                       // TODO(ahmad): add localization to hand string
                       filterChip(
                         context: context,
-                        text: test[viewmodel.filter.hand] +
-                            context.translate('lbl_hand'),
+                        text: test[viewmodel.filter!.hand!]! + context.translate('lbl_hand'),
                         onRemove: () {
                           viewmodel.filter = PlayerFilterModel(
                             country: filter?.country,
@@ -194,17 +181,15 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(
-                              fresh: true, query: searchController.text);
+                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel?.filter?.leg != null)
+                    if (viewmodel.filter?.leg != null)
                       // TODO(ahmad): add localization to leg string
 
                       filterChip(
                         context: context,
-                        text: test[viewmodel.filter.hand] +
-                            context.translate('lbl_leg'),
+                        text: test[viewmodel.filter!.hand!]! + context.translate('lbl_leg'),
                         onRemove: () {
                           viewmodel.filter = PlayerFilterModel(
                             country: filter?.country,
@@ -217,8 +202,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(
-                              fresh: true, query: searchController.text);
+                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
                   ],
@@ -229,43 +213,35 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
               child: Observer(builder: (_) {
                 return RefreshIndicator(
                   onRefresh: () async {
-                    searchController.text = '';
-                    viewmodel.searchPlayers(
-                        fresh: true, query: searchController.text);
+                    searchController!.text = '';
+                    viewmodel.searchPlayers(fresh: true, query: searchController!.text);
                   },
-                  child:
-                      MawahebFutureBuilder<ListBaseResponseModel<PlayerModel>>(
-                          future: viewmodel.playersFuture,
-                          onRetry: () => viewmodel.searchPlayers(
-                              fresh: true, query: searchController.text),
-                          onSuccess:
-                              (ListBaseResponseModel<PlayerModel> players) {
-                            return FocusDetector(
-                              child: PaginationList<PlayerModel>(
-                                  canLoadMore: viewmodel.canLoadMorePlayers,
-                                  dataList: players.data,
-                                  scrollController: scrollController,
-                                  shrinkWrap: false,
-                                  padding: 0,
-                                  physics: const BouncingScrollPhysics(
-                                      parent: AlwaysScrollableScrollPhysics()),
-                                  emptyWidget: Center(
-                                      child: Text(context
-                                          .translate('msg_no_match_players'))),
-                                  cardBuilder: (player) {
-                                    return heroUserListTile(
-                                      context,
-                                      name: player.name,
-                                      id: player.id,
-                                      photoId: player.photoId,
-                                      token: viewmodel.prefsRepository.token,
-                                      onTap: () => App.navKey.currentState.push(
-                                          ViewPlayerProfile.pageRoute(
-                                              viewmodel, player)),
-                                    );
-                                  }),
-                            );
-                          }),
+                  child: MawahebFutureBuilder<ListBaseResponseModel<PlayerModel>>(
+                      future: viewmodel.playersFuture,
+                      onRetry: () => viewmodel.searchPlayers(fresh: true, query: searchController!.text),
+                      onSuccess: (ListBaseResponseModel<PlayerModel>? players) {
+                        return FocusDetector(
+                          child: PaginationList<PlayerModel>(
+                              canLoadMore: viewmodel.canLoadMorePlayers,
+                              dataList: players!.data!,
+                              scrollController: scrollController,
+                              shrinkWrap: false,
+                              padding: 0,
+                              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                              emptyWidget: Center(child: Text(context.translate('msg_no_match_players'))),
+                              cardBuilder: (player) {
+                                return heroUserListTile(
+                                  context,
+                                  name: player.name!,
+                                  id: player.id,
+                                  photoId: player.photoId,
+                                  token: viewmodel.prefsRepository.token,
+                                  onTap: () =>
+                                      App.navKey.currentState!.push(ViewPlayerProfile.pageRoute(viewmodel, player)),
+                                );
+                              }),
+                        );
+                      }),
                 );
               }),
             ),
@@ -276,9 +252,8 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel>
   }
 
   @override
-  void onLoadMore() => viewmodel.searchPlayers(query: searchController.text);
+  void onLoadMore() => viewmodel.searchPlayers(query: searchController!.text);
 
   @override
-  void onSearch(String qurey) =>
-      viewmodel.searchPlayers(query: qurey, fresh: true);
+  void onSearch(String qurey) => viewmodel.searchPlayers(query: qurey, fresh: true);
 }

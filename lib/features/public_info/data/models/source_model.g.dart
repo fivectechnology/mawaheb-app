@@ -8,10 +8,10 @@ part of 'source_model.dart';
 
 SourceModel _$SourceModelFromJson(Map<String, dynamic> json) {
   return SourceModel(
-    fileName: json['fileName'] as String,
-    fileUUID: json['fileUUID'] as String,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    fileName: json['fileName'] as String?,
+    fileUUID: json['fileUUID'] as String?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 

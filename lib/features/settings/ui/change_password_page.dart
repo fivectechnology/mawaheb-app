@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static const String route = '/change_password';
@@ -50,7 +50,7 @@ class _ChangePasswordPageState extends ProviderMobxState<ChangePasswordPage, Set
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       Provider.of<AppViewmodel>(context, listen: false).pushRoute(AppBarParams(
         title: 'lbl_change_password',
         showBackButton: true,
@@ -93,7 +93,7 @@ class _ChangePasswordPageState extends ProviderMobxState<ChangePasswordPage, Set
                       textEditingController: _oldPasswordController,
                       isSuffixIcon: true,
                       validator: (value) {
-                        return passwordValidator(context: context, password: value);
+                        return passwordValidator(context: context, password: value ?? '');
                       },
                       useObscure: true,
                     ),
@@ -104,7 +104,7 @@ class _ChangePasswordPageState extends ProviderMobxState<ChangePasswordPage, Set
                     hintText: 'lbl_new_password',
                     isSuffixIcon: true,
                     validator: (value) {
-                      return passwordValidator(context: context, password: value);
+                      return passwordValidator(context: context, password: value ?? '');
                     },
                     useObscure: true,
                   ),
@@ -129,8 +129,8 @@ class _ChangePasswordPageState extends ProviderMobxState<ChangePasswordPage, Set
                       child: MawahebGradientButton(
                         text: 'lbl_change_password',
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
 
                             viewmodel.changePassword(
                                 currentPassword: _oldPasswordController.text, newPassword: _newPasswordController.text);

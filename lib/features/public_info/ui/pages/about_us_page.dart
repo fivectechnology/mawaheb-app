@@ -6,12 +6,11 @@ import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
 class AboutUsPage extends StatefulWidget {
-  const AboutUsPage({Key key}) : super(key: key);
+  const AboutUsPage({Key? key}) : super(key: key);
 
   static const String route = '/about_us';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -19,8 +18,7 @@ class AboutUsPage extends StatefulWidget {
   _AboutUsPageState createState() => _AboutUsPageState();
 }
 
-class _AboutUsPageState
-    extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
+class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -34,7 +32,7 @@ class _AboutUsPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.aboutUs == null) {
+    if (viewmodel.aboutUs == null) {
       viewmodel.getaboutUs();
     }
   }
@@ -44,7 +42,7 @@ class _AboutUsPageState
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.only(top: 26),
+        padding: const EdgeInsets.only(top: 26.0),
         child: MawahebFutureBuilder<AboutUsModel>(
             future: viewmodel.aboutUsFuture,
             onRetry: viewmodel.getaboutUs,
@@ -91,12 +89,12 @@ class _AboutUsPageState
   }
 
   Widget aboutUsTile({
-    String title,
-    String text,
-    String image,
+    required String title,
+    required String text,
+    required String image,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 40),
+      padding: const EdgeInsets.only(bottom: 40.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -106,8 +104,7 @@ class _AboutUsPageState
             padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
             child: Text(
               context.translate(title),
-              style: textTheme.headline2
-                  .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+              style: textTheme.headline2!.copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 7),

@@ -3,7 +3,7 @@ import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
@@ -14,47 +14,43 @@ import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'mawaheb_datasource.dart';
 
 abstract class AppDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<ListBaseResponseModel<int>>> getNotificationsCount();
+  Future<NetworkResult<ListBaseResponseModel<int>?>> getNotificationsCount();
 
-  Future<NetworkResult<BaseResponseModel<Object>>> deleteDevice(
-      {String firebaseToken});
+  Future<NetworkResult<BaseResponseModel<Object>?>> deleteDevice({String? firebaseToken});
 
-  Future<NetworkResult<VersionResponse>> registerDevice({
-    String firebaseToken,
-    String appVersion,
-    String deviceModel,
-    String deviceUuid,
-    String osTypeId,
-    String osVersion,
-    int appTypeId,
+  Future<NetworkResult<VersionResponse?>> registerDevice({
+    String? firebaseToken,
+    String? appVersion,
+    String? deviceModel,
+    String? deviceUuid,
+    String? osTypeId,
+    String? osVersion,
+    int? appTypeId,
   });
 
-  Future<NetworkResult<VersionResponse>> modifyDevice(bool link);
+  Future<NetworkResult<VersionResponse?>> modifyDevice(bool link);
 
-  Future<NetworkResult<VersionResponse>> getDevice({String fbToken});
+  Future<NetworkResult<VersionResponse?>> getDevice({String? fbToken});
 }
 
 @LazySingleton(as: AppDataSource)
-class AppDataSourceImpl extends MawahebRemoteDataSource
-    implements AppDataSource {
+class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource {
   AppDataSourceImpl({
-    @required Dio client,
-    @required PrefsRepository prefsRepository,
-    @required DataConnectionChecker connectionChecker,
-    @required Logger logger,
+    required Dio client,
+    required PrefsRepository prefsRepository,
+    required Logger logger,
   }) : super(
           prefsRepository: prefsRepository,
           client: client,
-          connectionChecker: connectionChecker,
+         
           logger: logger,
         );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<int>>> getNotificationsCount() =>
-      mawahebRequest(
+  Future<NetworkResult<ListBaseResponseModel<int>?>> getNotificationsCount() => mawahebRequest(
           method: METHOD.POST,
           modelName: 'NotificationMessage',
-          mapper: ListBaseResponseModel.fromJson((obj) => obj as int),
+          mapper: ListBaseResponseModel.fromJson((obj) => obj as int) as ListBaseResponseModel<int> Function(Object?)?,
           data: {
             'fields': ['id', 'version', 'code', 'value'],
             'data': {'_domain': 'self.recordId =:__user__'},
@@ -63,14 +59,14 @@ class AppDataSourceImpl extends MawahebRemoteDataSource
           });
 
   @override
-  Future<NetworkResult<VersionResponse>> registerDevice({
-    String firebaseToken,
-    String appVersion,
-    String deviceModel,
-    String deviceUuid,
-    String osTypeId,
-    String osVersion,
-    int appTypeId,
+  Future<NetworkResult<VersionResponse?>> registerDevice({
+    String? firebaseToken,
+    String? appVersion,
+    String? deviceModel,
+    String? deviceUuid,
+    String? osTypeId,
+    String? osVersion,
+    int? appTypeId,
   }) =>
       mawahebRequest(
         modelName: 'NotificationDevice',
@@ -90,19 +86,17 @@ class AppDataSourceImpl extends MawahebRemoteDataSource
       );
 
   @override
-  Future<NetworkResult<BaseResponseModel<Object>>> deleteDevice(
-          {String firebaseToken}) =>
-      mawahebRequest(
+  Future<NetworkResult<BaseResponseModel<Object>?>> deleteDevice({String? firebaseToken}) => mawahebRequest(
         method: METHOD.POST,
         modelName: 'NotificationDevice',
-        mapper: BaseResponseModel.fromJson((obj) => obj),
+        mapper: BaseResponseModel.fromJson((obj) => obj) as BaseResponseModel<Object> Function(Object?)?,
         data: firebaseToken,
         withAuth: false,
       );
 
   @override
-  Future<NetworkResult<VersionResponse>> modifyDevice(bool link) async {
-    final version = (await getDevice()).getOrThrow().version;
+  Future<NetworkResult<VersionResponse?>> modifyDevice(bool link) async {
+    final version = (await getDevice()).getOrThrow()!.version;
     logger.d('version in modify device is $version');
     return mawahebRequest(
         method: METHOD.POST,
@@ -111,19 +105,18 @@ class AppDataSourceImpl extends MawahebRemoteDataSource
         data: {
           'fields': ['id', 'version', 'deviceId'],
           'data': {
-            'id': prefsRepository.fbId,
+            'id': prefsRepository!.fbId,
             'version': version,
-            'user': link ? {'id': prefsRepository.player.id} : null,
+            'user': link ? {'id': prefsRepository!.player!.id} : null,
           }
         });
   }
 
   @override
-  Future<NetworkResult<VersionResponse>> getDevice({String fbToken}) =>
-      mawahebRequest(
+  Future<NetworkResult<VersionResponse?>> getDevice({String? fbToken}) => mawahebRequest(
         method: METHOD.POST,
         modelName: 'NotificationDevice',
-        id: fbToken == null ? prefsRepository.fbId : null,
+        id: fbToken == null ? prefsRepository!.fbId : null,
         action: fbToken == null ? EndPointAction.fetch : EndPointAction.search,
         mapper: ListBaseResponseModel.versionMapper,
         data: fbToken == null

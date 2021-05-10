@@ -1,6 +1,7 @@
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
@@ -21,20 +22,17 @@ part 'splash_viewmodel.g.dart';
 
 @injectable
 class SplashViewmodel extends _SplashViewmodelBase with _$SplashViewmodel {
-  SplashViewmodel(Logger logger, PrefsRepository prefsRepository,
-      AuthRepository authRepository)
+  SplashViewmodel(Logger logger, PrefsRepository prefsRepository, AuthRepository authRepository)
       : super(logger, prefsRepository, authRepository);
 }
 
 abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
-  _SplashViewmodelBase(Logger logger, this.prefsRepository, this.authRepository)
-      : super(logger) {
+  _SplashViewmodelBase(Logger logger, this.prefsRepository, this.authRepository) : super(logger) {
     Future.delayed(2.seconds).then((_) {
       // TODO(ahmad): use this when you want to test base pages without login
       // getContext((context) => context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
       // print(prefsRepository.type);
-      if (prefsRepository.player != null &&
-          prefsRepository.player.status == 'INACTIVE') {
+      if (prefsRepository.player != null && prefsRepository.player?.status == 'INACTIVE') {
         getContext((context) => showSnack(
               context.translate('msg_signUp_error'),
               duration: 3.seconds,
@@ -44,9 +42,15 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
       }
       // TODO(ahmad): use this in release
       getContext((context) {
-        (prefsRepository.user) != null
-            ? context.pushNamedAndRemoveUntil(BasePage.route, (_) => false)
-            : context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+        logger.d('my debug handler executed');
+        if ((prefsRepository.user) != null) {
+          logger.d('my debug handler executed 1');
+          context.pushNamedAndRemoveUntil(BasePage.route, (_) => false);
+        } else {
+          logger.d('my debug handler executed 2');
+          context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+          // Navigator.of(context).pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+        }
       });
     });
   }
@@ -56,7 +60,7 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
 
 //* OBSERVERS *//
   @observable
-  ObservableFuture<bool> logoutFuture;
+  ObservableFuture<bool>? logoutFuture;
 
 //* COMPUTED *//
   @computed
@@ -67,7 +71,7 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
   void logout() {
     logoutFuture = futureWrapper(
       () => logoutAsFuture(),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       useLoader: true,
     );
   }
@@ -75,11 +79,9 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
   Future<bool> logoutAsFuture() {
     return authRepository.logout().then(
           (res) => res.apply(() {
-            App.navKey.currentState
-                .pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+            App.navKey.currentState!.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
             getContext(
-              (context) => Provider.of<AppViewmodel>(context, listen: false)
-                  .navigateTo(PageIndex.home),
+              (context) => Provider.of<AppViewmodel>(context, listen: false).navigateTo(PageIndex.home),
             );
           }),
         );

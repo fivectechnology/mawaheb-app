@@ -8,8 +8,8 @@ part of 'version_model.dart';
 
 VersionResponse _$VersionResponseFromJson(Map<String, dynamic> json) {
   return VersionResponse(
-    json['id'] as int,
-    json['version'] as int,
+    json['id'] as int?,
+    json['version'] as int?,
   );
 }
 

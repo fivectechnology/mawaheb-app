@@ -7,22 +7,22 @@ part 'sport_model.g.dart';
 @JsonSerializable()
 class SportModel with EquatableMixin {
   const SportModel({
-    @required this.name2,
-    @required this.tName,
-    @required this.id,
+    required this.name2,
+    required this.tName,
+    required this.id,
   });
 
   @JsonKey(name: r'$t:name')
-  final String tName;
+  final String? tName;
   @JsonKey(name: 'name')
-  final String name2;
+  final String? name2;
 
-  final int id;
+  final int? id;
 
   SportModel copyWith({
-    String name2,
-    String tName,
-    int id,
+    String? name2,
+    String? tName,
+    int? id,
   }) {
     return SportModel(
       name2: name2 ?? this.name2,
@@ -34,10 +34,10 @@ class SportModel with EquatableMixin {
   @override
   bool get stringify => true;
 
-  String get name => tName ?? name2;
+  String? get name => tName ?? name2;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       name,
       tName,
@@ -45,6 +45,6 @@ class SportModel with EquatableMixin {
     ];
   }
 
-  static SportModel fromJson(Object json) => _$SportModelFromJson(json);
+  static SportModel fromJson(Object json) => _$SportModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$SportModelToJson(this);
 }

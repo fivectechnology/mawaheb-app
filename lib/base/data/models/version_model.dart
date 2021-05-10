@@ -6,15 +6,15 @@ part 'version_model.g.dart';
 abstract class VersionModel {
   const VersionModel(this.id, this.version);
 
-  final int id;
-  final int version;
+  final int? id;
+  final int? version;
 }
 
 @JsonSerializable()
 class VersionResponse extends VersionModel with EquatableMixin {
-  VersionResponse(int id, int version) : super(id, version);
+  VersionResponse(int? id, int? version) : super(id, version);
 
-  VersionResponse copyWith({int id, int version}) {
+  VersionResponse copyWith({int? id, int? version}) {
     return VersionResponse(
       version ?? this.version,
       id ?? this.id,
@@ -25,10 +25,10 @@ class VersionResponse extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [version, id];
+  List<Object?> get props => [version, id];
 
-  static VersionResponse fromJson(Object json) =>
-      _$VersionResponseFromJson(json);
+  static VersionResponse fromJson(Object? json) =>
+      _$VersionResponseFromJson(json as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => _$VersionResponseToJson(this);
 

@@ -8,9 +8,9 @@ part of 'transaction_model.dart';
 
 TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
   return TransactionModel(
-    amount: json['amount'] as int,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    amount: json['amount'] as int?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 

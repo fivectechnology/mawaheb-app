@@ -7,7 +7,7 @@ import 'package:core_sdk/error/failures.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/dio/token_option.dart';
 import 'package:core_sdk/utils/network_result.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
@@ -18,17 +18,15 @@ import 'package:mawaheb_app/base/utils/api_helper.dart';
 
 class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
   MawahebRemoteDataSource({
-    @required Dio client,
-    @required DataConnectionChecker connectionChecker,
-    @required Logger logger,
-    @required this.prefsRepository,
+    required Dio client,
+    required Logger logger,
+    required this.prefsRepository,
   }) : super(
           client: client,
-          connectionChecker: connectionChecker,
           logger: logger,
         );
 
-  final PrefsRepository prefsRepository;
+  final PrefsRepository? prefsRepository;
 
   @override
   Map<String, dynamic> wrapWithBaseData(data) {
@@ -42,23 +40,25 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
   }
 
   @override
-  Future<NetworkResult<T>> request<T>({
-    @required METHOD method,
-    @required String endpoint,
+  Future<NetworkResult<T?>> request<T>({
+    required METHOD method,
+    required String endpoint,
     data,
-    int siteId,
-    Map<String, dynamic> params,
-    Map<String, dynamic> headers,
-    Mapper<T> mapper,
-    String messageErrorKey = 'msg_something_wrong',
+    int? siteId,
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? headers,
+    Mapper<T?>? mapper,
+    String? messageErrorKey = 'msg_something_wrong',
+    // String messageErrorKey,
     bool withAuth = true,
     bool wrapData = true,
   }) async {
-    return _checkNetwork<T>(() async {
-      Response response;
+    return _checkNetwork<T?>(() async {
+      late Response response;
       dynamic jsonResponse;
       try {
-        final Options options = withAuth ? TokenOption.toOptions().merge(headers: headers) : Options(headers: headers);
+        final Options options =
+            withAuth ? TokenOption.toOptions().copyWith(headers: headers) : Options(headers: headers);
         print('data = $data');
         print('endpoint = $endpoint');
 
@@ -98,7 +98,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
 
         if (mapper == null) {
           if (response.statusCode == 200) {
-            return Success<T>(null);
+            return Success<T?>(null);
           } else {
             NetworkError(ServerFailure(messageErrorKey));
           }
@@ -106,14 +106,14 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
 
         jsonResponse = jsonDecode(response.data);
         if (jsonResponse is! Map && mapper == null) {
-          return Success(jsonResponse as T);
+          return Success(jsonResponse as T?);
         }
 
-        if ((jsonResponse['status'] as int) != 0) {
+        if ((jsonResponse['status'] as int?) != 0) {
           throw ServerException(_getErrorMessage(jsonResponse));
         }
 
-        return Success(mapper(jsonResponse));
+        return Success(mapper!(jsonResponse));
       } catch (e) {
         //logger.e('my debug new error $response $jsonResponse');
         logger.e('BaseDataSourceWithMapperImpl => request<$T> => ERROR = $e');
@@ -122,9 +122,12 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
         } catch (ex) {
           logger.e(
               'BaseDataSourceWithMapperImpl FINAL CATCH ERROR => request<$T> => ERROR = e:$e \n $response \n $jsonResponse');
+          // return e is ServerException
+          //     ? NetworkError(ServerFailure(e.message))
+          //     : NetworkError(ServerFailure(e.message ?? messageErrorKey));
           return e is ServerException
               ? NetworkError(ServerFailure(e.message))
-              : NetworkError(ServerFailure(e?.message ?? messageErrorKey));
+              : NetworkError(ServerFailure(messageErrorKey));
         }
       }
     });
@@ -133,31 +136,31 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
   Future<NetworkResult<T>> _checkNetwork<T>(
     Future<NetworkResult<T>> Function() body,
   ) async {
-    return await connectionChecker.hasConnection ? await body() : NetworkError(NetworkFailure('msg_no_internet'));
+    return body();
   }
 
-  Future<NetworkResult<T>> mawahebRequest<T>({
-    @required METHOD method,
+  Future<NetworkResult<T?>> mawahebRequest<T>({
+    required METHOD method,
     bool mawahebModel = true,
     bool public = false,
     bool withAuth = true,
     bool wrapData = false,
-    int id,
-    String modelName,
-    String endpoint,
-    EndPointAction action,
+    int? id,
+    String? modelName,
+    String? endpoint,
+    EndPointAction? action,
     data,
-    Map<String, dynamic> params,
-    Map<String, dynamic> headers,
-    Mapper<T> mapper,
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? headers,
+    Mapper<T?>? mapper,
   }) {
-    return request<T>(
+    return request<T?>(
       endpoint: endpoint ??
           getModelEndPoint(
             action: action,
             id: id,
             mawahebModel: mawahebModel,
-            modelName: modelName,
+            modelName: modelName!,
             public: public,
           ),
       method: method,
@@ -171,11 +174,11 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
   }
 
   String getModelEndPoint({
-    @required String modelName,
-    @required int id,
-    @required EndPointAction action,
-    @required bool mawahebModel,
-    @required bool public,
+    required String modelName,
+    required int? id,
+    required EndPointAction? action,
+    required bool mawahebModel,
+    required bool public,
   }) {
     return (public ? BASE_PUBLIC_API : BASE_REST_API) +
         (mawahebModel ? MAWAHEB_BASE_DB : BASE_DB) +
@@ -184,7 +187,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
         (action != null ? '/${action.raw}' : '');
   }
 
-  String _getErrorMessage(Map<String, dynamic> response) {
+  String? _getErrorMessage(Map<String, dynamic> response) {
     try {
       return (response['status'] as int == -1) ? response['data']['message'] : response['errors']['error'];
     } catch (ex) {
@@ -192,9 +195,9 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
     }
   }
 
-  Future<NetworkResult<VersionResponse>> getVersion({
-    @required String modelName,
-    @required int modelId,
+  Future<NetworkResult<VersionResponse?>> getVersion({
+    required String modelName,
+    required int? modelId,
     bool mawahebModel = true,
     bool asList = false,
   }) {

@@ -8,25 +8,23 @@ import '../../../global_di.dart';
 
 void main() {
   group('notification  dataSource => ', () {
-    NotificationsDataSource notificationsDataSource;
-    PrefsRepository prefsRepository;
-    AuthDataSource authDataSource;
+    NotificationsDataSource? notificationsDataSource;
+    PrefsRepository? prefsRepository;
+    AuthDataSource? authDataSource;
     setUp(() async {
       prefsRepository = FakePrefsRepository();
       final client = createDio(prefsRepositoryArgs: prefsRepository);
       authDataSource = AuthDataSourceImpl(
-        connectionChecker: connectionChecker,
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
         client: client,
       );
       notificationsDataSource = NotificationsDataSourceImpl(
-        connectionChecker: connectionChecker,
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
         client: client,
       );
-      await authDataSource.login(userName: playerEmail, password: playerPassword, type: playerType);
+      await authDataSource!.login(userName: playerEmail, password: playerPassword, type: playerType);
     });
 
     tearDown(() {
@@ -36,11 +34,11 @@ void main() {
     });
 
     test('success notification fetch', () async {
-      final res = await notificationsDataSource.getNotifications(offset: 0, limit: 20);
+      final res = await notificationsDataSource!.getNotifications(offset: 0, limit: 20);
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.subject, isNotNull);
-      expect(res.getOrThrow().data.first.message, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.subject, isNotNull);
+      expect(res.getOrThrow()!.data!.first.message, isNotNull);
     });
   });
 }

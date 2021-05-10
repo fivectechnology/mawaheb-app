@@ -10,15 +10,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 class SubscriptionPage extends StatefulWidget {
   const SubscriptionPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const String route = '/subscription';
 
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
-      MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const SubscriptionPage(),
@@ -29,8 +28,7 @@ class SubscriptionPage extends StatefulWidget {
   _SubscriptionPageState createState() => _SubscriptionPageState();
 }
 
-class _SubscriptionPageState
-    extends ProviderMobxState<SubscriptionPage, AuthViewmodel> {
+class _SubscriptionPageState extends ProviderMobxState<SubscriptionPage, AuthViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -58,7 +56,7 @@ class _SubscriptionPageState
           leadingText: 'skip',
           onBackButton: () {
             context.pushNamedAndRemoveUntil(BasePage.route, (_) => false);
-          }),
+          }) as PreferredSizeWidget?,
       body: Center(
         child: Observer(
           builder: (_) {

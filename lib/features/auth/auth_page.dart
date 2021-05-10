@@ -8,10 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({Key key}) : super(key: key);
+  const AuthPage({Key? key}) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AuthPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AuthPage());
 
   static const String route = '/auth';
 
@@ -20,7 +19,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
-  AppViewmodel appViewmodel;
+  AppViewmodel? appViewmodel;
 
   @override
   void initState() {
@@ -52,12 +51,12 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
             fontFamily: 'Poppins',
             color: TEXT_COLOR,
             fontWeight: FontWeight.w500,
-            fontSize: 19,
+            fontSize: 19.0,
             letterSpacing: 0.15,
           ),
         ),
         toolbarHeight: 56.0,
-        elevation: 0,
+        elevation: 0.0,
         centerTitle: false,
       ),
       key: viewmodel.scaffoldKey,

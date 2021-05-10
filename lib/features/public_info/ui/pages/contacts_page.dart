@@ -11,12 +11,11 @@ import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmode
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactsPage extends StatefulWidget {
-  const ContactsPage({Key key}) : super(key: key);
+  const ContactsPage({Key? key}) : super(key: key);
 
   static const String route = '/contacts';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const ContactsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ContactsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -24,8 +23,7 @@ class ContactsPage extends StatefulWidget {
   _ContactsPageState createState() => _ContactsPageState();
 }
 
-class _ContactsPageState
-    extends ProviderMobxState<ContactsPage, PublicInfoViewmodel> {
+class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -39,7 +37,7 @@ class _ContactsPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.contacts == null) {
+    if (viewmodel.contacts == null) {
       viewmodel.getcontactUs();
     }
   }
@@ -49,9 +47,7 @@ class _ContactsPageState
     return Scaffold(
       backgroundColor: WHITE,
       body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: context.fullWidth * 0.05,
-            vertical: context.fullHeight * 0.05),
+        padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05, vertical: context.fullHeight * 0.05),
         child: MawahebFutureBuilder<ContactUsModel>(
             future: viewmodel.contactsFuture,
             onRetry: viewmodel.getcontactUs,
@@ -60,15 +56,12 @@ class _ContactsPageState
                 physics: const BouncingScrollPhysics(),
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/images/ic_logo.svg',
-                      fit: BoxFit.fitHeight),
+                  SvgPicture.asset('assets/images/ic_logo.svg', fit: BoxFit.fitHeight),
                   contactRow(
                       title: 'lbl_address',
-                      text: viewmodel.prefsRepository.languageCode == 'en'
-                          ? contacts.address
-                          : contacts.addressAr),
-                  contactRow(title: 'lbl_email', text: contacts.email),
-                  contactRow(title: 'lbl_phone', text: contacts.phone),
+                      text: viewmodel.prefsRepository.languageCode == 'en' ? contacts?.address : contacts?.addressAr),
+                  contactRow(title: 'lbl_email', text: contacts?.email),
+                  contactRow(title: 'lbl_phone', text: contacts?.phone),
                   const SizedBox(height: 18),
                   SizedBox(
                     height: context.fullHeight * 0.3,
@@ -78,14 +71,14 @@ class _ContactsPageState
                       zoomControlsEnabled: false,
                       initialCameraPosition: CameraPosition(
                         target: LatLng(
-                          double.parse(viewmodel.contacts.latitude),
-                          double.parse(viewmodel.contacts.longitude),
+                          double.parse(viewmodel.contacts!.latitude!),
+                          double.parse(viewmodel.contacts!.longitude!),
                         ),
                         zoom: 11.0,
                       ),
                       onTap: (_) {
                         launch(Uri.encodeFull(
-                          'https://www.google.com/maps/search/?api=1&query=${viewmodel.contacts.latitude},${viewmodel.contacts.longitude}',
+                          'https://www.google.com/maps/search/?api=1&query=${viewmodel.contacts!.latitude},${viewmodel.contacts!.longitude}',
                         ));
                       },
                     ),
@@ -97,7 +90,7 @@ class _ContactsPageState
     );
   }
 
-  Widget contactRow({String title, String text}) {
+  Widget contactRow({required String title, String? text}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
       child: Column(
@@ -109,12 +102,9 @@ class _ContactsPageState
                 child: RichText(
                   text: TextSpan(
                     text: context.translate(title) + ': ',
-                    style: textTheme.headline6.copyWith(fontSize: 14),
+                    style: textTheme.headline6!.copyWith(fontSize: 14),
                     children: [
-                      TextSpan(
-                          text: text,
-                          style: textTheme.subtitle2
-                              .copyWith(fontWeight: FontWeight.w200)),
+                      TextSpan(text: text, style: textTheme.subtitle2!.copyWith(fontWeight: FontWeight.w200)),
                     ],
                   ),
                 ),

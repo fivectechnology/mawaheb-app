@@ -7,22 +7,22 @@ part 'category_model.g.dart';
 @JsonSerializable()
 class CategoryModel with EquatableMixin {
   const CategoryModel({
-    @required this.titleEn,
-    @required this.tTitle,
-    @required this.id,
+    required this.titleEn,
+    required this.tTitle,
+    required this.id,
   });
 
   @JsonKey(name: r'$t:title')
-  final String tTitle;
+  final String? tTitle;
   @JsonKey(name: 'title')
-  final String titleEn;
+  final String? titleEn;
 
-  final int id;
+  final int? id;
 
   CategoryModel copyWith({
-    String titleEn,
-    String tTitle,
-    int id,
+    String? titleEn,
+    String? tTitle,
+    int? id,
   }) {
     return CategoryModel(
       titleEn: titleEn ?? this.titleEn,
@@ -34,10 +34,10 @@ class CategoryModel with EquatableMixin {
   @override
   bool get stringify => true;
 
-  String get title => tTitle ?? titleEn;
+  String? get title => tTitle ?? titleEn;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       titleEn,
       tTitle,
@@ -45,6 +45,6 @@ class CategoryModel with EquatableMixin {
     ];
   }
 
-  static CategoryModel fromJson(Object json) => _$CategoryModelFromJson(json);
+  static CategoryModel fromJson(Object json) => _$CategoryModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$CategoryModelToJson(this);
 }

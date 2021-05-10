@@ -15,7 +15,7 @@ import 'package:mobx/mobx.dart';
 import 'package:supercharged/supercharged.dart';
 
 class SettingOtpPage extends StatefulWidget {
-  const SettingOtpPage({Key key}) : super(key: key);
+  const SettingOtpPage({Key? key}) : super(key: key);
 
   static const String route = '/setting_otp';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -38,7 +38,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       Provider.of<AppViewmodel>(context, listen: false).pushRoute(AppBarParams(
         title: 'lbl_otp',
         showBackButton: true,
@@ -87,12 +87,12 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
                   ),
                   child: Text(
                     context.translate('msg_enter_otp'),
-                    style: context.textTheme.headline1.copyWith(color: Colors.black, fontSize: 22, wordSpacing: 0.5),
+                    style: context.textTheme.headline1!.copyWith(color: Colors.black, fontSize: 22, wordSpacing: 0.5),
                   )),
               Observer(builder: (_) {
                 return Text(
-                  viewmodel?.player?.email ?? '',
-                  style: context.textTheme.bodyText1.copyWith(color: Colors.black, fontSize: 16),
+                  viewmodel.player?.email ?? '',
+                  style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
                 );
               }),
               SizedBox(
@@ -100,8 +100,8 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
               ),
               Observer(builder: (_) {
                 return Text(
-                  viewmodel?.otpCodeMessage ?? '',
-                  style: context.textTheme.bodyText1.copyWith(color: Colors.black, fontSize: 16),
+                  viewmodel.otpCodeMessage ?? '',
+                  style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
                 );
               }),
               SizedBox(
@@ -128,7 +128,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
   }
 
   void verifyCode(String code) {
-    print('my deubg enter verifyCode $code ${viewmodel?.player}');
+    print('my deubg enter verifyCode $code ${viewmodel.player}');
 
     viewmodel.verifyOTP(code: code.toInt());
     FocusScope.of(context).unfocus();
@@ -162,7 +162,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
           fontWeight: FontWeight.w600,
         ),
         pinTextAnimatedSwitcherTransition: ProvidedPinBoxTextAnimation.scalingTransition,
-        pinBoxColor: Colors.green[100],
+        pinBoxColor: Colors.green[100]!,
         pinTextAnimatedSwitcherDuration: const Duration(milliseconds: 200),
         highlightAnimationBeginColor: Colors.black,
         highlightAnimationEndColor: Colors.white12,

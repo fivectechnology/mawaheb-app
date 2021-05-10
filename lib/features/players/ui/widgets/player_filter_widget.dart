@@ -12,11 +12,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 class PlayerFilterWidget extends StatefulWidget {
   const PlayerFilterWidget({
-    Key key,
-    @required this.viewmodel,
-    @required this.query,
+    Key? key,
+    required this.viewmodel,
+    required this.query,
   }) : super(key: key);
-  final PlayersViewmodel viewmodel;
+  final PlayersViewmodel? viewmodel;
   final String query;
 
   @override
@@ -24,8 +24,8 @@ class PlayerFilterWidget extends StatefulWidget {
 
   static Future show(
     BuildContext context, {
-    @required PlayersViewmodel viewmodel,
-    @required String query,
+    required PlayersViewmodel? viewmodel,
+    required String query,
   }) =>
       showModalBottomSheet(
         useRootNavigator: true,
@@ -39,12 +39,12 @@ class PlayerFilterWidget extends StatefulWidget {
 }
 
 class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
-  PlayerFilterModel filter;
+  PlayerFilterModel? filter;
 
   @override
   void initState() {
     super.initState();
-    filter = widget.viewmodel.filter;
+    filter = widget.viewmodel!.filter;
   }
 
   @override
@@ -65,7 +65,7 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
             children: [
               Text(
                 context.translate('lbl_filter'),
-                style: context.textTheme.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                style: context.textTheme.headline2!.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Observer(
                 builder: (_) {
@@ -74,12 +74,12 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                     value: filter?.country,
                     context: context,
                     onChanged: (value) => changePlayerFilter(country: value),
-                    items: widget?.viewmodel?.countries
+                    items: widget.viewmodel?.countries
                             ?.map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
+                                  child: Text(em.tName ?? em.name!),
                                   value: em,
                                 ))
-                            ?.toList() ??
+                            .toList() ??
                         <DropdownMenuItem<CountryModel>>[],
                   );
                 },
@@ -94,10 +94,10 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                     onChanged: (value) => changePlayerFilter(sport: value),
                     items: widget.viewmodel?.sports
                             ?.map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
+                                  child: Text(em.tName ?? em.name!),
                                   value: em,
                                 ))
-                            ?.toList() ??
+                            .toList() ??
                         <DropdownMenuItem<SportModel>>[],
                   );
                 },
@@ -112,10 +112,10 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                     onChanged: (value) => changePlayerFilter(position: value),
                     items: widget.viewmodel?.positions
                             ?.map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name),
+                                  child: Text(em.tName ?? em.name!),
                                   value: em,
                                 ))
-                            ?.toList() ??
+                            .toList() ??
                         <DropdownMenuItem<SportPositionModel>>[],
                   );
                 },
@@ -162,10 +162,10 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                 children: [
                   Text(
                     context.translate('lbl_confirmed_by_us'),
-                    style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   mawahebSwitchButton(
-                    isSelected: filter.isConfirmed,
+                    isSelected: filter!.isConfirmed!,
                     onChanged: (value) {
                       setState(() {
                         changePlayerFilter(isConfirmed: value);
@@ -178,9 +178,9 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(context.translate('lbl_booked_by_us'),
-                      style: textTheme.subtitle1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                      style: textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                   mawahebSwitchButton(
-                    isSelected: filter.isBooked,
+                    isSelected: filter!.isBooked!,
                     onChanged: (value) {
                       setState(() {
                         changePlayerFilter(isBooked: value);
@@ -197,8 +197,8 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
                 borderColor: Colors.black,
                 text: 'lbl_filter',
                 onPressed: () {
-                  widget.viewmodel.filter = filter;
-                  widget.viewmodel.searchPlayers(fresh: true, query: widget.query);
+                  widget.viewmodel!.filter = filter;
+                  widget.viewmodel!.searchPlayers(fresh: true, query: widget.query);
                   context.pop();
                 },
               )
@@ -210,17 +210,17 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
   }
 
   void changePlayerFilter({
-    CountryModel country,
-    SportModel sport,
-    SportPositionModel position,
-    String hand,
-    String leg,
-    String name,
-    int partnerId,
-    bool isConfirmed,
-    bool isBooked,
+    CountryModel? country,
+    SportModel? sport,
+    SportPositionModel? position,
+    String? hand,
+    String? leg,
+    String? name,
+    int? partnerId,
+    bool? isConfirmed,
+    bool? isBooked,
   }) {
-    filter = filter.copyWith(
+    filter = filter!.copyWith(
       country: country,
       sport: sport,
       position: position,

@@ -16,16 +16,14 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 part 'edit_address_viewmodel.g.dart';
 
 @injectable
-class EditAddressViewmodel extends _EditAddressViewmodelBase
-    with _$EditAddressViewmodel {
-  EditAddressViewmodel(Logger logger, ProfileRepository _profileRepository,
-      PrefsRepository prefsRepository, AuthRepository _authRepository)
+class EditAddressViewmodel extends _EditAddressViewmodelBase with _$EditAddressViewmodel {
+  EditAddressViewmodel(Logger logger, ProfileRepository _profileRepository, PrefsRepository prefsRepository,
+      AuthRepository _authRepository)
       : super(logger, _profileRepository, _authRepository, prefsRepository);
 }
 
 abstract class _EditAddressViewmodelBase extends BaseViewmodel with Store {
-  _EditAddressViewmodelBase(Logger logger, this._profileRepository,
-      this._authRepository, this.prefsRepository)
+  _EditAddressViewmodelBase(Logger logger, this._profileRepository, this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
@@ -33,23 +31,23 @@ abstract class _EditAddressViewmodelBase extends BaseViewmodel with Store {
 
 //* OBSERVERS *//
   @observable
-  ObservableFuture<PlayerModel> playerFuture;
+  ObservableFuture<PlayerModel>? playerFuture;
 
   @observable
-  ObservableFuture<List<EmirateModel>> emirateFuture;
+  ObservableFuture<List<EmirateModel>>? emirateFuture;
 
   @computed
-  List<EmirateModel> get emirates => emirateFuture?.value;
+  List<EmirateModel>? get emirates => emirateFuture?.value;
 
   @computed
   bool get emiratesLoading => emirateFuture?.isPending ?? false;
 
   @observable
-  ObservableFuture<PlayerModel> editAddressPlayerFuture;
+  ObservableFuture<PlayerModel>? editAddressPlayerFuture;
 
 //* COMPUTED *//
   @computed
-  PlayerModel get player => playerFuture?.value;
+  PlayerModel? get player => playerFuture?.value;
 
   @computed
   bool get playerLoading => playerFuture?.isPending ?? false;
@@ -61,40 +59,37 @@ abstract class _EditAddressViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getEmirates() => emirateFuture = futureWrapper(
-        () => _authRepository.getEmirates().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getEmirates().whenSuccess(((res) => res!.data!)),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository
-            .fetchPlayer(id: id)
-            .whenSuccess((res) => res.data.first.apply(() async {
-                  // if (prefsRepository.player == null) {
-                  //   await prefsRepository.setPlayer(res.data.first);
-                  // }
-                })),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  void fetchPlayer({int? id}) => playerFuture = futureWrapper(
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess(((res) => res!.data!.first.apply(() async {
+              // if (prefsRepository.player == null) {
+              //   await prefsRepository.setPlayer(res.data.first);
+              // }
+            }))),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void editAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void editAddressInfo({String? address, String? area, EmirateModel? emirateModel}) {
     editAddressPlayerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
-            version: player.version,
-            id: player.id,
+            version: player!.version,
+            id: player!.id,
             emirateModel: emirateModel,
             area: area,
             address: address,
           )
           .whenSuccess(
-            (res) => res.data.first.apply(() {
-              getContext((context) => context.pop());
-            }),
+            ((res) => res!.data!.first.apply(() {
+                  getContext((context) => context.pop());
+                })),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 }

@@ -9,14 +9,14 @@ part of 'app_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AppViewmodel on _AppViewmodelBase, Store {
-  Computed<String> _$languageComputed;
+  Computed<String>? _$languageComputed;
 
   @override
   String get language =>
       (_$languageComputed ??= Computed<String>(() => super.language,
               name: '_AppViewmodelBase.language'))
           .value;
-  Computed<bool> _$languageLoadingComputed;
+  Computed<bool>? _$languageLoadingComputed;
 
   @override
   bool get languageLoading =>
@@ -27,13 +27,13 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   final _$appBarParamsAtom = Atom(name: '_AppViewmodelBase.appBarParams');
 
   @override
-  AppBarParams get appBarParams {
+  AppBarParams? get appBarParams {
     _$appBarParamsAtom.reportRead();
     return super.appBarParams;
   }
 
   @override
-  set appBarParams(AppBarParams value) {
+  set appBarParams(AppBarParams? value) {
     _$appBarParamsAtom.reportWrite(value, super.appBarParams, () {
       super.appBarParams = value;
     });
@@ -57,13 +57,13 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   final _$languageFutureAtom = Atom(name: '_AppViewmodelBase.languageFuture');
 
   @override
-  ObservableFuture<String> get languageFuture {
+  ObservableFuture<String>? get languageFuture {
     _$languageFutureAtom.reportRead();
     return super.languageFuture;
   }
 
   @override
-  set languageFuture(ObservableFuture<String> value) {
+  set languageFuture(ObservableFuture<String>? value) {
     _$languageFutureAtom.reportWrite(value, super.languageFuture, () {
       super.languageFuture = value;
     });
@@ -104,13 +104,13 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   final _$userRegestedAtom = Atom(name: '_AppViewmodelBase.userRegested');
 
   @override
-  bool get userRegested {
+  bool? get userRegested {
     _$userRegestedAtom.reportRead();
     return super.userRegested;
   }
 
   @override
-  set userRegested(bool value) {
+  set userRegested(bool? value) {
     _$userRegestedAtom.reportWrite(value, super.userRegested, () {
       super.userRegested = value;
     });
@@ -150,7 +150,7 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
-  void popRoute(BuildContext context, {VoidCallback onBackPressed}) {
+  void popRoute(BuildContext context, {VoidCallback? onBackPressed}) {
     final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
         name: '_AppViewmodelBase.popRoute');
     try {
@@ -183,7 +183,7 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
-  void changeLanguage(String locale) {
+  void changeLanguage(String? locale) {
     final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
         name: '_AppViewmodelBase.changeLanguage');
     try {
@@ -205,7 +205,7 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
-  void toggleUserState({bool status}) {
+  void toggleUserState({bool? status}) {
     final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
         name: '_AppViewmodelBase.toggleUserState');
     try {

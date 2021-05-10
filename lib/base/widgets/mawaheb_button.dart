@@ -5,7 +5,7 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 
 class MawahebButton extends StatelessWidget {
   const MawahebButton({
-    Key key,
+    Key? key,
     this.text,
     this.buttonColor,
     this.textColor,
@@ -19,17 +19,17 @@ class MawahebButton extends StatelessWidget {
     this.shape,
   }) : super(key: key);
 
-  final String text;
-  final Color textColor;
-  final Color buttonColor;
-  final Function onPressed;
-  final Color borderColor;
-  final BuildContext context;
+  final String? text;
+  final Color? textColor;
+  final Color? buttonColor;
+  final Function? onPressed;
+  final Color? borderColor;
+  final BuildContext? context;
   final bool isLoading;
   final bool enable;
-  final Color progressColor;
-  final TextStyle textStyle;
-  final ShapeBorder shape;
+  final Color? progressColor;
+  final TextStyle? textStyle;
+  final ShapeBorder? shape;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class MawahebButton extends StatelessWidget {
             ? null
             : () {
                 FocusScope.of(context).unfocus();
-                onPressed();
+                onPressed!();
               },
         elevation: 0,
         hoverElevation: 0,
@@ -50,14 +50,14 @@ class MawahebButton extends StatelessWidget {
         shape: shape ??
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(80.0),
-              side: BorderSide(color: borderColor, width: 1.0),
+              side: BorderSide(color: borderColor!, width: 1.0),
             ),
         padding: EdgeInsets.zero,
         child: Container(
           decoration: BoxDecoration(
             color: buttonColor,
             borderRadius: BorderRadius.circular(80.0),
-            border: Border.all(color: borderColor, width: 1.0),
+            border: Border.all(color: borderColor!, width: 1.0),
           ),
           constraints: const BoxConstraints(minWidth: double.infinity, minHeight: 55),
           // min sizes for Material buttons
@@ -67,7 +67,7 @@ class MawahebButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                context.translate(text),
+                context.translate(text!),
                 style: textStyle ??
                     TextStyle(
                       color: textColor,

@@ -6,7 +6,7 @@ import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const HomePage());

@@ -9,7 +9,7 @@ import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class RenewSubscriptionPage extends StatefulWidget {
-  const RenewSubscriptionPage({Key key}) : super(key: key);
+  const RenewSubscriptionPage({Key? key}) : super(key: key);
 
   static MaterialPageRoute get pageRoute =>
       MaterialPageRoute(builder: (context) => const RenewSubscriptionPage());
@@ -39,7 +39,7 @@ class _RenewSubscriptionPageState
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: customAppBar(
-          context: context, withTitle: true, title: 'lbl_renew_subscription'),
+          context: context, withTitle: true, title: 'lbl_renew_subscription') as PreferredSizeWidget?,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -112,14 +112,14 @@ class _RenewSubscriptionPageState
                       ),
                       title: Text(
                         context.translate('msg_accepted'),
-                        style: textTheme.bodyText2.copyWith(
+                        style: textTheme!.bodyText2!.copyWith(
                             color: Colors.grey,
                             fontWeight: FontWeight.w300,
                             fontSize: 12),
                       ),
                       subtitle: Text(
                         context.translate('lbl_term_of_service'),
-                        style: textTheme.headline6.copyWith(
+                        style: textTheme!.headline6!.copyWith(
                             fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -133,7 +133,7 @@ class _RenewSubscriptionPageState
                         children: [
                           Text(
                             'AED 400',
-                            style: textTheme.headline2.copyWith(
+                            style: textTheme!.headline2!.copyWith(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                           FlatButton(
@@ -147,7 +147,7 @@ class _RenewSubscriptionPageState
                             ),
                             child: Text(
                               context.translate('lbl_pay'),
-                              style: textTheme.headline2.copyWith(
+                              style: textTheme!.headline2!.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -164,14 +164,14 @@ class _RenewSubscriptionPageState
     );
   }
 
-  Widget paymentRow({String title, double width, Widget child}) {
+  Widget paymentRow({required String title, double? width, Widget? child}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(context.translate(title),
-              style: textTheme.subtitle1
+              style: textTheme!.subtitle1!
                   .copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
           Container(
               width: width,
@@ -184,21 +184,21 @@ class _RenewSubscriptionPageState
     );
   }
 
-  Widget paymentTextField({String hint}) {
+  Widget paymentTextField({String? hint}) {
     return TextField(
       decoration: InputDecoration(
         contentPadding:
             EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
         hintText: hint,
         hintStyle:
-            textTheme.subtitle1.copyWith(color: Colors.black54, fontSize: 12),
+            textTheme!.subtitle1!.copyWith(color: Colors.black54, fontSize: 12),
         focusedBorder: InputBorder.none,
         enabledBorder: InputBorder.none,
       ),
     );
   }
 
-  Widget paymentDropDown({String hint}) {
+  Widget paymentDropDown({required String hint}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
       child: DropdownButton(
@@ -211,10 +211,10 @@ class _RenewSubscriptionPageState
         hint: Text(
           hint,
           style:
-              textTheme.subtitle1.copyWith(color: Colors.black54, fontSize: 12),
+              textTheme!.subtitle1!.copyWith(color: Colors.black54, fontSize: 12),
         ),
         items: const [],
-        onChanged: (value) {},
+        onChanged: (dynamic value) {},
       ),
     );
   }
@@ -238,7 +238,7 @@ class _RenewSubscriptionPageState
                           child: Text(
                             context.translate(
                                 'by confirming you are going to pay 400AED to renew your subscription on mawaheb'),
-                            style: textTheme.bodyText1.copyWith(
+                            style: textTheme!.bodyText1!.copyWith(
                               height: 1.2,
                               color: TEXT_SECONDARY_COLOR,
                             ),
@@ -294,7 +294,7 @@ class _RenewSubscriptionPageState
                       child: Text(
                         context.translate(
                             'by confirming you are going to pay 400AED to renew your subscription on mawaheb'),
-                        style: textTheme.bodyText1.copyWith(
+                        style: textTheme!.bodyText1!.copyWith(
                           color: Colors.grey,
                         ),
                       ),

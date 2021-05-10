@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:core_sdk/utils/extensions/future.dart';
@@ -27,23 +28,21 @@ class AppRepositoryImpl extends AppRepository {
   Future<bool> registerDevice() async {
     try {
       final firebaseToken = await _firebaseMessaging.getToken();
-      final searchResult =
-          await _remoteDataSource.getDevice(fbToken: firebaseToken);
+      final searchResult = await _remoteDataSource.getDevice(fbToken: firebaseToken);
       if (searchResult.isSuccess && searchResult.getOrNull() != null) {
-        await _prefsRepository.setFbId(searchResult.getOrThrow().id);
+        await _prefsRepository.setFbId(searchResult.getOrThrow()!.id);
         return true;
       }
 
       final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       final PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-      String deviceModel;
-      String deviceUuid;
-      String osTypeId;
-      String osVersion;
+      String? deviceModel;
+      String? deviceUuid;
+      String? osTypeId;
+      String? osVersion;
       final String appVersion = packageInfo.version;
-      final int appTypeId =
-          int.parse(packageInfo.buildNumber, onError: (_) => 1);
+      final int appTypeId = int.parse(packageInfo.buildNumber, onError: (_) => 1);
 
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
@@ -68,7 +67,7 @@ class AppRepositoryImpl extends AppRepository {
         osVersion: osVersion,
         appVersion: appVersion,
       );
-      await _prefsRepository.setFbId(result.getOrThrow().id);
+      await _prefsRepository.setFbId(result.getOrThrow()!.id);
       return result.isSuccess;
     } catch (e) {
       return false;
@@ -76,7 +75,7 @@ class AppRepositoryImpl extends AppRepository {
   }
 
   @override
-  Future<bool> deleteDevice({String firebaseToken}) async {
+  Future<bool> deleteDevice({String? firebaseToken}) async {
     try {
       final result = await _remoteDataSource.deleteDevice(
         firebaseToken: firebaseToken,
@@ -92,7 +91,7 @@ class AppRepositoryImpl extends AppRepository {
     if ((_prefsRepository.token ?? '').isNotEmpty)
       try {
         final result = await _remoteDataSource.getNotificationsCount();
-        return result.getOrThrow().data.first;
+        return result.getOrThrow()!.data!.first;
       } catch (e) {
         // throw ServerFailure('Failed to get notifications count!');
       }
@@ -100,12 +99,9 @@ class AppRepositoryImpl extends AppRepository {
   }
 
   @override
-  Future<bool> modifyDevice(bool link) => _remoteDataSource
-      .modifyDevice(link)
-      .whenSuccess((res) => true)
-      .catchError((_) => false);
+  Future<bool> modifyDevice(bool link) =>
+      _remoteDataSource.modifyDevice(link).whenSuccess((res) => true).catchError((_) => false);
 
   @override
-  Future<NetworkResult<VersionResponse>> getDevice({String fbToken}) =>
-      _remoteDataSource.getDevice(fbToken: fbToken);
+  Future<NetworkResult<VersionResponse?>> getDevice({String? fbToken}) => _remoteDataSource.getDevice(fbToken: fbToken);
 }

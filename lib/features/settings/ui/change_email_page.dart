@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 
 class ChangeEmailPage extends StatefulWidget {
   const ChangeEmailPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static const String route = '/change_email';
@@ -49,7 +49,7 @@ class _ChangeEmailPageState extends ProviderMobxState<ChangeEmailPage, SettingsV
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       Provider.of<AppViewmodel>(context, listen: false).pushRoute(AppBarParams(
         title: 'lbl_change_email',
         showBackButton: true,
@@ -85,7 +85,7 @@ class _ChangeEmailPageState extends ProviderMobxState<ChangeEmailPage, SettingsV
                   hintText: 'lbl_new_email',
                   textEditingController: _emailController,
                   validator: (value) {
-                    return emailValidator(context: context, email: value);
+                    return emailValidator(context: context, email: value ?? '');
                   },
                 ),
                 Padding(
@@ -95,7 +95,7 @@ class _ChangeEmailPageState extends ProviderMobxState<ChangeEmailPage, SettingsV
                     context: context,
                     hintText: 'lbl_password',
                     validator: (value) {
-                      return passwordValidator(context: context, password: value);
+                      return passwordValidator(context: context, password: value ?? '');
                     },
                     isSuffixIcon: true,
                     useObscure: true,
@@ -108,8 +108,8 @@ class _ChangeEmailPageState extends ProviderMobxState<ChangeEmailPage, SettingsV
                       text: 'lbl_change_email',
                       isLoading: viewmodel.otpLoading,
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
                           viewmodel.sendOTP(
                             email: _emailController.text,

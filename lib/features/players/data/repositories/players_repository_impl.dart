@@ -15,18 +15,18 @@ class PlayersRepositoryImpl extends PlayersRepository {
   final PrefsRepository prefsRepository;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required int offset,
-    @required int limit,
-    @required int countryId,
-    @required int sportId,
-    @required int positionId,
-    @required String hand,
-    @required String leg,
-    @required int partnerId,
-    @required bool isConfirmed,
-    @required bool isBooked,
-    @required String name,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> searchPlayers({
+    required int offset,
+    required int limit,
+    required int countryId,
+    required int sportId,
+    required int positionId,
+    required String? hand,
+    required String? leg,
+    required int partnerId,
+    required bool isConfirmed,
+    required bool isBooked,
+    required String? name,
   }) =>
       playersDataSource.searchPlayers(
         offset: offset,
@@ -43,24 +43,24 @@ class PlayersRepositoryImpl extends PlayersRepository {
       );
 
   @override
-  Future<NetworkResult<bool>> viewPlayerProfile({int id}) => playersDataSource.viewPlayerProfile(id: id);
+  Future<NetworkResult<bool?>> viewPlayerProfile({int? id}) => playersDataSource.viewPlayerProfile(id: id);
 
   @override
-  Future<NetworkResult<bool>> bookPlayer({
-    int playerId,
+  Future<NetworkResult<bool?>> bookPlayer({
+    int? playerId,
   }) =>
-      playersDataSource.bookPlayer(playerId: playerId, partnerId: prefsRepository.player.id);
+      playersDataSource.bookPlayer(playerId: playerId, partnerId: prefsRepository.player!.id);
 
   @override
-  Future<NetworkResult<bool>> confirmPlayer({int memberShipId, int memberShipVersion}) =>
+  Future<NetworkResult<bool?>> confirmPlayer({int? memberShipId, int? memberShipVersion}) =>
       playersDataSource.confirmPlayer(memberShipId: memberShipId, memberShipVersion: memberShipVersion);
 
   @override
-  Future<NetworkResult<bool>> releasePlayer({int memberShipId, int memberShipVersion}) =>
+  Future<NetworkResult<bool?>> releasePlayer({int? memberShipId, int? memberShipVersion}) =>
       playersDataSource.releasePlayer(memberShipId: memberShipId, memberShipVersion: memberShipVersion);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({int playerId}) =>
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchApprovedVideos({int? playerId}) =>
       playersDataSource.fetchApprovedVideos(playerId: playerId);
 
   // @override

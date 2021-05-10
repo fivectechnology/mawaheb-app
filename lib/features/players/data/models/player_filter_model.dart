@@ -10,40 +10,40 @@ part 'player_filter_model.g.dart';
 @JsonSerializable()
 class PlayerFilterModel extends Equatable {
   const PlayerFilterModel({
-    @required this.country,
-    @required this.sport,
-    @required this.position,
-    @required this.hand,
-    @required this.leg,
-    @required this.name,
-    @required this.partnerId,
-    @required this.isConfirmed,
-    @required this.isBooked,
+    required this.country,
+    required this.sport,
+    required this.position,
+    required this.hand,
+    required this.leg,
+    required this.name,
+    required this.partnerId,
+    required this.isConfirmed,
+    required this.isBooked,
   });
-  final CountryModel country;
-  final SportModel sport;
-  final SportPositionModel position;
-  final String hand;
-  final String leg;
-  final String name;
-  final int partnerId;
-  final bool isConfirmed;
-  final bool isBooked;
+  final CountryModel? country;
+  final SportModel? sport;
+  final SportPositionModel? position;
+  final String? hand;
+  final String? leg;
+  final String? name;
+  final int? partnerId;
+  final bool? isConfirmed;
+  final bool? isBooked;
 
-  int get countryId => country?.id;
-  int get sportId => sport?.id;
-  int get positionId => position?.id;
+  int? get countryId => country?.id;
+  int? get sportId => sport?.id;
+  int? get positionId => position?.id;
 
   PlayerFilterModel copyWith({
-    CountryModel country,
-    SportModel sport,
-    SportPositionModel position,
-    String hand,
-    String leg,
-    String name,
-    int partnerId,
-    bool isConfirmed,
-    bool isBooked,
+    CountryModel? country,
+    SportModel? sport,
+    SportPositionModel? position,
+    String? hand,
+    String? leg,
+    String? name,
+    int? partnerId,
+    bool? isConfirmed,
+    bool? isBooked,
   }) {
     return PlayerFilterModel(
       country: country ?? this.country,
@@ -62,7 +62,7 @@ class PlayerFilterModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       country,
       sport,
@@ -88,6 +88,6 @@ class PlayerFilterModel extends Equatable {
         sport: null,
       );
 
-  static PlayerFilterModel fromJson(Object json) => _$PlayerFilterModelFromJson(json);
+  static PlayerFilterModel fromJson(Object json) => _$PlayerFilterModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$PlayerFilterModelToJson(this);
 }

@@ -8,9 +8,9 @@ part of 'category_model.dart';
 
 CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
   return CategoryModel(
-    titleEn: json['title'] as String,
-    tTitle: json[r'$t:title'] as String,
-    id: json['id'] as int,
+    titleEn: json['title'] as String?,
+    tTitle: json[r'$t:title'] as String?,
+    id: json['id'] as int?,
   );
 }
 

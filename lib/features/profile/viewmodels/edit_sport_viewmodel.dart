@@ -19,16 +19,14 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 part 'edit_sport_viewmodel.g.dart';
 
 @injectable
-class EditSportViewmodel extends _EditSportViewmodelBase
-    with _$EditSportViewmodel {
-  EditSportViewmodel(Logger logger, ProfileRepository _profileRepository,
-      PrefsRepository prefsRepository, AuthRepository _authRepository)
+class EditSportViewmodel extends _EditSportViewmodelBase with _$EditSportViewmodel {
+  EditSportViewmodel(Logger logger, ProfileRepository _profileRepository, PrefsRepository prefsRepository,
+      AuthRepository _authRepository)
       : super(logger, _profileRepository, _authRepository, prefsRepository);
 }
 
 abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
-  _EditSportViewmodelBase(Logger logger, this._profileRepository,
-      this._authRepository, this.prefsRepository)
+  _EditSportViewmodelBase(Logger logger, this._profileRepository, this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
@@ -36,19 +34,19 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
 
 //* OBSERVERS *//
   @observable
-  ObservableFuture<PlayerModel> playerFuture;
+  ObservableFuture<PlayerModel>? playerFuture;
 
   @observable
-  ObservableFuture<List<SportModel>> sportFuture;
+  ObservableFuture<List<SportModel>>? sportFuture;
 
   @observable
-  ObservableFuture<List<SportPositionModel>> positionFuture;
+  ObservableFuture<List<SportPositionModel>>? positionFuture;
 
   @computed
-  List<SportModel> get sports => sportFuture?.value;
+  List<SportModel>? get sports => sportFuture?.value;
 
   @computed
-  List<SportPositionModel> get positions => positionFuture?.value;
+  List<SportPositionModel>? get positions => positionFuture?.value;
 
   @computed
   bool get positionsLoading => positionFuture?.isPending ?? false;
@@ -57,11 +55,11 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
   bool get sportLoading => sportFuture?.isPending ?? false;
 
   @observable
-  ObservableFuture<PlayerModel> editSportPlayerFuture;
+  ObservableFuture<PlayerModel>? editSportPlayerFuture;
 
 //* COMPUTED *//
   @computed
-  PlayerModel get player => playerFuture?.value;
+  PlayerModel? get player => playerFuture?.value;
 
   @computed
   bool get playerLoading => playerFuture?.isPending ?? false;
@@ -70,44 +68,40 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getSports() => sportFuture = futureWrapper(
-        () => _authRepository.getSports().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getSports().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void getPositions({@required int sportId}) => positionFuture = futureWrapper(
-        () => _authRepository
-            .getPositions(sportId: sportId)
-            .whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  void getPositions({required int? sportId}) => positionFuture = futureWrapper(
+        () => _authRepository.getPositions(sportId: sportId).whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository
-            .fetchPlayer(id: id)
-            .whenSuccess((res) => res.data.first.apply(() async {
-                  // if (prefsRepository.player == null) {
-                  //   await prefsRepository.setPlayer(res.data.first);
-                  // }
-                })),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  void fetchPlayer({int? id}) => playerFuture = futureWrapper(
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res!.data!.first.apply(() async {
+              // if (prefsRepository.player == null) {
+              //   await prefsRepository.setPlayer(res.data.first);
+              // }
+            })),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void editSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int? weight,
+      int? height,
+      String? hand,
+      String? leg,
+      String? brief,
+      SportModel? sport,
+      SportPositionModel? position}) {
     playerFuture = futureWrapper(
       () => _profileRepository
           .updateSportInfo(
-              version: playerFuture.value.version,
-              id: playerFuture.value.id,
+              version: playerFuture!.value!.version,
+              id: playerFuture!.value!.id,
               weight: weight,
               height: height,
               hand: hand,
@@ -116,11 +110,11 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
               sport: sport,
               sportPositionModel: position)
           .whenSuccess(
-            (res) => res.data.first.apply(() {
+            (res) => res!.data!.first.apply(() {
               getContext((context) => context.pop());
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 }

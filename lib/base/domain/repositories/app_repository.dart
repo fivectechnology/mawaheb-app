@@ -9,11 +9,11 @@ abstract class AppRepository extends BaseRepository {
 
   Future<bool> registerDevice();
 
-  Future<bool> deleteDevice({@required String firebaseToken});
+  Future<bool> deleteDevice({required String firebaseToken});
 
   Future<int> getNotificationsCount();
 
   Future<bool> modifyDevice(bool link);
 
-  Future<NetworkResult<VersionResponse>> getDevice({String fbToken});
+  Future<NetworkResult<VersionResponse?>> getDevice({String? fbToken});
 }

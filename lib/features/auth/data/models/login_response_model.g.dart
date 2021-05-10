@@ -8,8 +8,8 @@ part of 'login_response_model.dart';
 
 LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) {
   return LoginResponseModel(
-    message: json['message'] as String,
-    data: json['data'] as String,
+    message: json['message'] as String?,
+    data: json['data'] as String?,
   );
 }
 

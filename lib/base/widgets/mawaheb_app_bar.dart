@@ -6,13 +6,13 @@ import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 
 class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MawahebAppBar({
-    Key key,
+    Key? key,
     this.title,
-    @required this.appViewModel,
+    required this.appViewModel,
   }) : super(key: key);
 
-  final AppViewmodel appViewModel;
-  final String title;
+  final AppViewmodel? appViewModel;
+  final String? title;
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -25,9 +25,9 @@ class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: AppBar(
             title: Text(
               title ??
-                  (appViewModel.appBarParams.translateTitle
-                      ? context.translate(appViewModel.appBarParams.title)
-                      : appViewModel.appBarParams.title),
+                  (appViewModel!.appBarParams!.translateTitle
+                      ? context.translate(appViewModel!.appBarParams!.title)
+                      : appViewModel!.appBarParams!.title),
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 color: TEXT_COLOR,
@@ -40,20 +40,20 @@ class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
             elevation: 0,
             //leadingWidth: 30,
             centerTitle: false,
-            leading: title != null || appViewModel.appBarParams.showBackButton
+            leading: title != null || appViewModel!.appBarParams!.showBackButton
                 ? IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.black),
-                    onPressed: () => appViewModel.popRoute(
+                    onPressed: () => appViewModel!.popRoute(
                       context,
-                      onBackPressed: appViewModel.appBarParams.onBackPressed,
+                      onBackPressed: appViewModel!.appBarParams!.onBackPressed,
                     ),
                   )
                 : null,
 
-            backgroundColor: appViewModel.appBarParams.backgroundColor,
+            backgroundColor: appViewModel!.appBarParams!.backgroundColor,
             actionsIconTheme: const IconThemeData(color: GREY),
             iconTheme: const IconThemeData(color: Colors.black),
-            bottom: appViewModel.appBarParams.bottom,
+            bottom: appViewModel!.appBarParams!.bottom,
             actions: title != null ? null : null,
             // TODO(ahmad): change this when add notification feature
             // : appViewModel.appBarParams.showNotificationIcon
@@ -80,10 +80,10 @@ class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget navigationButtonWithCount(
     BuildContext context, {
-    String routeName,
-    IconData icon,
-    int count,
-    VoidCallback onPressed,
+    String? routeName,
+    IconData? icon,
+    required int count,
+    VoidCallback? onPressed,
   }) {
     return Container(
       padding: const EdgeInsets.all(8.0),

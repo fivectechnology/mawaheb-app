@@ -7,20 +7,18 @@ import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key key}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   static const String route = '/signUp';
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const SignUpPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const SignUpPage());
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -51,7 +49,7 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
                 context: context,
                 hintText: 'lbl_email',
                 validator: (value) {
-                  return emailValidator(context: context, email: value);
+                  return emailValidator(context: context, email: value ?? '');
                 },
                 textEditingController: _emailController,
               ),
@@ -62,7 +60,7 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
               textEditingController: _passwordController,
               isSuffixIcon: true,
               validator: (value) {
-                return passwordValidator(context: context, password: value);
+                return passwordValidator(context: context, password: value ?? '');
               },
               useObscure: true,
             ),
@@ -75,9 +73,7 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
                 isSuffixIcon: true,
                 validator: (value) {
                   return confirmPasswordValidator(
-                      password: _passwordController.text,
-                      context: context,
-                      confirmPassword: value);
+                      password: _passwordController.text, context: context, confirmPassword: value);
                 },
                 useObscure: true,
               ),
@@ -88,12 +84,10 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
                 text: 'lbl_sign_up_player',
                 isLoading: viewmodel.otpLoading,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
 
-                    viewmodel.validateEmail(
-                        email: _emailController.text,
-                        password: _passwordController.text);
+                    viewmodel.validateEmail(email: _emailController.text, password: _passwordController.text);
                     // viewmodel.sendOTP(
                     //   email: _emailController.text,
                     //   password: _passwordController.text,

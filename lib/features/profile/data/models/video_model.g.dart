@@ -8,14 +8,14 @@ part of 'video_model.dart';
 
 VideoModel _$VideoModelFromJson(Map<String, dynamic> json) {
   return VideoModel(
-    tStatus: json['statusTitle'] as String,
-    statusEn: json['status'] as String,
+    tStatus: json['statusTitle'] as String?,
+    statusEn: json['status'] as String?,
     video: json['video'] == null
         ? null
         : SourceModel.fromJson(json['video'] as Map<String, dynamic>),
-    videoUid: json['video.fileUUID'] as String,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    videoUid: json['video.fileUUID'] as String?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 

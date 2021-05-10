@@ -13,7 +13,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
@@ -48,10 +48,10 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
         return MawahebFutureBuilder<ListBaseResponseModel<NotificationModel>>(
           future: viewmodel.notificationsFuture,
           onRetry: () => viewmodel.getnotifications(fresh: true),
-          onSuccess: (ListBaseResponseModel<NotificationModel> notifications) {
+          onSuccess: (ListBaseResponseModel<NotificationModel>? notifications) {
             return PaginationList<NotificationModel>(
               canLoadMore: viewmodel.canLoadMoreNotifications,
-              dataList: notifications.data,
+              dataList: notifications?.data ?? [],
               scrollController: scrollController,
               shrinkWrap: false,
               padding: 0,
@@ -86,9 +86,9 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
   // }
 
   Widget notificationTile({
-    @required String title,
-    @required String body,
-    @required String date,
+    required String? title,
+    required String? body,
+    required String date,
   }) {
     return ListTile(
       title: Row(
@@ -99,14 +99,14 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
             flex: 6,
             child: Text(
               title ?? 'club Name',
-              style: textTheme.headline1.copyWith(fontSize: 12, letterSpacing: 0.3),
+              style: textTheme!.headline1!.copyWith(fontSize: 12, letterSpacing: 0.3),
             ),
           ),
           Expanded(
             flex: 4,
             child: Text(
-              date ?? '9:45AM',
-              style: textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 10),
+              date,
+              style: textTheme!.bodyText1!.copyWith(color: Colors.grey, fontSize: 10),
               textAlign: TextAlign.end,
             ),
           )
@@ -114,20 +114,20 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
       ),
       subtitle: Text(
         body ?? 'Club name booked you',
-        style: textTheme.headline6.copyWith(fontSize: 12),
+        style: textTheme!.headline6!.copyWith(fontSize: 12),
       ),
     );
   }
 }
 
-String dateFormatter(String dateStr, BuildContext context) {
+String dateFormatter(String? dateStr, BuildContext context) {
   if (dateStr == null || dateStr.isEmpty) {
     return '';
   }
   final date = DateTime.parse(dateStr);
   final diff = DateTime.now().difference(date);
-  final locale = context.locale.locale.languageCode == LANGUAGE_ARABIC ? 'ar_AR' : 'en_US';
-  final bool isArabic = context.locale.locale.languageCode == LANGUAGE_ARABIC;
+  final locale = context.locale!.locale.languageCode == LANGUAGE_ARABIC ? 'ar_AR' : 'en_US';
+  final bool isArabic = context.locale!.locale.languageCode == LANGUAGE_ARABIC;
   if (diff.inMinutes <= 59)
     return diff.inMinutes > 1
         ? isArabic

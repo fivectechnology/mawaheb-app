@@ -9,27 +9,27 @@ part 'strategic_partners_model.g.dart';
 @JsonSerializable()
 class StrategicPartnersModel extends VersionModel with EquatableMixin {
   const StrategicPartnersModel({
-    @required this.title,
-    @required this.sourceId,
-    @required this.source,
-    @required this.titleAr,
-    @required int id,
-    @required int version,
+    required this.title,
+    required this.sourceId,
+    required this.source,
+    required this.titleAr,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
   @JsonKey(name: 'source.fileUUID')
-  final String sourceId;
-  final String title;
-  final String titleAr;
-  final SourceModel source;
+  final String? sourceId;
+  final String? title;
+  final String? titleAr;
+  final SourceModel? source;
 
   StrategicPartnersModel copyWith({
-    String title,
-    SourceModel source,
-    int id,
-    int version,
-    String sourceId,
-    String titleAr,
+    String? title,
+    SourceModel? source,
+    int? id,
+    int? version,
+    String? sourceId,
+    String? titleAr,
   }) {
     return StrategicPartnersModel(
       title: title ?? this.title,
@@ -45,7 +45,7 @@ class StrategicPartnersModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       title,
       titleAr,
@@ -57,7 +57,7 @@ class StrategicPartnersModel extends VersionModel with EquatableMixin {
   }
 
   static StrategicPartnersModel fromJson(Object json) =>
-      _$StrategicPartnersModelFromJson(json);
+      _$StrategicPartnersModelFromJson(json as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => _$StrategicPartnersModelToJson(this);
 }

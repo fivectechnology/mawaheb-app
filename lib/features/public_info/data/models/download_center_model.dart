@@ -9,28 +9,28 @@ part 'download_center_model.g.dart';
 @JsonSerializable()
 class DownloadCenterModel extends VersionModel with EquatableMixin {
   const DownloadCenterModel({
-    @required this.title,
-    @required this.sourceId,
-    @required this.source,
-    @required this.titleAr,
-    @required int id,
-    @required int version,
+    required this.title,
+    required this.sourceId,
+    required this.source,
+    required this.titleAr,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
   @JsonKey(name: 'source.fileUUID')
-  final String sourceId;
+  final String? sourceId;
 
-  final String title;
-  final String titleAr;
-  final SourceModel source;
+  final String? title;
+  final String? titleAr;
+  final SourceModel? source;
 
   DownloadCenterModel copyWith({
-    String title,
-    String titleAr,
-    SourceModel source,
-    String sourceId,
-    int id,
-    int version,
+    String? title,
+    String? titleAr,
+    SourceModel? source,
+    String? sourceId,
+    int? id,
+    int? version,
   }) {
     return DownloadCenterModel(
       title: title ?? this.title,
@@ -46,7 +46,7 @@ class DownloadCenterModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       title,
       source,
@@ -58,7 +58,7 @@ class DownloadCenterModel extends VersionModel with EquatableMixin {
   }
 
   static DownloadCenterModel fromJson(Object json) =>
-      _$DownloadCenterModelFromJson(json);
+      _$DownloadCenterModelFromJson(json as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => _$DownloadCenterModelToJson(this);
 }

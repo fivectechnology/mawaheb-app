@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget mawhaebDropDown<T>({
-  String hint,
-  String helperText,
-  BuildContext context,
-  Color textColor,
-  List items,
-  T value,
-  Function onChanged,
+  required String hint,
+  String? helperText,
+  required BuildContext context,
+  Color? textColor,
+  List? items,
+  T? value,
+  Function? onChanged,
 }) {
   return DropdownButtonFormField(
     value: value,
@@ -23,7 +23,7 @@ Widget mawhaebDropDown<T>({
       style: TextStyle(color: textColor ?? Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
       // ignore: prefer_const_literals_to_create_immutables
     ),
-    onChanged: onChanged,
-    items: items,
+    onChanged: onChanged as void Function(T?)?,
+    items: items as List<DropdownMenuItem<T>>?,
   );
 }

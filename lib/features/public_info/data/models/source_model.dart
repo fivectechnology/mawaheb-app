@@ -8,20 +8,20 @@ part 'source_model.g.dart';
 @JsonSerializable()
 class SourceModel extends VersionModel with EquatableMixin {
   const SourceModel({
-    @required this.fileName,
-    @required this.fileUUID,
-    @required int id,
-    @required int version,
+    required this.fileName,
+    required this.fileUUID,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
-  final String fileName;
-  final String fileUUID;
+  final String? fileName;
+  final String? fileUUID;
 
   SourceModel copyWith({
-    String fileName,
-    int id,
-    int version,
-    String fileUUID,
+    String? fileName,
+    int? id,
+    int? version,
+    String? fileUUID,
   }) {
     return SourceModel(
       fileName: fileName ?? this.fileName,
@@ -35,7 +35,7 @@ class SourceModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       fileName,
       fileUUID,
@@ -44,6 +44,6 @@ class SourceModel extends VersionModel with EquatableMixin {
     ];
   }
 
-  static SourceModel fromJson(Object json) => _$SourceModelFromJson(json);
+  static SourceModel fromJson(Object json) => _$SourceModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$SourceModelToJson(this);
 }

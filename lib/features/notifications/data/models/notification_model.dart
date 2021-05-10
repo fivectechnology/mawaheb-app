@@ -20,46 +20,46 @@ enum NotificationType {
 @JsonSerializable()
 class NotificationModel extends VersionModel with EquatableMixin {
   const NotificationModel({
-    @required int id,
-    @required int version,
-    @required this.recordId,
-    @required this.template,
-    @required this.sendDate,
-    @required this.subject,
-    @required this.readDate,
-    @required this.type,
-    @required this.params,
-    @required this.message,
+    required int? id,
+    required int? version,
+    required this.recordId,
+    required this.template,
+    required this.sendDate,
+    required this.subject,
+    required this.readDate,
+    required this.type,
+    required this.params,
+    required this.message,
   }) : super(id, version);
 
-  final int recordId;
-  final String template;
-  final String sendDate;
-  final String subject;
-  final String readDate;
+  final int? recordId;
+  final String? template;
+  final String? sendDate;
+  final String? subject;
+  final String? readDate;
   @JsonKey(
     fromJson: NotificationTypeExtension.valueOf,
     toJson: NotificationTypeExtension.toRaw,
   )
   final NotificationType type;
-  final String params;
-  final String message;
+  final String? params;
+  final String? message;
 
-  static NotificationModel fromJson(Object object) => _$NotificationModelFromJson(object);
+  static NotificationModel fromJson(Object object) => _$NotificationModelFromJson(object as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
 
   NotificationModel copyWith({
-    int id,
-    int version,
-    int recordId,
-    String template,
-    String sendDate,
-    String subject,
-    String readDate,
-    String type,
-    String params,
-    String message,
+    int? id,
+    int? version,
+    int? recordId,
+    String? template,
+    String? sendDate,
+    String? subject,
+    String? readDate,
+    String? type,
+    String? params,
+    String? message,
   }) {
     return NotificationModel(
       id: id ?? this.id,
@@ -69,7 +69,7 @@ class NotificationModel extends VersionModel with EquatableMixin {
       sendDate: sendDate ?? this.sendDate,
       subject: subject ?? this.subject,
       readDate: readDate ?? this.readDate,
-      type: type ?? this.type,
+      type: type as NotificationType? ?? this.type,
       params: params ?? this.params,
       message: message ?? this.message,
     );
@@ -79,7 +79,7 @@ class NotificationModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       recordId,
       template,
@@ -96,7 +96,7 @@ class NotificationModel extends VersionModel with EquatableMixin {
 extension NotificationTypeExtension on NotificationType {
   String get raw => describeEnum(this);
 
-  static NotificationType valueOf(String data) {
+  static NotificationType valueOf(String? data) {
     for (final NotificationType value in NotificationType.values) {
       if (value.raw == data) {
         return value;

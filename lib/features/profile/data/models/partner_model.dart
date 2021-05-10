@@ -8,17 +8,17 @@ part 'partner_model.g.dart';
 @JsonSerializable()
 class PartnerModel extends VersionModel with EquatableMixin {
   const PartnerModel({
-    @required this.name,
-    @required int id,
-    @required int version,
+    required this.name,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
-  final String name;
+  final String? name;
 
   PartnerModel copyWith({
-    String name,
-    int id,
-    int version,
+    String? name,
+    int? id,
+    int? version,
   }) {
     return PartnerModel(
       name: name ?? this.name,
@@ -31,7 +31,7 @@ class PartnerModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       name,
       id,
@@ -39,6 +39,6 @@ class PartnerModel extends VersionModel with EquatableMixin {
     ];
   }
 
-  static PartnerModel fromJson(Object json) => _$PartnerModelFromJson(json);
+  static PartnerModel fromJson(Object json) => _$PartnerModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$PartnerModelToJson(this);
 }

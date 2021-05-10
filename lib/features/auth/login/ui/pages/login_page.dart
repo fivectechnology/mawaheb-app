@@ -3,7 +3,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/utils.dart';
 import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
-import 'package:easy_gradient_text/easy_gradient_text.dart';
+// import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,7 +20,7 @@ import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static const String route = '/login';
@@ -38,7 +38,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
   bool showPassword = false;
   String type = 'PLAYER';
   final _formKey = GlobalKey<FormState>();
-  AppViewmodel appViewmodel;
+  late AppViewmodel appViewmodel;
 
   @override
   void initState() {
@@ -78,11 +78,11 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       top: 50,
                       bottom: 5,
                     ),
-                    child: GradientText(
-                      text: context.translate('lbl_welcome_to_mawaheb'),
-                      colors: const [YELLOW, RED],
-                      style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
-                    ),
+                    // child: GradientText(
+                    //   text: context.translate('lbl_welcome_to_mawaheb'),
+                    //   colors: const [YELLOW, RED],
+                    //   style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
+                    // ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 40),
@@ -94,7 +94,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     context: context,
                     hintText: 'lbl_email',
                     validator: (value) {
-                      return emailValidator(context: context, email: value);
+                      return emailValidator(context: context, email: value ?? '');
                     },
                     textEditingController: _userNameController,
                   ),
@@ -107,7 +107,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       context: context,
                       hintText: 'lbl_password',
                       validator: (value) {
-                        return passwordValidator(context: context, password: value);
+                        return passwordValidator(context: context, password: value ?? '');
                       },
                       isSuffixIcon: true,
                       useObscure: true,
@@ -141,7 +141,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         },
                         child: Text(
                           context.translate('lbl_forget_password'),
-                          style: context.textTheme.subtitle1.copyWith(
+                          style: context.textTheme.subtitle1!.copyWith(
                               fontSize: 12, decoration: TextDecoration.underline, color: const Color(0xFF9F9F9F)),
                         ),
                       )
@@ -158,8 +158,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         isLoading: viewmodel.loginLoading,
                         text: 'lbl_login',
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
                             viewmodel.login(
                               type: type,
                               userName: _userNameController.text,
@@ -188,7 +188,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         const SizedBox(width: 4),
                         Text(
                           context.translate('lbl_switch_language_to'),
-                          style: textTheme.bodyText1.copyWith(color: DARK_GREY),
+                          style: textTheme.bodyText1?.copyWith(color: DARK_GREY),
                         ),
                         const SizedBox(width: 16),
                         InkWell(
@@ -199,7 +199,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                           },
                           child: Text(
                             isArabic(localizations: context.locale) ? 'English' : 'العربية',
-                            style: textTheme.bodyText1.copyWith(color: RED, fontWeight: FontWeight.w600),
+                            style: textTheme.bodyText1!.copyWith(color: RED, fontWeight: FontWeight.w600),
                           ),
                         )
                       ],

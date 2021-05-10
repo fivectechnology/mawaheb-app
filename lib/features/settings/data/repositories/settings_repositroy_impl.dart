@@ -11,22 +11,22 @@ class SettingsRepositoryImpl extends SettingsRepository {
   final SettingsDataSource settingsDataSource;
 
   @override
-  Future<NetworkResult<String>> sendOTP({String email, String password}) =>
+  Future<NetworkResult<String?>> sendOTP({String? email, String? password}) =>
       settingsDataSource.sendOTP(email: email, password: password);
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({String email, int code}) =>
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP({String? email, int? code}) =>
       settingsDataSource.verifyOTP(email: email, code: code);
 
   @override
-  Future<NetworkResult<bool>> changeEmail({String email, int code}) =>
+  Future<NetworkResult<bool?>> changeEmail({String? email, int? code}) =>
       settingsDataSource.changeEmail(email: email, code: code);
 
   @override
-  Future<NetworkResult<bool>> changePassword({String currentPassword, String newPassword, int id}) =>
+  Future<NetworkResult<bool?>> changePassword({String? currentPassword, String? newPassword, int? id}) =>
       settingsDataSource.changePassword(currentPassword: currentPassword, newPassword: newPassword, id: id);
 
   @override
-  Future<NetworkResult<bool>> updateLanguage({int id, String language}) =>
+  Future<NetworkResult<bool?>> updateLanguage({int? id, String? language}) =>
       settingsDataSource.updateLanguage(id: id, language: language);
 }

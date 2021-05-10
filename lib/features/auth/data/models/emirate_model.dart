@@ -7,22 +7,22 @@ part 'emirate_model.g.dart';
 @JsonSerializable()
 class EmirateModel with EquatableMixin {
   const EmirateModel({
-    @required this.nameEn,
-    @required this.tName,
-    @required this.id,
+    required this.nameEn,
+    required this.tName,
+    required this.id,
   });
 
   @JsonKey(name: r'$t:name')
-  final String tName;
+  final String? tName;
   @JsonKey(name: 'name')
-  final String nameEn;
+  final String? nameEn;
 
-  final int id;
+  final int? id;
 
   EmirateModel copyWith({
-    String nameEn,
-    String tName,
-    int id,
+    String? nameEn,
+    String? tName,
+    int? id,
   }) {
     return EmirateModel(
       nameEn: nameEn ?? this.nameEn,
@@ -34,10 +34,10 @@ class EmirateModel with EquatableMixin {
   @override
   bool get stringify => true;
 
-  String get name => tName ?? nameEn;
+  String? get name => tName ?? nameEn;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       nameEn,
       tName,
@@ -45,6 +45,6 @@ class EmirateModel with EquatableMixin {
     ];
   }
 
-  static EmirateModel fromJson(Object json) => _$EmirateModelFromJson(json);
+  static EmirateModel fromJson(Object json) => _$EmirateModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$EmirateModelToJson(this);
 }

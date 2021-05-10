@@ -3,7 +3,7 @@ import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/data/models/base_response_model.dart';
@@ -12,48 +12,46 @@ import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 
 abstract class SettingsDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<String>> sendOTP({
-    @required String email,
-    @required String password,
+  Future<NetworkResult<String?>> sendOTP({
+    required String? email,
+    required String? password,
   });
 
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({
-    @required String email,
-    @required int code,
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP({
+    required String? email,
+    required int? code,
   });
 
-  Future<NetworkResult<bool>> changeEmail({
-    @required String email,
-    @required int code,
+  Future<NetworkResult<bool?>> changeEmail({
+    required String? email,
+    required int? code,
   });
 
-  Future<NetworkResult<bool>> changePassword({
-    @required String currentPassword,
-    @required String newPassword,
-    @required int id,
+  Future<NetworkResult<bool?>> changePassword({
+    required String? currentPassword,
+    required String? newPassword,
+    required int? id,
   });
-  Future<NetworkResult<bool>> updateLanguage({
-    @required int id,
-    @required String language,
+  Future<NetworkResult<bool?>> updateLanguage({
+    required int? id,
+    required String? language,
   });
 }
 
 @LazySingleton(as: SettingsDataSource)
 class SettingsDataSourceImpl extends MawahebRemoteDataSource implements SettingsDataSource {
   SettingsDataSourceImpl({
-    @required Dio client,
-    @required PrefsRepository prefsRepository,
-    @required DataConnectionChecker connectionChecker,
-    @required Logger logger,
+    required Dio client,
+    required PrefsRepository prefsRepository,
+    required Logger logger,
   }) : super(
           prefsRepository: prefsRepository,
           client: client,
-          connectionChecker: connectionChecker,
           logger: logger,
         );
 
   @override
-  Future<NetworkResult<String>> sendOTP({String email, String password}) {
+  Future<NetworkResult<String?>> sendOTP({String? email, String? password}) {
     return mawahebRequest(
       endpoint: BASE_API + WEB_SERVICE + '/auth/email/change',
       method: METHOD.POST,
@@ -63,12 +61,12 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
           'currentPassword': password,
         }
       },
-      mapper: BaseResponseModel.dataTypeMapper((json) => (json as Map<String, dynamic>)['message'] as String),
+      mapper: BaseResponseModel.dataTypeMapper(((json) => ((json as Map<String, dynamic>)['message'] as String?)!) as String Function(Object?)),
     );
   }
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP({String email, int code}) {
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP({String? email, int? code}) {
     return mawahebRequest(
       endpoint: OTP_VERIFY_ENDPOINT,
       method: METHOD.POST,
@@ -78,12 +76,12 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
           'code': code,
         }
       },
-      mapper: BaseResponseModel.fromJson(OTPResponseModel.fromJson),
+      mapper: BaseResponseModel.fromJson(OTPResponseModel.fromJson) as BaseResponseModel<OTPResponseModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<bool>> changeEmail({String email, int code}) {
+  Future<NetworkResult<bool?>> changeEmail({String? email, int? code}) {
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: BASE_API + WEB_SERVICE + '/auth/email/change/update',
@@ -97,7 +95,7 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
   }
 
   @override
-  Future<NetworkResult<bool>> changePassword({String currentPassword, String newPassword, int id}) {
+  Future<NetworkResult<bool?>> changePassword({String? currentPassword, String? newPassword, int? id}) {
     return mawahebRequest(
         method: METHOD.POST,
         modelName: 'auth.db.User',
@@ -109,7 +107,7 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
   }
 
   @override
-  Future<NetworkResult<bool>> updateLanguage({int id, String language}) async {
+  Future<NetworkResult<bool?>> updateLanguage({int? id, String? language}) async {
     return mawahebRequest(
       method: METHOD.POST,
       withAuth: true,
@@ -124,7 +122,7 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
             mawahebModel: false,
             asList: true,
           ))
-              .getOrThrow()
+              .getOrThrow()!
               .version,
           'language': language,
           'id': id

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
-Widget cardInfoPlayer({BuildContext context, List<Widget> rows}) {
+Widget cardInfoPlayer({BuildContext? context, required List<Widget> rows}) {
   return Card(
     elevation: 3,
     shadowColor: Colors.black87,
@@ -10,7 +10,7 @@ Widget cardInfoPlayer({BuildContext context, List<Widget> rows}) {
   );
 }
 
-Widget infoRow({BuildContext context, String title, String value}) {
+Widget infoRow({required BuildContext context, required String title, String? value}) {
   return Padding(
     padding: const EdgeInsets.symmetric(
       vertical: 8,
@@ -18,7 +18,7 @@ Widget infoRow({BuildContext context, String title, String value}) {
     child: ListTile(
       title: Text(
         context.translate(title),
-        style: context.textTheme.subtitle1.copyWith(color: Colors.grey),
+        style: context.textTheme.subtitle1!.copyWith(color: Colors.grey),
       ),
       subtitle: Text(value ?? 'N/A',
           maxLines: 2,

@@ -13,13 +13,13 @@ class NotificationsRepositoryImpl extends NotificationsRepository {
   final NotificationsDataSource notificationsDataSource;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications({
-    @required int limit,
-    @required int offset,
+  Future<NetworkResult<ListBaseResponseModel<NotificationModel>?>> getNotifications({
+    required int limit,
+    required int offset,
   }) =>
       notificationsDataSource.getNotifications(limit: limit, offset: offset);
 
   @override
-  Future<NetworkResult<BaseResponseModel<Object>>> markAsRead({int notificationId}) =>
+  Future<NetworkResult<BaseResponseModel<Object>?>> markAsRead({int? notificationId}) =>
       notificationsDataSource.markAsRead(notificationId: notificationId);
 }

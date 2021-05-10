@@ -5,7 +5,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class MawahebGradientButton extends StatelessWidget {
   const MawahebGradientButton({
-    Key key,
+    Key? key,
     this.text,
     this.onPressed,
     this.context,
@@ -13,9 +13,9 @@ class MawahebGradientButton extends StatelessWidget {
     this.enable = true,
   }) : super(key: key);
 
-  final String text;
-  final Function onPressed;
-  final BuildContext context;
+  final String? text;
+  final Function? onPressed;
+  final BuildContext? context;
   final bool isLoading;
   final bool enable;
 
@@ -28,7 +28,7 @@ class MawahebGradientButton extends StatelessWidget {
             ? null
             : () {
                 FocusScope.of(context).unfocus();
-                onPressed();
+                onPressed!();
               },
         elevation: 0,
         hoverElevation: 0,
@@ -51,7 +51,7 @@ class MawahebGradientButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  context.translate(text),
+                  context.translate(text!),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,

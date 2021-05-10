@@ -8,26 +8,26 @@ part of 'player_model.dart';
 
 PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
   return PlayerModel(
-    code: json['code'] as String,
-    name: json['name'] as String,
-    tName: json['fullNameAr'] as String,
-    email: json['email'] as String,
-    language: json['language'] as String,
-    type: json['type'] as String,
-    legEn: json['leg'] as String,
-    tLeg: json['legTitle'] as String,
-    handEn: json['hand'] as String,
-    tHand: json['handTitle'] as String,
-    brief: json['brief'] as String,
-    height: json['height'] as String,
-    weight: json['weight'] as String,
-    genderEn: json['gender'] as String,
-    tGender: json['genderTitle'] as String,
-    address: json['address'] as String,
-    dateOfBirth: json['dateOfBirth'] as String,
-    phone: json['phone'] as String,
-    area: json['area'] as String,
-    password: json['password'] as String,
+    code: json['code'] as String?,
+    name: json['name'] as String?,
+    tName: json['fullNameAr'] as String?,
+    email: json['email'] as String?,
+    language: json['language'] as String?,
+    type: json['type'] as String?,
+    legEn: json['leg'] as String?,
+    tLeg: json['legTitle'] as String?,
+    handEn: json['hand'] as String?,
+    tHand: json['handTitle'] as String?,
+    brief: json['brief'] as String?,
+    height: json['height'] as String?,
+    weight: json['weight'] as String?,
+    genderEn: json['gender'] as String?,
+    tGender: json['genderTitle'] as String?,
+    address: json['address'] as String?,
+    dateOfBirth: json['dateOfBirth'] as String?,
+    phone: json['phone'] as String?,
+    area: json['area'] as String?,
+    password: json['password'] as String?,
     position: json['position'] == null
         ? null
         : SportPositionModel.fromJson(json['position'] as Map<String, dynamic>),
@@ -43,12 +43,11 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
     category: json['category'] == null
         ? null
         : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
-    status: json['status'] as String,
-    availability: json['availability'] as String,
-    videos: (json['videos'] as List)
-        ?.map((e) =>
-            e == null ? null : VideoModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    status: json['status'] as String?,
+    availability: json['availability'] as String?,
+    videos: (json['videos'] as List<dynamic>?)
+        ?.map((e) => VideoModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
     photo: json['photo'] == null
         ? null
         : SourceModel.fromJson(json['photo'] as Map<String, dynamic>),
@@ -60,9 +59,9 @@ PlayerModel _$PlayerModelFromJson(Map<String, dynamic> json) {
         ? null
         : SubscriptionModel.fromJson(
             json['subscription'] as Map<String, dynamic>),
-    photoId: json['photo.fileUUID'] as String,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    photoId: json['photo.fileUUID'] as String?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 

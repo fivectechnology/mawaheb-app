@@ -9,42 +9,42 @@ part of 'edit_sport_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
-  Computed<List<SportModel>> _$sportsComputed;
+  Computed<List<SportModel>?>? _$sportsComputed;
 
   @override
-  List<SportModel> get sports =>
-      (_$sportsComputed ??= Computed<List<SportModel>>(() => super.sports,
+  List<SportModel>? get sports =>
+      (_$sportsComputed ??= Computed<List<SportModel>?>(() => super.sports,
               name: '_EditSportViewmodelBase.sports'))
           .value;
-  Computed<List<SportPositionModel>> _$positionsComputed;
+  Computed<List<SportPositionModel>?>? _$positionsComputed;
 
   @override
-  List<SportPositionModel> get positions => (_$positionsComputed ??=
-          Computed<List<SportPositionModel>>(() => super.positions,
+  List<SportPositionModel>? get positions => (_$positionsComputed ??=
+          Computed<List<SportPositionModel>?>(() => super.positions,
               name: '_EditSportViewmodelBase.positions'))
       .value;
-  Computed<bool> _$positionsLoadingComputed;
+  Computed<bool>? _$positionsLoadingComputed;
 
   @override
   bool get positionsLoading => (_$positionsLoadingComputed ??= Computed<bool>(
           () => super.positionsLoading,
           name: '_EditSportViewmodelBase.positionsLoading'))
       .value;
-  Computed<bool> _$sportLoadingComputed;
+  Computed<bool>? _$sportLoadingComputed;
 
   @override
   bool get sportLoading =>
       (_$sportLoadingComputed ??= Computed<bool>(() => super.sportLoading,
               name: '_EditSportViewmodelBase.sportLoading'))
           .value;
-  Computed<PlayerModel> _$playerComputed;
+  Computed<PlayerModel?>? _$playerComputed;
 
   @override
-  PlayerModel get player =>
-      (_$playerComputed ??= Computed<PlayerModel>(() => super.player,
+  PlayerModel? get player =>
+      (_$playerComputed ??= Computed<PlayerModel?>(() => super.player,
               name: '_EditSportViewmodelBase.player'))
           .value;
-  Computed<bool> _$playerLoadingComputed;
+  Computed<bool>? _$playerLoadingComputed;
 
   @override
   bool get playerLoading =>
@@ -55,13 +55,13 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
   final _$playerFutureAtom = Atom(name: '_EditSportViewmodelBase.playerFuture');
 
   @override
-  ObservableFuture<PlayerModel> get playerFuture {
+  ObservableFuture<PlayerModel>? get playerFuture {
     _$playerFutureAtom.reportRead();
     return super.playerFuture;
   }
 
   @override
-  set playerFuture(ObservableFuture<PlayerModel> value) {
+  set playerFuture(ObservableFuture<PlayerModel>? value) {
     _$playerFutureAtom.reportWrite(value, super.playerFuture, () {
       super.playerFuture = value;
     });
@@ -70,13 +70,13 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
   final _$sportFutureAtom = Atom(name: '_EditSportViewmodelBase.sportFuture');
 
   @override
-  ObservableFuture<List<SportModel>> get sportFuture {
+  ObservableFuture<List<SportModel>>? get sportFuture {
     _$sportFutureAtom.reportRead();
     return super.sportFuture;
   }
 
   @override
-  set sportFuture(ObservableFuture<List<SportModel>> value) {
+  set sportFuture(ObservableFuture<List<SportModel>>? value) {
     _$sportFutureAtom.reportWrite(value, super.sportFuture, () {
       super.sportFuture = value;
     });
@@ -86,13 +86,13 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
       Atom(name: '_EditSportViewmodelBase.positionFuture');
 
   @override
-  ObservableFuture<List<SportPositionModel>> get positionFuture {
+  ObservableFuture<List<SportPositionModel>>? get positionFuture {
     _$positionFutureAtom.reportRead();
     return super.positionFuture;
   }
 
   @override
-  set positionFuture(ObservableFuture<List<SportPositionModel>> value) {
+  set positionFuture(ObservableFuture<List<SportPositionModel>>? value) {
     _$positionFutureAtom.reportWrite(value, super.positionFuture, () {
       super.positionFuture = value;
     });
@@ -102,13 +102,13 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
       Atom(name: '_EditSportViewmodelBase.editSportPlayerFuture');
 
   @override
-  ObservableFuture<PlayerModel> get editSportPlayerFuture {
+  ObservableFuture<PlayerModel>? get editSportPlayerFuture {
     _$editSportPlayerFutureAtom.reportRead();
     return super.editSportPlayerFuture;
   }
 
   @override
-  set editSportPlayerFuture(ObservableFuture<PlayerModel> value) {
+  set editSportPlayerFuture(ObservableFuture<PlayerModel>? value) {
     _$editSportPlayerFutureAtom.reportWrite(value, super.editSportPlayerFuture,
         () {
       super.editSportPlayerFuture = value;
@@ -130,7 +130,7 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
   }
 
   @override
-  void getPositions({@required int sportId}) {
+  void getPositions({required int? sportId}) {
     final _$actionInfo = _$_EditSportViewmodelBaseActionController.startAction(
         name: '_EditSportViewmodelBase.getPositions');
     try {
@@ -141,7 +141,7 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
   }
 
   @override
-  void fetchPlayer({int id}) {
+  void fetchPlayer({int? id}) {
     final _$actionInfo = _$_EditSportViewmodelBaseActionController.startAction(
         name: '_EditSportViewmodelBase.fetchPlayer');
     try {
@@ -153,13 +153,13 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
 
   @override
   void editSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int? weight,
+      int? height,
+      String? hand,
+      String? leg,
+      String? brief,
+      SportModel? sport,
+      SportPositionModel? position}) {
     final _$actionInfo = _$_EditSportViewmodelBaseActionController.startAction(
         name: '_EditSportViewmodelBase.editSportInfo');
     try {

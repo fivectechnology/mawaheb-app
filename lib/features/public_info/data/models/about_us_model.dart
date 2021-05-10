@@ -8,38 +8,38 @@ part 'about_us_model.g.dart';
 @JsonSerializable()
 class AboutUsModel extends VersionModel with EquatableMixin {
   const AboutUsModel({
-    @required this.summary,
-    @required this.vision,
-    @required this.mission,
-    @required this.ourValues,
-    @required this.summaryAr,
-    @required this.visionAr,
-    @required this.missionAr,
-    @required this.ourValuesAr,
-    @required int id,
-    @required int version,
+    required this.summary,
+    required this.vision,
+    required this.mission,
+    required this.ourValues,
+    required this.summaryAr,
+    required this.visionAr,
+    required this.missionAr,
+    required this.ourValuesAr,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
-  final String summary;
-  final String vision;
-  final String mission;
-  final String ourValues;
-  final String summaryAr;
-  final String visionAr;
-  final String missionAr;
-  final String ourValuesAr;
+  final String? summary;
+  final String? vision;
+  final String? mission;
+  final String? ourValues;
+  final String? summaryAr;
+  final String? visionAr;
+  final String? missionAr;
+  final String? ourValuesAr;
 
   AboutUsModel copyWith({
-    String summary,
-    String vision,
-    String mission,
-    String ourValues,
-    int id,
-    int version,
-    String summaryAr,
-    String visionAr,
-    String missionAr,
-    String ourValuesAr,
+    String? summary,
+    String? vision,
+    String? mission,
+    String? ourValues,
+    int? id,
+    int? version,
+    String? summaryAr,
+    String? visionAr,
+    String? missionAr,
+    String? ourValuesAr,
   }) {
     return AboutUsModel(
       summary: summary ?? this.summary,
@@ -59,21 +59,10 @@ class AboutUsModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
-    return [
-      summary,
-      vision,
-      mission,
-      ourValues,
-      id,
-      version,
-      summaryAr,
-      visionAr,
-      ourValues,
-      ourValuesAr
-    ];
+  List<Object?> get props {
+    return [summary, vision, mission, ourValues, id, version, summaryAr, visionAr, ourValues, ourValuesAr];
   }
 
-  static AboutUsModel fromJson(Object json) => _$AboutUsModelFromJson(json);
+  static AboutUsModel fromJson(Object json) => _$AboutUsModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$AboutUsModelToJson(this);
 }

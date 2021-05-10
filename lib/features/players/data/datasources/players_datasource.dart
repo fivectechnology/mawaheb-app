@@ -3,7 +3,7 @@ import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
@@ -13,35 +13,35 @@ import 'package:mawaheb_app/features/auth/data/models/player_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 
 abstract class PlayersDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required int offset,
-    @required int limit,
-    @required int countryId,
-    @required int sportId,
-    @required int positionId,
-    @required String hand,
-    @required String leg,
-    @required String name,
-    @required int partnerId,
-    @required bool isConfirmed,
-    @required bool isBooked,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> searchPlayers({
+    required int offset,
+    required int limit,
+    required int countryId,
+    required int sportId,
+    required int positionId,
+    required String? hand,
+    required String? leg,
+    required String? name,
+    required int partnerId,
+    required bool isConfirmed,
+    required bool isBooked,
   });
 
-  Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
+  Future<NetworkResult<bool?>> viewPlayerProfile({required int? id});
 
-  Future<NetworkResult<bool>> bookPlayer({@required int playerId, @required int partnerId});
+  Future<NetworkResult<bool?>> bookPlayer({required int? playerId, required int? partnerId});
 
-  Future<NetworkResult<bool>> confirmPlayer({
-    @required int memberShipId,
-    @required int memberShipVersion,
+  Future<NetworkResult<bool?>> confirmPlayer({
+    required int? memberShipId,
+    required int? memberShipVersion,
   });
 
-  Future<NetworkResult<bool>> releasePlayer({
-    @required int memberShipId,
-    @required int memberShipVersion,
+  Future<NetworkResult<bool?>> releasePlayer({
+    required int? memberShipId,
+    required int? memberShipVersion,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({@required int playerId});
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchApprovedVideos({required int? playerId});
 
 // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
 //     getMemberShips({
@@ -52,30 +52,28 @@ abstract class PlayersDataSource extends BaseRemoteDataSource {
 @LazySingleton(as: PlayersDataSource)
 class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDataSource {
   PlayersDataSourceImpl({
-    @required Dio client,
-    @required PrefsRepository prefsRepository,
-    @required DataConnectionChecker connectionChecker,
-    @required Logger logger,
+    required Dio client,
+    required PrefsRepository prefsRepository,
+    required Logger logger,
   }) : super(
           prefsRepository: prefsRepository,
           client: client,
-          connectionChecker: connectionChecker,
           logger: logger,
         );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required int offset,
-    @required int limit,
-    @required int countryId,
-    @required int sportId,
-    @required int positionId,
-    @required String hand,
-    @required String leg,
-    @required String name,
-    @required int partnerId,
-    @required bool isConfirmed,
-    @required bool isBooked,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> searchPlayers({
+    required int offset,
+    required int limit,
+    required int countryId,
+    required int sportId,
+    required int positionId,
+    required String? hand,
+    required String? leg,
+    required String? name,
+    required int partnerId,
+    required bool isConfirmed,
+    required bool isBooked,
   }) {
     return mawahebRequest(
       method: METHOD.POST,
@@ -112,12 +110,12 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
         },
         'fields': ['name', 'id', 'photo.fileUUID', 'availability']
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<bool>> viewPlayerProfile({@required int id}) {
+  Future<NetworkResult<bool?>> viewPlayerProfile({required int? id}) {
     return mawahebRequest(
         method: METHOD.POST,
         mawahebModel: false,
@@ -135,7 +133,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
   }
 
   @override
-  Future<NetworkResult<bool>> bookPlayer({int playerId, int partnerId}) {
+  Future<NetworkResult<bool?>> bookPlayer({int? playerId, int? partnerId}) {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Membership',
@@ -150,9 +148,9 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
   }
 
   @override
-  Future<NetworkResult<bool>> confirmPlayer({
-    @required int memberShipId,
-    @required int memberShipVersion,
+  Future<NetworkResult<bool?>> confirmPlayer({
+    required int? memberShipId,
+    required int? memberShipVersion,
   }) {
     return mawahebRequest(method: METHOD.POST, id: memberShipId, modelName: 'Membership', data: {
       'data': {'version': memberShipVersion, 'status': 'CONFIRMED'},
@@ -161,9 +159,9 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
   }
 
   @override
-  Future<NetworkResult<bool>> releasePlayer({
-    @required int memberShipId,
-    @required int memberShipVersion,
+  Future<NetworkResult<bool?>> releasePlayer({
+    required int? memberShipId,
+    required int? memberShipVersion,
   }) {
     return mawahebRequest(method: METHOD.POST, id: memberShipId, modelName: 'Membership', data: {
       'data': {'version': memberShipVersion, 'status': 'RELEASED'},
@@ -172,7 +170,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({int playerId}) {
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchApprovedVideos({int? playerId}) {
     return mawahebRequest(
         method: METHOD.POST,
         modelName: 'PartnerVideo',
@@ -187,7 +185,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
           },
           'fields': ['status', 'video', 'video.fileUUID']
         },
-        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
+        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson) as ListBaseResponseModel<VideoModel> Function(Object?)?);
   }
 
 // @override

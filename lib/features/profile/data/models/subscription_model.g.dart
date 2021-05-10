@@ -8,14 +8,14 @@ part of 'subscription_model.dart';
 
 SubscriptionModel _$SubscriptionModelFromJson(Map<String, dynamic> json) {
   return SubscriptionModel(
-    startedAt: json['startedAt'] as String,
-    finishAt: json['finishAt'] as String,
-    name: json['name'] as String,
-    amount: json['amount'] as int,
-    period: json['period'] as int,
-    active: json['active'] as bool,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    startedAt: json['startedAt'] as String?,
+    finishAt: json['finishAt'] as String?,
+    name: json['name'] as String?,
+    amount: json['amount'] as int?,
+    period: json['period'] as int?,
+    active: json['active'] as bool?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 

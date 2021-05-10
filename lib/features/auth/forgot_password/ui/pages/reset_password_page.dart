@@ -8,7 +8,7 @@ import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 
 class ResetPasswordPagee extends StatefulWidget {
   const ResetPasswordPagee({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -67,8 +67,8 @@ class _ResetPasswordPageeState extends ProviderMobxState<ResetPasswordPagee, Aut
               child: MawahebGradientButton(
                 text: 'lbl_Reset_password',
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
                     viewmodel.resetPassword(password: _confirmPasswordController.text);
                   }
                 },

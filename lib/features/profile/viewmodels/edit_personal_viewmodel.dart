@@ -21,16 +21,14 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 part 'edit_personal_viewmodel.g.dart';
 
 @injectable
-class EditPersonalViewmodel extends _EditPersonalViewmodelBase
-    with _$EditPersonalViewmodel {
-  EditPersonalViewmodel(Logger logger, ProfileRepository _profileRepository,
-      PrefsRepository prefsRepository, AuthRepository _authRepository)
+class EditPersonalViewmodel extends _EditPersonalViewmodelBase with _$EditPersonalViewmodel {
+  EditPersonalViewmodel(Logger logger, ProfileRepository _profileRepository, PrefsRepository prefsRepository,
+      AuthRepository _authRepository)
       : super(logger, _profileRepository, _authRepository, prefsRepository);
 }
 
 abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
-  _EditPersonalViewmodelBase(Logger logger, this._profileRepository,
-      this._authRepository, this.prefsRepository)
+  _EditPersonalViewmodelBase(Logger logger, this._profileRepository, this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
@@ -39,28 +37,28 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
 //* OBSERVERS *//
 
   @observable
-  Future<int> imageId;
+  Future<int>? imageId;
 
   @observable
-  File image;
+  File? image;
 
   @observable
-  ObservableFuture<PlayerModel> playerFuture;
+  ObservableFuture<PlayerModel>? playerFuture;
 
   @observable
-  ObservableFuture<PlayerModel> editPersonalPlayerFuture;
+  ObservableFuture<PlayerModel>? editPersonalPlayerFuture;
 
   @observable
-  ObservableFuture<List<CategoryModel>> categoryFuture;
+  ObservableFuture<List<CategoryModel>>? categoryFuture;
 
   @observable
-  ObservableFuture<List<CountryModel>> countryFuture;
+  ObservableFuture<List<CountryModel>>? countryFuture;
 
   @computed
-  List<CategoryModel> get categories => categoryFuture?.value;
+  List<CategoryModel>? get categories => categoryFuture?.value;
 
   @computed
-  List<CountryModel> get countries => countryFuture?.value;
+  List<CountryModel>? get countries => countryFuture?.value;
 
   @computed
   bool get countryLoading => countryFuture?.isPending ?? false;
@@ -72,11 +70,11 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
   bool get personalLoading => editPersonalPlayerFuture?.isPending ?? false;
 
   @computed
-  File get imageFile => image;
+  File? get imageFile => image;
 
 //* COMPUTED *//
   @computed
-  PlayerModel get player => playerFuture?.value;
+  PlayerModel? get player => playerFuture?.value;
 
   @computed
   bool get playerLoading => playerFuture?.isPending ?? false;
@@ -85,50 +83,45 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getCategories() => categoryFuture = futureWrapper(
-        () => _authRepository.getCategories().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getCategories().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getCountries() => countryFuture = futureWrapper(
-        () => _authRepository.getCountries().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getCountries().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository
-            .fetchPlayer(id: id)
-            .whenSuccess((res) => res.data.first.apply(() async {
-                  // if (prefsRepository.player == null) {
-                  //   await prefsRepository.setPlayer(res.data.first);
-                  // }
-                })),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  void fetchPlayer({int? id}) => playerFuture = futureWrapper(
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res!.data!.first.apply(() async {
+              // if (prefsRepository.player == null) {
+              //   await prefsRepository.setPlayer(res.data.first);
+              // }
+            })),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   // ignore: missing_return
-  Future<int> uploadImage({
-    int playerId,
-    int playerVersion,
-    File file,
-    int fileSize,
-    String fileName,
-    String fileType,
+  Future<int>? uploadImage({
+    int? playerId,
+    int? playerVersion,
+    File? file,
+    int? fileSize,
+    String? fileName,
+    String? fileType,
   }) {
     imageId = _profileRepository.uploadFile(file: file).then((res1) async {
       final res = res1.getOrThrow();
       print('file upoladed');
 
       await _profileRepository
-          .updateImageProfile(
-              imageId: res, version: playerVersion + 1, id: playerId)
+          .updateImageProfile(imageId: res, version: playerVersion! + 1, id: playerId)
           .whenSuccess((res) => apply(() {
                 print('image updated');
-                Navigator.of(EditPersonalPage.keyLoader.currentContext,
-                        rootNavigator: true)
-                    .pop();
+                Navigator.of(EditPersonalPage.keyLoader.currentContext!, rootNavigator: true).pop();
                 getContext((context) => context.pop());
               }));
       // updateProfileImage(
@@ -139,19 +132,19 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void editPersonalInfo({
-    String dateOfBirth,
-    String gender,
-    String name,
-    String phone,
-    CountryModel country,
-    CategoryModel categoryModel,
-    int id,
+    String? dateOfBirth,
+    String? gender,
+    String? name,
+    String? phone,
+    CountryModel? country,
+    CategoryModel? categoryModel,
+    int? id,
   }) {
     editPersonalPlayerFuture = futureWrapper(
       () => _authRepository
           .addPersonalInfo(
-              version: player.version,
-              id: player.id,
+              version: player!.version,
+              id: player!.id,
               dateOfBirth: dateOfBirth,
               gender: gender,
               name: name,
@@ -159,13 +152,13 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
               categoryModel: categoryModel,
               phone: phone)
           .whenSuccess(
-            (res) => res.data.first.apply(() {
+            (res) => res!.data!.first.apply(() {
               if (image == null) {
                 getContext((context) => context.pop());
               }
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 }

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget customAppBar(
-    {String title,
-    BuildContext context,
-    bool withTitle,
-    String leadingText,
-    VoidCallback onBackButton}) {
+    {String? title,
+    required BuildContext context,
+    required bool withTitle,
+    String? leadingText,
+    VoidCallback? onBackButton}) {
   return AppBar(
     // automaticallyImplyLeading: true,
     titleSpacing: 0,
@@ -43,8 +43,8 @@ Widget customAppBar(
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
-            context.translate(title),
-            style: context.textTheme.headline1.copyWith(
+            context.translate(title!),
+            style: context.textTheme.headline1!.copyWith(
                 fontSize: 20, color: Colors.black, letterSpacing: 0.2),
           ),
         )

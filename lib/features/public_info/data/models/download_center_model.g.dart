@@ -8,14 +8,14 @@ part of 'download_center_model.dart';
 
 DownloadCenterModel _$DownloadCenterModelFromJson(Map<String, dynamic> json) {
   return DownloadCenterModel(
-    title: json['title'] as String,
-    sourceId: json['source.fileUUID'] as String,
+    title: json['title'] as String?,
+    sourceId: json['source.fileUUID'] as String?,
     source: json['source'] == null
         ? null
         : SourceModel.fromJson(json['source'] as Map<String, dynamic>),
-    titleAr: json['titleAr'] as String,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    titleAr: json['titleAr'] as String?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 
