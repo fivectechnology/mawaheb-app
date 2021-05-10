@@ -20,7 +20,7 @@ abstract class _StaticVideosViewmodelBase extends BaseViewmodel with Store {
   //* OBSERVERS *//
 
   @observable
-  String videoUrl = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+  String videoUrl = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_5MB.mp4';
 
   //* COMPUTED *//
   @computed
