@@ -16,8 +16,8 @@ import 'package:tuple/tuple.dart';
 
 class ViewPlayerProfile extends StatefulWidget {
   const ViewPlayerProfile({
-    Key key,
-    @required this.player,
+    Key? key,
+    required this.player,
   }) : super(key: key);
 
   final PlayerModel player;
@@ -40,7 +40,7 @@ class ViewPlayerProfile extends StatefulWidget {
 
 class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, PlayersViewmodel>
     with TickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   PlayerModel get player => widget.player;
 
@@ -55,12 +55,12 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
     super.didChangeDependencies();
   }
 
-  String get availability => (viewmodel?.player ?? player).availability;
+  String? get availability => (viewmodel.player ?? player).availability;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, withTitle: false),
+      appBar: customAppBar(context: context, withTitle: false) as PreferredSizeWidget?,
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -68,7 +68,7 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
             builder: (_) {
               return heroProfileDetails(
                 context: context,
-                name: player.name,
+                name: player.name!,
                 id: player.id,
                 photoId: player.photoId,
                 token: viewmodel.prefsRepository.token,
@@ -127,10 +127,10 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
     );
   }
 
-  Tuple3<String, String, VoidCallback> getButtonParams(BuildContext context, String availability) {
-    String title;
-    String message;
-    VoidCallback onConfirm;
+  Tuple3<String?, String?, VoidCallback?> getButtonParams(BuildContext context, String? availability) {
+    String? title;
+    String? message;
+    VoidCallback? onConfirm;
     switch (availability) {
       case 'BOOKED':
         title = 'lbl_confirm_player';

@@ -8,21 +8,21 @@ part 'base_response_model.g.dart';
 @JsonSerializable(genericArgumentFactories: true)
 class BaseResponseModel<T> extends BaseModel with EquatableMixin {
   const BaseResponseModel(
-    int status,
-    int offset,
-    int total,
-    Map<String, dynamic> errors,
+    int? status,
+    int? offset,
+    int? total,
+    Map<String, dynamic>? errors,
     // String message,
     this.data,
   ) : super(status, offset, total, errors /* , message */);
 
   BaseResponseModel<T> copyWith({
-    int status,
-    int offset,
-    int total,
-    Map<String, dynamic> errors,
+    int? status,
+    int? offset,
+    int? total,
+    Map<String, dynamic>? errors,
     // String message,
-    T data,
+    T? data,
   }) {
     return BaseResponseModel<T>(
       status ?? this.status,
@@ -40,24 +40,24 @@ class BaseResponseModel<T> extends BaseModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [status, offset, total, errors, data];
+  List<Object?> get props => [status, offset, total, errors, data];
 
-  static BaseMapper<R> fromJson<R>(R Function(Object) fromJsonT) => (Object baseJson) => _$BaseResponseModelFromJson(
-        baseJson,
+  static BaseMapper<R> fromJson<R>(R Function(Object?) fromJsonT) => (Object? baseJson) => _$BaseResponseModelFromJson(
+        baseJson as Map<String, dynamic>,
         fromJsonT,
       );
 
-  static R Function(Object) dataTypeMapper<R>(R Function(Object) fromJsonT) =>
-      (Object baseJson) => _$BaseResponseModelFromJson(
-            baseJson,
+  static R Function(Object?) dataTypeMapper<R>(R Function(Object?) fromJsonT) =>
+      (Object? baseJson) => _$BaseResponseModelFromJson(
+            baseJson as Map<String, dynamic>,
             fromJsonT,
           ).data;
 
-  static bool Function(Object) get successMapper =>
-      (Object baseJson) => _$BaseResponseModelFromJson(baseJson, (_) => Null).status == 0;
+  static bool Function(Object?) get successMapper =>
+      (Object? baseJson) => _$BaseResponseModelFromJson(baseJson as Map<String, dynamic>, (_) => Null).status == 0;
 
-  static VersionResponse Function(Object) get versionMapper => (Object baseJson) => _$BaseResponseModelFromJson(
-        baseJson,
+  static VersionResponse Function(Object?) get versionMapper => (Object? baseJson) => _$BaseResponseModelFromJson(
+        baseJson as Map<String, dynamic>,
         VersionResponse.fromJson,
       ).data;
 

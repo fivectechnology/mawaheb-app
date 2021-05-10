@@ -12,13 +12,13 @@ abstract class PublicInfoRepository extends BaseRepository {
   const PublicInfoRepository(PublicInfoDataSource publicinfoDataSource)
       : super(publicinfoDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>>> getAboutUs();
-  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>>> getContactUs();
-  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>>
+  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>?>> getAboutUs();
+  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>?>> getContactUs();
+  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>?>>
       getStrategicPartners();
 
-  Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery();
+  Future<NetworkResult<ListBaseResponseModel<GalleryModel>?>> getGallery();
 
-  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>>
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>?>>
       getDownloadCenter();
 }

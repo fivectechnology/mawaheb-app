@@ -7,13 +7,13 @@ part 'login_response_model.g.dart';
 @JsonSerializable()
 class LoginResponseModel extends Equatable {
   const LoginResponseModel({
-    @required this.message,
-    @required this.data,
+    required this.message,
+    required this.data,
   });
-  final String message;
-  final String data;
+  final String? message;
+  final String? data;
 
-  LoginResponseModel copyWith({String message, String data}) {
+  LoginResponseModel copyWith({String? message, String? data}) {
     return LoginResponseModel(
       message: message ?? this.message,
       data: data ?? this.data,
@@ -24,9 +24,9 @@ class LoginResponseModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [message, data];
+  List<Object?> get props => [message, data];
 
-  static LoginResponseModel fromJson(Object json) => _$LoginResponseModelFromJson(json);
+  static LoginResponseModel fromJson(Object? json) => _$LoginResponseModelFromJson(json as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => _$LoginResponseModelToJson(this);
 }

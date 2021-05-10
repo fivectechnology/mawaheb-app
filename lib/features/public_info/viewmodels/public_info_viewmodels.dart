@@ -80,19 +80,19 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   //
 
   @observable
-  ObservableFuture<AboutUsModel> aboutUsFuture;
+  ObservableFuture<AboutUsModel>? aboutUsFuture;
 
   @observable
-  ObservableFuture<ContactUsModel> contactsFuture;
+  ObservableFuture<ContactUsModel>? contactsFuture;
 
   @observable
-  ObservableFuture<List<GalleryModel>> galleryFuture;
+  ObservableFuture<List<GalleryModel>>? galleryFuture;
 
   @observable
-  ObservableFuture<List<StrategicPartnersModel>> partnersFuture;
+  ObservableFuture<List<StrategicPartnersModel>>? partnersFuture;
 
   @observable
-  ObservableFuture<List<DownloadCenterModel>> downloadsFuture;
+  ObservableFuture<List<DownloadCenterModel>>? downloadsFuture;
 
   @observable
   bool isLoggedIn = false;
@@ -103,31 +103,31 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
   // //* COMPUTED *//
   //
   @computed
-  AboutUsModel get aboutUs => aboutUsFuture?.value;
+  AboutUsModel? get aboutUs => aboutUsFuture?.value;
 
   @computed
   bool get aboutUsLoading => aboutUsFuture?.isPending ?? false;
 
   @computed
-  ContactUsModel get contacts => contactsFuture?.value;
+  ContactUsModel? get contacts => contactsFuture?.value;
 
   @computed
   bool get contactsLoading => contactsFuture?.isPending ?? false;
 
   @computed
-  List<GalleryModel> get gallery => galleryFuture?.value;
+  List<GalleryModel>? get gallery => galleryFuture?.value;
 
   @computed
   bool get galleryLoading => galleryFuture?.isPending ?? false;
 
   @computed
-  List<StrategicPartnersModel> get partners => partnersFuture?.value;
+  List<StrategicPartnersModel>? get partners => partnersFuture?.value;
 
   @computed
   bool get partnersLoading => partnersFuture?.isPending ?? false;
 
   @computed
-  List<DownloadCenterModel> get downloads => downloadsFuture?.value;
+  List<DownloadCenterModel>? get downloads => downloadsFuture?.value;
 
   @computed
   bool get downloadsLoading => downloadsFuture?.isPending ?? false;
@@ -168,40 +168,40 @@ abstract class _PublicInfoViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getaboutUs() => aboutUsFuture = futureWrapper(
-        () => _publicinfoRepository.getAboutUs().whenSuccess((res) => res.data.first),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _publicinfoRepository.getAboutUs().whenSuccess((res) => res!.data!.first),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getcontactUs() => contactsFuture = futureWrapper(
-        () => _publicinfoRepository.getContactUs().whenSuccess((res) => res.data.first),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _publicinfoRepository.getContactUs().whenSuccess((res) => res!.data!.first),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getGallery() => galleryFuture = futureWrapper(
-        () => _publicinfoRepository.getGallery().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _publicinfoRepository.getGallery().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getDownloads() => downloadsFuture = futureWrapper(
-        () => _publicinfoRepository.getDownloadCenter().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _publicinfoRepository.getDownloadCenter().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getPartners() => partnersFuture = futureWrapper(
-        () => _publicinfoRepository.getStrategicPartners().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _publicinfoRepository.getStrategicPartners().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void downloadFile({
-    @required int id,
-    @required int parentId,
-    @required void Function(int progress) onReceiveProgress,
-    @required Function(String filePath) onSuccess,
+    required int? id,
+    required int? parentId,
+    required void Function(int progress) onReceiveProgress,
+    required Function(String? filePath) onSuccess,
   }) =>
       _downloadHelper.requestDownload(
         id: id,

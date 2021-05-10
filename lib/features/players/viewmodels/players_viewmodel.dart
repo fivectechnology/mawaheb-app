@@ -53,37 +53,37 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   //* OBSERVERS *//
   @observable
-  ObservableFuture<bool> viewProfileFuture;
+  ObservableFuture<bool>? viewProfileFuture;
 
   @observable
-  ObservableFuture<List<VideoModel>> fetchVideoFuture;
+  ObservableFuture<List<VideoModel>>? fetchVideoFuture;
 
   @observable
-  ObservableFuture<ListBaseResponseModel<PlayerModel>> playersFuture;
+  ObservableFuture<ListBaseResponseModel<PlayerModel>>? playersFuture;
 
   @observable
-  ObservableFuture<bool> bookPlayerFuture;
+  ObservableFuture<bool>? bookPlayerFuture;
 
   @observable
-  ObservableFuture<bool> confirmPlayerFuture;
+  ObservableFuture<bool>? confirmPlayerFuture;
 
   @observable
-  ObservableFuture<bool> releasePlayerFuture;
+  ObservableFuture<bool>? releasePlayerFuture;
 
   @observable
-  PlayerFilterModel filter = PlayerFilterModel.initial();
+  PlayerFilterModel? filter = PlayerFilterModel.initial();
 
   @observable
-  ObservableFuture<List<SportModel>> sportFuture;
+  ObservableFuture<List<SportModel>>? sportFuture;
 
   @observable
-  ObservableFuture<List<SportPositionModel>> positionFuture;
+  ObservableFuture<List<SportPositionModel>>? positionFuture;
 
   @observable
-  ObservableFuture<List<CountryModel>> countryFuture;
+  ObservableFuture<List<CountryModel>>? countryFuture;
 
   @observable
-  ObservableFuture<PlayerModel> playerFuture;
+  ObservableFuture<PlayerModel>? playerFuture;
 
   // @observable
   // ObservableFuture<List<PartnerMemberModel>> membersFuture;
@@ -91,22 +91,22 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   //* COMPUTED *//
 
   @computed
-  ListBaseResponseModel<PlayerModel> get players => playersFuture?.value;
+  ListBaseResponseModel<PlayerModel>? get players => playersFuture?.value;
 
   @computed
   bool get getPlayers => playersFuture?.isPending ?? false;
 
   @computed
-  List<SportModel> get sports => sportFuture?.value;
+  List<SportModel>? get sports => sportFuture?.value;
 
   @computed
-  List<CountryModel> get countries => countryFuture?.value;
+  List<CountryModel>? get countries => countryFuture?.value;
 
   @computed
-  List<SportPositionModel> get positions => positionFuture?.value;
+  List<SportPositionModel>? get positions => positionFuture?.value;
 
   @computed
-  PlayerModel get player => playerFuture?.value;
+  PlayerModel? get player => playerFuture?.value;
 
   @computed
   bool get playerLoading => playerFuture?.isPending ?? false;
@@ -115,7 +115,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   bool get viewProfileLoading => viewProfileFuture?.isPending ?? false;
 
   @computed
-  List<VideoModel> get videos => fetchVideoFuture?.value;
+  List<VideoModel>? get videos => fetchVideoFuture?.value;
 
   @computed
   bool get videosLoading => fetchVideoFuture?.isPending ?? false;
@@ -149,7 +149,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
     if (players == null) {
       return true;
     }
-    if (players.offset + PAGE_SIZE < players.total) {
+    if (players!.offset! + PAGE_SIZE < players!.total!) {
       return true;
     }
 
@@ -158,31 +158,31 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   //* ACTIONS *//
   @action
-  void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res.data.first.apply(() async {})),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  void fetchPlayer({int? id}) => playerFuture = futureWrapper(
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res?.data!.first.apply(() async {})),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getSports() => sportFuture = futureWrapper(
-        () => _authRepository.getSports().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getSports().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getPositions() => positionFuture = futureWrapper(
-        () => _authRepository.getPositions().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getPositions().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getCountries() => countryFuture = futureWrapper(
-        () => _authRepository.getCountries().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getCountries().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void searchPlayers({bool fresh = false, String query}) {
+  void searchPlayers({bool fresh = false, String? query}) {
     if (fresh || canLoadMorePlayers) {
       int offset = (players?.offset ?? -PAGE_SIZE) + PAGE_SIZE;
       if (fresh) {
@@ -203,10 +203,10 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
               isBooked: filter?.isBooked ?? false,
               isConfirmed: filter?.isConfirmed ?? false,
               hand: filter?.hand,
-              partnerId: prefsRepository?.player?.id ?? 0,
+              partnerId: prefsRepository.player?.id ?? 0,
             )
             .replace(oldValue: playersFuture, onSuccess: () {}),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
         unknownErrorHandler: (err) => showSnack(err, duration: 2.seconds),
       );
       playersFuture = playersFuture?.replace(future) ?? future;
@@ -223,28 +223,28 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void viewProfilePlayer({
-    @required int id,
+    required int? id,
   }) {
     viewProfileFuture = futureWrapper(
       () => _playersRepository.viewPlayerProfile(id: id).whenSuccess(
-            (res) => res.apply(() {
+            (res) => res?.apply(() {
               print('view profile');
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
   @action
   void bookPlayer() {
     bookPlayerFuture = futureWrapper(
-      () => _playersRepository.bookPlayer(playerId: player.id).whenSuccess(
-            (res) => res.apply(() {
-              print('player ${player.name} booked');
-              fetchPlayer(id: player.id);
+      () => _playersRepository.bookPlayer(playerId: player!.id).whenSuccess(
+            (res) => res?.apply(() {
+              print('player ${player!.name} booked');
+              fetchPlayer(id: player!.id);
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
@@ -252,14 +252,14 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void confirmPlayer() {
     confirmPlayerFuture = futureWrapper(
       () => _playersRepository
-          .confirmPlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
+          .confirmPlayer(memberShipId: player!.membership!.id, memberShipVersion: player!.membership!.$version)
           .whenSuccess(
-            (res) => res.apply(() {
-              print('player ${player.name} confirmed');
-              fetchPlayer(id: player.id);
+            (res) => res?.apply(() {
+              print('player ${player!.name} confirmed');
+              fetchPlayer(id: player!.id);
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
@@ -267,42 +267,42 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   void releasePlayer() {
     releasePlayerFuture = futureWrapper(
       () => _playersRepository
-          .releasePlayer(memberShipId: player.membership.id, memberShipVersion: player.membership.$version)
+          .releasePlayer(memberShipId: player!.membership!.id, memberShipVersion: player!.membership!.$version)
           .whenSuccess(
-            (res) => res.apply(() {
-              print('player ${player.name} released');
-              fetchPlayer(id: player.id);
+            (res) => res?.apply(() {
+              print('player ${player!.name} released');
+              fetchPlayer(id: player!.id);
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
   @action
-  void fetchVideos({int playerId}) {
+  void fetchVideos({int? playerId}) {
     fetchVideoFuture = futureWrapper(
       () => _playersRepository.fetchApprovedVideos(playerId: playerId).whenSuccess(
-            (res) => res.data.apply(() {
+            (res) => res?.data!.apply(() {
               print('fetch videos');
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
   @action
   void changePlayerFilter({
-    CountryModel country,
-    SportModel sport,
-    SportPositionModel position,
-    String hand,
-    String leg,
-    String name,
-    int partnerId,
-    bool isConfirmed,
-    bool isBooked,
+    CountryModel? country,
+    SportModel? sport,
+    SportPositionModel? position,
+    String? hand,
+    String? leg,
+    String? name,
+    int? partnerId,
+    bool? isConfirmed,
+    bool? isBooked,
   }) {
-    filter = filter.copyWith(
+    filter = filter!.copyWith(
       country: country,
       sport: sport,
       position: position,

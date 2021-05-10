@@ -14,10 +14,10 @@ ViewModel _$ViewModelFromJson(Map<String, dynamic> json) {
     partnerPhoto: json['partner.photo'] == null
         ? null
         : SourceModel.fromJson(json['partner.photo'] as Map<String, dynamic>),
-    type: json['partner.type'] as String,
-    photoId: json['partner.photo.fileUUID'] as String,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    type: json['partner.type'] as String?,
+    photoId: json['partner.photo.fileUUID'] as String?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 

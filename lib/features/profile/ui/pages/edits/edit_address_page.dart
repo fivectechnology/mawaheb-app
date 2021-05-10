@@ -16,7 +16,7 @@ import 'package:mawaheb_app/features/profile/viewmodels/edit_address_viewmodel.d
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class EditAddressPage extends StatefulWidget {
-  const EditAddressPage({Key key, this.player}) : super(key: key);
+  const EditAddressPage({Key? key, this.player}) : super(key: key);
 
   // static MaterialPageRoute pageRoute(ProfileViewmodel profileViewmodel) =>
   //     MaterialPageRoute(
@@ -26,7 +26,7 @@ class EditAddressPage extends StatefulWidget {
   //       ),
   //     );
 
-  final PlayerModel player;
+  final PlayerModel? player;
   // static MaterialPageRoute<dynamic> get pageRoute =>
   //     MaterialPageRoute<dynamic>(builder: (_) => const EditAddressPage());
 
@@ -34,26 +34,25 @@ class EditAddressPage extends StatefulWidget {
   _EditAddressPageState createState() => _EditAddressPageState();
 }
 
-class _EditAddressPageState
-    extends MobxState<EditAddressPage, EditAddressViewmodel> {
+class _EditAddressPageState extends MobxState<EditAddressPage, EditAddressViewmodel> {
   TextEditingController stateController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  EmirateModel currentEmirate;
+  EmirateModel? currentEmirate;
 
   @override
   void initState() {
     super.initState();
-    if (viewmodel?.player == null) {
-      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player.id);
+    if (viewmodel.player == null) {
+      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player!.id);
     }
 
-    if (viewmodel?.emirates == null) {
+    if (viewmodel.emirates == null) {
       viewmodel.getEmirates();
     }
-    stateController = TextEditingController(text: widget.player.area);
-    addressController = TextEditingController(text: widget.player.address);
+    stateController = TextEditingController(text: widget.player!.area);
+    addressController = TextEditingController(text: widget.player!.address);
 
     // stateController.text = viewmodel.player.status;
     // stateController.text = viewmodel.player.status;
@@ -84,7 +83,7 @@ class _EditAddressPageState
           withTitle: true,
           onBackButton: () {
             context.navigator.pop();
-          }),
+          }) as PreferredSizeWidget?,
       body: MawahebFutureBuilder<List<EmirateModel>>(
           future: viewmodel.emirateFuture,
           onRetry: viewmodel.getEmirates,
@@ -92,20 +91,19 @@ class _EditAddressPageState
             return Form(
               key: _formKey,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
                 child: Column(
                   children: [
                     mawhaebDropDown(
-                      value: widget.player.emirate,
+                      value: widget.player!.emirate,
                       hint: 'lbl_emirate',
                       context: context,
                       onChanged: (value) {
                         currentEmirate = value;
                       },
-                      items: viewmodel.emirates
+                      items: viewmodel.emirates!
                           .map((em) => DropdownMenuItem(
-                                child: Text(em.name),
+                                child: Text(em.name!),
                                 value: em,
                               ))
                           .toList(),
@@ -115,7 +113,7 @@ class _EditAddressPageState
                       hintText: 'lbl_state/province/area',
                       hintColor: Colors.grey,
                       validator: (value) {
-                        return stateValidator(context: context, value: value);
+                        return stateValidator(context: context, value: value ?? '');
                       },
                       // onChanged: (value) {
                       //   stateController.text = value;
@@ -128,7 +126,7 @@ class _EditAddressPageState
                       hintText: 'lbl_address',
                       hintColor: Colors.grey,
                       validator: (value) {
-                        return addressValidator(context: context, value: value);
+                        return addressValidator(context: context, value: value ?? '');
                       },
                       textEditingController: addressController,
                       // onChanged: (value) {
@@ -149,16 +147,19 @@ class _EditAddressPageState
                               progressColor: RED,
                               isLoading: viewmodel.addressLoading,
                               onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  _formKey.currentState.save();
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
 
+                                  // viewmodel.editAddressInfo(
+                                  //   emirateModel: currentEmirate ?? viewmodel.player!.emirate,
+                                  //   address: addressController.text ?? viewmodel.player!.address,
+                                  //   area: stateController.text ?? viewmodel.player!.area,
+                                  // );
                                   viewmodel.editAddressInfo(
-                                      emirateModel: currentEmirate ??
-                                          viewmodel.player.emirate,
-                                      address: addressController.text ??
-                                          viewmodel.player.address,
-                                      area: stateController.text ??
-                                          viewmodel.player.area);
+                                    emirateModel: currentEmirate ?? viewmodel.player!.emirate,
+                                    address: addressController.text,
+                                    area: stateController.text,
+                                  );
                                 }
                               },
                               context: context,

@@ -10,31 +10,31 @@ part 'view_model.g.dart';
 @JsonSerializable()
 class ViewModel extends VersionModel with EquatableMixin {
   const ViewModel({
-    @required this.partner,
-    @required this.partnerPhoto,
-    @required this.type,
-    @required this.photoId,
-    @required int id,
-    @required int version,
+    required this.partner,
+    required this.partnerPhoto,
+    required this.type,
+    required this.photoId,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
-  final PartnerModel partner;
+  final PartnerModel? partner;
   @JsonKey(name: 'partner.photo')
-  final SourceModel partnerPhoto;
+  final SourceModel? partnerPhoto;
 
   @JsonKey(name: 'partner.type')
-  final String type;
+  final String? type;
 
   @JsonKey(name: 'partner.photo.fileUUID')
-  final String photoId;
+  final String? photoId;
 
   ViewModel copyWith({
-    PartnerModel partner,
-    int id,
-    int version,
-    SourceModel partnerPhoto,
-    String type,
-    String photoId,
+    PartnerModel? partner,
+    int? id,
+    int? version,
+    SourceModel? partnerPhoto,
+    String? type,
+    String? photoId,
   }) {
     return ViewModel(
       partnerPhoto: partnerPhoto ?? this.partnerPhoto,
@@ -50,7 +50,7 @@ class ViewModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       partner,
       id,
@@ -61,6 +61,6 @@ class ViewModel extends VersionModel with EquatableMixin {
     ];
   }
 
-  static ViewModel fromJson(Object json) => _$ViewModelFromJson(json);
+  static ViewModel fromJson(Object json) => _$ViewModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$ViewModelToJson(this);
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
@@ -7,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
+import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
@@ -20,6 +22,7 @@ import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/edits/edit_personal_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
+import 'package:mawaheb_app/features/profile/ui/pages/static_videos_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
@@ -32,14 +35,13 @@ part 'profile_viewmodel.g.dart';
 
 @injectable
 class ProfileViewmodel extends _ProfileViewmodelBase with _$ProfileViewmodel {
-  ProfileViewmodel(Logger logger, ProfileRepository profileRepository,
-      AuthRepository authRepository, PrefsRepository prefsRepository)
+  ProfileViewmodel(Logger logger, ProfileRepository profileRepository, AuthRepository authRepository,
+      PrefsRepository prefsRepository)
       : super(logger, profileRepository, authRepository, prefsRepository);
 }
 
 abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
-  _ProfileViewmodelBase(Logger logger, this._profileRepository,
-      this._authRepository, this.prefsRepository)
+  _ProfileViewmodelBase(Logger logger, this._profileRepository, this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
@@ -49,63 +51,64 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
     const MyInfoPage(),
     const VideosPage(),
     const ViewsPage(),
+    const StaticVideosPage(),
   ];
 
   //* OBSERVERS *//
   @observable
-  File image;
+  File? image;
 
   @observable
-  Future<int> imageId;
+  Future<int>? imageId;
 
   @observable
-  ObservableFuture<PlayerModel> playerFuture;
+  ObservableFuture<PlayerModel>? playerFuture;
 
   @observable
-  ObservableFuture<List<VideoModel>> fetchVideoFuture;
+  ObservableFuture<List<VideoModel>>? fetchVideoFuture;
 
   @observable
-  ObservableFuture<PlayerModel> editAddressPlayerFuture;
+  ObservableFuture<PlayerModel>? editAddressPlayerFuture;
 
   @observable
-  ObservableFuture<PlayerModel> editPersonalPlayerFuture;
+  ObservableFuture<PlayerModel>? editPersonalPlayerFuture;
 
   @observable
-  ObservableFuture<PlayerModel> editSportPlayerFuture;
+  ObservableFuture<PlayerModel>? editSportPlayerFuture;
 
   @observable
-  ObservableFuture<List<CategoryModel>> categoryFuture;
+  ObservableFuture<List<CategoryModel>>? categoryFuture;
 
   @observable
-  ObservableFuture<List<SportModel>> sportFuture;
+  ObservableFuture<List<SportModel>>? sportFuture;
 
   @observable
-  ObservableFuture<List<SportPositionModel>> positionFuture;
+  ObservableFuture<List<SportPositionModel>>? positionFuture;
 
   @observable
   List<SportPositionModel> tempPositionFuture = [];
 
   @observable
-  ObservableFuture<List<CountryModel>> countryFuture;
+  ObservableFuture<List<CountryModel>>? countryFuture;
 
   @observable
-  ObservableFuture<List<EmirateModel>> emirateFuture;
+  ObservableFuture<List<EmirateModel>>? emirateFuture;
 
   @observable
-  ObservableFuture<List<ViewModel>> viewsFuture;
+  ObservableFuture<List<ViewModel>>? viewsFuture;
 
   @observable
-  ObservableFuture<bool> uploadImageFuture;
+  ObservableFuture<bool>? uploadImageFuture;
 
   @observable
-  ObservableFuture<bool> deleteVideoFuture;
+  ObservableFuture<bool>? deleteVideoFuture;
 
   @observable
-  ObservableFuture<bool> replaceVideoFuture;
+  ObservableFuture<bool>? replaceVideoFuture;
 
   //* COMPUTED *//
   @computed
-  PlayerModel get player => playerFuture?.value;
+  PlayerModel? get player => playerFuture?.value;
 
   @computed
   bool get playerLoading => playerFuture?.isPending ?? false;
@@ -117,16 +120,16 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   bool get videosLoading => fetchVideoFuture?.isPending ?? false;
 
   @computed
-  List<CategoryModel> get categories => categoryFuture?.value;
+  List<CategoryModel>? get categories => categoryFuture?.value;
 
   @computed
-  List<SportModel> get sports => sportFuture?.value;
+  List<SportModel>? get sports => sportFuture?.value;
 
   @computed
-  List<CountryModel> get countries => countryFuture?.value;
+  List<CountryModel>? get countries => countryFuture?.value;
 
   @computed
-  List<SportPositionModel> get positions => positionFuture?.value;
+  List<SportPositionModel>? get positions => positionFuture?.value;
 
   @computed
   bool get positionsLoading => positionFuture?.isPending ?? false;
@@ -135,10 +138,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   bool get sportLoading => sportFuture?.isPending ?? false;
 
   @computed
-  List<EmirateModel> get emirates => emirateFuture?.value;
+  List<EmirateModel>? get emirates => emirateFuture?.value;
 
   @computed
-  List<ViewModel> get views => viewsFuture?.value;
+  List<ViewModel>? get views => viewsFuture?.value;
 
   @computed
   bool get deleteVideoLoading => deleteVideoFuture?.isPending ?? false;
@@ -159,75 +162,71 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   bool get addressLoading => editAddressPlayerFuture?.isPending ?? false;
 
   @computed
-  File get imageFile => image;
+  File? get imageFile => image;
 
   //* ACTIONS *//
 
   @action
   void getSports() => sportFuture = futureWrapper(
-        () => _authRepository.getSports().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getSports().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void getPositions({@required int sportId}) => positionFuture = futureWrapper(
-        () => _authRepository
-            .getPositions(sportId: sportId)
-            .whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  void getPositions({required int sportId}) => positionFuture = futureWrapper(
+        () => _authRepository.getPositions(sportId: sportId).whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getCountries() => countryFuture = futureWrapper(
-        () => _authRepository.getCountries().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getCountries().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getCategories() => categoryFuture = futureWrapper(
-        () => _authRepository.getCategories().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getCategories().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getEmirates() => emirateFuture = futureWrapper(
-        () => _authRepository.getEmirates().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _authRepository.getEmirates().whenSuccess((res) => res!.data!),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void playerViews() => viewsFuture = futureWrapper(
-        () => _profileRepository.playerViews().whenSuccess((res) => res.data),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        () => _profileRepository.playerViews().whenSuccess((res) => res!.data ?? []),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
-  void fetchPlayer({int id}) => playerFuture = futureWrapper(
-        () => _profileRepository
-            .fetchPlayer(id: id)
-            .whenSuccess((res) => res.data.first.apply(() async {
-                  if (prefsRepository.player == null) {
-                    await prefsRepository.setPlayer(res.data.first);
-                  }
-                })),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+  void fetchPlayer({int? id}) => playerFuture = futureWrapper(
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res!.data!.first.apply(() async {
+              if (prefsRepository.player == null) {
+                await prefsRepository.setPlayer(res.data!.first);
+              }
+            })),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void editPersonalInfo({
-    String dateOfBirth,
-    String gender,
-    String name,
-    String phone,
-    CountryModel country,
-    CategoryModel categoryModel,
-    int id,
+    String? dateOfBirth,
+    String? gender,
+    String? name,
+    String? phone,
+    CountryModel? country,
+    CategoryModel? categoryModel,
+    int? id,
   }) {
     editPersonalPlayerFuture = futureWrapper(
       () => _authRepository
           .addPersonalInfo(
-              version: player.version,
-              id: player.id,
+              version: player!.version,
+              id: player!.id,
               dateOfBirth: dateOfBirth,
               gender: gender,
               name: name,
@@ -235,53 +234,52 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               categoryModel: categoryModel,
               phone: phone)
           .whenSuccess(
-            (res) => res.data.first.apply(() {
+            (res) => res!.data!.first.apply(() {
               if (image == null) {
-                getContext((context) => App.navKey.currentState.context
-                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                getContext((context) =>
+                    App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
               }
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
   @action
-  void editAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+  void editAddressInfo({String? address, String? area, EmirateModel? emirateModel}) {
     editAddressPlayerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
-            version: player.version,
-            id: player.id,
+            version: player!.version,
+            id: player!.id,
             emirateModel: emirateModel,
             area: area,
             address: address,
           )
           .whenSuccess(
-            (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+            (res) => res!.data!.first.apply(() {
+              getContext(
+                  (context) => App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
   @action
   void editSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int? weight,
+      int? height,
+      String? hand,
+      String? leg,
+      String? brief,
+      SportModel? sport,
+      SportPositionModel? position}) {
     playerFuture = futureWrapper(
       () => _profileRepository
           .updateSportInfo(
-              version: playerFuture.value.version,
-              id: playerFuture.value.id,
+              version: playerFuture!.value!.version,
+              id: playerFuture!.value!.id,
               weight: weight,
               height: height,
               hand: hand,
@@ -290,39 +288,36 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               sport: sport,
               sportPositionModel: position)
           .whenSuccess(
-            (res) => res.data.first.apply(() {
-              getContext((context) => App.navKey.currentState.context
-                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+            (res) => res!.data!.first.apply(() {
+              getContext(
+                  (context) => App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
   @action
   // ignore: missing_return
-  Future<int> uploadImage({
-    int playerId,
-    int playerVersion,
-    File file,
-    int fileSize,
-    String fileName,
-    String fileType,
+  Future<int>? uploadImage({
+    int? playerId,
+    int? playerVersion,
+    File? file,
+    int? fileSize,
+    String? fileName,
+    String? fileType,
   }) {
     imageId = _profileRepository.uploadFile(file: file).then((res1) async {
       final res = res1.getOrThrow();
       print('file upoladed');
 
       await _profileRepository
-          .updateImageProfile(
-              imageId: res, version: playerVersion + 1, id: playerId)
+          .updateImageProfile(imageId: res, version: playerVersion! + 1, id: playerId)
           .whenSuccess((res) => apply(() {
                 print('image updated');
-                Navigator.of(EditPersonalPage.keyLoader.currentContext,
-                        rootNavigator: true)
-                    .pop();
-                getContext((context) => App.navKey.currentState.context
-                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                Navigator.of(EditPersonalPage.keyLoader.currentContext!, rootNavigator: true).pop();
+                getContext((context) =>
+                    App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
               }));
       // updateProfileImage(
       //     id: player.id, version: player.version, imageId: await imageId);
@@ -332,36 +327,26 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @action
   // ignore: missing_return
-  Future<int> uploadVideo({
-    File file,
-    int videoVersion,
-    int videoId,
-    bool withDelete,
+  Future<int>? uploadVideo({
+    File? file,
+    int? videoVersion,
+    int? videoId,
+    bool? withDelete,
   }) {
     print('debug upload video1');
     imageId = _profileRepository.uploadFile(file: file).then((res1) async {
       final res = res1.getOrThrow();
-      if (withDelete) {
-        await _profileRepository
-            .uploadVideoPlayer(playerId: player.id, videoId: res)
-            .whenSuccess((res) => apply(() {
-                  Navigator.of(VideosPage.keyLoader.currentContext,
-                          rootNavigator: true)
-                      .pop();
-                  fetchVideos(playerId: player.id);
-                }));
+      if (withDelete!) {
+        await _profileRepository.uploadVideoPlayer(playerId: player!.id, videoId: res).whenSuccess((res) => apply(() {
+              Navigator.of(VideosPage.keyLoader.currentContext!, rootNavigator: true).pop();
+              fetchVideos(playerId: player!.id);
+            }));
       } else {
         await _profileRepository
-            .replaceVideoPlayer(
-                playerId: player.id,
-                videoFileId: res,
-                videoVersion: videoVersion,
-                videoId: videoId)
+            .replaceVideoPlayer(playerId: player!.id, videoFileId: res, videoVersion: videoVersion, videoId: videoId)
             .whenSuccess((res) => apply(() {
-                  Navigator.of(VideosPage.keyLoader.currentContext,
-                          rootNavigator: true)
-                      .pop();
-                  fetchVideos(playerId: player.id);
+                  Navigator.of(VideosPage.keyLoader.currentContext!, rootNavigator: true).pop();
+                  fetchVideos(playerId: player!.id);
                 }));
       }
 
@@ -370,34 +355,32 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void deleteVideo({int videoVersion, int videoId}) {
+  void deleteVideo({int? videoVersion, int? videoId}) {
     deleteVideoFuture = futureWrapper(
       () => _profileRepository
           .deleteVideoPlayer(
             videoId: videoId,
-            videoVersion: player.id,
+            videoVersion: player!.id,
           )
           .whenSuccess(
-            (res) => res.apply(() {
-              showSnack('Video deleted',
-                  scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
-              fetchVideos(playerId: player.id);
+            (res) => res!.apply(() {
+              showSnack('Video deleted', scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
+              fetchVideos(playerId: player!.id);
             }),
           ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 
   @action
-  void fetchVideos({int playerId}) {
+  void fetchVideos({int? playerId}) {
     fetchVideoFuture = futureWrapper(
-      () =>
-          _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
-                (res) => res.data.apply(() {
-                  print('fetch videos');
-                }),
-              ),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      () => _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
+            (res) => res?.data!.apply(() {
+              print('fetch videos');
+            }),
+          ),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
 }

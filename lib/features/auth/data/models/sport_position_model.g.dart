@@ -8,12 +8,12 @@ part of 'sport_position_model.dart';
 
 SportPositionModel _$SportPositionModelFromJson(Map<String, dynamic> json) {
   return SportPositionModel(
-    nameEn: json['name'] as String,
-    tName: json[r'$t:name'] as String,
+    nameEn: json['name'] as String?,
+    tName: json[r'$t:name'] as String?,
     sport: json['sport'] == null
         ? null
         : SportModel.fromJson(json['sport'] as Map<String, dynamic>),
-    id: json['id'] as int,
+    id: json['id'] as int?,
   );
 }
 

@@ -1,7 +1,7 @@
 import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/network_result.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -16,33 +16,31 @@ import 'package:mawaheb_app/features/public_info/data/models/gallery_model.dart'
 import 'package:mawaheb_app/features/public_info/data/models/strategic_partners_model.dart';
 
 abstract class PublicInfoDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>>> getAboutUs();
+  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>?>> getAboutUs();
 
-  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>>> getContactUs();
+  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>?>> getContactUs();
 
-  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>> getStrategicPartners();
+  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>?>> getStrategicPartners();
 
-  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>> getDownloadCenter();
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>?>> getDownloadCenter();
 
-  Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery();
+  Future<NetworkResult<ListBaseResponseModel<GalleryModel>?>> getGallery();
 }
 
 @LazySingleton(as: PublicInfoDataSource)
 class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements PublicInfoDataSource {
   PublicInfoDataSourceImpl({
-    @required Dio client,
-    @required PrefsRepository prefsRepository,
-    @required DataConnectionChecker connectionChecker,
-    @required Logger logger,
+    required Dio client,
+    required PrefsRepository? prefsRepository,
+    required Logger logger,
   }) : super(
           prefsRepository: prefsRepository,
           client: client,
-          connectionChecker: connectionChecker,
           logger: logger,
         );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>>> getAboutUs() {
+  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>?>> getAboutUs() {
     return mawahebRequest(
       modelName: 'AboutUs',
       action: EndPointAction.search,
@@ -55,7 +53,7 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements Public
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>>> getContactUs() {
+  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>?>> getContactUs() {
     return mawahebRequest(
       modelName: 'ContactUs',
       action: EndPointAction.search,
@@ -73,12 +71,13 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements Public
         //   'latitude'
         // ]
       },
-      mapper: ListBaseResponseModel.fromJson(ContactUsModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(ContactUsModel.fromJson) as ListBaseResponseModel<ContactUsModel> Function(
+          Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>> getStrategicPartners() {
+  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>?>> getStrategicPartners() {
     return mawahebRequest(
       modelName: 'StrategicPartner',
       method: METHOD.POST,
@@ -92,12 +91,13 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements Public
           'titleAr',
         ],
       },
-      mapper: ListBaseResponseModel.fromJson(StrategicPartnersModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(StrategicPartnersModel.fromJson)
+          as ListBaseResponseModel<StrategicPartnersModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>> getDownloadCenter() {
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>?>> getDownloadCenter() {
     return mawahebRequest(
       modelName: 'DownloadCentreItem',
       method: METHOD.POST,
@@ -105,12 +105,13 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements Public
       data: {
         // 'fields': ['id', 'version', 'title', 'source'],
       },
-      mapper: ListBaseResponseModel.fromJson(DownloadCenterModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(DownloadCenterModel.fromJson) as ListBaseResponseModel<DownloadCenterModel>
+          Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery() {
+  Future<NetworkResult<ListBaseResponseModel<GalleryModel>?>> getGallery() {
     return mawahebRequest(
       modelName: 'PhotoGalleryItem',
       method: METHOD.POST,
@@ -124,7 +125,8 @@ class PublicInfoDataSourceImpl extends MawahebRemoteDataSource implements Public
           'titleAr',
         ],
       },
-      mapper: ListBaseResponseModel.fromJson(GalleryModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(GalleryModel.fromJson) as ListBaseResponseModel<GalleryModel> Function(
+          Object?)?,
     );
   }
 }

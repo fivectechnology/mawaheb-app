@@ -28,13 +28,13 @@ abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
   //* OBSERVERS *//
 
   @observable
-  ObservableFuture<ListBaseResponseModel<NotificationModel>>
+  ObservableFuture<ListBaseResponseModel<NotificationModel>>?
       notificationsFuture;
 
   //* COMPUTED *//
 
   @computed
-  ListBaseResponseModel<NotificationModel> get notifications =>
+  ListBaseResponseModel<NotificationModel>? get notifications =>
       notificationsFuture?.value;
 
   @computed
@@ -48,7 +48,7 @@ abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
     if (notifications == null) {
       return true;
     }
-    if (notifications.offset + PAGE_SIZE < notifications.total) {
+    if (notifications!.offset! + PAGE_SIZE < notifications!.total!) {
       return true;
     }
 
@@ -74,7 +74,7 @@ abstract class _NotificationsViewmodelBase extends BaseViewmodel with Store {
               oldValue: notificationsFuture,
               onSuccess: () {},
             ),
-        catchBlock: (err) => showSnack(err, duration: 2.seconds),
+        catchBlock: (err) => showSnack(err!, duration: 2.seconds),
         unknownErrorHandler: (err) => showSnack(err, duration: 2.seconds),
       );
       notificationsFuture = notificationsFuture?.replace(future) ?? future;

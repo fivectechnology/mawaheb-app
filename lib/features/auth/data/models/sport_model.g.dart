@@ -8,9 +8,9 @@ part of 'sport_model.dart';
 
 SportModel _$SportModelFromJson(Map<String, dynamic> json) {
   return SportModel(
-    name2: json['name'] as String,
-    tName: json[r'$t:name'] as String,
-    id: json['id'] as int,
+    name2: json['name'] as String?,
+    tName: json[r'$t:name'] as String?,
+    id: json['id'] as int?,
   );
 }
 

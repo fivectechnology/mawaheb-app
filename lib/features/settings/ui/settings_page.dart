@@ -19,11 +19,10 @@ import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const SettingsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -34,7 +33,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
   // Lang _lang = Lang.english;
   bool noti = false;
-  AppViewmodel appViewmodel;
+  late AppViewmodel appViewmodel;
 
   @override
   void initState() {
@@ -56,7 +55,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return viewmodel.updateLangLoading == true
+        return appViewmodel.languageLoading
             ? const Center(
                 child: MawahebLoader(),
               )
@@ -67,10 +66,9 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                   physics: const BouncingScrollPhysics(),
                   children: [
                     Card(
-                      elevation: 3,
+                      elevation: 3.0,
                       shadowColor: Colors.black87,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 26, vertical: 30),
+                      margin: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 30.0),
                       child: Column(
                         children: [
                           // TODO(abd): add notification switcher here
@@ -93,16 +91,12 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                           settingRow(
                               text: 'lbl_change_password',
                               onPress: () {
-                                context.navigator.push(
-                                    ChangePasswordPage.cupertionPageRoute(
-                                        viewmodel));
+                                context.navigator.push(ChangePasswordPage.cupertionPageRoute(viewmodel));
                               }),
                           settingRow(
                               text: 'lbl_change_email',
                               onPress: () {
-                                context.navigator.push(
-                                    ChangeEmailPage.cupertionPageRoute(
-                                        viewmodel));
+                                context.navigator.push(ChangeEmailPage.cupertionPageRoute(viewmodel));
                               }),
                           settingRow(
                             text: 'lbl_term_of_service',
@@ -120,8 +114,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                               onPress: () {
                                 mawahebShowConfirmDialog(
                                     context: context,
-                                    message: context
-                                        .translate('msg_app_exit_confirm'),
+                                    message: context.translate('msg_app_exit_confirm'),
                                     onConfirm: () {
                                       viewmodel.logout();
                                     });
@@ -135,43 +128,38 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                     Card(
                       elevation: 3,
                       shadowColor: Colors.black54,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 26, vertical: 30),
+                      margin: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 30.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 26),
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26.0),
                             child: Text(context.translate('lbl_language'),
-                                style: textTheme.subtitle1.copyWith(
-                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                                style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold)),
                           ),
                           RadioListTile(
                             title: Text(
                               'English',
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                              style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold),
                             ),
                             activeColor: RED,
                             value: LANGUAGE_ENGLISH,
                             groupValue: appViewmodel.language,
-                            onChanged: (v) {
+                            onChanged: (dynamic v) {
                               appViewmodel.changeLanguage(v);
-                              viewmodel.updateUserLanguage(lang: v);
+                              // viewmodel.updateUserLanguage(lang: v);
                             },
                           ),
                           RadioListTile(
                             title: Text(
                               'العربية',
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                              style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold),
                             ),
                             activeColor: RED,
                             value: LANGUAGE_ARABIC,
                             groupValue: appViewmodel.language,
-                            onChanged: (v) {
+                            onChanged: (dynamic v) {
                               appViewmodel.changeLanguage(v);
                               viewmodel.updateUserLanguage(lang: v);
                             },
@@ -187,8 +175,8 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
   }
 
   Widget settingRow({
-    String text,
-    VoidCallback onPress,
+    required String text,
+    VoidCallback? onPress,
     bool isLoading = false,
   }) {
     return Padding(
@@ -200,8 +188,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
           children: [
             Text(
               context.translate(text),
-              style: textTheme.subtitle1
-                  .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+              style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold),
             ),
             AnimatedSwitcher(
               duration: 400.milliseconds,

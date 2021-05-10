@@ -4,230 +4,216 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:dio/dio.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:get_it/get_it.dart';
-import 'package:injectable/injectable.dart';
-import 'package:core_sdk/utils/Fimber/Logger.dart';
-import 'package:core_sdk/utils/Fimber/logger_impl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:core_sdk/utils/Fimber/Logger.dart' as _i5;
+import 'package:dio/dio.dart' as _i6;
+import 'package:firebase_messaging/firebase_messaging.dart' as _i3;
+import 'package:get_it/get_it.dart' as _i1;
+import 'package:injectable/injectable.dart' as _i2;
+import 'package:shared_preferences/shared_preferences.dart' as _i9;
 
-import '../../base/data/datasources/app_datasource.dart';
-import 'injection_container.dart';
-import '../../base/domain/repositories/app_repository.dart';
-import '../../base/data/repositories/app_repository_impl.dart';
-import '../viewmodels/app_viewmodel.dart';
-import '../../features/auth/data/datasources/auth_datasource.dart';
-import '../../features/auth/domain/repositories/auth_repositories.dart';
-import '../../features/auth/data/repositories/auth_repositories_impl.dart';
-import '../../features/auth/viewmodels/auth_viewmodel.dart';
-import '../../base/utils/download_helper.dart';
-import '../../features/profile/viewmodels/edit_address_viewmodel.dart';
-import '../../features/profile/viewmodels/edit_personal_viewmodel.dart';
-import '../../features/profile/viewmodels/edit_sport_viewmodel.dart';
-import '../../features/home/data/datasources/home_datasource.dart';
-import '../../features/home/domain/repositories/home_repository.dart';
-import '../../features/home/data/repositories/home_repository_impl.dart';
-import '../../features/home/viewmodels/home_viewmodel.dart';
-import '../../features/notifications/data/datasources/notifications_datasource.dart';
-import '../../features/notifications/domain/repositories/notifications_repository.dart';
-import '../../features/notifications/data/repositories/notifications_repository_impl.dart';
-import '../../features/notifications/viewmodels/notifications_viewmodel.dart';
-import '../../features/players/data/datasources/players_datasource.dart';
-import '../../features/players/domain/repositiories/players_repository.dart';
-import '../../features/players/data/repositories/players_repository_impl.dart';
-import '../../features/players/viewmodels/players_viewmodel.dart';
-import '../../base/domain/repositories/prefs_repository.dart';
-import '../../base/data/repositories/prefs_repository_impl.dart';
-import '../../features/profile/data/datasources/profile_datasource.dart';
-import '../../features/profile/domain/repositories/proifile_repository.dart';
-import '../../features/profile/data/repositories/profile_repository_impl.dart';
-import '../../features/profile/viewmodels/profile_viewmodel.dart';
-import '../../features/public_info/data/datasources/public_info_datasource.dart';
-import '../../features/public_info/domain/repositories/public_info_repository.dart';
-import '../../features/public_info/data/repositories/public_info_repositiory_impl.dart';
-import '../../features/public_info/viewmodels/public_info_viewmodels.dart';
-import '../../features/settings/data/datasources/settings_datasource.dart';
-import '../../features/settings/domain/repositories/settings_repository.dart';
-import '../../features/settings/data/repositories/settings_repositroy_impl.dart';
-import '../../features/settings/viewmodels/settings_viewmodel.dart';
-import '../../features/splash/data/datasources/splash_datasource.dart';
-import '../../features/splash/domain/repositories/splash_repositories.dart';
-import '../../features/splash/data/repositories/splash_repository_impl.dart';
-import '../../features/splash/viewmodels/splash_viewmodel.dart';
+import '../../base/data/datasources/app_datasource.dart' as _i35;
+import '../../base/data/repositories/app_repository_impl.dart' as _i37;
+import '../../base/data/repositories/prefs_repository_impl.dart' as _i8;
+import '../../base/domain/repositories/app_repository.dart' as _i36;
+import '../../base/domain/repositories/prefs_repository.dart' as _i7;
+import '../../base/utils/download_helper.dart' as _i10;
+import '../../features/auth/data/datasources/auth_datasource.dart' as _i39;
+import '../../features/auth/data/repositories/auth_repositories_impl.dart'
+    as _i41;
+import '../../features/auth/domain/repositories/auth_repositories.dart' as _i40;
+import '../../features/auth/viewmodels/auth_viewmodel.dart' as _i42;
+import '../../features/home/data/datasources/home_datasource.dart' as _i11;
+import '../../features/home/data/repositories/home_repository_impl.dart'
+    as _i13;
+import '../../features/home/domain/repositories/home_repository.dart' as _i12;
+import '../../features/home/viewmodels/home_viewmodel.dart' as _i14;
+import '../../features/notifications/data/datasources/notifications_datasource.dart'
+    as _i15;
+import '../../features/notifications/data/repositories/notifications_repository_impl.dart'
+    as _i17;
+import '../../features/notifications/domain/repositories/notifications_repository.dart'
+    as _i16;
+import '../../features/notifications/viewmodels/notifications_viewmodel.dart'
+    as _i18;
+import '../../features/players/data/datasources/players_datasource.dart'
+    as _i19;
+import '../../features/players/data/repositories/players_repository_impl.dart'
+    as _i21;
+import '../../features/players/domain/repositiories/players_repository.dart'
+    as _i20;
+import '../../features/players/viewmodels/players_viewmodel.dart' as _i46;
+import '../../features/profile/data/datasources/profile_datasource.dart'
+    as _i22;
+import '../../features/profile/data/repositories/profile_repository_impl.dart'
+    as _i24;
+import '../../features/profile/domain/repositories/proifile_repository.dart'
+    as _i23;
+import '../../features/profile/viewmodels/edit_address_viewmodel.dart' as _i43;
+import '../../features/profile/viewmodels/edit_personal_viewmodel.dart' as _i44;
+import '../../features/profile/viewmodels/edit_sport_viewmodel.dart' as _i45;
+import '../../features/profile/viewmodels/profile_viewmodel.dart' as _i47;
+import '../../features/profile/viewmodels/static_videos_viewmodel.dart' as _i4;
+import '../../features/public_info/data/datasources/public_info_datasource.dart'
+    as _i25;
+import '../../features/public_info/data/repositories/public_info_repositiory_impl.dart'
+    as _i27;
+import '../../features/public_info/domain/repositories/public_info_repository.dart'
+    as _i26;
+import '../../features/public_info/viewmodels/public_info_viewmodels.dart'
+    as _i28;
+import '../../features/settings/data/datasources/settings_datasource.dart'
+    as _i29;
+import '../../features/settings/data/repositories/settings_repositroy_impl.dart'
+    as _i31;
+import '../../features/settings/domain/repositories/settings_repository.dart'
+    as _i30;
+import '../../features/settings/viewmodels/settings_viewmodel.dart' as _i48;
+import '../../features/splash/data/datasources/splash_datasource.dart' as _i32;
+import '../../features/splash/data/repositories/splash_repository_impl.dart'
+    as _i34;
+import '../../features/splash/domain/repositories/splash_repositories.dart'
+    as _i33;
+import '../../features/splash/viewmodels/splash_viewmodel.dart' as _i49;
+import '../viewmodels/app_viewmodel.dart' as _i38;
+import 'injection_container.dart'
+    as _i50; // ignore_for_file: unnecessary_lambdas
 
-/// adds generated dependencies
-/// to the provided [GetIt] instance
-
-Future<GetIt> $inject(
-  GetIt get, {
-  String environment,
-  EnvironmentFilter environmentFilter,
-}) async {
-  final gh = GetItHelper(get, environment, environmentFilter);
+// ignore_for_file: lines_longer_than_80_chars
+/// initializes the registration of provided dependencies inside of [GetIt]
+Future<_i1.GetIt> $inject(_i1.GetIt get,
+    {String? environment, _i2.EnvironmentFilter? environmentFilter}) async {
+  final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final appModule = _$AppModule();
-  gh.lazySingleton<DataConnectionChecker>(() => appModule.getChecker());
-  gh.lazySingleton<FirebaseMessaging>(() => appModule.firebaseMessaging());
+  gh.lazySingleton<_i3.FirebaseMessaging>(() => appModule.firebaseMessaging());
+  gh.factory<_i4.StaticVideosViewmodel>(
+      () => _i4.StaticVideosViewmodel(get<_i5.Logger>()));
   gh.factory<String>(() => appModule.baseUrl, instanceName: 'ApiBaseUrl');
-  gh.factory<BaseOptions>(
+  gh.factory<_i6.BaseOptions>(
       () => appModule.dioOption(get<String>(instanceName: 'ApiBaseUrl')));
-  gh.lazySingleton<DownloadHelper>(
-      () => DownloadHelper(get<PrefsRepository>(), get<Dio>()));
-  gh.lazySingleton<HomeDataSource>(() => HomeDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<HomeRepository>(
-      () => HomeRepositoryImpl(get<HomeDataSource>()));
-  gh.factory<HomeViewmodel>(
-      () => HomeViewmodel(get<Logger>(), get<HomeRepository>()));
-  gh.lazySingleton<NotificationsDataSource>(() => NotificationsDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<NotificationsRepository>(
-      () => NotificationsRepositoryImpl(get<NotificationsDataSource>()));
-  gh.factory<NotificationsViewmodel>(() =>
-      NotificationsViewmodel(get<Logger>(), get<NotificationsRepository>()));
-  gh.lazySingleton<PlayersDataSource>(() => PlayersDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<PlayersRepository>(() =>
-      PlayersRepositoryImpl(get<PlayersDataSource>(), get<PrefsRepository>()));
-  gh.lazySingleton<ProfileDataSource>(() => ProfileDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<ProfileRepository>(() =>
-      ProfileRepositoryImpl(get<ProfileDataSource>(), get<PrefsRepository>()));
-  gh.lazySingleton<PublicInfoDataSource>(() => PublicInfoDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<PublicInfoRepository>(() => PublicInfoRepositoryImpl(
-      get<PublicInfoDataSource>(), get<PrefsRepository>()));
-  gh.factory<PublicInfoViewmodel>(() => PublicInfoViewmodel(
-        get<Logger>(),
-        get<PublicInfoRepository>(),
-        get<PrefsRepository>(),
-        get<DownloadHelper>(),
-      ));
-  gh.lazySingleton<SettingsDataSource>(() => SettingsDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<SettingsRepository>(
-      () => SettingsRepositoryImpl(get<SettingsDataSource>()));
-  gh.lazySingleton<SplashDataSource>(() => SplashDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<SplashRepository>(
-      () => SplashRepositoryImpl(get<SplashDataSource>()));
-  gh.lazySingleton<AppDataSource>(() => AppDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<AppRepository>(() => AppRepositoryImpl(
-        get<AppDataSource>(),
-        get<PrefsRepository>(),
-        get<FirebaseMessaging>(),
-      ));
-  gh.factory<AppViewmodel>(() => AppViewmodel(
-        get<Logger>(),
-        get<PrefsRepository>(),
-        get<AppRepository>(),
-      ));
-  gh.lazySingleton<AuthDataSource>(() => AuthDataSourceImpl(
-        client: get<Dio>(),
-        prefsRepository: get<PrefsRepository>(),
-        connectionChecker: get<DataConnectionChecker>(),
-        logger: get<Logger>(),
-      ));
-  gh.lazySingleton<AuthRepository>(() => AuthRepositoryImpl(
-        get<AuthDataSource>(),
-        get<PrefsRepository>(),
-        get<AppRepository>(),
-        get<ProfileRepository>(),
-      ));
-  gh.factory<AuthViewmodel>(() => AuthViewmodel(
-        get<Logger>(),
-        get<AuthRepository>(),
-        get<PrefsRepository>(),
-        get<ProfileRepository>(),
-      ));
-  gh.factory<EditAddressViewmodel>(() => EditAddressViewmodel(
-        get<Logger>(),
-        get<ProfileRepository>(),
-        get<PrefsRepository>(),
-        get<AuthRepository>(),
-      ));
-  gh.factory<EditPersonalViewmodel>(() => EditPersonalViewmodel(
-        get<Logger>(),
-        get<ProfileRepository>(),
-        get<PrefsRepository>(),
-        get<AuthRepository>(),
-      ));
-  gh.factory<EditSportViewmodel>(() => EditSportViewmodel(
-        get<Logger>(),
-        get<ProfileRepository>(),
-        get<PrefsRepository>(),
-        get<AuthRepository>(),
-      ));
-  gh.factory<PlayersViewmodel>(() => PlayersViewmodel(
-        get<Logger>(),
-        get<PlayersRepository>(),
-        get<AuthRepository>(),
-        get<ProfileRepository>(),
-        get<PrefsRepository>(),
-      ));
-  gh.factory<ProfileViewmodel>(() => ProfileViewmodel(
-        get<Logger>(),
-        get<ProfileRepository>(),
-        get<AuthRepository>(),
-        get<PrefsRepository>(),
-      ));
-  gh.factory<SettingsViewmodel>(() => SettingsViewmodel(
-        get<Logger>(),
-        get<SettingsRepository>(),
-        get<AuthRepository>(),
-        get<PrefsRepository>(),
-      ));
-  gh.factory<SplashViewmodel>(() => SplashViewmodel(
-        get<Logger>(),
-        get<PrefsRepository>(),
-        get<AuthRepository>(),
-      ));
-
-  // Eager singletons must be registered in the right order
-  gh.singleton<Logger>(appModule.logger());
-  final sharedPreferences = await appModule.getPrefs();
-  gh.singleton<SharedPreferences>(sharedPreferences);
-  gh.singleton<PrefsRepository>(PrefsRepositoryImpl(get<SharedPreferences>()));
-  gh.singleton<Dio>(appModule.dio(
-    get<BaseOptions>(),
-    get<Logger>(),
-    get<PrefsRepository>(),
-  ));
+  gh.lazySingleton<_i7.PrefsRepository>(
+      () => _i8.PrefsRepositoryImpl(get<_i9.SharedPreferences>()));
+  gh.lazySingleton<_i10.DownloadHelper>(
+      () => _i10.DownloadHelper(get<_i7.PrefsRepository>(), get<_i6.Dio>()));
+  gh.lazySingleton<_i11.HomeDataSource>(() => _i11.HomeDataSourceImpl(
+      client: get<_i6.Dio>(),
+      prefsRepository: get<_i7.PrefsRepository>(),
+      logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i12.HomeRepository>(
+      () => _i13.HomeRepositoryImpl(get<_i11.HomeDataSource>()));
+  gh.factory<_i14.HomeViewmodel>(
+      () => _i14.HomeViewmodel(get<_i5.Logger>(), get<_i12.HomeRepository>()));
+  gh.lazySingleton<_i15.NotificationsDataSource>(() =>
+      _i15.NotificationsDataSourceImpl(
+          client: get<_i6.Dio>(),
+          prefsRepository: get<_i7.PrefsRepository>(),
+          logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i16.NotificationsRepository>(() =>
+      _i17.NotificationsRepositoryImpl(get<_i15.NotificationsDataSource>()));
+  gh.factory<_i18.NotificationsViewmodel>(() => _i18.NotificationsViewmodel(
+      get<_i5.Logger>(), get<_i16.NotificationsRepository>()));
+  gh.lazySingleton<_i19.PlayersDataSource>(() => _i19.PlayersDataSourceImpl(
+      client: get<_i6.Dio>(),
+      prefsRepository: get<_i7.PrefsRepository>(),
+      logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i20.PlayersRepository>(() => _i21.PlayersRepositoryImpl(
+      get<_i19.PlayersDataSource>(), get<_i7.PrefsRepository>()));
+  gh.lazySingleton<_i22.ProfileDataSource>(() => _i22.ProfileDataSourceImpl(
+      client: get<_i6.Dio>(),
+      prefsRepository: get<_i7.PrefsRepository>(),
+      logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i23.ProfileRepository>(() => _i24.ProfileRepositoryImpl(
+      get<_i22.ProfileDataSource>(), get<_i7.PrefsRepository>()));
+  gh.lazySingleton<_i25.PublicInfoDataSource>(() =>
+      _i25.PublicInfoDataSourceImpl(
+          client: get<_i6.Dio>(),
+          prefsRepository: get<_i7.PrefsRepository>(),
+          logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i26.PublicInfoRepository>(() =>
+      _i27.PublicInfoRepositoryImpl(
+          get<_i25.PublicInfoDataSource>(), get<_i7.PrefsRepository>()));
+  gh.factory<_i28.PublicInfoViewmodel>(() => _i28.PublicInfoViewmodel(
+      get<_i5.Logger>(),
+      get<_i26.PublicInfoRepository>(),
+      get<_i7.PrefsRepository>(),
+      get<_i10.DownloadHelper>()));
+  gh.lazySingleton<_i29.SettingsDataSource>(() => _i29.SettingsDataSourceImpl(
+      client: get<_i6.Dio>(),
+      prefsRepository: get<_i7.PrefsRepository>(),
+      logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i30.SettingsRepository>(
+      () => _i31.SettingsRepositoryImpl(get<_i29.SettingsDataSource>()));
+  gh.lazySingleton<_i32.SplashDataSource>(() => _i32.SplashDataSourceImpl(
+      client: get<_i6.Dio>(),
+      prefsRepository: get<_i7.PrefsRepository>(),
+      logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i33.SplashRepository>(
+      () => _i34.SplashRepositoryImpl(get<_i32.SplashDataSource>()));
+  gh.lazySingleton<_i35.AppDataSource>(() => _i35.AppDataSourceImpl(
+      client: get<_i6.Dio>(),
+      prefsRepository: get<_i7.PrefsRepository>(),
+      logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i36.AppRepository>(() => _i37.AppRepositoryImpl(
+      get<_i35.AppDataSource>(),
+      get<_i7.PrefsRepository>(),
+      get<_i3.FirebaseMessaging>()));
+  gh.factory<_i38.AppViewmodel>(() => _i38.AppViewmodel(
+      get<_i5.Logger>(),
+      get<_i7.PrefsRepository>(),
+      get<_i36.AppRepository>(),
+      get<_i30.SettingsRepository>()));
+  gh.lazySingleton<_i39.AuthDataSource>(() => _i39.AuthDataSourceImpl(
+      client: get<_i6.Dio>(),
+      prefsRepository: get<_i7.PrefsRepository>(),
+      logger: get<_i5.Logger>()));
+  gh.lazySingleton<_i40.AuthRepository>(() => _i41.AuthRepositoryImpl(
+      get<_i39.AuthDataSource>(),
+      get<_i7.PrefsRepository>(),
+      get<_i36.AppRepository>(),
+      get<_i23.ProfileRepository>()));
+  gh.factory<_i42.AuthViewmodel>(() => _i42.AuthViewmodel(
+      get<_i5.Logger>(),
+      get<_i40.AuthRepository>(),
+      get<_i7.PrefsRepository>(),
+      get<_i23.ProfileRepository>()));
+  gh.factory<_i43.EditAddressViewmodel>(() => _i43.EditAddressViewmodel(
+      get<_i5.Logger>(),
+      get<_i23.ProfileRepository>(),
+      get<_i7.PrefsRepository>(),
+      get<_i40.AuthRepository>()));
+  gh.factory<_i44.EditPersonalViewmodel>(() => _i44.EditPersonalViewmodel(
+      get<_i5.Logger>(),
+      get<_i23.ProfileRepository>(),
+      get<_i7.PrefsRepository>(),
+      get<_i40.AuthRepository>()));
+  gh.factory<_i45.EditSportViewmodel>(() => _i45.EditSportViewmodel(
+      get<_i5.Logger>(),
+      get<_i23.ProfileRepository>(),
+      get<_i7.PrefsRepository>(),
+      get<_i40.AuthRepository>()));
+  gh.factory<_i46.PlayersViewmodel>(() => _i46.PlayersViewmodel(
+      get<_i5.Logger>(),
+      get<_i20.PlayersRepository>(),
+      get<_i40.AuthRepository>(),
+      get<_i23.ProfileRepository>(),
+      get<_i7.PrefsRepository>()));
+  gh.factory<_i47.ProfileViewmodel>(() => _i47.ProfileViewmodel(
+      get<_i5.Logger>(),
+      get<_i23.ProfileRepository>(),
+      get<_i40.AuthRepository>(),
+      get<_i7.PrefsRepository>()));
+  gh.factory<_i48.SettingsViewmodel>(() => _i48.SettingsViewmodel(
+      get<_i5.Logger>(),
+      get<_i30.SettingsRepository>(),
+      get<_i40.AuthRepository>(),
+      get<_i7.PrefsRepository>()));
+  gh.factory<_i49.SplashViewmodel>(() => _i49.SplashViewmodel(get<_i5.Logger>(),
+      get<_i7.PrefsRepository>(), get<_i40.AuthRepository>()));
+  gh.singleton<_i5.Logger>(appModule.logger());
+  await gh.singletonAsync<_i9.SharedPreferences>(() => appModule.getPrefs(),
+      preResolve: true);
+  gh.singleton<_i6.Dio>(appModule.dio(
+      get<_i6.BaseOptions>(), get<_i5.Logger>(), get<_i7.PrefsRepository>()));
   return get;
 }
 
-class _$AppModule extends AppModule {}
+class _$AppModule extends _i50.AppModule {}

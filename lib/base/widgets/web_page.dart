@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatelessWidget {
-  const WebPage(this.pageTitle, this.url, {Key key, this.showAppBar = true}) : super(key: key);
+  const WebPage(this.pageTitle, this.url, {Key? key, this.showAppBar = true}) : super(key: key);
 
   final String pageTitle;
   final String url;
@@ -18,7 +18,7 @@ class WebPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!showAppBar) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
         Provider.of<AppViewmodel>(context, listen: false).pushRoute(AppBarParams(
           title: pageTitle,
           showBackButton: true,
@@ -36,7 +36,7 @@ class WebPage extends StatelessWidget {
               leading: const CupertinoNavigationBarBackButton(color: TEXT_COLOR),
               title: Text(
                 pageTitle,
-                style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 18),
+                style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 18),
               ),
               elevation: 0.0,
             )

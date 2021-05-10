@@ -9,10 +9,10 @@ import 'package:mawaheb_app/features/notifications/data/models/notification_mode
 abstract class NotificationsRepository extends BaseRepository {
   const NotificationsRepository(NotificationsDataSource notificationsDataSource) : super(notificationsDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<NotificationModel>>> getNotifications({
-    @required int limit,
-    @required int offset,
+  Future<NetworkResult<ListBaseResponseModel<NotificationModel>?>> getNotifications({
+    required int limit,
+    required int offset,
   });
 
-  Future<NetworkResult<BaseResponseModel<Object>>> markAsRead({int notificationId});
+  Future<NetworkResult<BaseResponseModel<Object>?>> markAsRead({int? notificationId});
 }

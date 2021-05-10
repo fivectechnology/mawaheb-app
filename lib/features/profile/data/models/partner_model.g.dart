@@ -8,9 +8,9 @@ part of 'partner_model.dart';
 
 PartnerModel _$PartnerModelFromJson(Map<String, dynamic> json) {
   return PartnerModel(
-    name: json['name'] as String,
-    id: json['id'] as int,
-    version: json['version'] as int,
+    name: json['name'] as String?,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
   );
 }
 

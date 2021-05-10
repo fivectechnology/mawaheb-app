@@ -1,6 +1,6 @@
 import 'package:mawaheb_app/base/data/models/user_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/base/utils/token_interceptor.dart';
@@ -13,12 +13,12 @@ const String playerType = 'PLAYER';
 
 class FakePrefsRepository extends Mock implements PrefsRepository {
   // try new 5c repo
-  FakePrefsRepository({String token}) {
+  FakePrefsRepository({String? token}) {
     _token = token;
   }
 
-  UserModel _userModel;
-  String _token;
+  UserModel? _userModel;
+  String? _token;
 
   @override
   Future<bool> clearUserData() async {
@@ -28,7 +28,7 @@ class FakePrefsRepository extends Mock implements PrefsRepository {
   }
 
   @override
-  Future<bool> setToken(String token) async {
+  Future<bool> setToken(String? token) async {
     _token = _token;
     return true;
   }
@@ -41,15 +41,15 @@ class FakePrefsRepository extends Mock implements PrefsRepository {
   }
 
   @override
-  String get token => _token;
+  String? get token => _token;
 
   @override
-  UserModel get user => _userModel;
+  UserModel? get user => _userModel;
 }
 
 PrefsRepository get prefsRepository => FakePrefsRepository();
 
-DataConnectionChecker connectionChecker = DataConnectionChecker();
+// DataConnectionChecker connectionChecker = DataConnectionChecker();
 
 BaseOptions dioOption = BaseOptions(
   baseUrl: BASE_API,
@@ -64,7 +64,7 @@ BaseOptions dioOption = BaseOptions(
   },
 );
 
-Dio createDio({PrefsRepository prefsRepositoryArgs}) {
+Dio createDio({PrefsRepository? prefsRepositoryArgs}) {
   final Dio dio = Dio(dioOption);
   return dio
     ..interceptors.addAll(<Interceptor>[

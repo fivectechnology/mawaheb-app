@@ -15,23 +15,23 @@ part 'list_base_response_model.g.dart';
 @JsonSerializable(genericArgumentFactories: true)
 class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
   const ListBaseResponseModel(
-    int status,
-    int offset,
-    int total,
-    Map<String, dynamic> errors,
+    int? status,
+    int? offset,
+    int? total,
+    Map<String, dynamic>? errors,
     // String message,
     this.data,
   ) : super(status, offset, total, errors /* , message*/);
 
-  final List<T> data;
+  final List<T>? data;
 
   ListBaseResponseModel<T> copyWith({
-    int status,
-    int offset,
-    int total,
-    Map<String, dynamic> errors,
+    int? status,
+    int? offset,
+    int? total,
+    Map<String, dynamic>? errors,
     // String message,
-    List<T> data,
+    List<T>? data,
   }) {
     return ListBaseResponseModel<T>(
       status ?? this.status,
@@ -47,24 +47,24 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [status, offset, total, errors, data];
+  List<Object?> get props => [status, offset, total, errors, data];
 
-  static ListMapper<R> fromJson<R>(R Function(Object) fromJsonT) =>
-      (Object baseJson) => _$ListBaseResponseModelFromJson(
-            baseJson,
-            (contentJson) => fromJsonT(contentJson),
+  static ListBaseResponseModel<R> Function(Object?) fromJson<R>(R Function(Object) fromJsonT) =>
+      (Object? baseJson) => _$ListBaseResponseModelFromJson(
+            baseJson as Map<String, dynamic>,
+            (contentJson) => fromJsonT(contentJson!),
           );
 
-  static List<R> Function(Object) dataTypeMapper<R>(R Function(Object) fromJsonT) =>
-      (Object baseJson) => _$ListBaseResponseModelFromJson(
-            baseJson,
+  static List<R> Function(Object?) dataTypeMapper<R>(R Function(Object?) fromJsonT) =>
+      (Object? baseJson) => _$ListBaseResponseModelFromJson(
+            baseJson as Map<String, dynamic>,
             fromJsonT,
-          ).data;
+          ).data!;
 
-  static VersionResponse Function(Object) get versionMapper => (Object baseJson) => _$ListBaseResponseModelFromJson(
-        baseJson,
+  static VersionResponse Function(Object?) get versionMapper => (Object? baseJson) => _$ListBaseResponseModelFromJson(
+        baseJson as Map<String, dynamic>,
         VersionResponse.fromJson,
-      ).data.first;
+      ).data!.first;
 
   Map<String, dynamic> toJson(
     Object Function(T value) toJsonT,
@@ -77,7 +77,7 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
       newObject.offset ?? offset,
       newObject.total ?? total,
       newObject.errors ?? errors,
-      data..addAll(newObject.data),
+      data?..addAll(newObject.data!),
     );
   }
 
@@ -86,15 +86,15 @@ class ListBaseResponseModel<T> extends BaseModel with EquatableMixin {
   }
 }
 
-extension PaginationExtension<T> on Future<NetworkResult<ListBaseResponseModel<T>>> {
-  FutureOr<ListBaseResponseModel<T>> replace({
-    @required ObservableFuture<ListBaseResponseModel<T>> oldValue,
-    @required VoidCallback onSuccess,
+extension PaginationExtension<T> on Future<NetworkResult<ListBaseResponseModel<T>?>> {
+  Future<ListBaseResponseModel<T>> replace({
+    required ObservableFuture<ListBaseResponseModel<T>>? oldValue,
+    required VoidCallback onSuccess,
   }) {
     return whenSuccess(
-      (res) => res.total == 0
+      ((res) => res!.total == 0
           ? res
-          : (oldValue?.value ?? ListBaseResponseModel.defaultParams<T>()).merge(res).apply(onSuccess),
+          : (oldValue?.value ?? ListBaseResponseModel.defaultParams<T>()).merge(res).apply(onSuccess)),
     );
   }
 }

@@ -14,23 +14,23 @@ TextTheme buildTextTheme(TextTheme base, ColorScheme scheme) {
         //   color: scheme.primary,
         // ),
 
-        headline5: base.headline5.copyWith(fontWeight: FontWeight.w400, fontSize: 23),
+        headline5: base.headline5!.copyWith(fontWeight: FontWeight.w400, fontSize: 23),
 
-        headline6: base.headline6.copyWith(
+        headline6: base.headline6!.copyWith(
           fontWeight: FontWeight.w500,
           fontSize: 19,
           letterSpacing: 0.15,
         ),
 
-        bodyText1: base.bodyText1.copyWith(
+        bodyText1: base.bodyText1!.copyWith(
           fontWeight: FontWeight.w400,
           fontSize: 15.0,
           letterSpacing: 0.5,
         ),
 
-        bodyText2: base.bodyText2.copyWith(fontWeight: FontWeight.w400, fontSize: 13.0, letterSpacing: 0.25),
+        bodyText2: base.bodyText2!.copyWith(fontWeight: FontWeight.w400, fontSize: 13.0, letterSpacing: 0.25),
 
-        subtitle1: base.subtitle1.copyWith(
+        subtitle1: base.subtitle1!.copyWith(
           fontWeight: FontWeight.w500,
           fontSize: 16.0,
           letterSpacing: 0.15,

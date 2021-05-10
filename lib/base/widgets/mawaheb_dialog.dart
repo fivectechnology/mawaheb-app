@@ -3,19 +3,19 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Future<void> mawahebShowConfirmDialog({
-  BuildContext context,
-  String message,
-  Function onConfirm,
-  TextStyle textStyle,
-  TextStyle cancelButtonStyle,
-  TextStyle confirmButtonStyle,
+  required BuildContext context,
+  String? message,
+  Function? onConfirm,
+  TextStyle? textStyle,
+  TextStyle? cancelButtonStyle,
+  TextStyle? confirmButtonStyle,
 }) async {
   await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         content: Text(
-          message,
+          message!,
           style: textStyle ??
               const TextStyle(
                 color: DARK_GREY,
@@ -48,7 +48,7 @@ Future<void> mawahebShowConfirmDialog({
                   ),
             ),
             onPressed: () {
-              onConfirm();
+              onConfirm!();
               Navigator.pop(context);
             },
           ),

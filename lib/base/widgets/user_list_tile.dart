@@ -4,11 +4,11 @@ import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
 
 Widget userListTile({
-  String name,
-  String photoId,
-  String token,
-  String type,
-  VoidCallback onTap,
+  required String name,
+  String? photoId,
+  String? token,
+  String? type,
+  VoidCallback? onTap,
 }) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),
@@ -22,14 +22,14 @@ Widget userListTile({
           image: DecorationImage(
               alignment: Alignment.center,
               fit: BoxFit.fill,
-              image: photoId == null
+              image: (photoId == null
                   ? const AssetImage(
                       'assets/images/logo_image.png',
                     )
                   : NetworkImage(
                       '$BASE_PUBLIC_API/metaFiles/$photoId/view',
                       headers: {'Authorization': 'Basic $token'},
-                    )),
+                    )) as ImageProvider<Object>),
         ),
       ),
       title: Text(name),
@@ -40,12 +40,12 @@ Widget userListTile({
 
 Widget heroUserListTile(
   BuildContext context, {
-  int id,
-  String name,
-  String photoId,
-  String token,
-  String type,
-  VoidCallback onTap,
+  int? id,
+  required String name,
+  String? photoId,
+  String? token,
+  String? type,
+  VoidCallback? onTap,
 }) {
   return InkWell(
     onTap: onTap,
@@ -62,14 +62,14 @@ Widget heroUserListTile(
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 radius: 26,
-                backgroundImage: photoId == null
+                backgroundImage: (photoId == null
                     ? const AssetImage(
                         'assets/images/logo_image.png',
                       )
                     : NetworkImage(
                         '$BASE_PUBLIC_API/metaFiles/$photoId/view',
                         headers: {'Authorization': 'Basic $token'},
-                      ),
+                      )) as ImageProvider<Object>?,
               ),
             ),
           ),
@@ -88,7 +88,7 @@ Widget heroUserListTile(
                       Expanded(
                         child: Text(
                           type,
-                          style: context.textTheme.subtitle1.copyWith(color: GREY, fontWeight: FontWeight.w600),
+                          style: context.textTheme.subtitle1!.copyWith(color: GREY, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],

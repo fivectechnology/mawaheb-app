@@ -17,40 +17,40 @@ class ProfileRepositoryImpl extends ProfileRepository {
   const ProfileRepositoryImpl(this.profileDataSource, this._prefsRepository)
       : super(profileDataSource);
   final ProfileDataSource profileDataSource;
-  final PrefsRepository _prefsRepository;
+  final PrefsRepository? _prefsRepository;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchPlayer(
-          {int id}) =>
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> fetchPlayer(
+          {int? id}) =>
       profileDataSource.fetchProfile(id: id);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews() =>
-      profileDataSource.playerViews(id: _prefsRepository.player.id);
+  Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews() =>
+      profileDataSource.playerViews(id: _prefsRepository!.player!.id);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateImageProfile(
-          {int id, int version, int imageId}) =>
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateImageProfile(
+          {int? id, int? version, int? imageId}) =>
       profileDataSource.updateImageProfile(
           id: id, version: version, imageId: imageId);
 
   @override
-  Future<NetworkResult<int>> uploadFile({@required File file}) =>
+  Future<NetworkResult<int>> uploadFile({required File? file}) =>
       profileDataSource.uploadFile(file: file);
 
   @override
-  Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId}) =>
+  Future<NetworkResult<bool?>> uploadVideoPlayer({int? playerId, int? videoId}) =>
       profileDataSource.uploadVideoPlayer(playerId: playerId, videoId: videoId);
 
   @override
-  Future<NetworkResult<bool>> deleteVideoPlayer(
-          {int videoVersion, int videoId}) =>
+  Future<NetworkResult<bool?>> deleteVideoPlayer(
+          {int? videoVersion, int? videoId}) =>
       profileDataSource.deleteVideoPlayer(
           videoVersion: videoVersion, videoId: videoId);
 
   @override
-  Future<NetworkResult<bool>> replaceVideoPlayer(
-          {int videoVersion, int videoId, int videoFileId, int playerId}) =>
+  Future<NetworkResult<bool?>> replaceVideoPlayer(
+          {int? videoVersion, int? videoId, int? videoFileId, int? playerId}) =>
       profileDataSource.replaceVideoPlayer(
           videoVersion: videoVersion,
           videoId: videoId,
@@ -58,20 +58,20 @@ class ProfileRepositoryImpl extends ProfileRepository {
           playerId: playerId);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchPlayerVideos(
-          {int playerId}) =>
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchPlayerVideos(
+          {int? playerId}) =>
       profileDataSource.fetchPlayerVideos(playerId: playerId);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateSportInfo(
-          {int id,
-          int version,
-          int weight,
-          int height,
-          String hand,
-          String leg,
-          String brief,
-          SportModel sport,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateSportInfo(
+          {int? id,
+          int? version,
+          int? weight,
+          int? height,
+          String? hand,
+          String? leg,
+          String? brief,
+          SportModel? sport,
           sportPositionModel}) =>
       profileDataSource.updateSportInfo(
           id: id,

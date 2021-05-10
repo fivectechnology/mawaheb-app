@@ -11,9 +11,9 @@ PartnerMemberModel _$PartnerMemberModelFromJson(Map<String, dynamic> json) {
     player: json['player'] == null
         ? null
         : PlayerModel.fromJson(json['player'] as Map<String, dynamic>),
-    status: json['status'] as String,
-    id: json['id'] as int,
-    $version: json[r'$version'] as int,
+    status: json['status'] as String?,
+    id: json['id'] as int?,
+    $version: json[r'$version'] as int?,
   );
 }
 

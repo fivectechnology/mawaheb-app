@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 
 class BasePage extends StatefulWidget {
-  const BasePage({Key key}) : super(key: key);
+  const BasePage({Key? key}) : super(key: key);
 
   static const String route = '/base';
 
@@ -45,7 +45,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
         onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
   ];
 
-  AppViewmodel appViewmodel;
+  AppViewmodel? appViewmodel;
 
   @override
   void initState() {
@@ -57,11 +57,11 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
-    if (appViewmodel.pageIndex == PageIndex.home) {
-      appViewmodel.appBarParams = AppBarParams.initial(appViewmodel.isPlayer);
+    if (appViewmodel!.pageIndex == PageIndex.home) {
+      appViewmodel!.appBarParams = AppBarParams.initial(appViewmodel!.isPlayer);
     }
     Future.delayed(500.milliseconds).then((value) =>
-        appViewmodel.changeLanguage(appViewmodel.prefsRepository.languageCode));
+        appViewmodel!.changeLanguage(appViewmodel!.prefsRepository.languageCode));
   }
 
   @override
@@ -101,7 +101,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
                     animation: animation,
                     child: child,
                   ),
-                  child: pages[appViewmodel.pageIndex.index],
+                  child: pages[appViewmodel!.pageIndex.index],
                 ),
               ),
             ],
@@ -110,7 +110,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
       );
 
   Future<bool> onWillPop() async {
-    if (appViewmodel.pageIndex == PageIndex.home) {
+    if (appViewmodel!.pageIndex == PageIndex.home) {
       bool exitConfirmed = false;
       await mawahebShowConfirmDialog(
           context: context,
@@ -123,7 +123,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
       // );
       return exitConfirmed;
     } else {
-      appViewmodel.navigateTo(PageIndex.home);
+      appViewmodel!.navigateTo(PageIndex.home);
       return Future<bool>.value(false);
     }
   }
@@ -150,7 +150,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
     // });
     //
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      appViewmodel.updateNotificationsCount();
+      appViewmodel!.updateNotificationsCount();
       // logger.d('onMessage => notification: ${message.notification} data: ${message.data}');
       // final NotificationType notificationType = NotificationTypeExtension.valueOf(message.data['typeCode']);
       // if (notificationType == NotificationType.PROFILE) {

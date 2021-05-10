@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mawaheb_app/base/widgets/network_image_widget.dart';
 
 Widget imageRow({
-  BuildContext context,
-  String title,
-  String sourceId,
-  String token,
+  BuildContext? context,
+  required String title,
+  String? sourceId,
+  String? token,
 }) {
   return Padding(
     padding: const EdgeInsets.only(top: 26),

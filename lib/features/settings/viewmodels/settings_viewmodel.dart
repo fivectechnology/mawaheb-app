@@ -50,25 +50,25 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
 
   //* OBSERVERS *//
   @observable
-  ObservableFuture<bool> logoutFuture;
+  ObservableFuture<bool>? logoutFuture;
 
   @observable
-  ObservableFuture<String> sendOtp;
+  ObservableFuture<String>? sendOtp;
 
   @observable
-  ObservableFuture<bool> changePasswordFuture;
+  ObservableFuture<bool>? changePasswordFuture;
 
   @observable
-  ObservableFuture<PlayerModel> playerEmailFuture;
+  ObservableFuture<PlayerModel>? playerEmailFuture;
 
   @observable
-  ObservableFuture<OTPResponseModel> verifyOTPFuture;
+  ObservableFuture<OTPResponseModel>? verifyOTPFuture;
 
   @observable
-  ObservableFuture<bool> validateEmailFuture;
+  ObservableFuture<bool>? validateEmailFuture;
 
   @observable
-  ObservableFuture<bool> updateLang;
+  ObservableFuture<bool>? updateLang;
 
   //* COMPUTED *//
   @computed
@@ -87,13 +87,13 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   bool get passwordError => changePasswordFuture?.isFailure ?? false;
 
   @computed
-  PlayerModel get player => playerEmailFuture?.value;
+  PlayerModel? get player => playerEmailFuture?.value;
 
   @computed
   bool get playerEmailLoading => playerEmailFuture?.isPending ?? false;
 
   @computed
-  OTPResponseModel get otpCode => verifyOTPFuture?.value ?? false;
+  OTPResponseModel get otpCode => verifyOTPFuture?.value ?? false as OTPResponseModel;
 
   @computed
   bool get verifyOTPLoading => verifyOTPFuture?.isPending ?? false;
@@ -102,7 +102,7 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   bool get otpVerifyError => verifyOTPFuture?.isFailure ?? false;
 
   @computed
-  String get otpCodeMessage {
+  String? get otpCodeMessage {
     final value = sendOtp?.value;
     if (value != null) {
       return ' ' + value.substring(value.length - 4);
@@ -115,11 +115,11 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   //* ACTIONS *//
   @action
   void updateUserLanguage({
-    String lang,
+    String? lang,
   }) {
     updateLang = futureWrapper(
-      () => _settingsRepository.updateLanguage(id: _prefsRepository.player.id, language: lang).whenSuccess(
-            (res) => res.apply(() {}),
+      () => _settingsRepository.updateLanguage(id: _prefsRepository.player!.id, language: lang).whenSuccess(
+            (res) => res?.apply(() {}),
           ),
       useLoader: true,
     );
@@ -129,7 +129,7 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   void logout() {
     logoutFuture = futureWrapper(
       () => logoutAsFuture(),
-      catchBlock: (err) => showSnack(err, duration: 2.seconds),
+      catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       useLoader: true,
     );
   }
@@ -137,7 +137,7 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   Future<bool> logoutAsFuture() {
     return _authRepository.logout().then(
           (res) => res.apply(() {
-            App.navKey.currentState.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+            App.navKey.currentState!.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
             getContext(
               (context) => Provider.of<AppViewmodel>(context, listen: false).navigateTo(PageIndex.home),
             );
@@ -147,8 +147,8 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void sendOTP({
-    String email,
-    String password,
+    String? email,
+    String? password,
     bool resend = false,
   }) {
     if (!resend) {
@@ -158,11 +158,11 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
       ));
     }
     sendOtp = futureWrapper(
-      () => _settingsRepository.sendOTP(email: player.email, password: player.password).whenSuccess(
-            (res) => res.apply(() {
+      () => _settingsRepository.sendOTP(email: player!.email, password: player!.password).whenSuccess(
+            (res) => res?.apply(() {
               logger.d('otp success with res: $res');
               if (!resend) {
-                getContext((context) => context.navigator.push(SettingOtpPage.pageRoute(this)));
+                getContext((context) => context.navigator.push(SettingOtpPage.pageRoute(this as SettingsViewmodel)));
               } else {
                 //showSnack()
               }
@@ -185,17 +185,17 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void verifyOTP({int code}) {
+  void verifyOTP({int? code}) {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _settingsRepository.verifyOTP(email: player.email, code: code).whenSuccess((res) async {
+      () => _settingsRepository.verifyOTP(email: player!.email, code: code).whenSuccess((res) async {
         logger.d('otp verify success with res: $res');
         await _settingsRepository
-            .changeEmail(email: player.email, code: res.data.data)
+            .changeEmail(email: player!.email, code: res?.data.data)
             .whenSuccess((res) => res)
             .then((res) => logoutAsFuture());
-        return res.data;
+        return res!.data;
       }),
       catchBlock: (err) => getContext(
         (context) => showSnack(
@@ -216,14 +216,14 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changePassword({String newPassword, String currentPassword}) {
+  void changePassword({String? newPassword, String? currentPassword}) {
     changePasswordFuture = futureWrapper(
       () => _settingsRepository
-          .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player.id)
+          .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player!.id)
           .whenSuccess((res) => res)
           .then((res) => logoutAsFuture()),
       catchBlock: (err) => showSnack(
-        err,
+        err!,
         duration: 2.seconds,
         scaffoldKey: ChangePasswordPage.scaffoldKey,
       ),

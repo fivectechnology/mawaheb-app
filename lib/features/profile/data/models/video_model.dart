@@ -9,32 +9,32 @@ part 'video_model.g.dart';
 @JsonSerializable()
 class VideoModel extends VersionModel with EquatableMixin {
   const VideoModel({
-    @required this.tStatus,
-    @required this.statusEn,
-    @required this.video,
-    @required this.videoUid,
-    @required int id,
-    @required int version,
+    required this.tStatus,
+    required this.statusEn,
+    required this.video,
+    required this.videoUid,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
-  final SourceModel video;
+  final SourceModel? video;
 
   @JsonKey(name: 'video.fileUUID')
-  final String videoUid;
+  final String? videoUid;
 
   @JsonKey(name: 'statusTitle')
-  final String tStatus;
+  final String? tStatus;
 
   @JsonKey(name: 'status')
-  final String statusEn;
+  final String? statusEn;
 
   VideoModel copyWith({
-    String statusEn,
-    String tStatus,
-    SourceModel video,
-    int id,
-    int version,
-    String videoUid,
+    String? statusEn,
+    String? tStatus,
+    SourceModel? video,
+    int? id,
+    int? version,
+    String? videoUid,
   }) {
     return VideoModel(
       statusEn: statusEn ?? this.statusEn,
@@ -49,10 +49,10 @@ class VideoModel extends VersionModel with EquatableMixin {
   @override
   bool get stringify => true;
 
-  String get status => tStatus ?? statusEn;
+  String? get status => tStatus ?? statusEn;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       tStatus,
       statusEn,
@@ -63,6 +63,6 @@ class VideoModel extends VersionModel with EquatableMixin {
     ];
   }
 
-  static VideoModel fromJson(Object json) => _$VideoModelFromJson(json);
+  static VideoModel fromJson(Object json) => _$VideoModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$VideoModelToJson(this);
 }

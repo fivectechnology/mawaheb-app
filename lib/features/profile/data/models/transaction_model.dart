@@ -8,17 +8,17 @@ part 'transaction_model.g.dart';
 @JsonSerializable()
 class TransactionModel extends VersionModel with EquatableMixin {
   const TransactionModel({
-    @required this.amount,
-    @required int id,
-    @required int version,
+    required this.amount,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
-  final int amount;
+  final int? amount;
 
   TransactionModel copyWith({
-    int amount,
-    int id,
-    int version,
+    int? amount,
+    int? id,
+    int? version,
   }) {
     return TransactionModel(
       amount: amount ?? this.amount,
@@ -31,7 +31,7 @@ class TransactionModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       amount,
       id,
@@ -40,7 +40,7 @@ class TransactionModel extends VersionModel with EquatableMixin {
   }
 
   static TransactionModel fromJson(Object json) =>
-      _$TransactionModelFromJson(json);
+      _$TransactionModelFromJson(json as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => _$TransactionModelToJson(this);
 }

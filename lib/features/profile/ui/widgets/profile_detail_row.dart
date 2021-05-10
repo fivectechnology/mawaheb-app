@@ -6,11 +6,11 @@ import 'package:mawaheb_app/features/public_info/data/models/source_model.dart';
 import 'package:supercharged/supercharged.dart';
 
 Widget profileDetails({
-  BuildContext context,
-  String name,
-  SourceModel photo,
-  String token,
-  bool isConfirmed,
+  required BuildContext context,
+  required String name,
+  SourceModel? photo,
+  String? token,
+  required bool isConfirmed,
 }) {
   return Padding(
     padding: const EdgeInsets.only(top: 10, bottom: 40, left: 16, right: 16),
@@ -23,14 +23,14 @@ Widget profileDetails({
           child: CircleAvatar(
               backgroundColor: Colors.white,
               radius: 45,
-              backgroundImage: photo == null
+              backgroundImage: (photo == null
                   ? const AssetImage(
                       'assets/images/logo_image.png',
                     )
                   : NetworkImage(
                       '$BASE_PUBLIC_API/metaFiles/${photo.fileUUID}/view',
                       headers: {'Authorization': 'Basic $token'},
-                    )),
+                    )) as ImageProvider<Object>?),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -41,7 +41,7 @@ Widget profileDetails({
               Text(
                 name,
                 textAlign: TextAlign.start,
-                style: context.textTheme.headline3.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+                style: context.textTheme.headline3!.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               if (isConfirmed) ...{
                 const SizedBox(height: 7.0),
@@ -63,7 +63,7 @@ Widget profileDetails({
                       child: Text(
                         context.translate('lbl_confirmed_player'),
                         textAlign: TextAlign.start,
-                        style: context.textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 14),
+                        style: context.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                     ),
                   ],
@@ -78,12 +78,12 @@ Widget profileDetails({
 }
 
 Widget heroProfileDetails({
-  BuildContext context,
-  String name,
-  String photoId,
-  String token,
-  int id,
-  bool isConfirmed,
+  required BuildContext context,
+  required String name,
+  String? photoId,
+  String? token,
+  int? id,
+  required bool isConfirmed,
 }) {
   return Padding(
     padding: const EdgeInsets.only(top: 10, bottom: 40, left: 16, right: 16),
@@ -98,14 +98,14 @@ Widget heroProfileDetails({
             child: CircleAvatar(
               backgroundColor: Colors.white,
               radius: 45,
-              backgroundImage: photoId == null
+              backgroundImage: (photoId == null
                   ? const AssetImage(
                       'assets/images/logo_image.png',
                     )
                   : NetworkImage(
                       '$BASE_PUBLIC_API/metaFiles/$photoId/view',
                       headers: {'Authorization': 'Basic $token'},
-                    ),
+                    )) as ImageProvider<Object>?,
             ),
           ),
         ),
@@ -118,7 +118,7 @@ Widget heroProfileDetails({
               Text(
                 name,
                 textAlign: TextAlign.start,
-                style: context.textTheme.headline3.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+                style: context.textTheme.headline3!.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               AnimatedSwitcher(
                 duration: 500.milliseconds,
@@ -143,7 +143,7 @@ Widget heroProfileDetails({
                               child: Text(
                                 context.translate('lbl_confirmed_player'),
                                 textAlign: TextAlign.start,
-                                style: context.textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 14),
+                                style: context.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold, fontSize: 14),
                               ),
                             ),
                           ],

@@ -14,7 +14,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
-  const App({Key key}) : super(key: key);
+  const App({Key? key}) : super(key: key);
 
   static final GlobalKey<NavigatorState> navKey = GlobalKey(debugLabel: 'Main_Mawahib_Navigator');
 
@@ -24,7 +24,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final AppViewmodel appViewmodel = GetIt.I();
-  final PrefsRepository prefs = GetIt.I();
+  final PrefsRepository? prefs = GetIt.I();
 
   // TODO(abd): add firebase
   // final FirebaseMessaging _firebaseMessaging = GetIt.I();
@@ -32,8 +32,8 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    if (prefs.languageCode == null) {
-      prefs.setApplicationLanguage(defaultLanguage);
+    if (prefs!.languageCode == null) {
+      prefs!.setApplicationLanguage(defaultLanguage);
     }
     // TODO(abd): add firebase
     // appViewModel.configFirebase();
@@ -51,7 +51,7 @@ class _AppState extends State<App> {
       child: Observer(builder: (_) {
         return MaterialApp(
           navigatorKey: App.navKey,
-          locale: Locale(appViewmodel?.language),
+          locale: Locale(appViewmodel.language),
           initialRoute: SplashPage.route,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: PageRouter.route,
@@ -65,7 +65,7 @@ class _AppState extends State<App> {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+          localeResolutionCallback: (Locale? locale, Iterable<Locale> supportedLocales) {
             for (final Locale supportedLocale in supportedLocales) {
               if (locale != null && supportedLocale.languageCode == locale.languageCode) {
                 return supportedLocale;

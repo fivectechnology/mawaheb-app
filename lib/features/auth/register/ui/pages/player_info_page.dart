@@ -17,11 +17,10 @@ import 'package:intl/intl.dart';
 
 class PlayerInfoPage extends StatefulWidget {
   const PlayerInfoPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const PlayerInfoPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const PlayerInfoPage());
 
   static const String route = '/player_info';
 
@@ -29,23 +28,22 @@ class PlayerInfoPage extends StatefulWidget {
   _PlayerInfoPageState createState() => _PlayerInfoPageState();
 }
 
-class _PlayerInfoPageState
-    extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
+class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dateOfBirth = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
-  CountryModel currentCountry;
-  CategoryModel currentCategory;
-  String gender;
+  CountryModel? currentCountry;
+  CategoryModel? currentCategory;
+  String? gender;
   final picker = ImagePicker();
-  DateTime _selectedDate;
-  String dateOfBirth;
-  String fileType;
-  String fileName;
-  int fileSize;
+  DateTime? _selectedDate;
+  String? dateOfBirth;
+  String? fileType;
+  String? fileName;
+  int? fileSize;
 
   @override
   void initState() {
@@ -64,10 +62,10 @@ class _PlayerInfoPageState
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (viewmodel?.categoryFuture == null) {
+    if (viewmodel.categoryFuture == null) {
       viewmodel.getCategories();
     }
-    if (viewmodel?.countryFuture == null) {
+    if (viewmodel.countryFuture == null) {
       viewmodel.getCountries();
     }
 
@@ -80,7 +78,7 @@ class _PlayerInfoPageState
   _selectDate(BuildContext context) async {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
@@ -89,19 +87,19 @@ class _PlayerInfoPageState
     if (picked != null && picked != _selectedDate)
       setState(() {
         _selectedDate = picked;
-        dateOfBirth = formatter.format(_selectedDate);
-        _dateOfBirth.text = dateOfBirth;
+        dateOfBirth = formatter.format(_selectedDate!);
+        _dateOfBirth.text = dateOfBirth!;
       });
   }
 
   Future getImage() async {
-    final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       viewmodel.image = File(pickedFile.path);
-      fileName = viewmodel.image.path.split('/').last;
-      fileType = 'image/' + fileName.split('.').last;
-      fileSize = await viewmodel.image.length();
+      fileName = viewmodel.image!.path.split('/').last;
+      fileType = 'image/' + fileName!.split('.').last;
+      fileSize = await viewmodel.image!.length();
     } else {
       print('No image selected.');
     }
@@ -124,7 +122,7 @@ class _PlayerInfoPageState
                     textEditingController: _nameController,
                     context: context,
                     validator: (value) {
-                      return nameValidator(context: context, name: value);
+                      return nameValidator(context: context, name: value ?? '');
                     },
                   ),
                   const SizedBox(height: 26),
@@ -146,35 +144,35 @@ class _PlayerInfoPageState
                       hintColor: Colors.grey,
                       textEditingController: _phoneController,
                       validator: (value) {
-                        return phoneValidator(context: context, phone: value);
+                        return phoneValidator(context: context, phone: value ?? '');
                       },
                       context: context),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
-                    value: viewmodel.countries.first,
+                    value: viewmodel.countries!.first,
                     hint: 'lbl_nationality',
                     context: context,
                     onChanged: (value) {
                       currentCountry = value;
                     },
-                    items: viewmodel.countries
+                    items: viewmodel.countries!
                         .map((em) => DropdownMenuItem(
-                              child: Text(em.name),
+                              child: Text(em.name!),
                               value: em,
                             ))
                         .toList(),
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
-                    value: viewmodel.categories.first,
+                    value: viewmodel.categories!.first,
                     hint: 'lbl_category',
                     context: context,
                     onChanged: (value) {
                       currentCategory = value;
                     },
-                    items: viewmodel.categories
+                    items: viewmodel.categories!
                         .map((em) => DropdownMenuItem(
-                              child: Text(em.title),
+                              child: Text(em.title!),
                               value: em,
                             ))
                         .toList(),
@@ -212,27 +210,24 @@ class _PlayerInfoPageState
                           onPressed: () async {
                             if (viewmodel.image != null) {
                               viewmodel.uploadFile(
-                                  playerVersion:
-                                      viewmodel.prefsRepository.player.version,
-                                  playerId: viewmodel.prefsRepository.player.id,
+                                  playerVersion: viewmodel.prefsRepository.player!.version,
+                                  playerId: viewmodel.prefsRepository.player!.id,
                                   file: viewmodel.image,
                                   fileType: fileType,
                                   fileName: fileName,
                                   fileSize: fileSize);
                             }
 
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
 
                               viewmodel.addPersonalInfo(
                                 phone: _phoneController.text,
                                 name: _nameController.text,
                                 gender: gender ?? 'MALE',
                                 dateOfBirth: dateOfBirth,
-                                categoryModel: currentCategory ??
-                                    viewmodel.categories.first,
-                                country:
-                                    currentCountry ?? viewmodel.countries.first,
+                                categoryModel: currentCategory ?? viewmodel.categories!.first,
+                                country: currentCountry ?? viewmodel.countries!.first,
                               );
                             }
                           });
@@ -271,14 +266,13 @@ class _PlayerInfoPageState
                     ),
                   )
                 : CircleAvatar(
-                    backgroundImage: FileImage(viewmodel.imageFile),
+                    backgroundImage: FileImage(viewmodel.imageFile!),
                     radius: 200.0,
                   ),
           ),
           Text(
             context.translate('lbl_add_image'),
-            style:
-                textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 12),
+            style: textTheme.bodyText1?.copyWith(color: Colors.grey, fontSize: 12),
           )
         ],
       ),

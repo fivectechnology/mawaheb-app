@@ -9,7 +9,7 @@ part of 'splash_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SplashViewmodel on _SplashViewmodelBase, Store {
-  Computed<bool> _$logoutLoadingComputed;
+  Computed<bool>? _$logoutLoadingComputed;
 
   @override
   bool get logoutLoading =>
@@ -20,13 +20,13 @@ mixin _$SplashViewmodel on _SplashViewmodelBase, Store {
   final _$logoutFutureAtom = Atom(name: '_SplashViewmodelBase.logoutFuture');
 
   @override
-  ObservableFuture<bool> get logoutFuture {
+  ObservableFuture<bool>? get logoutFuture {
     _$logoutFutureAtom.reportRead();
     return super.logoutFuture;
   }
 
   @override
-  set logoutFuture(ObservableFuture<bool> value) {
+  set logoutFuture(ObservableFuture<bool>? value) {
     _$logoutFutureAtom.reportWrite(value, super.logoutFuture, () {
       super.logoutFuture = value;
     });

@@ -8,32 +8,32 @@ part 'subscription_model.g.dart';
 @JsonSerializable()
 class SubscriptionModel extends VersionModel with EquatableMixin {
   const SubscriptionModel({
-    @required this.startedAt,
-    @required this.finishAt,
-    @required this.name,
-    @required this.amount,
-    @required this.period,
-    @required this.active,
-    @required int id,
-    @required int version,
+    required this.startedAt,
+    required this.finishAt,
+    required this.name,
+    required this.amount,
+    required this.period,
+    required this.active,
+    required int? id,
+    required int? version,
   }) : super(id, version);
 
-  final String finishAt;
-  final String startedAt;
-  final String name;
-  final int amount;
-  final int period;
-  final bool active;
+  final String? finishAt;
+  final String? startedAt;
+  final String? name;
+  final int? amount;
+  final int? period;
+  final bool? active;
 
   SubscriptionModel copyWith({
-    String startedAt,
-    String finishAt,
-    String name,
-    int amount,
-    int period,
-    bool active,
-    int id,
-    int version,
+    String? startedAt,
+    String? finishAt,
+    String? name,
+    int? amount,
+    int? period,
+    bool? active,
+    int? id,
+    int? version,
   }) {
     return SubscriptionModel(
       finishAt: finishAt ?? this.finishAt,
@@ -51,7 +51,7 @@ class SubscriptionModel extends VersionModel with EquatableMixin {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       startedAt,
       finishAt,
@@ -65,7 +65,7 @@ class SubscriptionModel extends VersionModel with EquatableMixin {
   }
 
   static SubscriptionModel fromJson(Object json) =>
-      _$SubscriptionModelFromJson(json);
+      _$SubscriptionModelFromJson(json as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => _$SubscriptionModelToJson(this);
 }

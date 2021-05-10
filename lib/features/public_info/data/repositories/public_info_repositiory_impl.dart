@@ -16,25 +16,25 @@ class PublicInfoRepositoryImpl extends PublicInfoRepository {
       this.publicinfoDataSource, this._prefsRepository)
       : super(publicinfoDataSource);
   final PublicInfoDataSource publicinfoDataSource;
-  final PrefsRepository _prefsRepository;
+  final PrefsRepository? _prefsRepository;
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>>> getAboutUs() =>
+  Future<NetworkResult<ListBaseResponseModel<AboutUsModel>?>> getAboutUs() =>
       publicinfoDataSource.getAboutUs();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>>> getContactUs() =>
+  Future<NetworkResult<ListBaseResponseModel<ContactUsModel>?>> getContactUs() =>
       publicinfoDataSource.getContactUs();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>>>
+  Future<NetworkResult<ListBaseResponseModel<StrategicPartnersModel>?>>
       getStrategicPartners() => publicinfoDataSource.getStrategicPartners();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>>>
+  Future<NetworkResult<ListBaseResponseModel<DownloadCenterModel>?>>
       getDownloadCenter() => publicinfoDataSource.getDownloadCenter();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<GalleryModel>>> getGallery() =>
+  Future<NetworkResult<ListBaseResponseModel<GalleryModel>?>> getGallery() =>
       publicinfoDataSource.getGallery();
 }

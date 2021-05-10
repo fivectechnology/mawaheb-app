@@ -9,18 +9,18 @@ abstract class SettingsRepository extends BaseRepository {
   const SettingsRepository(SettingsDataSource settingsDataSource)
       : super(settingsDataSource);
 
-  Future<NetworkResult<String>> sendOTP({String email, String password});
+  Future<NetworkResult<String?>> sendOTP({String? email, String? password});
 
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>>> verifyOTP(
-      {String email, int code});
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP(
+      {String? email, int? code});
 
-  Future<NetworkResult<bool>> changeEmail({String email, int code});
+  Future<NetworkResult<bool?>> changeEmail({String? email, int? code});
 
-  Future<NetworkResult<bool>> changePassword(
-      {String currentPassword, String newPassword, int id});
+  Future<NetworkResult<bool?>> changePassword(
+      {String? currentPassword, String? newPassword, int? id});
 
-  Future<NetworkResult<bool>> updateLanguage({
-    @required int id,
-    @required String language,
+  Future<NetworkResult<bool?>> updateLanguage({
+    required int? id,
+    required String? language,
   });
 }

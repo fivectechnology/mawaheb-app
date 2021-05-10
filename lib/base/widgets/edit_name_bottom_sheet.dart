@@ -17,7 +17,7 @@ void editNameBottomSheet(BuildContext context) {
               children: [
                 Text(
                   'Edit name',
-                  style: context.textTheme.headline2.copyWith(fontSize: 20),
+                  style: context.textTheme.headline2!.copyWith(fontSize: 20),
                 ),
                 MawahebTextField(
                   context: context,

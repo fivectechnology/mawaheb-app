@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 // TODO(abd):  move this to core_sdk
 class AppBarParams extends Equatable {
   const AppBarParams({
-    @required this.title,
-    @required this.onBackPressed,
+    required this.title,
+    required this.onBackPressed,
     this.backgroundColor = WHITE,
     this.showNotificationIcon = true,
     this.showBackButton = false,
@@ -20,8 +20,8 @@ class AppBarParams extends Equatable {
   final bool showNotificationIcon;
   final bool showBackButton;
   final bool translateTitle;
-  final VoidCallback onBackPressed;
-  final PreferredSizeWidget bottom;
+  final VoidCallback? onBackPressed;
+  final PreferredSizeWidget? bottom;
 
   static AppBarParams initial(bool isPlayer) {
     return AppBarParams(
@@ -31,13 +31,13 @@ class AppBarParams extends Equatable {
   }
 
   AppBarParams copyWith({
-    String title,
-    Color backgroundColor,
-    bool showNotificationIcon,
-    bool showBackButton,
-    bool translateTitle,
-    VoidCallback onBackPressed,
-    PreferredSizeWidget bottom,
+    String? title,
+    Color? backgroundColor,
+    bool? showNotificationIcon,
+    bool? showBackButton,
+    bool? translateTitle,
+    VoidCallback? onBackPressed,
+    PreferredSizeWidget? bottom,
   }) {
     return AppBarParams(
       title: title ?? this.title,
@@ -54,7 +54,7 @@ class AppBarParams extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       title,
       backgroundColor,

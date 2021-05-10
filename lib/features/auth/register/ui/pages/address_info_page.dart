@@ -11,11 +11,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 class AddressInfoPage extends StatefulWidget {
   const AddressInfoPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AddressInfoPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AddressInfoPage());
 
   static const String route = '/address_info';
 
@@ -23,13 +22,12 @@ class AddressInfoPage extends StatefulWidget {
   _AddressInfoPageState createState() => _AddressInfoPageState();
 }
 
-class _AddressInfoPageState
-    extends ProviderMobxState<AddressInfoPage, AuthViewmodel> {
+class _AddressInfoPageState extends ProviderMobxState<AddressInfoPage, AuthViewmodel> {
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  EmirateModel currentEmirate;
+  EmirateModel? currentEmirate;
 
   @override
   void initState() {
@@ -46,7 +44,7 @@ class _AddressInfoPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.emirates == null) {
+    if (viewmodel.emirates == null) {
       viewmodel.getEmirates();
     }
   }
@@ -62,15 +60,15 @@ class _AddressInfoPageState
             child: Column(
               children: [
                 mawhaebDropDown(
-                  value: viewmodel.emirates.first,
+                  value: viewmodel.emirates!.first,
                   hint: 'lbl_emirate',
                   context: context,
                   onChanged: (value) {
                     currentEmirate = value;
                   },
-                  items: viewmodel.emirates
+                  items: viewmodel.emirates!
                       .map((em) => DropdownMenuItem(
-                            child: Text(em.name),
+                            child: Text(em.name!),
                             value: em,
                           ))
                       .toList(),
@@ -80,7 +78,7 @@ class _AddressInfoPageState
                   hintText: 'lbl_state/province/area',
                   hintColor: Colors.grey,
                   validator: (value) {
-                    return stateValidator(context: context, value: value);
+                    return stateValidator(context: context, value: value ?? '');
                   },
                   textEditingController: _stateController,
                   context: context,
@@ -90,7 +88,7 @@ class _AddressInfoPageState
                   hintText: 'lbl_address',
                   hintColor: Colors.grey,
                   validator: (value) {
-                    return addressValidator(context: context, value: value);
+                    return addressValidator(context: context, value: value ?? '');
                   },
                   textEditingController: _addressController,
                   context: context,
@@ -104,11 +102,10 @@ class _AddressInfoPageState
                           text: 'lbl_next',
                           isLoading: viewmodel.registerLoading,
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
                               viewmodel.addAddressInfo(
-                                  emirateModel: currentEmirate ??
-                                      viewmodel.emirates.first,
+                                  emirateModel: currentEmirate ?? viewmodel.emirates!.first,
                                   address: _addressController.text,
                                   area: _addressController.text);
                             }

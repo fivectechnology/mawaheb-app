@@ -9,199 +9,213 @@ part of 'auth_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
-  Computed<bool> _$loginLoadingComputed;
+  Computed<bool>? _$loginLoadingComputed;
 
   @override
   bool get loginLoading =>
       (_$loginLoadingComputed ??= Computed<bool>(() => super.loginLoading,
               name: '_AuthViewmodelBase.loginLoading'))
           .value;
-  Computed<bool> _$loginErrorComputed;
+  Computed<bool>? _$loginErrorComputed;
 
   @override
   bool get loginError =>
       (_$loginErrorComputed ??= Computed<bool>(() => super.loginError,
               name: '_AuthViewmodelBase.loginError'))
           .value;
-  Computed<bool> _$otpLoadingComputed;
+  Computed<bool>? _$otpLoadingComputed;
 
   @override
   bool get otpLoading =>
       (_$otpLoadingComputed ??= Computed<bool>(() => super.otpLoading,
               name: '_AuthViewmodelBase.otpLoading'))
           .value;
-  Computed<bool> _$otpErrorComputed;
+  Computed<bool>? _$otpErrorComputed;
 
   @override
   bool get otpError =>
       (_$otpErrorComputed ??= Computed<bool>(() => super.otpError,
               name: '_AuthViewmodelBase.otpError'))
           .value;
-  Computed<bool> _$otpVerifyErrorComputed;
+  Computed<bool>? _$otpVerifyErrorComputed;
 
   @override
   bool get otpVerifyError =>
       (_$otpVerifyErrorComputed ??= Computed<bool>(() => super.otpVerifyError,
               name: '_AuthViewmodelBase.otpVerifyError'))
           .value;
-  Computed<PlayerModel> _$playerComputed;
+  Computed<PlayerModel?>? _$playerComputed;
 
   @override
-  PlayerModel get player =>
-      (_$playerComputed ??= Computed<PlayerModel>(() => super.player,
+  PlayerModel? get player =>
+      (_$playerComputed ??= Computed<PlayerModel?>(() => super.player,
               name: '_AuthViewmodelBase.player'))
           .value;
-  Computed<bool> _$registerLoadingComputed;
+  Computed<bool>? _$registerLoadingComputed;
 
   @override
   bool get registerLoading =>
       (_$registerLoadingComputed ??= Computed<bool>(() => super.registerLoading,
               name: '_AuthViewmodelBase.registerLoading'))
           .value;
-  Computed<List<SportModel>> _$sportsComputed;
+  Computed<List<SportModel>?>? _$sportsComputed;
 
   @override
-  List<SportModel> get sports =>
-      (_$sportsComputed ??= Computed<List<SportModel>>(() => super.sports,
+  List<SportModel>? get sports =>
+      (_$sportsComputed ??= Computed<List<SportModel>?>(() => super.sports,
               name: '_AuthViewmodelBase.sports'))
           .value;
-  Computed<List<CountryModel>> _$countriesComputed;
+  Computed<List<CountryModel>?>? _$countriesComputed;
 
   @override
-  List<CountryModel> get countries => (_$countriesComputed ??=
-          Computed<List<CountryModel>>(() => super.countries,
+  List<CountryModel>? get countries => (_$countriesComputed ??=
+          Computed<List<CountryModel>?>(() => super.countries,
               name: '_AuthViewmodelBase.countries'))
       .value;
-  Computed<List<SportPositionModel>> _$positionsComputed;
+  Computed<List<SportPositionModel>?>? _$positionsComputed;
 
   @override
-  List<SportPositionModel> get positions => (_$positionsComputed ??=
-          Computed<List<SportPositionModel>>(() => super.positions,
+  List<SportPositionModel>? get positions => (_$positionsComputed ??=
+          Computed<List<SportPositionModel>?>(() => super.positions,
               name: '_AuthViewmodelBase.positions'))
       .value;
-  Computed<List<CategoryModel>> _$categoriesComputed;
+  Computed<List<CategoryModel>?>? _$categoriesComputed;
 
   @override
-  List<CategoryModel> get categories => (_$categoriesComputed ??=
-          Computed<List<CategoryModel>>(() => super.categories,
+  List<CategoryModel>? get categories => (_$categoriesComputed ??=
+          Computed<List<CategoryModel>?>(() => super.categories,
               name: '_AuthViewmodelBase.categories'))
       .value;
-  Computed<List<EmirateModel>> _$emiratesComputed;
+  Computed<List<EmirateModel>?>? _$emiratesComputed;
 
   @override
-  List<EmirateModel> get emirates =>
-      (_$emiratesComputed ??= Computed<List<EmirateModel>>(() => super.emirates,
+  List<EmirateModel>? get emirates => (_$emiratesComputed ??=
+          Computed<List<EmirateModel>?>(() => super.emirates,
               name: '_AuthViewmodelBase.emirates'))
-          .value;
-  Computed<OTPResponseModel> _$otpCodeComputed;
+      .value;
+  Computed<OTPResponseModel>? _$otpCodeComputed;
 
   @override
   OTPResponseModel get otpCode =>
       (_$otpCodeComputed ??= Computed<OTPResponseModel>(() => super.otpCode,
               name: '_AuthViewmodelBase.otpCode'))
           .value;
-  Computed<bool> _$verifyOTPLoadingComputed;
+  Computed<bool>? _$verifyOTPLoadingComputed;
 
   @override
   bool get verifyOTPLoading => (_$verifyOTPLoadingComputed ??= Computed<bool>(
           () => super.verifyOTPLoading,
           name: '_AuthViewmodelBase.verifyOTPLoading'))
       .value;
-  Computed<bool> _$forgetPasswordLoadingComputed;
+  Computed<bool>? _$forgetPasswordLoadingComputed;
 
   @override
   bool get forgetPasswordLoading => (_$forgetPasswordLoadingComputed ??=
           Computed<bool>(() => super.forgetPasswordLoading,
               name: '_AuthViewmodelBase.forgetPasswordLoading'))
       .value;
-  Computed<bool> _$forgetPasswordErrorComputed;
+  Computed<bool>? _$forgetPasswordErrorComputed;
 
   @override
   bool get forgetPasswordError => (_$forgetPasswordErrorComputed ??=
           Computed<bool>(() => super.forgetPasswordError,
               name: '_AuthViewmodelBase.forgetPasswordError'))
       .value;
-  Computed<List<VideoModel>> _$videosComputed;
+  Computed<List<VideoModel>>? _$videosComputed;
 
   @override
   List<VideoModel> get videos =>
       (_$videosComputed ??= Computed<List<VideoModel>>(() => super.videos,
               name: '_AuthViewmodelBase.videos'))
           .value;
-  Computed<bool> _$videosLoadingComputed;
+  Computed<bool>? _$videosLoadingComputed;
 
   @override
   bool get videosLoading =>
       (_$videosLoadingComputed ??= Computed<bool>(() => super.videosLoading,
               name: '_AuthViewmodelBase.videosLoading'))
           .value;
-  Computed<SubscriptionModel> _$subscriptionComputed;
+  Computed<SubscriptionModel?>? _$subscriptionComputed;
 
   @override
-  SubscriptionModel get subscription => (_$subscriptionComputed ??=
-          Computed<SubscriptionModel>(() => super.subscription,
+  SubscriptionModel? get subscription => (_$subscriptionComputed ??=
+          Computed<SubscriptionModel?>(() => super.subscription,
               name: '_AuthViewmodelBase.subscription'))
       .value;
-  Computed<TransactionModel> _$transactionComputed;
+  Computed<TransactionModel?>? _$transactionComputed;
 
   @override
-  TransactionModel get transaction => (_$transactionComputed ??=
-          Computed<TransactionModel>(() => super.transaction,
+  TransactionModel? get transaction => (_$transactionComputed ??=
+          Computed<TransactionModel?>(() => super.transaction,
               name: '_AuthViewmodelBase.transaction'))
       .value;
-  Computed<bool> _$transactionLoadingComputed;
+  Computed<bool>? _$transactionLoadingComputed;
 
   @override
   bool get transactionLoading => (_$transactionLoadingComputed ??=
           Computed<bool>(() => super.transactionLoading,
               name: '_AuthViewmodelBase.transactionLoading'))
       .value;
-  Computed<bool> _$transactionErrorComputed;
+  Computed<bool>? _$transactionErrorComputed;
 
   @override
   bool get transactionError => (_$transactionErrorComputed ??= Computed<bool>(
           () => super.transactionError,
           name: '_AuthViewmodelBase.transactionError'))
       .value;
-  Computed<bool> _$positionsLoadingComputed;
+  Computed<bool>? _$positionsLoadingComputed;
 
   @override
   bool get positionsLoading => (_$positionsLoadingComputed ??= Computed<bool>(
           () => super.positionsLoading,
           name: '_AuthViewmodelBase.positionsLoading'))
       .value;
-  Computed<bool> _$sportLoadingComputed;
+  Computed<bool>? _$sportLoadingComputed;
 
   @override
   bool get sportLoading =>
       (_$sportLoadingComputed ??= Computed<bool>(() => super.sportLoading,
               name: '_AuthViewmodelBase.sportLoading'))
           .value;
-  Computed<File> _$imageFileComputed;
+  Computed<File?>? _$imageFileComputed;
 
   @override
-  File get imageFile =>
-      (_$imageFileComputed ??= Computed<File>(() => super.imageFile,
+  File? get imageFile =>
+      (_$imageFileComputed ??= Computed<File?>(() => super.imageFile,
               name: '_AuthViewmodelBase.imageFile'))
           .value;
-  Computed<String> _$otpCodeMessageComputed;
+  Computed<bool>? _$deleteVideoLoadingComputed;
 
   @override
-  String get otpCodeMessage =>
-      (_$otpCodeMessageComputed ??= Computed<String>(() => super.otpCodeMessage,
-              name: '_AuthViewmodelBase.otpCodeMessage'))
-          .value;
+  bool get deleteVideoLoading => (_$deleteVideoLoadingComputed ??=
+          Computed<bool>(() => super.deleteVideoLoading,
+              name: '_AuthViewmodelBase.deleteVideoLoading'))
+      .value;
+  Computed<bool>? _$deleteVideoErrorComputed;
+
+  @override
+  bool get deleteVideoError => (_$deleteVideoErrorComputed ??= Computed<bool>(
+          () => super.deleteVideoError,
+          name: '_AuthViewmodelBase.deleteVideoError'))
+      .value;
+  Computed<String?>? _$otpCodeMessageComputed;
+
+  @override
+  String? get otpCodeMessage => (_$otpCodeMessageComputed ??= Computed<String?>(
+          () => super.otpCodeMessage,
+          name: '_AuthViewmodelBase.otpCodeMessage'))
+      .value;
 
   final _$imageAtom = Atom(name: '_AuthViewmodelBase.image');
 
   @override
-  File get image {
+  File? get image {
     _$imageAtom.reportRead();
     return super.image;
   }
 
   @override
-  set image(File value) {
+  set image(File? value) {
     _$imageAtom.reportWrite(value, super.image, () {
       super.image = value;
     });
@@ -210,13 +224,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$imageIdAtom = Atom(name: '_AuthViewmodelBase.imageId');
 
   @override
-  Future<int> get imageId {
+  Future<int>? get imageId {
     _$imageIdAtom.reportRead();
     return super.imageId;
   }
 
   @override
-  set imageId(Future<int> value) {
+  set imageId(Future<int>? value) {
     _$imageIdAtom.reportWrite(value, super.imageId, () {
       super.imageId = value;
     });
@@ -226,13 +240,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.registerSliderModel');
 
   @override
-  PageSliderModel get registerSliderModel {
+  PageSliderModel? get registerSliderModel {
     _$registerSliderModelAtom.reportRead();
     return super.registerSliderModel;
   }
 
   @override
-  set registerSliderModel(PageSliderModel value) {
+  set registerSliderModel(PageSliderModel? value) {
     _$registerSliderModelAtom.reportWrite(value, super.registerSliderModel, () {
       super.registerSliderModel = value;
     });
@@ -242,13 +256,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.forgotPasswordSliderModel');
 
   @override
-  PageSliderModel get forgotPasswordSliderModel {
+  PageSliderModel? get forgotPasswordSliderModel {
     _$forgotPasswordSliderModelAtom.reportRead();
     return super.forgotPasswordSliderModel;
   }
 
   @override
-  set forgotPasswordSliderModel(PageSliderModel value) {
+  set forgotPasswordSliderModel(PageSliderModel? value) {
     _$forgotPasswordSliderModelAtom
         .reportWrite(value, super.forgotPasswordSliderModel, () {
       super.forgotPasswordSliderModel = value;
@@ -258,13 +272,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$loginFutureAtom = Atom(name: '_AuthViewmodelBase.loginFuture');
 
   @override
-  ObservableFuture<bool> get loginFuture {
+  ObservableFuture<bool>? get loginFuture {
     _$loginFutureAtom.reportRead();
     return super.loginFuture;
   }
 
   @override
-  set loginFuture(ObservableFuture<bool> value) {
+  set loginFuture(ObservableFuture<bool>? value) {
     _$loginFutureAtom.reportWrite(value, super.loginFuture, () {
       super.loginFuture = value;
     });
@@ -273,13 +287,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$sendOtpAtom = Atom(name: '_AuthViewmodelBase.sendOtp');
 
   @override
-  ObservableFuture<String> get sendOtp {
+  ObservableFuture<String>? get sendOtp {
     _$sendOtpAtom.reportRead();
     return super.sendOtp;
   }
 
   @override
-  set sendOtp(ObservableFuture<String> value) {
+  set sendOtp(ObservableFuture<String>? value) {
     _$sendOtpAtom.reportWrite(value, super.sendOtp, () {
       super.sendOtp = value;
     });
@@ -289,13 +303,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.validateEmailFuture');
 
   @override
-  ObservableFuture<bool> get validateEmailFuture {
+  ObservableFuture<bool>? get validateEmailFuture {
     _$validateEmailFutureAtom.reportRead();
     return super.validateEmailFuture;
   }
 
   @override
-  set validateEmailFuture(ObservableFuture<bool> value) {
+  set validateEmailFuture(ObservableFuture<bool>? value) {
     _$validateEmailFutureAtom.reportWrite(value, super.validateEmailFuture, () {
       super.validateEmailFuture = value;
     });
@@ -305,13 +319,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.fetchVideoFuture');
 
   @override
-  ObservableFuture<List<VideoModel>> get fetchVideoFuture {
+  ObservableFuture<List<VideoModel>>? get fetchVideoFuture {
     _$fetchVideoFutureAtom.reportRead();
     return super.fetchVideoFuture;
   }
 
   @override
-  set fetchVideoFuture(ObservableFuture<List<VideoModel>> value) {
+  set fetchVideoFuture(ObservableFuture<List<VideoModel>>? value) {
     _$fetchVideoFutureAtom.reportWrite(value, super.fetchVideoFuture, () {
       super.fetchVideoFuture = value;
     });
@@ -320,13 +334,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$registerFutureAtom = Atom(name: '_AuthViewmodelBase.registerFuture');
 
   @override
-  ObservableFuture<PlayerModel> get registerFuture {
+  ObservableFuture<PlayerModel>? get registerFuture {
     _$registerFutureAtom.reportRead();
     return super.registerFuture;
   }
 
   @override
-  set registerFuture(ObservableFuture<PlayerModel> value) {
+  set registerFuture(ObservableFuture<PlayerModel>? value) {
     _$registerFutureAtom.reportWrite(value, super.registerFuture, () {
       super.registerFuture = value;
     });
@@ -335,13 +349,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$sportFutureAtom = Atom(name: '_AuthViewmodelBase.sportFuture');
 
   @override
-  ObservableFuture<List<SportModel>> get sportFuture {
+  ObservableFuture<List<SportModel>>? get sportFuture {
     _$sportFutureAtom.reportRead();
     return super.sportFuture;
   }
 
   @override
-  set sportFuture(ObservableFuture<List<SportModel>> value) {
+  set sportFuture(ObservableFuture<List<SportModel>>? value) {
     _$sportFutureAtom.reportWrite(value, super.sportFuture, () {
       super.sportFuture = value;
     });
@@ -350,13 +364,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$positionFutureAtom = Atom(name: '_AuthViewmodelBase.positionFuture');
 
   @override
-  ObservableFuture<List<SportPositionModel>> get positionFuture {
+  ObservableFuture<List<SportPositionModel>>? get positionFuture {
     _$positionFutureAtom.reportRead();
     return super.positionFuture;
   }
 
   @override
-  set positionFuture(ObservableFuture<List<SportPositionModel>> value) {
+  set positionFuture(ObservableFuture<List<SportPositionModel>>? value) {
     _$positionFutureAtom.reportWrite(value, super.positionFuture, () {
       super.positionFuture = value;
     });
@@ -365,13 +379,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$categoryFutureAtom = Atom(name: '_AuthViewmodelBase.categoryFuture');
 
   @override
-  ObservableFuture<List<CategoryModel>> get categoryFuture {
+  ObservableFuture<List<CategoryModel>>? get categoryFuture {
     _$categoryFutureAtom.reportRead();
     return super.categoryFuture;
   }
 
   @override
-  set categoryFuture(ObservableFuture<List<CategoryModel>> value) {
+  set categoryFuture(ObservableFuture<List<CategoryModel>>? value) {
     _$categoryFutureAtom.reportWrite(value, super.categoryFuture, () {
       super.categoryFuture = value;
     });
@@ -380,13 +394,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$countryFutureAtom = Atom(name: '_AuthViewmodelBase.countryFuture');
 
   @override
-  ObservableFuture<List<CountryModel>> get countryFuture {
+  ObservableFuture<List<CountryModel>>? get countryFuture {
     _$countryFutureAtom.reportRead();
     return super.countryFuture;
   }
 
   @override
-  set countryFuture(ObservableFuture<List<CountryModel>> value) {
+  set countryFuture(ObservableFuture<List<CountryModel>>? value) {
     _$countryFutureAtom.reportWrite(value, super.countryFuture, () {
       super.countryFuture = value;
     });
@@ -395,13 +409,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   final _$emirateFutureAtom = Atom(name: '_AuthViewmodelBase.emirateFuture');
 
   @override
-  ObservableFuture<List<EmirateModel>> get emirateFuture {
+  ObservableFuture<List<EmirateModel>>? get emirateFuture {
     _$emirateFutureAtom.reportRead();
     return super.emirateFuture;
   }
 
   @override
-  set emirateFuture(ObservableFuture<List<EmirateModel>> value) {
+  set emirateFuture(ObservableFuture<List<EmirateModel>>? value) {
     _$emirateFutureAtom.reportWrite(value, super.emirateFuture, () {
       super.emirateFuture = value;
     });
@@ -411,13 +425,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.verifyOTPFuture');
 
   @override
-  ObservableFuture<OTPResponseModel> get verifyOTPFuture {
+  ObservableFuture<OTPResponseModel>? get verifyOTPFuture {
     _$verifyOTPFutureAtom.reportRead();
     return super.verifyOTPFuture;
   }
 
   @override
-  set verifyOTPFuture(ObservableFuture<OTPResponseModel> value) {
+  set verifyOTPFuture(ObservableFuture<OTPResponseModel>? value) {
     _$verifyOTPFutureAtom.reportWrite(value, super.verifyOTPFuture, () {
       super.verifyOTPFuture = value;
     });
@@ -427,13 +441,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.forgetPasswordFuture');
 
   @override
-  ObservableFuture<bool> get forgetPasswordFuture {
+  ObservableFuture<bool>? get forgetPasswordFuture {
     _$forgetPasswordFutureAtom.reportRead();
     return super.forgetPasswordFuture;
   }
 
   @override
-  set forgetPasswordFuture(ObservableFuture<bool> value) {
+  set forgetPasswordFuture(ObservableFuture<bool>? value) {
     _$forgetPasswordFutureAtom.reportWrite(value, super.forgetPasswordFuture,
         () {
       super.forgetPasswordFuture = value;
@@ -444,13 +458,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.deleteVideoFuture');
 
   @override
-  ObservableFuture<bool> get deleteVideoFuture {
+  ObservableFuture<bool>? get deleteVideoFuture {
     _$deleteVideoFutureAtom.reportRead();
     return super.deleteVideoFuture;
   }
 
   @override
-  set deleteVideoFuture(ObservableFuture<bool> value) {
+  set deleteVideoFuture(ObservableFuture<bool>? value) {
     _$deleteVideoFutureAtom.reportWrite(value, super.deleteVideoFuture, () {
       super.deleteVideoFuture = value;
     });
@@ -460,13 +474,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.subscriptionFuture');
 
   @override
-  ObservableFuture<SubscriptionModel> get subscriptionFuture {
+  ObservableFuture<SubscriptionModel>? get subscriptionFuture {
     _$subscriptionFutureAtom.reportRead();
     return super.subscriptionFuture;
   }
 
   @override
-  set subscriptionFuture(ObservableFuture<SubscriptionModel> value) {
+  set subscriptionFuture(ObservableFuture<SubscriptionModel>? value) {
     _$subscriptionFutureAtom.reportWrite(value, super.subscriptionFuture, () {
       super.subscriptionFuture = value;
     });
@@ -476,13 +490,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.transactionFuture');
 
   @override
-  ObservableFuture<TransactionModel> get transactionFuture {
+  ObservableFuture<TransactionModel>? get transactionFuture {
     _$transactionFutureAtom.reportRead();
     return super.transactionFuture;
   }
 
   @override
-  set transactionFuture(ObservableFuture<TransactionModel> value) {
+  set transactionFuture(ObservableFuture<TransactionModel>? value) {
     _$transactionFutureAtom.reportWrite(value, super.transactionFuture, () {
       super.transactionFuture = value;
     });
@@ -492,13 +506,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
       Atom(name: '_AuthViewmodelBase.confirmTransactionFuture');
 
   @override
-  ObservableFuture<bool> get confirmTransactionFuture {
+  ObservableFuture<bool>? get confirmTransactionFuture {
     _$confirmTransactionFutureAtom.reportRead();
     return super.confirmTransactionFuture;
   }
 
   @override
-  set confirmTransactionFuture(ObservableFuture<bool> value) {
+  set confirmTransactionFuture(ObservableFuture<bool>? value) {
     _$confirmTransactionFutureAtom
         .reportWrite(value, super.confirmTransactionFuture, () {
       super.confirmTransactionFuture = value;
@@ -528,7 +542,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void getPositions({int sportId}) {
+  void getPositions({int? sportId}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.getPositions');
     try {
@@ -583,7 +597,10 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void login({String userName, String password, String type}) {
+  void login(
+      {required String userName,
+      required String password,
+      required String type}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.login');
     try {
@@ -594,7 +611,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void sendOTP({String email, String password, bool resend = false}) {
+  void sendOTP({String? email, String? password, bool resend = false}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.sendOTP');
     try {
@@ -605,7 +622,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void validateEmail({String email, String password}) {
+  void validateEmail({String? email, String? password}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.validateEmail');
     try {
@@ -616,7 +633,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void verifyOTP({int code}) {
+  void verifyOTP({int? code}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.verifyOTP');
     try {
@@ -650,12 +667,12 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
 
   @override
   void addPersonalInfo(
-      {String dateOfBirth,
-      String gender,
-      String name,
-      String phone,
-      CountryModel country,
-      CategoryModel categoryModel}) {
+      {String? dateOfBirth,
+      String? gender,
+      String? name,
+      String? phone,
+      CountryModel? country,
+      CategoryModel? categoryModel}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.addPersonalInfo');
     try {
@@ -673,7 +690,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
 
   @override
   void addAddressInfo(
-      {String address, String area, EmirateModel emirateModel}) {
+      {String? address, String? area, EmirateModel? emirateModel}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.addAddressInfo');
     try {
@@ -686,13 +703,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
 
   @override
   void addSportInfo(
-      {int weight,
-      int height,
-      String hand,
-      String leg,
-      String brief,
-      SportModel sport,
-      SportPositionModel position}) {
+      {int? weight,
+      int? height,
+      String? hand,
+      String? leg,
+      String? brief,
+      SportModel? sport,
+      SportPositionModel? position}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.addSportInfo');
     try {
@@ -710,7 +727,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void forgetPassword({String email}) {
+  void forgetPassword({String? email}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.forgetPassword');
     try {
@@ -721,7 +738,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void verifyOTPPassword({int code}) {
+  void verifyOTPPassword({int? code}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.verifyOTPPassword');
     try {
@@ -732,7 +749,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void resetPassword({String password, String email, int code}) {
+  void resetPassword({String? password, String? email, int? code}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.resetPassword');
     try {
@@ -743,13 +760,13 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  Future<int> uploadFile(
-      {int playerId,
-      int playerVersion,
-      File file,
-      int fileSize,
-      String fileName,
-      String fileType}) {
+  Future<int>? uploadFile(
+      {int? playerId,
+      int? playerVersion,
+      File? file,
+      int? fileSize,
+      String? fileName,
+      String? fileType}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.uploadFile');
     try {
@@ -766,14 +783,14 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  Future<int> uploadVideo(
-      {File file,
-      int fileSize,
-      String fileName,
-      String fileType,
-      int videoVersion,
-      int videoId,
-      bool withDelete}) {
+  Future<int>? uploadVideo(
+      {File? file,
+      int? fileSize,
+      String? fileName,
+      String? fileType,
+      int? videoVersion,
+      int? videoId,
+      bool? withDelete}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.uploadVideo');
     try {
@@ -791,7 +808,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void deleteVideo({int videoVersion, int videoId}) {
+  void deleteVideo({int? videoVersion, int? videoId}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.deleteVideo');
     try {
@@ -802,7 +819,7 @@ mixin _$AuthViewmodel on _AuthViewmodelBase, Store {
   }
 
   @override
-  void fetchVideos({int playerId}) {
+  void fetchVideos({int? playerId}) {
     final _$actionInfo = _$_AuthViewmodelBaseActionController.startAction(
         name: '_AuthViewmodelBase.fetchVideos');
     try {
@@ -882,6 +899,8 @@ transactionError: ${transactionError},
 positionsLoading: ${positionsLoading},
 sportLoading: ${sportLoading},
 imageFile: ${imageFile},
+deleteVideoLoading: ${deleteVideoLoading},
+deleteVideoError: ${deleteVideoError},
 otpCodeMessage: ${otpCodeMessage}
     ''';
   }

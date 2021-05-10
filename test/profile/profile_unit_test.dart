@@ -9,12 +9,11 @@ import '../global_di.dart';
 
 void main() {
   group('public info dataSource => ', () {
-    ProfileDataSource profileDataSource;
-    PrefsRepository prefsRepository;
+    ProfileDataSource? profileDataSource;
+    PrefsRepository? prefsRepository;
     setUp(() {
       prefsRepository = FakePrefsRepository(token: 'YWRtaW46YWRtaW4=');
       profileDataSource = ProfileDataSourceImpl(
-        connectionChecker: connectionChecker,
         client: createDio(prefsRepositoryArgs: prefsRepository),
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
@@ -26,9 +25,9 @@ void main() {
     });
 
     test('test success about us', () async {
-      final res = await profileDataSource.fetchProfile(id: 15);
+      final res = await profileDataSource!.fetchProfile(id: 15);
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
+      expect(res.getOrThrow()!.status, equals(0));
       // expect(res.getOrThrow().data.first.name, isNotNull);
       // expect(res.getOrThrow().data.first.code, isNotNull);
       // expect(res.getOrThrow().data.first., isNotNull);
@@ -37,21 +36,19 @@ void main() {
   });
 
   group('public info repository =>', () {
-    ProfileDataSource profileDataSource;
-    ProfileRepository profileRepository;
-    PrefsRepository prefsRepository;
+    ProfileDataSource? profileDataSource;
+    ProfileRepository? profileRepository;
+    PrefsRepository? prefsRepository;
 
     setUp(() {
       prefsRepository = FakePrefsRepository(token: 'YWRtaW46YWRtaW4=');
       profileDataSource = ProfileDataSourceImpl(
         client: createDio(prefsRepositoryArgs: prefsRepository),
-        connectionChecker: connectionChecker,
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
       );
 
-      profileRepository =
-          ProfileRepositoryImpl(profileDataSource, prefsRepository);
+      profileRepository = ProfileRepositoryImpl(profileDataSource!, prefsRepository);
     });
 
     tearDown(() {

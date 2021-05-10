@@ -15,22 +15,22 @@ class BaseRequestModel<T> extends Equatable {
     this.fields,
   );
 
-  final String model;
-  final int offset;
-  final int limit;
-  final List<String> sortBy;
+  final String? model;
+  final int? offset;
+  final int? limit;
+  final List<String>? sortBy;
   final T data;
-  final List<dynamic> records;
-  final List<String> fields;
+  final List<dynamic>? records;
+  final List<String>? fields;
 
   BaseRequestModel<T> copyWith({
-    String model,
-    int offset,
-    int limit,
-    List<String> sortBy,
-    T data,
-    List<dynamic> records,
-    List<String> fields,
+    String? model,
+    int? offset,
+    int? limit,
+    List<String>? sortBy,
+    T? data,
+    List<dynamic>? records,
+    List<String>? fields,
   }) {
     return BaseRequestModel<T>(
       model ?? this.model,
@@ -47,7 +47,7 @@ class BaseRequestModel<T> extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       model,
       offset,

@@ -9,133 +9,133 @@ part of 'players_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
-  Computed<ListBaseResponseModel<PlayerModel>> _$playersComputed;
+  Computed<ListBaseResponseModel<PlayerModel>?>? _$playersComputed;
 
   @override
-  ListBaseResponseModel<PlayerModel> get players => (_$playersComputed ??=
-          Computed<ListBaseResponseModel<PlayerModel>>(() => super.players,
+  ListBaseResponseModel<PlayerModel>? get players => (_$playersComputed ??=
+          Computed<ListBaseResponseModel<PlayerModel>?>(() => super.players,
               name: '_PlayersViewmodelBase.players'))
       .value;
-  Computed<bool> _$getPlayersComputed;
+  Computed<bool>? _$getPlayersComputed;
 
   @override
   bool get getPlayers =>
       (_$getPlayersComputed ??= Computed<bool>(() => super.getPlayers,
               name: '_PlayersViewmodelBase.getPlayers'))
           .value;
-  Computed<List<SportModel>> _$sportsComputed;
+  Computed<List<SportModel>?>? _$sportsComputed;
 
   @override
-  List<SportModel> get sports =>
-      (_$sportsComputed ??= Computed<List<SportModel>>(() => super.sports,
+  List<SportModel>? get sports =>
+      (_$sportsComputed ??= Computed<List<SportModel>?>(() => super.sports,
               name: '_PlayersViewmodelBase.sports'))
           .value;
-  Computed<List<CountryModel>> _$countriesComputed;
+  Computed<List<CountryModel>?>? _$countriesComputed;
 
   @override
-  List<CountryModel> get countries => (_$countriesComputed ??=
-          Computed<List<CountryModel>>(() => super.countries,
+  List<CountryModel>? get countries => (_$countriesComputed ??=
+          Computed<List<CountryModel>?>(() => super.countries,
               name: '_PlayersViewmodelBase.countries'))
       .value;
-  Computed<List<SportPositionModel>> _$positionsComputed;
+  Computed<List<SportPositionModel>?>? _$positionsComputed;
 
   @override
-  List<SportPositionModel> get positions => (_$positionsComputed ??=
-          Computed<List<SportPositionModel>>(() => super.positions,
+  List<SportPositionModel>? get positions => (_$positionsComputed ??=
+          Computed<List<SportPositionModel>?>(() => super.positions,
               name: '_PlayersViewmodelBase.positions'))
       .value;
-  Computed<PlayerModel> _$playerComputed;
+  Computed<PlayerModel?>? _$playerComputed;
 
   @override
-  PlayerModel get player =>
-      (_$playerComputed ??= Computed<PlayerModel>(() => super.player,
+  PlayerModel? get player =>
+      (_$playerComputed ??= Computed<PlayerModel?>(() => super.player,
               name: '_PlayersViewmodelBase.player'))
           .value;
-  Computed<bool> _$playerLoadingComputed;
+  Computed<bool>? _$playerLoadingComputed;
 
   @override
   bool get playerLoading =>
       (_$playerLoadingComputed ??= Computed<bool>(() => super.playerLoading,
               name: '_PlayersViewmodelBase.playerLoading'))
           .value;
-  Computed<bool> _$viewProfileLoadingComputed;
+  Computed<bool>? _$viewProfileLoadingComputed;
 
   @override
   bool get viewProfileLoading => (_$viewProfileLoadingComputed ??=
           Computed<bool>(() => super.viewProfileLoading,
               name: '_PlayersViewmodelBase.viewProfileLoading'))
       .value;
-  Computed<List<VideoModel>> _$videosComputed;
+  Computed<List<VideoModel>?>? _$videosComputed;
 
   @override
-  List<VideoModel> get videos =>
-      (_$videosComputed ??= Computed<List<VideoModel>>(() => super.videos,
+  List<VideoModel>? get videos =>
+      (_$videosComputed ??= Computed<List<VideoModel>?>(() => super.videos,
               name: '_PlayersViewmodelBase.videos'))
           .value;
-  Computed<bool> _$videosLoadingComputed;
+  Computed<bool>? _$videosLoadingComputed;
 
   @override
   bool get videosLoading =>
       (_$videosLoadingComputed ??= Computed<bool>(() => super.videosLoading,
               name: '_PlayersViewmodelBase.videosLoading'))
           .value;
-  Computed<bool> _$viewProfileErrorComputed;
+  Computed<bool>? _$viewProfileErrorComputed;
 
   @override
   bool get viewProfileError => (_$viewProfileErrorComputed ??= Computed<bool>(
           () => super.viewProfileError,
           name: '_PlayersViewmodelBase.viewProfileError'))
       .value;
-  Computed<bool> _$bookPlayerLoadingComputed;
+  Computed<bool>? _$bookPlayerLoadingComputed;
 
   @override
   bool get bookPlayerLoading => (_$bookPlayerLoadingComputed ??= Computed<bool>(
           () => super.bookPlayerLoading,
           name: '_PlayersViewmodelBase.bookPlayerLoading'))
       .value;
-  Computed<bool> _$bookPlayerErrorComputed;
+  Computed<bool>? _$bookPlayerErrorComputed;
 
   @override
   bool get bookPlayerError =>
       (_$bookPlayerErrorComputed ??= Computed<bool>(() => super.bookPlayerError,
               name: '_PlayersViewmodelBase.bookPlayerError'))
           .value;
-  Computed<bool> _$confirmPlayerLoadingComputed;
+  Computed<bool>? _$confirmPlayerLoadingComputed;
 
   @override
   bool get confirmPlayerLoading => (_$confirmPlayerLoadingComputed ??=
           Computed<bool>(() => super.confirmPlayerLoading,
               name: '_PlayersViewmodelBase.confirmPlayerLoading'))
       .value;
-  Computed<bool> _$confirmPlayerErrorComputed;
+  Computed<bool>? _$confirmPlayerErrorComputed;
 
   @override
   bool get confirmPlayerError => (_$confirmPlayerErrorComputed ??=
           Computed<bool>(() => super.confirmPlayerError,
               name: '_PlayersViewmodelBase.confirmPlayerError'))
       .value;
-  Computed<bool> _$releasePlayerLoadingComputed;
+  Computed<bool>? _$releasePlayerLoadingComputed;
 
   @override
   bool get releasePlayerLoading => (_$releasePlayerLoadingComputed ??=
           Computed<bool>(() => super.releasePlayerLoading,
               name: '_PlayersViewmodelBase.releasePlayerLoading'))
       .value;
-  Computed<bool> _$releasePlayerErrorComputed;
+  Computed<bool>? _$releasePlayerErrorComputed;
 
   @override
   bool get releasePlayerError => (_$releasePlayerErrorComputed ??=
           Computed<bool>(() => super.releasePlayerError,
               name: '_PlayersViewmodelBase.releasePlayerError'))
       .value;
-  Computed<bool> _$statusButtonLoadingComputed;
+  Computed<bool>? _$statusButtonLoadingComputed;
 
   @override
   bool get statusButtonLoading => (_$statusButtonLoadingComputed ??=
           Computed<bool>(() => super.statusButtonLoading,
               name: '_PlayersViewmodelBase.statusButtonLoading'))
       .value;
-  Computed<bool> _$canLoadMorePlayersComputed;
+  Computed<bool>? _$canLoadMorePlayersComputed;
 
   @override
   bool get canLoadMorePlayers => (_$canLoadMorePlayersComputed ??=
@@ -147,13 +147,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       Atom(name: '_PlayersViewmodelBase.viewProfileFuture');
 
   @override
-  ObservableFuture<bool> get viewProfileFuture {
+  ObservableFuture<bool>? get viewProfileFuture {
     _$viewProfileFutureAtom.reportRead();
     return super.viewProfileFuture;
   }
 
   @override
-  set viewProfileFuture(ObservableFuture<bool> value) {
+  set viewProfileFuture(ObservableFuture<bool>? value) {
     _$viewProfileFutureAtom.reportWrite(value, super.viewProfileFuture, () {
       super.viewProfileFuture = value;
     });
@@ -163,13 +163,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       Atom(name: '_PlayersViewmodelBase.fetchVideoFuture');
 
   @override
-  ObservableFuture<List<VideoModel>> get fetchVideoFuture {
+  ObservableFuture<List<VideoModel>>? get fetchVideoFuture {
     _$fetchVideoFutureAtom.reportRead();
     return super.fetchVideoFuture;
   }
 
   @override
-  set fetchVideoFuture(ObservableFuture<List<VideoModel>> value) {
+  set fetchVideoFuture(ObservableFuture<List<VideoModel>>? value) {
     _$fetchVideoFutureAtom.reportWrite(value, super.fetchVideoFuture, () {
       super.fetchVideoFuture = value;
     });
@@ -178,14 +178,14 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   final _$playersFutureAtom = Atom(name: '_PlayersViewmodelBase.playersFuture');
 
   @override
-  ObservableFuture<ListBaseResponseModel<PlayerModel>> get playersFuture {
+  ObservableFuture<ListBaseResponseModel<PlayerModel>>? get playersFuture {
     _$playersFutureAtom.reportRead();
     return super.playersFuture;
   }
 
   @override
   set playersFuture(
-      ObservableFuture<ListBaseResponseModel<PlayerModel>> value) {
+      ObservableFuture<ListBaseResponseModel<PlayerModel>>? value) {
     _$playersFutureAtom.reportWrite(value, super.playersFuture, () {
       super.playersFuture = value;
     });
@@ -195,13 +195,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       Atom(name: '_PlayersViewmodelBase.bookPlayerFuture');
 
   @override
-  ObservableFuture<bool> get bookPlayerFuture {
+  ObservableFuture<bool>? get bookPlayerFuture {
     _$bookPlayerFutureAtom.reportRead();
     return super.bookPlayerFuture;
   }
 
   @override
-  set bookPlayerFuture(ObservableFuture<bool> value) {
+  set bookPlayerFuture(ObservableFuture<bool>? value) {
     _$bookPlayerFutureAtom.reportWrite(value, super.bookPlayerFuture, () {
       super.bookPlayerFuture = value;
     });
@@ -211,13 +211,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       Atom(name: '_PlayersViewmodelBase.confirmPlayerFuture');
 
   @override
-  ObservableFuture<bool> get confirmPlayerFuture {
+  ObservableFuture<bool>? get confirmPlayerFuture {
     _$confirmPlayerFutureAtom.reportRead();
     return super.confirmPlayerFuture;
   }
 
   @override
-  set confirmPlayerFuture(ObservableFuture<bool> value) {
+  set confirmPlayerFuture(ObservableFuture<bool>? value) {
     _$confirmPlayerFutureAtom.reportWrite(value, super.confirmPlayerFuture, () {
       super.confirmPlayerFuture = value;
     });
@@ -227,13 +227,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       Atom(name: '_PlayersViewmodelBase.releasePlayerFuture');
 
   @override
-  ObservableFuture<bool> get releasePlayerFuture {
+  ObservableFuture<bool>? get releasePlayerFuture {
     _$releasePlayerFutureAtom.reportRead();
     return super.releasePlayerFuture;
   }
 
   @override
-  set releasePlayerFuture(ObservableFuture<bool> value) {
+  set releasePlayerFuture(ObservableFuture<bool>? value) {
     _$releasePlayerFutureAtom.reportWrite(value, super.releasePlayerFuture, () {
       super.releasePlayerFuture = value;
     });
@@ -242,13 +242,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   final _$filterAtom = Atom(name: '_PlayersViewmodelBase.filter');
 
   @override
-  PlayerFilterModel get filter {
+  PlayerFilterModel? get filter {
     _$filterAtom.reportRead();
     return super.filter;
   }
 
   @override
-  set filter(PlayerFilterModel value) {
+  set filter(PlayerFilterModel? value) {
     _$filterAtom.reportWrite(value, super.filter, () {
       super.filter = value;
     });
@@ -257,13 +257,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   final _$sportFutureAtom = Atom(name: '_PlayersViewmodelBase.sportFuture');
 
   @override
-  ObservableFuture<List<SportModel>> get sportFuture {
+  ObservableFuture<List<SportModel>>? get sportFuture {
     _$sportFutureAtom.reportRead();
     return super.sportFuture;
   }
 
   @override
-  set sportFuture(ObservableFuture<List<SportModel>> value) {
+  set sportFuture(ObservableFuture<List<SportModel>>? value) {
     _$sportFutureAtom.reportWrite(value, super.sportFuture, () {
       super.sportFuture = value;
     });
@@ -273,13 +273,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       Atom(name: '_PlayersViewmodelBase.positionFuture');
 
   @override
-  ObservableFuture<List<SportPositionModel>> get positionFuture {
+  ObservableFuture<List<SportPositionModel>>? get positionFuture {
     _$positionFutureAtom.reportRead();
     return super.positionFuture;
   }
 
   @override
-  set positionFuture(ObservableFuture<List<SportPositionModel>> value) {
+  set positionFuture(ObservableFuture<List<SportPositionModel>>? value) {
     _$positionFutureAtom.reportWrite(value, super.positionFuture, () {
       super.positionFuture = value;
     });
@@ -288,13 +288,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   final _$countryFutureAtom = Atom(name: '_PlayersViewmodelBase.countryFuture');
 
   @override
-  ObservableFuture<List<CountryModel>> get countryFuture {
+  ObservableFuture<List<CountryModel>>? get countryFuture {
     _$countryFutureAtom.reportRead();
     return super.countryFuture;
   }
 
   @override
-  set countryFuture(ObservableFuture<List<CountryModel>> value) {
+  set countryFuture(ObservableFuture<List<CountryModel>>? value) {
     _$countryFutureAtom.reportWrite(value, super.countryFuture, () {
       super.countryFuture = value;
     });
@@ -303,13 +303,13 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   final _$playerFutureAtom = Atom(name: '_PlayersViewmodelBase.playerFuture');
 
   @override
-  ObservableFuture<PlayerModel> get playerFuture {
+  ObservableFuture<PlayerModel>? get playerFuture {
     _$playerFutureAtom.reportRead();
     return super.playerFuture;
   }
 
   @override
-  set playerFuture(ObservableFuture<PlayerModel> value) {
+  set playerFuture(ObservableFuture<PlayerModel>? value) {
     _$playerFutureAtom.reportWrite(value, super.playerFuture, () {
       super.playerFuture = value;
     });
@@ -319,7 +319,7 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
       ActionController(name: '_PlayersViewmodelBase');
 
   @override
-  void fetchPlayer({int id}) {
+  void fetchPlayer({int? id}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.fetchPlayer');
     try {
@@ -363,7 +363,7 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
-  void searchPlayers({bool fresh = false, String query}) {
+  void searchPlayers({bool fresh = false, String? query}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.searchPlayers');
     try {
@@ -374,7 +374,7 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
-  void viewProfilePlayer({@required int id}) {
+  void viewProfilePlayer({required int? id}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.viewProfilePlayer');
     try {
@@ -418,7 +418,7 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
   }
 
   @override
-  void fetchVideos({int playerId}) {
+  void fetchVideos({int? playerId}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.fetchVideos');
     try {
@@ -430,15 +430,15 @@ mixin _$PlayersViewmodel on _PlayersViewmodelBase, Store {
 
   @override
   void changePlayerFilter(
-      {CountryModel country,
-      SportModel sport,
-      SportPositionModel position,
-      String hand,
-      String leg,
-      String name,
-      int partnerId,
-      bool isConfirmed,
-      bool isBooked}) {
+      {CountryModel? country,
+      SportModel? sport,
+      SportPositionModel? position,
+      String? hand,
+      String? leg,
+      String? name,
+      int? partnerId,
+      bool? isConfirmed,
+      bool? isBooked}) {
     final _$actionInfo = _$_PlayersViewmodelBaseActionController.startAction(
         name: '_PlayersViewmodelBase.changePlayerFilter');
     try {

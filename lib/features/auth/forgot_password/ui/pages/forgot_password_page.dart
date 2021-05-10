@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key key}) : super(key: key);
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   static const String route = '/forgot_password';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -35,9 +35,9 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
   final TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final PageController _pageController = PageController(keepPage: true);
-  VoidCallback onBackButton;
-  String pageTitle = 'lbl_sign_up';
-  List<Widget> pages;
+  VoidCallback? onBackButton;
+  String? pageTitle = 'lbl_sign_up';
+  late List<Widget> pages;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
       const ResetPasswordPagee(),
     ];
     addSideEffects([
-      reaction((_) => viewmodel.forgotPasswordSliderModel, (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.forgotPasswordSliderModel, (PageSliderModel? sliderModel) {
         slidePage(sliderModel);
         viewmodel.forgotPasswordSliderModel = null;
       }),
@@ -69,7 +69,7 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
   }
 
   void changeTitle(int pageIndex) {
-    String newTitle;
+    String? newTitle;
     switch (pageIndex) {
       case 0:
         onBackButton = () => context.pop();
@@ -88,7 +88,7 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
     setState(() => pageTitle = newTitle);
   }
 
-  void slidePage(PageSliderModel sliderModel) {
+  void slidePage(PageSliderModel? sliderModel) {
     if (sliderModel == null) {
       return;
     }
@@ -108,10 +108,10 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
         resizeToAvoidBottomInset: false,
         appBar: customAppBar(
           context: context,
-          title: context.translate(pageTitle),
+          title: context.translate(pageTitle!),
           onBackButton: onBackButton,
           withTitle: true,
-        ),
+        ) as PreferredSizeWidget?,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38),
           child: PageView(
@@ -139,13 +139,13 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
               padding: EdgeInsets.only(top: context.fullHeight * 0.02, bottom: context.fullHeight * 0.1),
               child: Text(
                 context.translate('msg_recover_account'),
-                style: context.textTheme.headline2.copyWith(color: Colors.black, fontSize: 40),
+                style: context.textTheme.headline2!.copyWith(color: Colors.black, fontSize: 40),
               )),
           MawahebTextField(
             hintText: 'lbl_email_username',
             hintColor: Colors.grey,
             validator: (value) {
-              return emailValidator(context: context, email: value);
+              return emailValidator(context: context, email: value ?? '');
             },
             context: context,
             textEditingController: _emailController,
@@ -154,8 +154,8 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
             padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.1),
             child: MawahebButton(
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  _formKey.currentState.save();
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
                   viewmodel.forgetPasswordEmail = _emailController.text;
                   viewmodel.forgetPassword(email: _emailController.text);
                 }

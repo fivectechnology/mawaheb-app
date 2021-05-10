@@ -9,35 +9,35 @@ import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 abstract class PlayersRepository extends BaseRepository {
   const PlayersRepository(PlayersDataSource playersDataSource) : super(playersDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> searchPlayers({
-    @required int offset,
-    @required int limit,
-    @required int countryId,
-    @required int sportId,
-    @required int positionId,
-    @required String hand,
-    @required String leg,
-    @required String name,
-    @required int partnerId,
-    @required bool isConfirmed,
-    @required bool isBooked,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> searchPlayers({
+    required int offset,
+    required int limit,
+    required int countryId,
+    required int sportId,
+    required int positionId,
+    required String? hand,
+    required String? leg,
+    required String? name,
+    required int partnerId,
+    required bool isConfirmed,
+    required bool isBooked,
   });
 
-  Future<NetworkResult<bool>> viewPlayerProfile({@required int id});
+  Future<NetworkResult<bool?>> viewPlayerProfile({required int? id});
 
-  Future<NetworkResult<bool>> bookPlayer({int playerId});
+  Future<NetworkResult<bool?>> bookPlayer({int? playerId});
 
-  Future<NetworkResult<bool>> confirmPlayer({
-    @required int memberShipId,
-    @required int memberShipVersion,
+  Future<NetworkResult<bool?>> confirmPlayer({
+    required int? memberShipId,
+    required int? memberShipVersion,
   });
 
-  Future<NetworkResult<bool>> releasePlayer({
-    @required int memberShipId,
-    @required int memberShipVersion,
+  Future<NetworkResult<bool?>> releasePlayer({
+    required int? memberShipId,
+    required int? memberShipVersion,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchApprovedVideos({int playerId});
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchApprovedVideos({int? playerId});
 
 // Future<NetworkResult<ListBaseResponseModel<PartnerMemberModel>>>
   //     getMemberShips({int partnerId});

@@ -8,16 +8,16 @@ part of notification_model;
 
 NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) {
   return NotificationModel(
-    id: json['id'] as int,
-    version: json['version'] as int,
-    recordId: json['recordId'] as int,
-    template: json['template'] as String,
-    sendDate: json['sendDate'] as String,
-    subject: json['subject'] as String,
-    readDate: json['readDate'] as String,
-    type: NotificationTypeExtension.valueOf(json['type'] as String),
-    params: json['params'] as String,
-    message: json['message'] as String,
+    id: json['id'] as int?,
+    version: json['version'] as int?,
+    recordId: json['recordId'] as int?,
+    template: json['template'] as String?,
+    sendDate: json['sendDate'] as String?,
+    subject: json['subject'] as String?,
+    readDate: json['readDate'] as String?,
+    type: NotificationTypeExtension.valueOf(json['type'] as String?),
+    params: json['params'] as String?,
+    message: json['message'] as String?,
   );
 }
 

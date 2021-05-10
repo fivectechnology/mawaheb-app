@@ -3,9 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 
 class MawahebLoader extends StatelessWidget {
-  const MawahebLoader({Key key, this.color}) : super(key: key);
+  const MawahebLoader({Key? key, this.color}) : super(key: key);
 
-  final Color color;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Column(

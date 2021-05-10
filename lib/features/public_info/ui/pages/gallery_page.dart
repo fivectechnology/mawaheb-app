@@ -7,12 +7,11 @@ import 'package:mawaheb_app/features/public_info/ui/widgets/download_row_widget.
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
 class GalleryPage extends StatefulWidget {
-  const GalleryPage({Key key}) : super(key: key);
+  const GalleryPage({Key? key}) : super(key: key);
 
   static const String route = '/gallery';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const GalleryPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const GalleryPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -20,8 +19,7 @@ class GalleryPage extends StatefulWidget {
   _GalleryPageState createState() => _GalleryPageState();
 }
 
-class _GalleryPageState
-    extends ProviderMobxState<GalleryPage, PublicInfoViewmodel> {
+class _GalleryPageState extends ProviderMobxState<GalleryPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -35,7 +33,7 @@ class _GalleryPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.gallery == null) {
+    if (viewmodel.gallery == null) {
       viewmodel.getGallery();
     }
   }
@@ -51,14 +49,14 @@ class _GalleryPageState
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: gallery.length,
+                  itemCount: gallery?.length,
                   itemBuilder: (context, index) {
                     return imageRow(
                         context: context,
                         token: viewmodel.prefsRepository.token,
                         title: viewmodel.prefsRepository.languageCode == 'en'
-                            ? gallery[index].title
-                            : gallery[index].titleAr,
+                            ? gallery![index].title!
+                            : gallery![index].titleAr!,
                         sourceId: gallery[index].sourceId);
                   });
             }));

@@ -4,7 +4,7 @@ import 'package:core_sdk/data/datasource/base_remote_data_source.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/network_result.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -19,73 +19,68 @@ import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 
 abstract class ProfileDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchProfile({
-    @required int id,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> fetchProfile({
+    required int? id,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews({
-    @required int id,
+  Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews({
+    required int? id,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateImageProfile({
-    @required int id,
-    @required int version,
-    @required int imageId,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateImageProfile({
+    required int? id,
+    required int? version,
+    required int? imageId,
   });
 
-  Future<NetworkResult<int>> uploadFile({@required File file});
+  Future<NetworkResult<int>> uploadFile({required File? file});
 
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchPlayerVideos(
-      {@required int playerId});
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchPlayerVideos({required int? playerId});
 
-  Future<NetworkResult<bool>> uploadVideoPlayer({
-    @required int playerId,
-    @required int videoId,
+  Future<NetworkResult<bool?>> uploadVideoPlayer({
+    required int? playerId,
+    required int? videoId,
   });
 
-  Future<NetworkResult<bool>> deleteVideoPlayer({
-    @required int videoVersion,
-    @required int videoId,
+  Future<NetworkResult<bool?>> deleteVideoPlayer({
+    required int? videoVersion,
+    required int? videoId,
   });
 
-  Future<NetworkResult<bool>> replaceVideoPlayer({
-    @required int videoVersion,
-    @required int videoId,
-    @required int videoFileId,
-    @required int playerId,
+  Future<NetworkResult<bool?>> replaceVideoPlayer({
+    required int? videoVersion,
+    required int? videoId,
+    required int? videoFileId,
+    required int? playerId,
   });
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateSportInfo({
-    @required int id,
-    @required int version,
-    @required int weight,
-    @required int height,
-    @required String hand,
-    @required String leg,
-    @required String brief,
-    @required SportModel sport,
-    @required SportPositionModel sportPositionModel,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateSportInfo({
+    required int? id,
+    required int? version,
+    required int? weight,
+    required int? height,
+    required String? hand,
+    required String? leg,
+    required String? brief,
+    required SportModel? sport,
+    required SportPositionModel? sportPositionModel,
   });
 }
 
 @LazySingleton(as: ProfileDataSource)
-class ProfileDataSourceImpl extends MawahebRemoteDataSource
-    implements ProfileDataSource {
+class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDataSource {
   ProfileDataSourceImpl({
-    @required Dio client,
-    @required PrefsRepository prefsRepository,
-    @required DataConnectionChecker connectionChecker,
-    @required Logger logger,
+    required Dio client,
+    required PrefsRepository? prefsRepository,
+    required Logger logger,
   }) : super(
           prefsRepository: prefsRepository,
           client: client,
-          connectionChecker: connectionChecker,
           logger: logger,
         );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> fetchProfile(
-      {int id}) {
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> fetchProfile({int? id}) {
     return mawahebRequest(
       method: METHOD.POST,
       mawahebModel: false,
@@ -129,13 +124,13 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'fullNameAr'
         ]
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      mapper:
+          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<ViewModel>>> playerViews(
-      {int id}) {
+  Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews({int? id}) {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'ProfileView',
@@ -147,22 +142,17 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           ],
           'operator': 'and'
         },
-        'fields': [
-          'player',
-          'partner',
-          'partner.photo.fileUUID',
-          'partner.type'
-        ]
+        'fields': ['player', 'partner', 'partner.photo.fileUUID', 'partner.type']
       },
-      mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
+      mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson) as ListBaseResponseModel<ViewModel> Function(Object?)?,
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateImageProfile({
-    int id,
-    int version,
-    int imageId,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateImageProfile({
+    int? id,
+    int? version,
+    int? imageId,
   }) async {
     return mawahebRequest(
         method: METHOD.POST,
@@ -179,37 +169,37 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
               mawahebModel: false,
               asList: true,
             ))
-                .getOrThrow()
+                .getOrThrow()!
                 .version,
             'photo': {'id': imageId},
           },
           'fields': ['id', 'version', 'photo', 'name', 'email']
         },
-        mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson));
+        mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(
+            Object?)?);
   }
 
   @override
-  Future<NetworkResult<int>> uploadFile({@required File file}) async {
-    return mawahebRequest<List<int>>(
+  Future<NetworkResult<int>> uploadFile({required File? file}) async {
+    return mawahebRequest<List<int?>?>(
       method: METHOD.POST,
       modelName: 'meta.db.MetaFile',
       mawahebModel: false,
       action: EndPointAction.upload,
       data: FormData.fromMap({
         'file': await MultipartFile.fromFile(
-          file.path,
+          file!.path,
           filename: file.path.split('/').last,
         ),
         'request': '{}',
         'field': '',
       }),
-      mapper: ListBaseResponseModel.dataTypeMapper(
-          (json) => (json as Map<String, dynamic>)['id'] as int),
-    ).whenSuccessWrapped((res) => res.first);
+      mapper: ListBaseResponseModel.dataTypeMapper((json) => (json as Map<String, dynamic>)['id'] as int?),
+    ).whenSuccessWrapped((res) => res!.first!);
   }
 
   @override
-  Future<NetworkResult<bool>> uploadVideoPlayer({int playerId, int videoId}) {
+  Future<NetworkResult<bool?>> uploadVideoPlayer({int? playerId, int? videoId}) {
     return mawahebRequest(
       method: METHOD.POST,
       mawahebModel: true,
@@ -225,8 +215,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<bool>> deleteVideoPlayer(
-      {int videoVersion, int videoId}) {
+  Future<NetworkResult<bool?>> deleteVideoPlayer({int? videoVersion, int? videoId}) {
     return mawahebRequest(
       method: METHOD.DELETE,
       mawahebModel: true,
@@ -243,8 +232,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<bool>> replaceVideoPlayer(
-      {int videoVersion, int videoId, int videoFileId, int playerId}) {
+  Future<NetworkResult<bool?>> replaceVideoPlayer({int? videoVersion, int? videoId, int? videoFileId, int? playerId}) {
     return mawahebRequest(
       method: METHOD.POST,
       mawahebModel: true,
@@ -262,8 +250,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>>> fetchPlayerVideos(
-      {int playerId}) {
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchPlayerVideos({int? playerId}) {
     return mawahebRequest(
         method: METHOD.POST,
         modelName: 'PartnerVideo',
@@ -277,20 +264,21 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           },
           'fields': ['partner', 'status', 'video', 'video.fileUUID']
         },
-        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
+        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson) as ListBaseResponseModel<VideoModel> Function(
+            Object?)?);
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>>> updateSportInfo({
-    @required int id,
-    @required int version,
-    @required int weight,
-    @required int height,
-    @required String hand,
-    @required String leg,
-    @required String brief,
-    @required SportModel sport,
-    @required SportPositionModel sportPositionModel,
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateSportInfo({
+    required int? id,
+    required int? version,
+    required int? weight,
+    required int? height,
+    required String? hand,
+    required String? leg,
+    required String? brief,
+    required SportModel? sport,
+    required SportPositionModel? sportPositionModel,
   }) async {
     return mawahebRequest(
       method: METHOD.POST,
@@ -306,10 +294,10 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
             mawahebModel: false,
             asList: true,
           ))
-              .getOrThrow()
+              .getOrThrow()!
               .version,
-          'sport': {'id': sport.id},
-          'position': {'id': sportPositionModel.id},
+          'sport': {'id': sport!.id},
+          'position': {'id': sportPositionModel!.id},
           'weight': weight,
           'height': height,
           'hand': hand,
@@ -317,7 +305,8 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource
           'brief': brief,
         }
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
+      mapper:
+          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 }

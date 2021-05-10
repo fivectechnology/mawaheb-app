@@ -8,7 +8,7 @@ import 'package:mawaheb_app/features/public_info/ui/widgets/download_button.dart
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
 
 class DownLoadCenterPage extends StatefulWidget {
-  const DownLoadCenterPage({Key key}) : super(key: key);
+  const DownLoadCenterPage({Key? key}) : super(key: key);
 
   static const String route = '/download_center';
 
@@ -21,8 +21,7 @@ class DownLoadCenterPage extends StatefulWidget {
   _DownLoadCenterPageState createState() => _DownLoadCenterPageState();
 }
 
-class _DownLoadCenterPageState
-    extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
+class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -36,7 +35,7 @@ class _DownLoadCenterPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel?.downloads == null) {
+    if (viewmodel.downloads == null) {
       viewmodel.getDownloads();
     }
   }
@@ -55,16 +54,14 @@ class _DownLoadCenterPageState
                   ? const SizedBox()
                   : ListView.builder(
                       physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: context.fullWidth * 0.02),
+                      padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.02),
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
-                          fileName:
-                              viewmodel.prefsRepository.languageCode == 'en'
-                                  ? downloads[index].title
-                                  : downloads[index].titleAr,
-                          id: downloads[index].source.id,
+                          fileName: viewmodel.prefsRepository.languageCode == 'en'
+                              ? downloads[index].title!
+                              : downloads[index].titleAr!,
+                          id: downloads[index].source!.id,
                           parentId: downloads[index].id,
                         );
                       });
@@ -73,7 +70,7 @@ class _DownLoadCenterPageState
     );
   }
 
-  Widget downloadButton({String fileName, int id, int parentId}) {
+  Widget downloadButton({required String fileName, int? id, int? parentId}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
       child: Column(
@@ -84,9 +81,7 @@ class _DownLoadCenterPageState
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Expanded(
-                  child: Text(fileName,
-                      style: textTheme.bodyText1.copyWith(color: DARK_GREY)))
+              Expanded(child: Text(fileName, style: textTheme.bodyText1!.copyWith(color: DARK_GREY)))
             ],
           ),
           Row(

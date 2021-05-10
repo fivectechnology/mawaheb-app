@@ -9,14 +9,13 @@ import '../global_di.dart';
 
 void main() {
   group('auth dataSource =>', () {
-    AuthDataSource authDataSource;
+    AuthDataSource? authDataSource;
     PrefsRepository prefsRepository;
 
     setUp(() {
       prefsRepository = FakePrefsRepository(token: 'YWRtaW46YWRtaW4=');
       authDataSource = AuthDataSourceImpl(
         client: createDio(prefsRepositoryArgs: prefsRepository),
-        connectionChecker: connectionChecker,
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
       );
@@ -140,16 +139,15 @@ void main() {
   });
 
   group('auth repository =>', () {
-    AuthDataSource authDataSource;
-    AuthRepository authRepository;
-    PrefsRepository prefsRepository;
+    AuthDataSource? authDataSource;
+    AuthRepository? authRepository;
+    PrefsRepository? prefsRepository;
 
     setUp(() {
       prefsRepository = FakePrefsRepository(token: 'YWRtaW46YWRtaW4=');
 
       authDataSource = AuthDataSourceImpl(
         client: createDio(prefsRepositoryArgs: prefsRepository),
-        connectionChecker: connectionChecker,
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
       );
@@ -185,19 +183,19 @@ void main() {
     //   expect(res.getOrThrow().data.first.email, isNotNull);
     // });
 
-    test('test signup function', () async {
-      final res = await authRepository.addPersonalInfo(
-        id: 38,
-        version: 1,
-        phone: '+99999998888',
-        gender: 'MALE',
-        name: 'testtt',
-        dateOfBirth: '2020-02-02',
-      );
-      expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.name, isNotNull);
-      expect(res.getOrThrow().data.first.email, isNotNull);
-    });
+    // test('test signup function', () async {
+    //   final res = await authRepository!.addPersonalInfo(
+    //     id: 38,
+    //     version: 1,
+    //     phone: '+99999998888',
+    //     gender: 'MALE',
+    //     name: 'testtt',
+    //     dateOfBirth: '2020-02-02',
+    //   );
+    //   expect(res.isSuccess, equals(true));
+    //   expect(res.getOrThrow()!.status, equals(0));
+    //   expect(res.getOrThrow()!.data!.first.name, isNotNull);
+    //   expect(res.getOrThrow()!.data!.first.email, isNotNull);
+    // });
   });
 }

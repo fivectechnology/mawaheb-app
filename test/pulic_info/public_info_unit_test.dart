@@ -9,12 +9,11 @@ import '../global_di.dart';
 
 void main() {
   group('public info dataSource => ', () {
-    PublicInfoDataSource publicInfoDataSource;
-    PrefsRepository prefsRepository;
+    PublicInfoDataSource? publicInfoDataSource;
+    PrefsRepository? prefsRepository;
     setUp(() {
       prefsRepository = FakePrefsRepository(token: 'YWRtaW46YWRtaW4=');
       publicInfoDataSource = PublicInfoDataSourceImpl(
-        connectionChecker: connectionChecker,
         client: createDio(prefsRepositoryArgs: prefsRepository),
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
@@ -26,68 +25,66 @@ void main() {
     });
 
     test('test success about us', () async {
-      final res = await publicInfoDataSource.getAboutUs();
+      final res = await publicInfoDataSource!.getAboutUs();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.mission, isNotNull);
-      expect(res.getOrThrow().data.first.vision, isNotNull);
-      expect(res.getOrThrow().data.first.summary, isNotNull);
-      expect(res.getOrThrow().data.first.ourValues, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.mission, isNotNull);
+      expect(res.getOrThrow()!.data!.first.vision, isNotNull);
+      expect(res.getOrThrow()!.data!.first.summary, isNotNull);
+      expect(res.getOrThrow()!.data!.first.ourValues, isNotNull);
     });
 
     test('test success contacts', () async {
-      final res = await publicInfoDataSource.getContactUs();
+      final res = await publicInfoDataSource!.getContactUs();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.address, isNotNull);
-      expect(res.getOrThrow().data.first.country, isNotNull);
-      expect(res.getOrThrow().data.first.email, isNotNull);
-      expect(res.getOrThrow().data.first.emirate, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.address, isNotNull);
+      expect(res.getOrThrow()!.data!.first.country, isNotNull);
+      expect(res.getOrThrow()!.data!.first.email, isNotNull);
+      expect(res.getOrThrow()!.data!.first.emirate, isNotNull);
       // expect(res.getOrThrow().data.first.googleMapsCoordination, isNotNull);
-      expect(res.getOrThrow().data.first.phone, isNotNull);
+      expect(res.getOrThrow()!.data!.first.phone, isNotNull);
     });
 
     test('test success strategic partners', () async {
-      final res = await publicInfoDataSource.getStrategicPartners();
+      final res = await publicInfoDataSource!.getStrategicPartners();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.title, isNotNull);
-      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.title, isNotNull);
+      expect(res.getOrThrow()!.data!.first.source!.fileName, isNotNull);
     });
 
     test('test success gallery', () async {
-      final res = await publicInfoDataSource.getGallery();
+      final res = await publicInfoDataSource!.getGallery();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.title, isNotNull);
-      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.title, isNotNull);
+      expect(res.getOrThrow()!.data!.first.source!.fileName, isNotNull);
     });
 
     test('test success download center', () async {
-      final res = await publicInfoDataSource.getDownloadCenter();
+      final res = await publicInfoDataSource!.getDownloadCenter();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.title, isNotNull);
-      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.title, isNotNull);
+      expect(res.getOrThrow()!.data!.first.source!.fileName, isNotNull);
     });
   });
 
   group('public info repository =>', () {
-    PublicInfoDataSource publicInfoDataSource;
-    PublicInfoRepository publicInfoRepository;
-    PrefsRepository prefsRepository;
+    PublicInfoDataSource? publicInfoDataSource;
+    PublicInfoRepository? publicInfoRepository;
+    PrefsRepository? prefsRepository;
 
     setUp(() {
       prefsRepository = FakePrefsRepository(token: 'YWRtaW46YWRtaW4=');
       publicInfoDataSource = PublicInfoDataSourceImpl(
         client: createDio(prefsRepositoryArgs: prefsRepository),
-        connectionChecker: connectionChecker,
         logger: LoggerImpl(),
         prefsRepository: prefsRepository,
       );
 
-      publicInfoRepository =
-          PublicInfoRepositoryImpl(publicInfoDataSource, prefsRepository);
+      publicInfoRepository = PublicInfoRepositoryImpl(publicInfoDataSource!, prefsRepository);
     });
 
     tearDown(() {
@@ -97,49 +94,49 @@ void main() {
     });
 
     test('success about us function', () async {
-      final res = await publicInfoRepository.getAboutUs();
+      final res = await publicInfoRepository!.getAboutUs();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.mission, isNotNull);
-      expect(res.getOrThrow().data.first.vision, isNotNull);
-      expect(res.getOrThrow().data.first.summary, isNotNull);
-      expect(res.getOrThrow().data.first.ourValues, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.mission, isNotNull);
+      expect(res.getOrThrow()!.data!.first.vision, isNotNull);
+      expect(res.getOrThrow()!.data!.first.summary, isNotNull);
+      expect(res.getOrThrow()!.data!.first.ourValues, isNotNull);
     });
 
     test('success contacts function', () async {
-      final res = await publicInfoRepository.getContactUs();
+      final res = await publicInfoRepository!.getContactUs();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.address, isNotNull);
-      expect(res.getOrThrow().data.first.country, isNotNull);
-      expect(res.getOrThrow().data.first.email, isNotNull);
-      expect(res.getOrThrow().data.first.emirate, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.address, isNotNull);
+      expect(res.getOrThrow()!.data!.first.country, isNotNull);
+      expect(res.getOrThrow()!.data!.first.email, isNotNull);
+      expect(res.getOrThrow()!.data!.first.emirate, isNotNull);
       // expect(res.getOrThrow().data.first.googleMapsCoordination, isNotNull);
-      expect(res.getOrThrow().data.first.phone, isNotNull);
+      expect(res.getOrThrow()!.data!.first.phone, isNotNull);
     });
 
     test('success strategic partners function', () async {
-      final res = await publicInfoRepository.getStrategicPartners();
+      final res = await publicInfoRepository!.getStrategicPartners();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.title, isNotNull);
-      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.title, isNotNull);
+      expect(res.getOrThrow()!.data!.first.source!.fileName, isNotNull);
     });
 
     test('success gallery function', () async {
-      final res = await publicInfoRepository.getGallery();
+      final res = await publicInfoRepository!.getGallery();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.title, isNotNull);
-      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.title, isNotNull);
+      expect(res.getOrThrow()!.data!.first.source!.fileName, isNotNull);
     });
 
     test('success download center function', () async {
-      final res = await publicInfoRepository.getDownloadCenter();
+      final res = await publicInfoRepository!.getDownloadCenter();
       expect(res.isSuccess, equals(true));
-      expect(res.getOrThrow().status, equals(0));
-      expect(res.getOrThrow().data.first.title, isNotNull);
-      expect(res.getOrThrow().data.first.source.fileName, isNotNull);
+      expect(res.getOrThrow()!.status, equals(0));
+      expect(res.getOrThrow()!.data!.first.title, isNotNull);
+      expect(res.getOrThrow()!.data!.first.source!.fileName, isNotNull);
     });
   });
 }

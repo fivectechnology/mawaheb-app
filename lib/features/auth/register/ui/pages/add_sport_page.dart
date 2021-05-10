@@ -23,11 +23,10 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 
 class AddSportPage extends StatefulWidget {
   const AddSportPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const AddSportPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AddSportPage());
 
   static const String route = '/add_sport';
 
@@ -35,21 +34,20 @@ class AddSportPage extends StatefulWidget {
   _AddSportPageState createState() => _AddSportPageState();
 }
 
-class _AddSportPageState
-    extends ProviderMobxState<AddSportPage, AuthViewmodel> {
+class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> {
   final TextEditingController _hightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _briefController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  SportModel currentSport;
-  SportPositionModel position;
+  SportModel? currentSport;
+  SportPositionModel? position;
   String leg = 'RIGHT';
   String hand = 'RIGHT';
-  File video;
-  String fileType;
-  String fileName;
-  int fileSize;
+  File? video;
+  String? fileType;
+  String? fileName;
+  int? fileSize;
   final picker = ImagePicker();
 
   @override
@@ -70,28 +68,28 @@ class _AddSportPageState
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (viewmodel?.sportFuture == null) {
+    if (viewmodel.sportFuture == null) {
       viewmodel.getSports();
     }
 
-    if (viewmodel?.videos == null) {
-      viewmodel.fetchVideos(playerId: viewmodel.player.id);
+    if (viewmodel.videos == null) {
+      viewmodel.fetchVideos(playerId: viewmodel.player!.id);
     }
 
-    if (viewmodel?.subscriptionFuture == null) {
+    if (viewmodel.subscriptionFuture == null) {
       viewmodel.getSubscription();
     }
   }
 
   Future getVideoCamera() async {
-    final pickedFile = await ImagePicker.pickVideo(source: ImageSource.camera);
+    final pickedFile = await picker.getVideo(source: ImageSource.camera);
 
     if (pickedFile != null) {
       video = File(pickedFile.path);
-      fileName = video.path.split('/').last;
-      fileType = 'video/' + fileName.split('.').last;
-      fileSize = await video.length();
-      if (fileSize <= 5000000) {
+      fileName = video!.path.split('/').last;
+      fileType = 'video/' + fileName!.split('.').last;
+      fileSize = await video!.length();
+      if (fileSize! <= 5000000) {
         viewmodel.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
@@ -101,8 +99,7 @@ class _AddSportPageState
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
-            scaffoldKey: RegisterPage.scaffoldKey,
-            duration: const Duration(seconds: 3));
+            scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
       print('No image selected.');
@@ -110,25 +107,24 @@ class _AddSportPageState
   }
 
   Future getVideoGallery() async {
-    final pickedFile = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    final pickedFile = await picker.getVideo(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       video = File(pickedFile.path);
-      fileName = video.path.split('/').last;
-      fileType = fileName.split('.').last;
-      fileSize = await video.length();
-      if (fileSize <= 5000000) {
+      fileName = video!.path.split('/').last;
+      fileType = fileName!.split('.').last;
+      fileSize = await video!.length();
+      if (fileSize! <= 5000000) {
         viewmodel.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
-          fileType: 'video/' + fileType,
+          fileType: 'video/' + fileType!,
           file: video,
         );
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel.showSnack(context.translate('msg_video_size'),
-            scaffoldKey: RegisterPage.scaffoldKey,
-            duration: const Duration(seconds: 3));
+            scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
       print('No image selected.');
@@ -158,11 +154,11 @@ class _AddSportPageState
                     context: context,
                     onChanged: (value) {
                       currentSport = value;
-                      viewmodel.getPositions(sportId: currentSport.id);
+                      viewmodel.getPositions(sportId: currentSport!.id);
                     },
-                    items: viewmodel.sports
+                    items: viewmodel.sports!
                         .map((em) => DropdownMenuItem(
-                              child: Text(em.name),
+                              child: Text(em.name!),
                               value: em,
                             ))
                         .toList(),
@@ -175,9 +171,9 @@ class _AddSportPageState
                       onChanged: (value) {
                         position = value;
                       },
-                      items: viewmodel.positions
+                      items: viewmodel.positions!
                           .map((em) => DropdownMenuItem(
-                                child: Text(em.name),
+                                child: Text(em.name!),
                                 value: em,
                               ))
                           .toList(),
@@ -185,10 +181,8 @@ class _AddSportPageState
                   if (viewmodel.positions == null)
                     InkWell(
                       onTap: () {
-                        viewmodel.showSnack(
-                            context.translate('msg_select_sport'),
-                            duration: const Duration(seconds: 3),
-                            scaffoldKey: RegisterPage.scaffoldKey);
+                        viewmodel.showSnack(context.translate('msg_select_sport'),
+                            duration: const Duration(seconds: 3), scaffoldKey: RegisterPage.scaffoldKey);
                       },
                       child: mawhaebDropDown(
                         hint: context.translate('lbl_position'),
@@ -202,7 +196,7 @@ class _AddSportPageState
                     hintColor: Colors.grey,
                     context: context,
                     validator: (value) {
-                      return weightValidator(context: context, value: value);
+                      return weightValidator(context: context, value: value ?? '');
                     },
                     textEditingController: _weightController,
                   ),
@@ -213,7 +207,7 @@ class _AddSportPageState
                     hintColor: Colors.grey,
                     context: context,
                     validator: (value) {
-                      return heightValidator(context: context, value: value);
+                      return heightValidator(context: context, value: value ?? '');
                     },
                     textEditingController: _hightController,
                   ),
@@ -264,8 +258,7 @@ class _AddSportPageState
                         leg = v;
                       }),
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: context.fullHeight * 0.03),
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
                     child: SizedBox(
                       height: context.fullHeight * 0.15,
                       child: TextFormField(
@@ -273,13 +266,10 @@ class _AddSportPageState
                         maxLines: 10,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: const BorderSide(color: Colors.grey)),
+                              borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
                           hintText: context.translate('msg_brief'),
-                          hintStyle: const TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w200,
-                              fontFamily: 'Poppins'),
+                          hintStyle:
+                              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
                         ),
                       ),
                     ),
@@ -316,21 +306,21 @@ class _AddSportPageState
                         isLoading: viewmodel.registerLoading,
                         onPressed: () {
                           if (currentSport == null) {
-                            viewmodel.showSnack(
-                                context.translate('msg_select_sport'),
-                                scaffoldKey: RegisterPage.scaffoldKey,
-                                duration: const Duration(seconds: 3));
+                            viewmodel.showSnack(context.translate('msg_select_sport'),
+                                scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
                           } else {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
                               viewmodel.addSportInfo(
                                 height: int.parse(_hightController.text),
                                 weight: int.parse(_weightController.text),
-                                hand: hand ?? 'RIGHT',
-                                leg: leg ?? 'RIGHT',
+                                // hand: hand ?? 'RIGHT',
+                                // leg: leg ?? 'RIGHT',
+                                hand: hand,
+                                leg: leg,
                                 brief: _briefController.text,
-                                sport: currentSport ?? viewmodel.sports.first,
-                                position: position ?? viewmodel.positions.first,
+                                sport: currentSport ?? viewmodel.sports!.first,
+                                position: position ?? viewmodel.positions!.first,
                               );
                             }
                           }
@@ -346,17 +336,14 @@ class _AddSportPageState
     });
   }
 
-  Widget uploadSpace({Function onPress}) {
+  Widget uploadSpace({Function? onPress}) {
     return InkWell(
-      onTap: onPress,
+      onTap: onPress as void Function()?,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 6),
         height: context.fullHeight * 0.14,
         decoration: DottedDecoration(
-            shape: Shape.box,
-            dash: const [10, 10],
-            borderRadius: BorderRadius.circular(10),
-            color: RED),
+            shape: Shape.box, dash: const [10, 10], borderRadius: BorderRadius.circular(10), color: RED),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -368,7 +355,7 @@ class _AddSportPageState
               ),
               Text(
                 context.translate('lbl_max_video'),
-                style: textTheme.bodyText2.copyWith(color: Colors.grey),
+                style: textTheme.bodyText2!.copyWith(color: Colors.grey),
               ),
             ],
           ),
@@ -377,8 +364,7 @@ class _AddSportPageState
     );
   }
 
-  Widget currentVideoRow(
-      {BuildContext context, int videoNumber, int videoId, int videoVersion}) {
+  Widget currentVideoRow({required BuildContext context, int? videoNumber, int? videoId, int? videoVersion}) {
     return Row(
       children: [
         const Icon(
@@ -386,16 +372,13 @@ class _AddSportPageState
           color: Colors.grey,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: context.fullHeight * 0.02,
-              horizontal: context.fullWidth * 0.03),
+          padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02, horizontal: context.fullWidth * 0.03),
           child: Text('video$videoNumber'),
         ),
         const Spacer(),
         InkWell(
             onTap: () {
-              viewmodel.deleteVideo(
-                  videoVersion: videoVersion, videoId: videoId);
+              viewmodel.deleteVideo(videoVersion: videoVersion, videoId: videoId);
             },
             child: SvgPicture.asset('assets/icons/ic_delete.svg')),
       ],
@@ -403,7 +386,7 @@ class _AddSportPageState
   }
 
   void _deleteSomeVideosBottomSheet({
-    BuildContext context,
+    required BuildContext context,
   }) {
     showModalBottomSheet(
         context: context,
@@ -419,8 +402,7 @@ class _AddSportPageState
                     Expanded(
                       child: Text(
                         context.translate('msg_delete_videos_note'),
-                        style: textTheme.headline2
-                            .copyWith(color: Colors.black, fontSize: 18),
+                        style: textTheme.headline2!.copyWith(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
@@ -448,16 +430,14 @@ class _AddSportPageState
   }
 
   void _optionPickerBottomSheet({
-    BuildContext context,
+    required BuildContext context,
   }) {
     showModalBottomSheet(
         useRootNavigator: true,
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: context.fullWidth * 0.08,
-                vertical: context.fullHeight * 0.03),
+            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08, vertical: context.fullHeight * 0.03),
             child: Wrap(
               children: [
                 InkWell(
@@ -466,14 +446,13 @@ class _AddSportPageState
                     bc.pop();
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: context.fullHeight * 0.02),
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
                         context.translate('lbl_camera'),
                         textAlign: TextAlign.center,
-                        style: textTheme.bodyText1.copyWith(fontSize: 20),
+                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),
@@ -488,13 +467,12 @@ class _AddSportPageState
                     bc.pop();
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: context.fullHeight * 0.02),
+                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
                         context.translate('lbl_gallery'),
-                        style: textTheme.bodyText1.copyWith(fontSize: 20),
+                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),

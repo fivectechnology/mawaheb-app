@@ -17,12 +17,12 @@ PlayerFilterModel _$PlayerFilterModelFromJson(Map<String, dynamic> json) {
     position: json['position'] == null
         ? null
         : SportPositionModel.fromJson(json['position'] as Map<String, dynamic>),
-    hand: json['hand'] as String,
-    leg: json['leg'] as String,
-    name: json['name'] as String,
-    partnerId: json['partnerId'] as int,
-    isConfirmed: json['isConfirmed'] as bool,
-    isBooked: json['isBooked'] as bool,
+    hand: json['hand'] as String?,
+    leg: json['leg'] as String?,
+    name: json['name'] as String?,
+    partnerId: json['partnerId'] as int?,
+    isConfirmed: json['isConfirmed'] as bool?,
+    isBooked: json['isBooked'] as bool?,
   );
 }
 

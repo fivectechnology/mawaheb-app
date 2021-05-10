@@ -9,56 +9,56 @@ part of 'edit_personal_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
-  Computed<List<CategoryModel>> _$categoriesComputed;
+  Computed<List<CategoryModel>?>? _$categoriesComputed;
 
   @override
-  List<CategoryModel> get categories => (_$categoriesComputed ??=
-          Computed<List<CategoryModel>>(() => super.categories,
+  List<CategoryModel>? get categories => (_$categoriesComputed ??=
+          Computed<List<CategoryModel>?>(() => super.categories,
               name: '_EditPersonalViewmodelBase.categories'))
       .value;
-  Computed<List<CountryModel>> _$countriesComputed;
+  Computed<List<CountryModel>?>? _$countriesComputed;
 
   @override
-  List<CountryModel> get countries => (_$countriesComputed ??=
-          Computed<List<CountryModel>>(() => super.countries,
+  List<CountryModel>? get countries => (_$countriesComputed ??=
+          Computed<List<CountryModel>?>(() => super.countries,
               name: '_EditPersonalViewmodelBase.countries'))
       .value;
-  Computed<bool> _$countryLoadingComputed;
+  Computed<bool>? _$countryLoadingComputed;
 
   @override
   bool get countryLoading =>
       (_$countryLoadingComputed ??= Computed<bool>(() => super.countryLoading,
               name: '_EditPersonalViewmodelBase.countryLoading'))
           .value;
-  Computed<bool> _$categoryLoadingComputed;
+  Computed<bool>? _$categoryLoadingComputed;
 
   @override
   bool get categoryLoading =>
       (_$categoryLoadingComputed ??= Computed<bool>(() => super.categoryLoading,
               name: '_EditPersonalViewmodelBase.categoryLoading'))
           .value;
-  Computed<bool> _$personalLoadingComputed;
+  Computed<bool>? _$personalLoadingComputed;
 
   @override
   bool get personalLoading =>
       (_$personalLoadingComputed ??= Computed<bool>(() => super.personalLoading,
               name: '_EditPersonalViewmodelBase.personalLoading'))
           .value;
-  Computed<File> _$imageFileComputed;
+  Computed<File?>? _$imageFileComputed;
 
   @override
-  File get imageFile =>
-      (_$imageFileComputed ??= Computed<File>(() => super.imageFile,
+  File? get imageFile =>
+      (_$imageFileComputed ??= Computed<File?>(() => super.imageFile,
               name: '_EditPersonalViewmodelBase.imageFile'))
           .value;
-  Computed<PlayerModel> _$playerComputed;
+  Computed<PlayerModel?>? _$playerComputed;
 
   @override
-  PlayerModel get player =>
-      (_$playerComputed ??= Computed<PlayerModel>(() => super.player,
+  PlayerModel? get player =>
+      (_$playerComputed ??= Computed<PlayerModel?>(() => super.player,
               name: '_EditPersonalViewmodelBase.player'))
           .value;
-  Computed<bool> _$playerLoadingComputed;
+  Computed<bool>? _$playerLoadingComputed;
 
   @override
   bool get playerLoading =>
@@ -69,13 +69,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
   final _$imageIdAtom = Atom(name: '_EditPersonalViewmodelBase.imageId');
 
   @override
-  Future<int> get imageId {
+  Future<int>? get imageId {
     _$imageIdAtom.reportRead();
     return super.imageId;
   }
 
   @override
-  set imageId(Future<int> value) {
+  set imageId(Future<int>? value) {
     _$imageIdAtom.reportWrite(value, super.imageId, () {
       super.imageId = value;
     });
@@ -84,13 +84,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
   final _$imageAtom = Atom(name: '_EditPersonalViewmodelBase.image');
 
   @override
-  File get image {
+  File? get image {
     _$imageAtom.reportRead();
     return super.image;
   }
 
   @override
-  set image(File value) {
+  set image(File? value) {
     _$imageAtom.reportWrite(value, super.image, () {
       super.image = value;
     });
@@ -100,13 +100,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
       Atom(name: '_EditPersonalViewmodelBase.playerFuture');
 
   @override
-  ObservableFuture<PlayerModel> get playerFuture {
+  ObservableFuture<PlayerModel>? get playerFuture {
     _$playerFutureAtom.reportRead();
     return super.playerFuture;
   }
 
   @override
-  set playerFuture(ObservableFuture<PlayerModel> value) {
+  set playerFuture(ObservableFuture<PlayerModel>? value) {
     _$playerFutureAtom.reportWrite(value, super.playerFuture, () {
       super.playerFuture = value;
     });
@@ -116,13 +116,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
       Atom(name: '_EditPersonalViewmodelBase.editPersonalPlayerFuture');
 
   @override
-  ObservableFuture<PlayerModel> get editPersonalPlayerFuture {
+  ObservableFuture<PlayerModel>? get editPersonalPlayerFuture {
     _$editPersonalPlayerFutureAtom.reportRead();
     return super.editPersonalPlayerFuture;
   }
 
   @override
-  set editPersonalPlayerFuture(ObservableFuture<PlayerModel> value) {
+  set editPersonalPlayerFuture(ObservableFuture<PlayerModel>? value) {
     _$editPersonalPlayerFutureAtom
         .reportWrite(value, super.editPersonalPlayerFuture, () {
       super.editPersonalPlayerFuture = value;
@@ -133,13 +133,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
       Atom(name: '_EditPersonalViewmodelBase.categoryFuture');
 
   @override
-  ObservableFuture<List<CategoryModel>> get categoryFuture {
+  ObservableFuture<List<CategoryModel>>? get categoryFuture {
     _$categoryFutureAtom.reportRead();
     return super.categoryFuture;
   }
 
   @override
-  set categoryFuture(ObservableFuture<List<CategoryModel>> value) {
+  set categoryFuture(ObservableFuture<List<CategoryModel>>? value) {
     _$categoryFutureAtom.reportWrite(value, super.categoryFuture, () {
       super.categoryFuture = value;
     });
@@ -149,13 +149,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
       Atom(name: '_EditPersonalViewmodelBase.countryFuture');
 
   @override
-  ObservableFuture<List<CountryModel>> get countryFuture {
+  ObservableFuture<List<CountryModel>>? get countryFuture {
     _$countryFutureAtom.reportRead();
     return super.countryFuture;
   }
 
   @override
-  set countryFuture(ObservableFuture<List<CountryModel>> value) {
+  set countryFuture(ObservableFuture<List<CountryModel>>? value) {
     _$countryFutureAtom.reportWrite(value, super.countryFuture, () {
       super.countryFuture = value;
     });
@@ -187,7 +187,7 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
   }
 
   @override
-  void fetchPlayer({int id}) {
+  void fetchPlayer({int? id}) {
     final _$actionInfo = _$_EditPersonalViewmodelBaseActionController
         .startAction(name: '_EditPersonalViewmodelBase.fetchPlayer');
     try {
@@ -198,13 +198,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
   }
 
   @override
-  Future<int> uploadImage(
-      {int playerId,
-      int playerVersion,
-      File file,
-      int fileSize,
-      String fileName,
-      String fileType}) {
+  Future<int>? uploadImage(
+      {int? playerId,
+      int? playerVersion,
+      File? file,
+      int? fileSize,
+      String? fileName,
+      String? fileType}) {
     final _$actionInfo = _$_EditPersonalViewmodelBaseActionController
         .startAction(name: '_EditPersonalViewmodelBase.uploadImage');
     try {
@@ -222,13 +222,13 @@ mixin _$EditPersonalViewmodel on _EditPersonalViewmodelBase, Store {
 
   @override
   void editPersonalInfo(
-      {String dateOfBirth,
-      String gender,
-      String name,
-      String phone,
-      CountryModel country,
-      CategoryModel categoryModel,
-      int id}) {
+      {String? dateOfBirth,
+      String? gender,
+      String? name,
+      String? phone,
+      CountryModel? country,
+      CategoryModel? categoryModel,
+      int? id}) {
     final _$actionInfo = _$_EditPersonalViewmodelBaseActionController
         .startAction(name: '_EditPersonalViewmodelBase.editPersonalInfo');
     try {

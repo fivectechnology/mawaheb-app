@@ -7,21 +7,21 @@ part 'country_model.g.dart';
 @JsonSerializable()
 class CountryModel with EquatableMixin {
   const CountryModel({
-    @required this.tName,
-    @required this.nameEn,
-    @required this.id,
+    required this.tName,
+    required this.nameEn,
+    required this.id,
   });
 
   @JsonKey(name: r'$t:name')
-  final String tName;
+  final String? tName;
   @JsonKey(name: 'name')
-  final String nameEn;
-  final int id;
+  final String? nameEn;
+  final int? id;
 
   CountryModel copyWith({
-    String nameEn,
-    String tName,
-    int id,
+    String? nameEn,
+    String? tName,
+    int? id,
   }) {
     return CountryModel(
       tName: tName ?? this.tName,
@@ -33,10 +33,10 @@ class CountryModel with EquatableMixin {
   @override
   bool get stringify => true;
 
-  String get name => tName ?? nameEn;
+  String? get name => tName ?? nameEn;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       tName,
       nameEn,
@@ -44,6 +44,6 @@ class CountryModel with EquatableMixin {
     ];
   }
 
-  static CountryModel fromJson(Object json) => _$CountryModelFromJson(json);
+  static CountryModel fromJson(Object json) => _$CountryModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$CountryModelToJson(this);
 }

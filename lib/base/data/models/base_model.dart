@@ -9,17 +9,18 @@ abstract class BaseModel {
   ///  0 success
   /// -1 failure
   /// -4 validation error
-  final int status;
+  final int? status;
 
-  final int offset;
+  final int? offset;
 
-  final int total;
+  final int? total;
 
   // final String message;
 
-  final Map<String, dynamic> errors;
+  final Map<String, dynamic>? errors;
 }
 
-typedef BaseMapper<T> = BaseResponseModel<T> Function(Map<String, dynamic>);
+typedef BaseMapper<T> = BaseResponseModel<T> Function(Map<String, dynamic>?);
 
-typedef ListMapper<T> = ListBaseResponseModel<T> Function(Map<String, dynamic>);
+// typedef ListMapper<T> = ListBaseResponseModel<T> Function(Map<String, dynamic>);
+typedef ListMapper<T> = ListBaseResponseModel<T> Function(Object);

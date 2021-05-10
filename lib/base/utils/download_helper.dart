@@ -40,21 +40,21 @@ class DownloadHelper {
   }
 
   Future<NetworkResult<bool>> requestDownload({
-    @required int id,
-    @required int parentId,
-    @required void Function(int progress) onReceiveProgress,
-    @required Function(String filePath) onSuccess,
+    required int? id,
+    required int? parentId,
+    required void Function(int progress) onReceiveProgress,
+    required Function(String? filePath) onSuccess,
     bool openWhenFinish = true,
   }) async {
     try {
       final fileUrl = _fixUrl(id: id, parentId: parentId);
       final String folderPath = await getPath();
-      String filePath;
+      String? filePath;
       onReceiveProgress(1);
       final res = await _client.download(
         fileUrl,
-        (Headers responseHeaders) {
-          final String contentHeader = responseHeaders.value('content-disposition');
+        (Headers headers) {
+          final String contentHeader = headers.value('content-disposition')!;
           final resPath = contentHeader.substring(contentHeader.lastIndexOf('=') + 2, contentHeader.length - 1);
           filePath = folderPath + '${DateTime.now().microsecondsSinceEpoch}_${resPath.trim()}';
           return filePath;
@@ -85,8 +85,8 @@ class DownloadHelper {
   }
 
   String _fixUrl({
-    @required int id,
-    @required int parentId,
+    required int? id,
+    required int? parentId,
   }) =>
       BASE_REST_API +
       '/com.axelor.meta.db.MetaFile/$id/content/download?parentId=$parentId&parentModel=com.axelor.mawaheb.base.db.DownloadCentreItem';

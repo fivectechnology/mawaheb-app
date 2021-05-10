@@ -14,12 +14,11 @@ import 'download_center_page.dart';
 import 'gallery_page.dart';
 
 class PublicInfoPage extends StatefulWidget {
-  const PublicInfoPage({Key key}) : super(key: key);
+  const PublicInfoPage({Key? key}) : super(key: key);
 
   static const String route = '/public_info';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const PublicInfoPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -27,9 +26,8 @@ class PublicInfoPage extends StatefulWidget {
   _PublicInfoPageState createState() => _PublicInfoPageState();
 }
 
-class _PublicInfoPageState
-    extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
-  TabController _tabController;
+class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel> {
+  TabController? _tabController;
 
   @override
   void initState() {
@@ -65,24 +63,23 @@ class _PublicInfoPageState
               controller: _tabController,
               isScrollable: true,
               unselectedLabelColor: GREY,
-              unselectedLabelStyle: textTheme.headline2.copyWith(
-                fontSize: 12,
+              unselectedLabelStyle: textTheme!.headline2!.copyWith(
+                fontSize: 12.0,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.3,
               ),
               indicatorColor: RED,
               labelColor: Colors.black,
-              labelStyle: textTheme.headline2.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.3),
-              indicatorWeight: 3,
+              labelStyle: textTheme!.headline2!.copyWith(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.3,
+              ),
+              indicatorWeight: 3.0,
               indicator: const UnderlineTabIndicator(
-                  borderSide: BorderSide(width: 3.0, color: RED),
-                  insets: EdgeInsets.symmetric(horizontal: 15)),
+                  borderSide: BorderSide(width: 3.0, color: RED), insets: EdgeInsets.symmetric(horizontal: 15)),
               tabs: [
-                if (viewmodel.prefsRepository.user == null)
-                  Text(context.translate('lbl_log_in')),
+                if (viewmodel.prefsRepository.user == null) Text(context.translate('lbl_log_in')),
                 Text(context.translate('lbl_about_us')),
                 Text(context.translate('lbl_gallery')),
                 Text(context.translate('lbl_contacts')),

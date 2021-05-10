@@ -2,6 +2,7 @@ import 'package:core_sdk/data/viewmodels/base_viewmodel.dart';
 import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/nav_stack.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/domain/repositories/app_repository.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/app_bar_params.dart';
+import 'package:mawaheb_app/features/settings/domain/repositories/settings_repository.dart';
 import 'package:mobx/mobx.dart';
 
 part 'app_viewmodel.g.dart';
@@ -29,32 +31,39 @@ class AppViewmodel extends _AppViewmodelBase with _$AppViewmodel {
     Logger logger,
     PrefsRepository prefsRepository,
     AppRepository appRepository,
-  ) : super(logger, prefsRepository, appRepository);
+    SettingsRepository _settingsRepository,
+  ) : super(logger, prefsRepository, appRepository, _settingsRepository);
 }
 
 abstract class _AppViewmodelBase extends BaseViewmodel with Store {
-  _AppViewmodelBase(Logger logger, this.prefsRepository, this._appRepository) : super(logger) {
+  _AppViewmodelBase(
+    Logger logger,
+    this.prefsRepository,
+    this._appRepository,
+    this._settingsRepository,
+  ) : super(logger) {
     init();
   }
 
   final PrefsRepository prefsRepository;
   final AppRepository _appRepository;
+  final SettingsRepository _settingsRepository;
 
-  NavStack<AppBarParams> appBarHistory = NavStack<AppBarParams>();
+  NavStack<AppBarParams?> appBarHistory = NavStack<AppBarParams?>();
 
-  String get userRole => prefsRepository?.type /* ?? 'PLAYER' */;
+  String? get userRole => prefsRepository.type /* ?? 'PLAYER' */;
 
   bool get isPlayer => userRole == 'PLAYER';
 
   //* OBSERVERS *//
   @observable
-  AppBarParams appBarParams;
+  AppBarParams? appBarParams;
 
   @observable
   PageIndex pageIndex = PageIndex.home;
 
   @observable
-  ObservableFuture<String> languageFuture;
+  ObservableFuture<String>? languageFuture;
 
   @observable
   bool deviceRegistered = false;
@@ -63,7 +72,7 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   int notificationsCount = 0;
 
   @observable
-  bool userRegested;
+  bool? userRegested;
 
   //* COMPUTED *//
 
@@ -90,7 +99,7 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void popRoute(BuildContext context, {VoidCallback onBackPressed}) {
+  void popRoute(BuildContext context, {VoidCallback? onBackPressed}) {
     appBarParams = appBarHistory.pop();
     onBackPressed == null ? context.pop() : onBackPressed();
   }
@@ -110,14 +119,16 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changeLanguage(String locale) {
+  void changeLanguage(String? locale) {
     if (locale == language) {
       return;
     }
-    languageFuture = ObservableFuture(prefsRepository.setApplicationLanguage(locale).then((isSuccess) {
-      logger.d('mawaheb debug try change language status is $isSuccess');
-      return locale;
-    }));
+    languageFuture = ObservableFuture(
+      _settingsRepository
+          .updateLanguage(id: prefsRepository.player!.id, language: locale)
+          .whenSuccess((res) => prefsRepository.setApplicationLanguage(locale))
+          .then((res) => locale!),
+    );
   }
 
   @action
@@ -135,13 +146,13 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void toggleUserState({bool status}) {
+  void toggleUserState({bool? status}) {
     if (status != null) {
       userRegested = status;
       return;
     }
 
-    userRegested = !userRegested;
+    userRegested = !userRegested!;
   }
 
   @action

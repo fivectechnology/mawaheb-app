@@ -55,7 +55,7 @@ class PageRouter {
     }
   }
 
-  static Route<dynamic> _errorRoute(String routeName) {
+  static Route<dynamic> _errorRoute(String? routeName) {
     return MaterialPageRoute<dynamic>(
       builder: (_) {
         return Scaffold(

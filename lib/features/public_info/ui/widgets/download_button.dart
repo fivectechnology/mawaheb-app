@@ -6,22 +6,22 @@ import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmode
 
 class DownlaodButton extends StatefulWidget {
   const DownlaodButton({
-    Key key,
-    @required this.viewmodel,
-    @required this.id,
-    @required this.parentId,
+    Key? key,
+    required this.viewmodel,
+    required this.id,
+    required this.parentId,
   }) : super(key: key);
 
-  final PublicInfoViewmodel viewmodel;
-  final int id;
-  final int parentId;
+  final PublicInfoViewmodel? viewmodel;
+  final int? id;
+  final int? parentId;
 
   @override
   _DownlaodButtonState createState() => _DownlaodButtonState();
 }
 
 class _DownlaodButtonState extends State<DownlaodButton> {
-  int progress;
+  int? progress;
   bool get isLoading => progress != null;
 
   @override
@@ -30,7 +30,7 @@ class _DownlaodButtonState extends State<DownlaodButton> {
       onPressed: isLoading
           ? null
           : () {
-              widget.viewmodel.downloadFile(
+              widget.viewmodel!.downloadFile(
                 id: widget.id,
                 parentId: widget.parentId,
                 onReceiveProgress: (int progress) {
@@ -55,7 +55,7 @@ class _DownlaodButtonState extends State<DownlaodButton> {
         children: [
           Text(
             progress == null ? context.translate('lbl_download') : context.translate('lbl_downloading'),
-            style: context.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+            style: context.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           ProgressBar(

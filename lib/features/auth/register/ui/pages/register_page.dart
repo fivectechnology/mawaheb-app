@@ -19,7 +19,7 @@ import 'package:supercharged/supercharged.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static const String route = '/register';
@@ -27,8 +27,7 @@ class RegisterPage extends StatefulWidget {
 
   static final GlobalKey<State> keyLoader = GlobalKey<State>();
 
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
-      MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
@@ -39,13 +38,12 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState
-    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
-  AppViewmodel appViewmodel;
+  late AppViewmodel appViewmodel;
 
-  String pageTitle = 'lbl_sign_up';
-  VoidCallback onBackButton;
+  String? pageTitle = 'lbl_sign_up';
+  VoidCallback? onBackButton;
   List<Widget> pages1 = [
     const SignUpPage(),
     const OtpPage(),
@@ -70,15 +68,13 @@ class _RegisterPageState
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel,
-          (PageSliderModel sliderModel) {
+      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel? sliderModel) {
         slidePage(sliderModel);
         viewmodel.registerSliderModel = null;
       }),
     ]);
 
-    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)
-      ..refreshUserStatus();
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)..refreshUserStatus();
   }
 
   @override
@@ -98,21 +94,20 @@ class _RegisterPageState
         resizeToAvoidBottomInset: true,
         appBar: customAppBar(
           context: context,
-          title: context.translate(pageTitle),
+          title: context.translate(pageTitle!),
           onBackButton: onBackButton,
           withTitle: true,
-        ),
+        ) as PreferredSizeWidget?,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38),
           child: Observer(builder: (_) {
             return PageView(
               controller: _pageController,
               physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (int pageIndex) => !appViewmodel.userRegested
-                  ? changeTitle(pageIndex)
-                  : changeTitle2(pageIndex),
+              onPageChanged: (int pageIndex) =>
+                  !appViewmodel.userRegested! ? changeTitle(pageIndex) : changeTitle2(pageIndex),
               // children: viewmodel.prefsRepository.player == null ? pages1 : pages2,
-              children: !appViewmodel.userRegested ? pages1 : pages2,
+              children: !appViewmodel.userRegested! ? pages1 : pages2,
             );
           }),
         ),
@@ -121,7 +116,7 @@ class _RegisterPageState
   }
 
   void changeTitle(int pageIndex) {
-    String newTitle;
+    String? newTitle;
     switch (pageIndex) {
       case 0:
         onBackButton = () => context.pop();
@@ -148,8 +143,8 @@ class _RegisterPageState
 
   void changeTitle2(int pageIndex) {
     print('ttttt2');
-    print(!appViewmodel.userRegested);
-    String newTitle;
+    print(!appViewmodel.userRegested!);
+    String? newTitle;
     switch (pageIndex) {
       case 0:
         newTitle = 'lbl_personal_info';
@@ -165,14 +160,12 @@ class _RegisterPageState
     setState(() => pageTitle = newTitle);
   }
 
-  void slidePage(PageSliderModel sliderModel) {
+  void slidePage(PageSliderModel? sliderModel) {
     if (sliderModel == null) {
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(
-            duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(
-            duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
   }
 }

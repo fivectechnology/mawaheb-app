@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +18,7 @@ Future<String> findLocalPath({bool forDownload = false}) async {
   final directory = Platform.isAndroid
       ? forDownload
           ? Directory('/storage/emulated/0/Download')
-          : await getExternalStorageDirectory()
+          : await (getExternalStorageDirectory() as FutureOr<Directory>)
       : await getApplicationDocumentsDirectory();
   return directory.path;
 }

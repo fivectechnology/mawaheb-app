@@ -2,9 +2,7 @@ import 'package:core_sdk/utils/Fimber/Logger.dart';
 import 'package:core_sdk/utils/Fimber/logger_impl.dart';
 import 'package:core_sdk/utils/dio/retry_interceptor.dart';
 import 'package:core_sdk/utils/dio/retry_options.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -22,7 +20,7 @@ final GetIt getIt = GetIt.I;
   preferRelativeImports: true,
   asExtension: false,
 )
-Future<GetIt> inject({String environment}) async => $inject(getIt, environment: environment);
+Future<GetIt> inject({String? environment}) async => $inject(getIt, environment: environment);
 
 @module
 abstract class AppModule {
@@ -37,7 +35,7 @@ abstract class AppModule {
         responseType: ResponseType.plain,
         headers: <String, String>{
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           'Connection': 'keep-alive',
         },
       );
@@ -54,9 +52,16 @@ abstract class AppModule {
   ) {
     final Dio dio = Dio(option);
     return dio
-      ..transformer = FlutterTransformer()
       ..interceptors.addAll(<Interceptor>[
         //MawahebCookieManager(CookieJar(), logger),
+        // LogInterceptor(
+        //   requestBody: true,
+        //   responseBody: true,
+        //   responseHeader: true,
+        //   requestHeader: true,
+        //   request: true,
+        //   // logPrint: (Object err) => logger.w('LogInterceptor:$err'),
+        // ),
         TokenInterceptor(baseDio: dio, prefsRepository: prefsRepository),
         RetryInterceptor(
           dio: dio,
@@ -73,9 +78,6 @@ abstract class AppModule {
         ),
       ]);
   }
-
-  @lazySingleton
-  DataConnectionChecker getChecker() => DataConnectionChecker();
 
   @Singleton(as: Logger)
   LoggerImpl logger() => LoggerImpl();
