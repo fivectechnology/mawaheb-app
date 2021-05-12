@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/utils.dart';
 import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
+
 // import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -142,8 +143,9 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     children: [
                       InkWell(
                         onTap: () {
-                          context.pushNamed(ForgotPasswordPage.route,
-                              arguments: viewmodel);
+                          context.navigator.push(
+                              ForgotPasswordPage.cupertionPageRoute(
+                                  viewmodel!));
                         },
                         child: Text(
                           context.translate('lbl_forget_password'),
@@ -181,8 +183,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   }),
                   MawahebGradientButton(
                     text: 'lbl_sign_up_player',
-                    onPressed: () => context.pushNamed(RegisterPage.route,
-                        arguments: viewmodel),
+                    onPressed: () => context.navigator
+                        .push(RegisterPage.cupertionPageRoute(viewmodel!)),
                     context: context,
                   ),
                   Padding(

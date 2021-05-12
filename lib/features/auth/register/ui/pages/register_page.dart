@@ -1,6 +1,7 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/mobx/widgets/mobx_loading_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
@@ -27,18 +28,26 @@ class RegisterPage extends StatefulWidget {
 
   static final GlobalKey<State> keyLoader = GlobalKey<State>();
 
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel? authViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
         ),
       );
-
+  static CupertinoPageRoute cupertionPageRoute(AuthViewmodel? authViewmodel) =>
+      CupertinoPageRoute(
+        builder: (context) => Provider.value(
+          value: authViewmodel,
+          child: const RegisterPage(),
+        ),
+      );
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> {
+class _RegisterPageState
+    extends ProviderMobxState<RegisterPage, AuthViewmodel> {
   final PageController _pageController = PageController(keepPage: true);
   late AppViewmodel appViewmodel;
 
@@ -68,13 +77,15 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel?.registerSliderModel, (PageSliderModel? sliderModel) {
+      reaction((_) => viewmodel?.registerSliderModel,
+          (PageSliderModel? sliderModel) {
         slidePage(sliderModel);
         viewmodel?.registerSliderModel = null;
       }),
     ]);
 
-    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)..refreshUserStatus();
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)
+      ..refreshUserStatus();
   }
 
   @override
@@ -104,8 +115,9 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
             return PageView(
               controller: _pageController,
               physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (int pageIndex) =>
-                  !appViewmodel.userRegested! ? changeTitle(pageIndex) : changeTitle2(pageIndex),
+              onPageChanged: (int pageIndex) => !appViewmodel.userRegested!
+                  ? changeTitle(pageIndex)
+                  : changeTitle2(pageIndex),
               // children: viewmodel.prefsRepository.player == null ? pages1 : pages2,
               children: !appViewmodel.userRegested! ? pages1 : pages2,
             );
@@ -165,7 +177,9 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(
+            duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(
+            duration: 400.milliseconds, curve: Curves.easeOut);
   }
 }

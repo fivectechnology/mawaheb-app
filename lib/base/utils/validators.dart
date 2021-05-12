@@ -85,9 +85,16 @@ String? weightValidator({required String value, BuildContext? context}) {
   return null;
 }
 
-// String dateValidator(String date) {
-//   if (date.isEmpty) {
-//     return 'date is empty';
-//   }
-//   return null;
-// }
+String? briefValidator({required String value, BuildContext? context}) {
+  if (value.isEmpty) {
+    return context!.translate('msg_brief_empty');
+  }
+  return null;
+}
+
+String? dateValidator({required String value, BuildContext? context}) {
+  if (value.isEmpty) {
+    return context!.translate('msg_dateOfBirth_empty');
+  }
+  return null;
+}

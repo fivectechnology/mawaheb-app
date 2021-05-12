@@ -26,7 +26,8 @@ class AddSportPage extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AddSportPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const AddSportPage());
 
   static const String route = '/add_sport';
 
@@ -34,7 +35,8 @@ class AddSportPage extends StatefulWidget {
   _AddSportPageState createState() => _AddSportPageState();
 }
 
-class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> {
+class _AddSportPageState
+    extends ProviderMobxState<AddSportPage, AuthViewmodel> {
   final TextEditingController _hightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _briefController = TextEditingController();
@@ -99,7 +101,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel?.showSnack(context.translate('msg_video_size'),
-            scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
+            scaffoldKey: RegisterPage.scaffoldKey,
+            duration: const Duration(seconds: 3));
       }
     } else {
       print('No image selected.');
@@ -124,7 +127,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
         viewmodel?.showSnack(context.translate('msg_video_size'),
-            scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
+            scaffoldKey: RegisterPage.scaffoldKey,
+            duration: const Duration(seconds: 3));
       }
     } else {
       print('No image selected.');
@@ -155,6 +159,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     onChanged: (value) {
                       currentSport = value;
                       viewmodel?.getPositions(sportId: currentSport!.id);
+                      position = null;
                     },
                     items: viewmodel?.sports!
                         .map((em) => DropdownMenuItem(
@@ -181,8 +186,10 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                   if (viewmodel?.positions == null)
                     InkWell(
                       onTap: () {
-                        viewmodel?.showSnack(context.translate('msg_select_sport'),
-                            duration: const Duration(seconds: 3), scaffoldKey: RegisterPage.scaffoldKey);
+                        viewmodel?.showSnack(
+                            context.translate('msg_select_sport'),
+                            duration: const Duration(seconds: 3),
+                            scaffoldKey: RegisterPage.scaffoldKey);
                       },
                       child: mawhaebDropDown(
                         hint: context.translate('lbl_position'),
@@ -196,7 +203,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     hintColor: Colors.grey,
                     context: context,
                     validator: (value) {
-                      return weightValidator(context: context, value: value ?? '');
+                      return weightValidator(
+                          context: context, value: value ?? '');
                     },
                     textEditingController: _weightController,
                   ),
@@ -207,7 +215,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     hintColor: Colors.grey,
                     context: context,
                     validator: (value) {
-                      return heightValidator(context: context, value: value ?? '');
+                      return heightValidator(
+                          context: context, value: value ?? '');
                     },
                     textEditingController: _hightController,
                   ),
@@ -258,18 +267,26 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                         leg = v;
                       }),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.03),
                     child: SizedBox(
                       height: context.fullHeight * 0.15,
                       child: TextFormField(
                         controller: _briefController,
                         maxLines: 10,
+                        validator: (value) {
+                          return briefValidator(
+                              context: context, value: value ?? '');
+                        },
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide: const BorderSide(color: Colors.grey)),
                           hintText: context.translate('msg_brief'),
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
+                          hintStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w200,
+                              fontFamily: 'Poppins'),
                         ),
                       ),
                     ),
@@ -306,8 +323,15 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                         isLoading: viewmodel?.registerLoading ?? false,
                         onPressed: () {
                           if (currentSport == null) {
-                            viewmodel?.showSnack(context.translate('msg_select_sport'),
-                                scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
+                            viewmodel?.showSnack(
+                                context.translate('msg_select_sport'),
+                                scaffoldKey: RegisterPage.scaffoldKey,
+                                duration: const Duration(seconds: 3));
+                          } else if (position == null) {
+                            viewmodel?.showSnack(
+                                context.translate('msg_select_position'),
+                                scaffoldKey: RegisterPage.scaffoldKey,
+                                duration: const Duration(seconds: 3));
                           } else {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
@@ -320,7 +344,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                                 leg: leg,
                                 brief: _briefController.text,
                                 sport: currentSport ?? viewmodel?.sports!.first,
-                                position: position ?? viewmodel?.positions!.first,
+                                position:
+                                    position ?? viewmodel?.positions!.first,
                               );
                             }
                           }
@@ -343,7 +368,10 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
         margin: const EdgeInsets.symmetric(horizontal: 6),
         height: context.fullHeight * 0.14,
         decoration: DottedDecoration(
-            shape: Shape.box, dash: const [10, 10], borderRadius: BorderRadius.circular(10), color: RED),
+            shape: Shape.box,
+            dash: const [10, 10],
+            borderRadius: BorderRadius.circular(10),
+            color: RED),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -364,7 +392,11 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
     );
   }
 
-  Widget currentVideoRow({required BuildContext context, int? videoNumber, int? videoId, int? videoVersion}) {
+  Widget currentVideoRow(
+      {required BuildContext context,
+      int? videoNumber,
+      int? videoId,
+      int? videoVersion}) {
     return Row(
       children: [
         const Icon(
@@ -372,13 +404,16 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
           color: Colors.grey,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02, horizontal: context.fullWidth * 0.03),
+          padding: EdgeInsets.symmetric(
+              vertical: context.fullHeight * 0.02,
+              horizontal: context.fullWidth * 0.03),
           child: Text('video$videoNumber'),
         ),
         const Spacer(),
         InkWell(
             onTap: () {
-              viewmodel?.deleteVideo(videoVersion: videoVersion, videoId: videoId);
+              viewmodel?.deleteVideo(
+                  videoVersion: videoVersion, videoId: videoId);
             },
             child: SvgPicture.asset('assets/icons/ic_delete.svg')),
       ],
@@ -402,7 +437,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     Expanded(
                       child: Text(
                         context.translate('msg_delete_videos_note'),
-                        style: textTheme?.headline2!.copyWith(color: Colors.black, fontSize: 18),
+                        style: textTheme?.headline2!
+                            .copyWith(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
@@ -437,7 +473,9 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
         context: context,
         builder: (BuildContext bc) {
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.08, vertical: context.fullHeight * 0.03),
+            padding: EdgeInsets.symmetric(
+                horizontal: context.fullWidth * 0.08,
+                vertical: context.fullHeight * 0.03),
             child: Wrap(
               children: [
                 InkWell(
@@ -446,7 +484,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     bc.pop();
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.02),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -467,7 +506,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     bc.pop();
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.02),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(

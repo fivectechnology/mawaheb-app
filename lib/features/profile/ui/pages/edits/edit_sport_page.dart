@@ -65,6 +65,7 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
 
     hand = widget.player!.handEn;
     leg = widget.player!.legEn;
+    position = widget.player!.position;
 
     hightController = TextEditingController(text: widget.player!.height);
     weightController = TextEditingController(text: widget.player!.weight);
@@ -106,12 +107,14 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
       body: Observer(builder: (_) {
         print(
             'my debug  123 player:${widget.player?.sport} position:${position} widget.player?.position:${widget.player?.position}, ${viewmodel?.positions}');
-        return viewmodel?.sportLoading == true || viewmodel?.positionsLoading == true
+        return viewmodel?.sportLoading == true ||
+                viewmodel?.positionsLoading == true
             ? const Center(child: MawahebLoader())
             : Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
                   child: ListView(
                     children: [
                       mawhaebDropDown(
@@ -121,6 +124,7 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                         onChanged: (value) {
                           currentSport = value;
                           viewmodel?.getPositions(sportId: currentSport!.id);
+                          position = null;
                         },
                         items: viewmodel?.sports
                                 ?.map((em) => DropdownMenuItem(
@@ -133,7 +137,9 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                       const SizedBox(height: 26),
                       if (viewmodel?.positions != null)
                         mawhaebDropDown<SportPositionModel?>(
-                          value: currentSport == null ? widget.player!.position : null,
+                          value: currentSport == null
+                              ? widget.player!.position
+                              : null,
                           hint: context.translate('lbl_position'),
                           context: context,
                           onChanged: (value) {
@@ -168,7 +174,8 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                         hintText: context.translate('lbl_weight'),
                         hintColor: Colors.grey,
                         validator: (value) {
-                          return weightValidator(context: context, value: value ?? '');
+                          return weightValidator(
+                              context: context, value: value ?? '');
                         },
                         textEditingController: weightController,
                         context: context,
@@ -180,7 +187,8 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                         hintColor: Colors.grey,
                         context: context,
                         validator: (value) {
-                          return heightValidator(context: context, value: value ?? '');
+                          return heightValidator(
+                              context: context, value: value ?? '');
                         },
                         // onChanged: (value) {
                         //   hightController.text = value;
@@ -234,19 +242,27 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                             leg = v;
                           }),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
+                        padding: EdgeInsets.symmetric(
+                            vertical: context.fullHeight * 0.03),
                         child: SizedBox(
                           height: context.fullHeight * 0.15,
                           child: TextFormField(
                             controller: briefController,
                             maxLines: 10,
+                            validator: (value) {
+                              return briefValidator(
+                                  context: context, value: value ?? '');
+                            },
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(6),
-                                  borderSide: const BorderSide(color: Colors.grey)),
+                                  borderSide:
+                                      const BorderSide(color: Colors.grey)),
                               hintText: context.translate('msg_brief'),
                               hintStyle: const TextStyle(
-                                  color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w200,
+                                  fontFamily: 'Poppins'),
                             ),
                           ),
                         ),
@@ -262,18 +278,29 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                             isLoading: viewmodel!.playerLoading,
                             progressColor: RED,
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
+                              if (position == null) {
+                                viewmodel?.showSnack(
+                                    context.translate('msg_select_position'),
+                                    scaffoldKey: EditSportPage.scaffoldKey,
+                                    duration: const Duration(seconds: 3));
+                              } else {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
 
-                                viewmodel?.editSportInfo(
-                                  height: double.parse(hightController.text).toInt(),
-                                  weight: double.parse(weightController.text).toInt(),
-                                  hand: hand ?? viewmodel?.player!.hand,
-                                  leg: leg ?? viewmodel?.player!.leg,
-                                  brief: briefController.text,
-                                  sport: currentSport ?? viewmodel?.player!.sport,
-                                  position: position ?? viewmodel?.player!.position,
-                                );
+                                  viewmodel?.editSportInfo(
+                                    height: double.parse(hightController.text)
+                                        .toInt(),
+                                    weight: double.parse(weightController.text)
+                                        .toInt(),
+                                    hand: hand ?? viewmodel?.player!.hand,
+                                    leg: leg ?? viewmodel?.player!.leg,
+                                    brief: briefController.text,
+                                    sport: currentSport ??
+                                        viewmodel?.player!.sport,
+                                    position:
+                                        position ?? viewmodel?.player!.position,
+                                  );
+                                }
                               }
                             },
                             context: context,
