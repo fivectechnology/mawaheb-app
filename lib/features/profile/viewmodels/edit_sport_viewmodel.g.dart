@@ -9,6 +9,20 @@ part of 'edit_sport_viewmodel.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
+  Computed<PlayerModel?>? _$playerComputed;
+
+  @override
+  PlayerModel? get player =>
+      (_$playerComputed ??= Computed<PlayerModel?>(() => super.player,
+              name: '_EditSportViewmodelBase.player'))
+          .value;
+  Computed<bool>? _$playerLoadingComputed;
+
+  @override
+  bool get playerLoading =>
+      (_$playerLoadingComputed ??= Computed<bool>(() => super.playerLoading,
+              name: '_EditSportViewmodelBase.playerLoading'))
+          .value;
   Computed<List<SportModel>?>? _$sportsComputed;
 
   @override
@@ -36,20 +50,6 @@ mixin _$EditSportViewmodel on _EditSportViewmodelBase, Store {
   bool get sportLoading =>
       (_$sportLoadingComputed ??= Computed<bool>(() => super.sportLoading,
               name: '_EditSportViewmodelBase.sportLoading'))
-          .value;
-  Computed<PlayerModel?>? _$playerComputed;
-
-  @override
-  PlayerModel? get player =>
-      (_$playerComputed ??= Computed<PlayerModel?>(() => super.player,
-              name: '_EditSportViewmodelBase.player'))
-          .value;
-  Computed<bool>? _$playerLoadingComputed;
-
-  @override
-  bool get playerLoading =>
-      (_$playerLoadingComputed ??= Computed<bool>(() => super.playerLoading,
-              name: '_EditSportViewmodelBase.playerLoading'))
           .value;
 
   final _$playerFutureAtom = Atom(name: '_EditSportViewmodelBase.playerFuture');
@@ -183,12 +183,12 @@ playerFuture: ${playerFuture},
 sportFuture: ${sportFuture},
 positionFuture: ${positionFuture},
 editSportPlayerFuture: ${editSportPlayerFuture},
+player: ${player},
+playerLoading: ${playerLoading},
 sports: ${sports},
 positions: ${positions},
 positionsLoading: ${positionsLoading},
-sportLoading: ${sportLoading},
-player: ${player},
-playerLoading: ${playerLoading}
+sportLoading: ${sportLoading}
     ''';
   }
 }

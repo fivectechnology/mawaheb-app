@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 
 Widget mawhaebDropDown<T>({
+  Key? key,
   required String hint,
   String? helperText,
   required BuildContext context,
@@ -11,6 +12,7 @@ Widget mawhaebDropDown<T>({
   Function? onChanged,
 }) {
   return DropdownButtonFormField(
+    key: key,
     value: value,
     decoration: InputDecoration(
       helperText: helperText,

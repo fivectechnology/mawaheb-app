@@ -86,6 +86,7 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
   Future<NetworkResult<bool?>> changeEmail({String? email, int? code}) {
     return mawahebRequest(
       method: METHOD.POST,
+      mapper: BaseResponseModel.successMapper,
       endpoint: BASE_API + WEB_SERVICE + '/auth/email/change/update',
       data: {
         'data': {

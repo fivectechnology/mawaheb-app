@@ -442,6 +442,7 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource implements AuthDataSour
     return mawahebRequest(
       method: METHOD.POST,
       endpoint: BASE_PUBLIC_API + '/auth/password/forgot/update',
+      mapper: BaseResponseModel.successMapper,
       data: {
         'data': {'username': email, 'password': password, 'code': code}
       },

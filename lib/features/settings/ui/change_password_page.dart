@@ -1,4 +1,5 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/mobx/widgets/mobx_loading_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,10 @@ import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'package:mawaheb_app/features/auth/data/models/otp_response_model.dart';
 import 'package:mawaheb_app/features/settings/viewmodels/settings_viewmodel.dart';
+import 'package:mobx/mobx.dart';
+
 import 'package:provider/provider.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -65,6 +69,23 @@ class _ChangePasswordPageState extends ProviderMobxState<ChangePasswordPage, Set
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // addSideEffects([
+    //   reaction((_) => viewmodel?.forgotPasswordSliderModel, (PageSliderModel? sliderModel) {
+    //     slidePage(sliderModel);
+    //     viewmodel?.forgotPasswordSliderModel = null;
+    //   }),
+    // ]);
+    // addSideEffects([
+    //   reaction(
+    //     (_) => viewmodel?.verifyOTPFuture?.value,
+    //     (OTPResponseModel? res) => res?.apply(() => context.pop()),
+    //   )
+    // ]);
   }
 
   @override

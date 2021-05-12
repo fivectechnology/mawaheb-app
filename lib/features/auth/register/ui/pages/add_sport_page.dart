@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:core_sdk/utils/widgets/loading_page.dart';
 import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -140,199 +141,203 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
     };
 
     return Observer(builder: (_) {
-      return viewmodel?.sportLoading == true ||
-              viewmodel?.positionsLoading == true ||
-              viewmodel?.deleteVideoLoading == true
-          ? const Center(child: MawahebLoader())
-          : Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  mawhaebDropDown(
-                    value: currentSport,
-                    hint: context.translate('lbl_sport_name'),
-                    context: context,
-                    onChanged: (value) {
-                      currentSport = value;
-                      viewmodel?.getPositions(sportId: currentSport!.id);
-                    },
-                    items: viewmodel?.sports!
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.name!),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 26),
-                  if (viewmodel?.positions != null)
-                    mawhaebDropDown(
-                      hint: context.translate('lbl_position'),
-                      context: context,
-                      onChanged: (value) {
-                        position = value;
-                      },
-                      items: viewmodel?.positions!
-                          .map((em) => DropdownMenuItem(
-                                child: Text(em.name!),
-                                value: em,
-                              ))
-                          .toList(),
-                    ),
-                  if (viewmodel?.positions == null)
-                    InkWell(
-                      onTap: () {
-                        viewmodel?.showSnack(context.translate('msg_select_sport'),
-                            duration: const Duration(seconds: 3), scaffoldKey: RegisterPage.scaffoldKey);
-                      },
-                      child: mawhaebDropDown(
-                        hint: context.translate('lbl_position'),
-                        context: context,
-                      ),
-                    ),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                    keyboardType: TextInputType.number,
-                    hintText: context.translate('lbl_weight'),
-                    hintColor: Colors.grey,
-                    context: context,
-                    validator: (value) {
-                      return weightValidator(context: context, value: value ?? '');
-                    },
-                    textEditingController: _weightController,
-                  ),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                    keyboardType: TextInputType.number,
-                    hintText: context.translate('lbl_hight'),
-                    hintColor: Colors.grey,
-                    context: context,
-                    validator: (value) {
-                      return heightValidator(context: context, value: value ?? '');
-                    },
-                    textEditingController: _hightController,
-                  ),
-                  const SizedBox(height: 26),
-                  mawhaebDropDown(
-                      value: hand,
-                      hint: context.translate('lbl_prefer_hand'),
-                      context: context,
-                      items: test
-                          .map((key, value) {
-                            return MapEntry(
-                                key,
-                                DropdownMenuItem(
-                                  value: key,
-                                  child: Text(value),
-                                ));
-                          })
-                          .values
-                          .toList(),
-                      // ['RIGHT', 'LEFT', 'BOTH']
-                      //     .map((e) => DropdownMenuItem(
-                      //           child: Text(e),
-                      //           value: e,
-                      //         ))
-                      //     .toList(),
-                      onChanged: (v) {
-                        hand = v;
-                      }),
-                  const SizedBox(height: 26),
-                  mawhaebDropDown(
-                      value: leg,
-                      hint: context.translate('lbl_prefer_leg'),
-                      context: context,
-                      items: test
-                          .map((key, value) {
-                            return MapEntry(
-                                key,
-                                DropdownMenuItem(
-                                  value: key,
-                                  child: Text(value),
-                                ));
-                          })
-                          .values
-                          .toList(),
-                      onChanged: (v) {
-                        print(v);
-                        print(leg);
-                        leg = v;
-                      }),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
-                    child: SizedBox(
-                      height: context.fullHeight * 0.15,
-                      child: TextFormField(
-                        controller: _briefController,
-                        maxLines: 10,
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
-                          hintText: context.translate('msg_brief'),
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  uploadSpace(onPress: () {
-                    if (viewmodel?.videos.length == 3) {
-                      _deleteSomeVideosBottomSheet(context: context);
-                    } else {
-                      _optionPickerBottomSheet(context: context);
-
-                      // getVideo();
-                    }
-                  }),
-                  const SizedBox(height: 26),
-                  Observer(builder: (_) {
-                    return ListView.builder(
-                        padding: const EdgeInsets.only(top: 52),
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: viewmodel?.videos.length,
-                        itemBuilder: (context, index) {
-                          return currentVideoRow(
-                              context: context,
-                              videoNumber: index + 1,
-                              videoId: viewmodel?.videos[index].id,
-                              videoVersion: viewmodel?.videos[index].version);
-                        });
-                  }),
-                  const SizedBox(height: 26),
-                  Observer(
-                    builder: (_) {
-                      return MawahebGradientButton(
-                        text: context.translate('lbl_next'),
-                        isLoading: viewmodel?.registerLoading ?? false,
-                        onPressed: () {
-                          if (currentSport == null) {
-                            viewmodel?.showSnack(context.translate('msg_select_sport'),
-                                scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
-                          } else {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              viewmodel?.addSportInfo(
-                                height: int.parse(_hightController.text),
-                                weight: int.parse(_weightController.text),
-                                // hand: hand ?? 'RIGHT',
-                                // leg: leg ?? 'RIGHT',
-                                hand: hand,
-                                leg: leg,
-                                brief: _briefController.text,
-                                sport: currentSport ?? viewmodel?.sports!.first,
-                                position: position ?? viewmodel?.positions!.first,
-                              );
-                            }
-                          }
-                        },
-                        context: context,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 34),
-                ],
+      return LoadingPage(
+        isLoading: viewmodel?.sportLoading == true ||
+            viewmodel?.positionsLoading == true ||
+            viewmodel?.deleteVideoLoading == true,
+        loadingWidget: const Center(child: MawahebLoader()),
+        barrierColor: WHITE,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            children: [
+              mawhaebDropDown(
+                value: currentSport,
+                hint: context.translate('lbl_sport_name'),
+                context: context,
+                onChanged: (value) {
+                  currentSport = value;
+                  viewmodel?.getPositions(sportId: currentSport!.id);
+                },
+                items: viewmodel?.sports!
+                    .map((em) => DropdownMenuItem(
+                          child: Text(em.name!),
+                          value: em,
+                        ))
+                    .toList(),
               ),
-            );
+              const SizedBox(height: 26),
+              if (viewmodel?.positions != null)
+                mawhaebDropDown(
+                  hint: context.translate('lbl_position'),
+                  context: context,
+                  onChanged: (value) {
+                    position = value;
+                  },
+                  items: viewmodel?.positions!
+                      .map((em) => DropdownMenuItem(
+                            child: Text(em.name!),
+                            value: em,
+                          ))
+                      .toList(),
+                ),
+              if (viewmodel?.positions == null)
+                InkWell(
+                  onTap: () {
+                    viewmodel?.showSnack(context.translate('msg_select_sport'),
+                        duration: const Duration(seconds: 3), scaffoldKey: RegisterPage.scaffoldKey);
+                  },
+                  child: mawhaebDropDown(
+                    hint: context.translate('lbl_position'),
+                    context: context,
+                  ),
+                ),
+              const SizedBox(height: 26),
+              MawahebTextField(
+                keyboardType: TextInputType.number,
+                hintText: context.translate('lbl_weight'),
+                hintColor: Colors.grey,
+                context: context,
+                validator: (value) {
+                  return weightValidator(context: context, value: value ?? '');
+                },
+                textEditingController: _weightController,
+              ),
+              const SizedBox(height: 26),
+              MawahebTextField(
+                keyboardType: TextInputType.number,
+                hintText: context.translate('lbl_hight'),
+                hintColor: Colors.grey,
+                context: context,
+                validator: (value) {
+                  return heightValidator(context: context, value: value ?? '');
+                },
+                textEditingController: _hightController,
+              ),
+              const SizedBox(height: 26),
+              mawhaebDropDown(
+                  value: hand,
+                  hint: context.translate('lbl_prefer_hand'),
+                  context: context,
+                  items: test
+                      .map((key, value) {
+                        return MapEntry(
+                            key,
+                            DropdownMenuItem(
+                              value: key,
+                              child: Text(value),
+                            ));
+                      })
+                      .values
+                      .toList(),
+                  // ['RIGHT', 'LEFT', 'BOTH']
+                  //     .map((e) => DropdownMenuItem(
+                  //           child: Text(e),
+                  //           value: e,
+                  //         ))
+                  //     .toList(),
+                  onChanged: (v) {
+                    hand = v;
+                  }),
+              const SizedBox(height: 26),
+              mawhaebDropDown(
+                  value: leg,
+                  hint: context.translate('lbl_prefer_leg'),
+                  context: context,
+                  items: test
+                      .map((key, value) {
+                        return MapEntry(
+                            key,
+                            DropdownMenuItem(
+                              value: key,
+                              child: Text(value),
+                            ));
+                      })
+                      .values
+                      .toList(),
+                  onChanged: (v) {
+                    print(v);
+                    print(leg);
+                    leg = v;
+                  }),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
+                child: SizedBox(
+                  height: context.fullHeight * 0.15,
+                  child: TextFormField(
+                    controller: _briefController,
+                    maxLines: 10,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
+                      hintText: context.translate('msg_brief'),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
+                    ),
+                  ),
+                ),
+              ),
+              uploadSpace(onPress: () {
+                if (viewmodel?.videos.length == 3) {
+                  _deleteSomeVideosBottomSheet(context: context);
+                } else {
+                  _optionPickerBottomSheet(context: context);
+
+                  // getVideo();
+                }
+              }),
+              const SizedBox(height: 26),
+              Observer(builder: (_) {
+                return ListView.builder(
+                    padding: const EdgeInsets.only(top: 52),
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: viewmodel?.videos.length,
+                    itemBuilder: (context, index) {
+                      return currentVideoRow(
+                          context: context,
+                          videoNumber: index + 1,
+                          videoId: viewmodel?.videos[index].id,
+                          videoVersion: viewmodel?.videos[index].version);
+                    });
+              }),
+              const SizedBox(height: 26),
+              Observer(
+                builder: (_) {
+                  return MawahebGradientButton(
+                    text: context.translate('lbl_next'),
+                    isLoading: viewmodel?.registerLoading ?? false,
+                    onPressed: () {
+                      if (currentSport == null) {
+                        viewmodel?.showSnack(context.translate('msg_select_sport'),
+                            scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
+                      } else {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          viewmodel?.addSportInfo(
+                            height: int.parse(_hightController.text),
+                            weight: int.parse(_weightController.text),
+                            // hand: hand ?? 'RIGHT',
+                            // leg: leg ?? 'RIGHT',
+                            hand: hand,
+                            leg: leg,
+                            brief: _briefController.text,
+                            sport: currentSport ?? viewmodel?.sports!.first,
+                            position: position ?? viewmodel?.positions!.first,
+                          );
+                        }
+                      }
+                    },
+                    context: context,
+                  );
+                },
+              ),
+              const SizedBox(height: 34),
+            ],
+          ),
+        ),
+      );
     });
   }
 

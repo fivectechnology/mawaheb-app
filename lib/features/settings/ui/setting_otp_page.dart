@@ -20,7 +20,7 @@ class SettingOtpPage extends StatefulWidget {
   static const String route = '/setting_otp';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute<bool> pageRoute(SettingsViewmodel? settingsViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const SettingOtpPage(),

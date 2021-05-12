@@ -145,6 +145,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
         return viewmodel?.videosLoading != false || viewmodel?.deleteVideoLoading == true
             ? const Center(child: MawahebLoader())
             : SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     if (viewmodel?.videos != null)

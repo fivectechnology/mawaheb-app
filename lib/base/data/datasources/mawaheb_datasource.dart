@@ -110,6 +110,7 @@ class MawahebRemoteDataSource extends BaseRemoteDataSourceImpl {
         }
 
         if ((jsonResponse['status'] as int?) != 0) {
+          // TODO(abd): we should check -1 status with proper data message to make relogin
           throw ServerException(_getErrorMessage(jsonResponse));
         }
 

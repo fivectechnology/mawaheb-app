@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:core_sdk/error/failures.dart';
+import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:core_sdk/utils/network_result.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -57,7 +58,7 @@ class DownloadHelper {
           final String contentHeader = headers.value('content-disposition')!;
           final resPath = contentHeader.substring(contentHeader.lastIndexOf('=') + 2, contentHeader.length - 1);
           filePath = folderPath + '${DateTime.now().microsecondsSinceEpoch}_${resPath.trim()}';
-          return filePath;
+          return filePath as String;
         },
         options: Options(
           method: 'GET',
@@ -71,7 +72,7 @@ class DownloadHelper {
         // },
       ).then((res) {
         if (openWhenFinish) {
-          OpenFile.open(filePath);
+          filePath?.apply(() => OpenFile.open(filePath));
         }
         return res;
       }).whenComplete(() => onSuccess(filePath));

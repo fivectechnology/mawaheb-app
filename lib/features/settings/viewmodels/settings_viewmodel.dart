@@ -163,7 +163,12 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
             (res) => res?.apply(() {
               logger.d('otp success with res: $res');
               if (!resend) {
-                getContext((context) => context.navigator.push(SettingOtpPage.pageRoute(this as SettingsViewmodel)));
+                getContext((context) async {
+                  final bool? done = await context.navigator.push(SettingOtpPage.pageRoute(this as SettingsViewmodel));
+                  if (done ?? false) {
+                    context.pop();
+                  }
+                });
               } else {
                 //showSnack()
               }
@@ -194,8 +199,8 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
         logger.d('otp verify success with res: $res');
         await _settingsRepository
             .changeEmail(email: player!.email, code: res?.data.data)
-            .whenSuccess((res) => res)
-            .then((res) => logoutAsFuture());
+            .whenSuccess((res) => res?.apply(() => getContext((context) => context.pop(true))));
+
         return res!.data;
       }),
       catchBlock: (err) => getContext(
@@ -221,8 +226,8 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     changePasswordFuture = futureWrapper(
       () => _settingsRepository
           .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player!.id)
-          .whenSuccess((res) => res)
-          .then((res) => logoutAsFuture()),
+          .whenSuccess((res) => res?.apply(() => getContext((context) => context.pop()))),
+      // .then((res) => logoutAsFuture()),
       catchBlock: (err) => showSnack(
         err!,
         duration: 2.seconds,
