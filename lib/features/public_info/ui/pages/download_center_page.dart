@@ -35,8 +35,8 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.downloads == null) {
-      viewmodel.getDownloads();
+    if (viewmodel?.downloads == null) {
+      viewmodel?.getDownloads();
     }
   }
 
@@ -47,8 +47,8 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.02),
         child: MawahebFutureBuilder<List<DownloadCenterModel>>(
-            future: viewmodel.downloadsFuture,
-            onRetry: viewmodel.getDownloads,
+            future: viewmodel?.downloadsFuture,
+            onRetry: viewmodel?.getDownloads ?? () {},
             onSuccess: (downloads) {
               return downloads == null
                   ? const SizedBox()
@@ -58,7 +58,7 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                       itemCount: downloads.length,
                       itemBuilder: (context, index) {
                         return downloadButton(
-                          fileName: viewmodel.prefsRepository.languageCode == 'en'
+                          fileName: viewmodel?.prefsRepository.languageCode == 'en'
                               ? downloads[index].title!
                               : downloads[index].titleAr!,
                           id: downloads[index].source!.id,
@@ -81,7 +81,7 @@ class _DownLoadCenterPageState extends ProviderMobxState<DownLoadCenterPage, Pub
                 'assets/icons/ic_download.png',
               ),
               const SizedBox(width: 10),
-              Expanded(child: Text(fileName, style: textTheme.bodyText1!.copyWith(color: DARK_GREY)))
+              Expanded(child: Text(fileName, style: textTheme?.bodyText1!.copyWith(color: DARK_GREY)))
             ],
           ),
           Row(

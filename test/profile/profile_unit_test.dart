@@ -48,7 +48,7 @@ void main() {
         prefsRepository: prefsRepository,
       );
 
-      profileRepository = ProfileRepositoryImpl(profileDataSource!, prefsRepository);
+      profileRepository = ProfileRepositoryImpl(profileDataSource!, prefsRepository!);
     });
 
     tearDown(() {

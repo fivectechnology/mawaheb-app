@@ -69,7 +69,7 @@ class _ResetPasswordPageeState extends ProviderMobxState<ResetPasswordPagee, Aut
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    viewmodel.resetPassword(password: _confirmPasswordController.text);
+                    viewmodel?.resetPassword(password: _confirmPasswordController.text);
                   }
                 },
                 context: context,

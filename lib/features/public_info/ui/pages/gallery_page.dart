@@ -33,8 +33,8 @@ class _GalleryPageState extends ProviderMobxState<GalleryPage, PublicInfoViewmod
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.gallery == null) {
-      viewmodel.getGallery();
+    if (viewmodel?.gallery == null) {
+      viewmodel?.getGallery();
     }
   }
 
@@ -43,8 +43,8 @@ class _GalleryPageState extends ProviderMobxState<GalleryPage, PublicInfoViewmod
     return Scaffold(
         backgroundColor: WHITE,
         body: MawahebFutureBuilder<List<GalleryModel>>(
-            future: viewmodel.galleryFuture,
-            onRetry: viewmodel.getGallery,
+            future: viewmodel?.galleryFuture,
+            onRetry: viewmodel?.getGallery ?? () {},
             onSuccess: (gallery) {
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),
@@ -53,8 +53,8 @@ class _GalleryPageState extends ProviderMobxState<GalleryPage, PublicInfoViewmod
                   itemBuilder: (context, index) {
                     return imageRow(
                         context: context,
-                        token: viewmodel.prefsRepository.token,
-                        title: viewmodel.prefsRepository.languageCode == 'en'
+                        token: viewmodel?.prefsRepository.token,
+                        title: viewmodel?.prefsRepository.languageCode == 'en'
                             ? gallery![index].title!
                             : gallery![index].titleAr!,
                         sourceId: gallery[index].sourceId);

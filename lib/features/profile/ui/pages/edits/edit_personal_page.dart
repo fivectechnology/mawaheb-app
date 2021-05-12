@@ -46,6 +46,8 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
 
   final _formKey = GlobalKey<FormState>();
 
+  bool dirty = false;
+
   CountryModel? currentCountry;
   CategoryModel? currentCategory;
   String? gender;
@@ -58,20 +60,22 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
 
   final picker = ImagePicker();
 
+  void markAsDirty() => dirty = true;
+
   @override
   void initState() {
     super.initState();
 
-    if (viewmodel.player == null) {
-      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player!.id);
+    if (viewmodel?.player == null) {
+      viewmodel?.fetchPlayer(id: viewmodel?.prefsRepository.player!.id);
     }
 
-    if (viewmodel.categories == null) {
-      viewmodel.getCategories();
+    if (viewmodel?.categories == null) {
+      viewmodel?.getCategories();
     }
 
-    if (viewmodel.countries == null) {
-      viewmodel.getCountries();
+    if (viewmodel?.countries == null) {
+      viewmodel?.getCountries();
     }
 
     _nameController = TextEditingController(text: widget.player!.name);
@@ -92,14 +96,14 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
     super.didChangeDependencies();
     print('my debug didChangeDependencies1');
 
-    // if (viewmodel.categoryFuture == null) {
-    //   viewmodel.getCategories();
+    // if (viewmodel?.categoryFuture == null) {
+    //   viewmodel?.getCategories();
     // }
-    // if (viewmodel.countryFuture == null) {
-    //   viewmodel.getCountries();
+    // if (viewmodel?.countryFuture == null) {
+    //   viewmodel?.getCountries();
     // }
-    if (viewmodel.image != null) {
-      viewmodel.imageFile;
+    if (viewmodel?.image != null) {
+      viewmodel?.imageFile;
     }
   }
 
@@ -107,10 +111,10 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      viewmodel.image = File(pickedFile.path);
-      fileName = viewmodel.image!.path.split('/').last;
+      viewmodel?.image = File(pickedFile.path);
+      fileName = viewmodel?.image!.path.split('/').last;
       fileType = 'image/' + fileName!.split('.').last;
-      fileSize = await viewmodel.image!.length();
+      fileSize = await viewmodel?.image!.length();
     } else {
       print('No image selected.');
     }
@@ -137,14 +141,13 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
     return Scaffold(
       backgroundColor: WHITE,
       appBar: customAppBar(
-          context: context,
-          title: 'lbl_personal_info',
-          withTitle: true,
-          onBackButton: () {
-            context.navigator.pop();
-          }) as PreferredSizeWidget?,
+        context: context,
+        title: 'lbl_personal_info',
+        withTitle: true,
+        onBackButton: () => context.navigator.pop(dirty),
+      ) as PreferredSizeWidget?,
       body: Observer(builder: (_) {
-        return viewmodel.countries == null || viewmodel.categories == null
+        return viewmodel?.countries == null || viewmodel?.categories == null
             ? const Center(child: MawahebLoader())
             : Form(
                 key: _formKey,
@@ -161,6 +164,7 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                         textEditingController: _nameController,
                         context: context,
                         validator: (value) {
+                          markAsDirty();
                           return nameValidator(context: context, name: value ?? '');
                         },
                       ),
@@ -169,22 +173,25 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                         onTap: () => _selectDate(context),
                         child: AbsorbPointer(
                           child: MawahebTextField(
-                              hintText: 'lbl_date_of_birth',
-                              hintColor: Colors.grey,
-                              textEditingController: _dateOfBirth,
-                              context: context),
+                            hintText: 'lbl_date_of_birth',
+                            hintColor: Colors.grey,
+                            textEditingController: _dateOfBirth,
+                            context: context,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 26),
                       MawahebTextField(
-                          keyboardType: TextInputType.phone,
-                          hintText: 'lbl_phone_num',
-                          hintColor: Colors.grey,
-                          textEditingController: _phoneController,
-                          validator: (value) {
-                            return phoneValidator(context: context, phone: value ?? '');
-                          },
-                          context: context),
+                        keyboardType: TextInputType.phone,
+                        hintText: 'lbl_phone_num',
+                        hintColor: Colors.grey,
+                        textEditingController: _phoneController,
+                        validator: (value) {
+                          markAsDirty();
+                          return phoneValidator(context: context, phone: value ?? '');
+                        },
+                        context: context,
+                      ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
                         value: widget.player!.country,
@@ -193,7 +200,7 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                         onChanged: (value) {
                           currentCountry = value;
                         },
-                        items: viewmodel.countries!
+                        items: viewmodel?.countries!
                             .map((em) => DropdownMenuItem(
                                   child: Text(em.name!),
                                   value: em,
@@ -206,9 +213,10 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                         hint: 'lbl_category',
                         context: context,
                         onChanged: (value) {
+                          markAsDirty();
                           currentCategory = value;
                         },
-                        items: viewmodel.categories!
+                        items: viewmodel?.categories!
                             .map((em) => DropdownMenuItem(
                                   child: Text(em.title!),
                                   value: em,
@@ -222,6 +230,7 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                           hint: 'lbl_gender',
                           context: context,
                           onChanged: (value) {
+                            markAsDirty();
                             gender = value;
                           },
                           items: [context.translate('lbl_male')]
@@ -242,46 +251,47 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                               borderColor: Colors.black,
                               buttonColor: WHITE,
                               progressColor: RED,
-                              isLoading: viewmodel.personalLoading,
+                              isLoading: viewmodel?.personalLoading ?? false,
                               onPressed: () async {
-                                if (viewmodel.image != null) {
-                                  viewmodel.uploadImage(
-                                      playerId: viewmodel.player!.id,
-                                      playerVersion: viewmodel.player!.version,
-                                      file: viewmodel.image,
-                                      fileType: fileType,
-                                      fileName: fileName,
-                                      fileSize: fileSize);
+                                if (viewmodel?.image != null) {
+                                  viewmodel?.uploadImage(
+                                    playerId: viewmodel?.player!.id,
+                                    playerVersion: viewmodel?.player!.version,
+                                    file: viewmodel?.image,
+                                    fileType: fileType,
+                                    fileName: fileName,
+                                    fileSize: fileSize,
+                                  );
 
-                                  viewmodel.editPersonalInfo(
+                                  viewmodel?.editPersonalInfo(
                                     phone:
-                                        _phoneController.text != '' ? _phoneController.text : viewmodel.player!.phone,
-                                    name: _nameController.text != '' ? _nameController.text : viewmodel.player!.name,
+                                        _phoneController.text != '' ? _phoneController.text : viewmodel?.player!.phone,
+                                    name: _nameController.text != '' ? _nameController.text : viewmodel?.player!.name,
                                     gender: 'MALE',
-                                    dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
-                                    categoryModel: currentCategory ?? viewmodel.player!.category,
-                                    country: currentCountry ?? viewmodel.player!.country,
+                                    dateOfBirth: dateOfBirth ?? viewmodel?.player!.dateOfBirth,
+                                    categoryModel: currentCategory ?? viewmodel?.player!.category,
+                                    country: currentCountry ?? viewmodel?.player!.country,
                                   );
                                   uploadingVideoLoader(
                                       context: context, key: EditPersonalPage.keyLoader, text: 'msg_uploading_image');
                                 } else {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    // viewmodel.editPersonalInfo(
-                                    //   phone: _phoneController.text ?? viewmodel.player!.phone,
-                                    //   name: _nameController.text ?? viewmodel.player as String?,
+                                    // viewmodel?.editPersonalInfo(
+                                    //   phone: _phoneController.text ?? viewmodel?.player!.phone,
+                                    //   name: _nameController.text ?? viewmodel?.player as String?,
                                     //   gender: 'MALE',
-                                    //   dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
-                                    //   categoryModel: currentCategory ?? viewmodel.player!.category,
-                                    //   country: currentCountry ?? viewmodel.player!.country,
+                                    //   dateOfBirth: dateOfBirth ?? viewmodel?.player!.dateOfBirth,
+                                    //   categoryModel: currentCategory ?? viewmodel?.player!.category,
+                                    //   country: currentCountry ?? viewmodel?.player!.country,
                                     // );
-                                    viewmodel.editPersonalInfo(
+                                    viewmodel?.editPersonalInfo(
                                       phone: _phoneController.text,
                                       name: _nameController.text,
                                       gender: 'MALE',
-                                      dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
-                                      categoryModel: currentCategory ?? viewmodel.player!.category,
-                                      country: currentCountry ?? viewmodel.player!.country,
+                                      dateOfBirth: dateOfBirth ?? viewmodel?.player!.dateOfBirth,
+                                      categoryModel: currentCategory ?? viewmodel?.player!.category,
+                                      country: currentCountry ?? viewmodel?.player!.country,
                                     );
                                   }
                                 }
@@ -312,7 +322,7 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey, width: 2.0),
             ),
-            child: viewmodel.imageFile == null
+            child: viewmodel?.imageFile == null
                 ? IconButton(
                     onPressed: () async {
                       await getImage();
@@ -323,7 +333,7 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                     ),
                   )
                 : CircleAvatar(
-                    backgroundImage: FileImage(viewmodel.imageFile!),
+                    backgroundImage: FileImage(viewmodel!.imageFile!),
                     radius: 200.0,
                   ),
           ),

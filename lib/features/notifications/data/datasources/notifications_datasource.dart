@@ -42,7 +42,7 @@ class NotificationsDataSourceImpl extends MawahebRemoteDataSource implements Not
           method: METHOD.POST,
           modelName: 'NotificationMessage',
           action: EndPointAction.search,
-          mapper: ListBaseResponseModel.fromJson(NotificationModel.fromJson) as ListBaseResponseModel<NotificationModel> Function(Object?)?,
+          mapper: ListBaseResponseModel.fromJson(NotificationModel.fromJson),
           data: {
             'fields': ['id', 'version', 'readDate', 'recordId', 'sendDate', 'type', 'template', 'params'],
             'sortBy': ['-sendDate'],

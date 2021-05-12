@@ -21,14 +21,14 @@ class ChangeEmailPage extends StatefulWidget {
   static const String route = '/change_email';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(SettingsViewmodel? settingsViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const ChangeEmailPage(),
         ),
       );
 
-  static CupertinoPageRoute cupertionPageRoute(SettingsViewmodel settingsViewmodel) => CupertinoPageRoute(
+  static CupertinoPageRoute cupertionPageRoute(SettingsViewmodel? settingsViewmodel) => CupertinoPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const ChangeEmailPage(),
@@ -106,12 +106,12 @@ class _ChangeEmailPageState extends ProviderMobxState<ChangeEmailPage, SettingsV
                     padding: EdgeInsets.only(top: context.fullHeight * 0.05, bottom: context.fullHeight * 0.04),
                     child: MawahebGradientButton(
                       text: 'lbl_change_email',
-                      isLoading: viewmodel.otpLoading,
+                      isLoading: viewmodel?.otpLoading ?? false,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          viewmodel.sendOTP(
+                          viewmodel?.sendOTP(
                             email: _emailController.text,
                             password: _passwordController.text,
                           );

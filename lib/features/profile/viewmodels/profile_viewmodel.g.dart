@@ -86,13 +86,13 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
           Computed<List<EmirateModel>?>(() => super.emirates,
               name: '_ProfileViewmodelBase.emirates'))
       .value;
-  Computed<List<ViewModel>?>? _$viewsComputed;
+  Computed<ListBaseResponseModel<ViewModel>?>? _$viewsComputed;
 
   @override
-  List<ViewModel>? get views =>
-      (_$viewsComputed ??= Computed<List<ViewModel>?>(() => super.views,
+  ListBaseResponseModel<ViewModel>? get views => (_$viewsComputed ??=
+          Computed<ListBaseResponseModel<ViewModel>?>(() => super.views,
               name: '_ProfileViewmodelBase.views'))
-          .value;
+      .value;
   Computed<bool>? _$deleteVideoLoadingComputed;
 
   @override
@@ -142,6 +142,13 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
       (_$imageFileComputed ??= Computed<File?>(() => super.imageFile,
               name: '_ProfileViewmodelBase.imageFile'))
           .value;
+  Computed<bool>? _$canLoadMoreViewsComputed;
+
+  @override
+  bool get canLoadMoreViews => (_$canLoadMoreViewsComputed ??= Computed<bool>(
+          () => super.canLoadMoreViews,
+          name: '_ProfileViewmodelBase.canLoadMoreViews'))
+      .value;
 
   final _$imageAtom = Atom(name: '_ProfileViewmodelBase.image');
 
@@ -351,13 +358,13 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   final _$viewsFutureAtom = Atom(name: '_ProfileViewmodelBase.viewsFuture');
 
   @override
-  ObservableFuture<List<ViewModel>>? get viewsFuture {
+  ObservableFuture<ListBaseResponseModel<ViewModel>>? get viewsFuture {
     _$viewsFutureAtom.reportRead();
     return super.viewsFuture;
   }
 
   @override
-  set viewsFuture(ObservableFuture<List<ViewModel>>? value) {
+  set viewsFuture(ObservableFuture<ListBaseResponseModel<ViewModel>>? value) {
     _$viewsFutureAtom.reportWrite(value, super.viewsFuture, () {
       super.viewsFuture = value;
     });
@@ -470,11 +477,11 @@ mixin _$ProfileViewmodel on _ProfileViewmodelBase, Store {
   }
 
   @override
-  void playerViews() {
+  void playerViews({bool fresh = false}) {
     final _$actionInfo = _$_ProfileViewmodelBaseActionController.startAction(
         name: '_ProfileViewmodelBase.playerViews');
     try {
-      return super.playerViews();
+      return super.playerViews(fresh: fresh);
     } finally {
       _$_ProfileViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -653,7 +660,8 @@ replaceVideoLoading: ${replaceVideoLoading},
 replaceVideoError: ${replaceVideoError},
 personalLoading: ${personalLoading},
 addressLoading: ${addressLoading},
-imageFile: ${imageFile}
+imageFile: ${imageFile},
+canLoadMoreViews: ${canLoadMoreViews}
     ''';
   }
 }

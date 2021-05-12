@@ -24,7 +24,7 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
   @override
   void initState() {
     super.initState();
-    viewmodel.clearUserData();
+    viewmodel?.clearUserData();
   }
 
   @override
@@ -59,7 +59,7 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
         elevation: 0.0,
         centerTitle: false,
       ),
-      key: viewmodel.scaffoldKey,
+      key: viewmodel?.scaffoldKey,
       body: Provider(create: (_) => viewmodel, child: const PublicInfoPage()),
     );
   }

@@ -47,7 +47,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.otpVerifyError, (bool isError) {
+      reaction((_) => viewmodel?.otpVerifyError, (bool? isError) {
         setState(() {
           if (isError != null && isError) {
             _otpController.text = '';
@@ -75,13 +75,13 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 )),
             Observer(builder: (_) {
               return Text(
-                viewmodel.forgetPasswordEmail ?? '',
+                viewmodel?.forgetPasswordEmail ?? '',
                 style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
               );
             }),
             Observer(builder: (_) {
               return Text(
-                viewmodel.player?.email ?? '',
+                viewmodel?.player?.email ?? '',
                 style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
               );
             }),
@@ -90,7 +90,7 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
             ),
             Observer(builder: (_) {
               return Text(
-                viewmodel.otpCodeMessage ?? '',
+                viewmodel?.otpCodeMessage ?? '',
                 style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
               );
             }),
@@ -105,9 +105,9 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
                 bottom: context.fullHeight * 0.04,
               ),
               child: MawahebButton(
-                onPressed: () => viewmodel.sendOTP(
+                onPressed: () => viewmodel?.sendOTP(
                   resend: true,
-                  email: viewmodel.forgetPasswordEmail ?? viewmodel.player?.email,
+                  email: viewmodel?.forgetPasswordEmail ?? viewmodel?.player?.email,
                 ),
                 // _otpBottomSheet(context, viewmodel.player?.email ?? '');
 
@@ -158,11 +158,11 @@ class _OtpPageState extends ProviderMobxState<OtpPage, AuthViewmodel> {
   }
 
   void verifyCode(String code) {
-    print('my deubg enter verifyCode $code ${viewmodel.player}');
-    if (viewmodel.registerFuture == null) {
-      viewmodel.verifyOTPPassword(code: code.toInt());
+    print('my deubg enter verifyCode $code ${viewmodel?.player}');
+    if (viewmodel?.registerFuture == null) {
+      viewmodel?.verifyOTPPassword(code: code.toInt());
     } else {
-      viewmodel.verifyOTP(code: code.toInt());
+      viewmodel?.verifyOTP(code: code.toInt());
     }
 
     FocusScope.of(context).unfocus();

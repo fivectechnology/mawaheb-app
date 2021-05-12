@@ -38,16 +38,16 @@ class _StaticVideosPageState extends MobxState<StaticVideosPage, StaticVideosVie
                   children: [
                     Expanded(
                         child: TextFormField(
-                      initialValue: viewmodel.videoUrl,
+                      initialValue: viewmodel?.videoUrl,
                       style: context.textTheme.bodyText1,
-                      onFieldSubmitted: (url) => viewmodel.changeUrl(url),
+                      onFieldSubmitted: (url) => viewmodel?.changeUrl(url),
                     )),
                   ],
                 ),
                 SizedBox(
                   width: context.fullWidth * 0.9,
                   height: context.fullHeight * 0.5,
-                  child: VideoPlayerWidget2(videoUrl: viewmodel.videoUrl),
+                  child: VideoPlayerWidget2(videoUrl: viewmodel?.videoUrl),
                 ),
               ],
             ),
@@ -64,9 +64,9 @@ class _StaticVideosPageState extends MobxState<StaticVideosPage, StaticVideosVie
   //       builder: (_) {
   //         return AnimatedSwitcher(
   //           duration: 500.milliseconds,
-  //           child: viewmodel.canPlay
-  //               ? VideoPlayerWidget(videoUrl: viewmodel.videoUrl)
-  //               : TextFormField(onFieldSubmitted: (url) => viewmodel.changeUrl(url)),
+  //           child: viewmodel?.canPlay
+  //               ? VideoPlayerWidget(videoUrl: viewmodel?.videoUrl)
+  //               : TextFormField(onFieldSubmitted: (url) => viewmodel?.changeUrl(url)),
   //         );
   //       },
   //     ),

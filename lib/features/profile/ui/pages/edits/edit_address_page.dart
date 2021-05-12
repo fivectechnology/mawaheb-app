@@ -44,18 +44,18 @@ class _EditAddressPageState extends MobxState<EditAddressPage, EditAddressViewmo
   @override
   void initState() {
     super.initState();
-    if (viewmodel.player == null) {
-      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player!.id);
+    if (viewmodel?.player == null) {
+      viewmodel?.fetchPlayer(id: viewmodel?.prefsRepository.player!.id);
     }
 
-    if (viewmodel.emirates == null) {
-      viewmodel.getEmirates();
+    if (viewmodel?.emirates == null) {
+      viewmodel?.getEmirates();
     }
     stateController = TextEditingController(text: widget.player!.area);
     addressController = TextEditingController(text: widget.player!.address);
 
-    // stateController.text = viewmodel.player.status;
-    // stateController.text = viewmodel.player.status;
+    // stateController.text = viewmodel?.player.status;
+    // stateController.text = viewmodel?.player.status;
   }
 
   @override
@@ -69,7 +69,7 @@ class _EditAddressPageState extends MobxState<EditAddressPage, EditAddressViewmo
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // addressController = TextEditingController(text: viewmodel.player.address);
+    // addressController = TextEditingController(text: viewmodel?.player.address);
   }
 
   @override
@@ -85,8 +85,8 @@ class _EditAddressPageState extends MobxState<EditAddressPage, EditAddressViewmo
             context.navigator.pop();
           }) as PreferredSizeWidget?,
       body: MawahebFutureBuilder<List<EmirateModel>>(
-          future: viewmodel.emirateFuture,
-          onRetry: viewmodel.getEmirates,
+          future: viewmodel?.emirateFuture,
+          onRetry: viewmodel?.getEmirates ?? () {},
           onSuccess: (emirate) {
             return Form(
               key: _formKey,
@@ -101,7 +101,7 @@ class _EditAddressPageState extends MobxState<EditAddressPage, EditAddressViewmo
                       onChanged: (value) {
                         currentEmirate = value;
                       },
-                      items: viewmodel.emirates!
+                      items: viewmodel?.emirates!
                           .map((em) => DropdownMenuItem(
                                 child: Text(em.name!),
                                 value: em,
@@ -145,18 +145,18 @@ class _EditAddressPageState extends MobxState<EditAddressPage, EditAddressViewmo
                               borderColor: Colors.black,
                               buttonColor: WHITE,
                               progressColor: RED,
-                              isLoading: viewmodel.addressLoading,
+                              isLoading: viewmodel?.addressLoading ?? false,
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   _formKey.currentState!.save();
 
-                                  // viewmodel.editAddressInfo(
-                                  //   emirateModel: currentEmirate ?? viewmodel.player!.emirate,
-                                  //   address: addressController.text ?? viewmodel.player!.address,
-                                  //   area: stateController.text ?? viewmodel.player!.area,
+                                  // viewmodel?.editAddressInfo(
+                                  //   emirateModel: currentEmirate ?? viewmodel?.player!.emirate,
+                                  //   address: addressController.text ?? viewmodel?.player!.address,
+                                  //   area: stateController.text ?? viewmodel?.player!.area,
                                   // );
-                                  viewmodel.editAddressInfo(
-                                    emirateModel: currentEmirate ?? viewmodel.player!.emirate,
+                                  viewmodel?.editAddressInfo(
+                                    emirateModel: currentEmirate ?? viewmodel?.player!.emirate,
                                     address: addressController.text,
                                     area: stateController.text,
                                   );

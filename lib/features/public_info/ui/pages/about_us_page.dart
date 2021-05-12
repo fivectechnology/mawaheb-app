@@ -32,8 +32,8 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.aboutUs == null) {
-      viewmodel.getaboutUs();
+    if (viewmodel?.aboutUs == null) {
+      viewmodel?.getaboutUs();
     }
   }
 
@@ -44,8 +44,8 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
       body: Padding(
         padding: const EdgeInsets.only(top: 26.0),
         child: MawahebFutureBuilder<AboutUsModel>(
-            future: viewmodel.aboutUsFuture,
-            onRetry: viewmodel.getaboutUs,
+            future: viewmodel?.aboutUsFuture,
+            onRetry: viewmodel?.getaboutUs ?? () {},
             onSuccess: (aboutUs) {
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -55,28 +55,28 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
                     aboutUsTile(
                       title: 'lbl_summary',
                       image: 'assets/images/ic_summary.png',
-                      text: viewmodel.prefsRepository.languageCode == 'en'
+                      text: viewmodel?.prefsRepository.languageCode == 'en'
                           ? aboutUs?.summary ?? ''
                           : aboutUs?.summaryAr ?? '',
                     ),
                     aboutUsTile(
                       title: 'lbl_mission',
                       image: 'assets/images/ic_mission.png',
-                      text: viewmodel.prefsRepository.languageCode == 'en'
+                      text: viewmodel?.prefsRepository.languageCode == 'en'
                           ? aboutUs?.mission ?? ''
                           : aboutUs?.missionAr ?? '',
                     ),
                     aboutUsTile(
                       title: 'lbl_vision',
                       image: 'assets/images/ic_vision.png',
-                      text: viewmodel.prefsRepository.languageCode == 'en'
+                      text: viewmodel?.prefsRepository.languageCode == 'en'
                           ? aboutUs?.vision ?? ''
                           : aboutUs?.visionAr ?? '',
                     ),
                     aboutUsTile(
                       title: 'lbl_value',
                       image: 'assets/images/ic_value.png',
-                      text: viewmodel.prefsRepository.languageCode == 'en'
+                      text: viewmodel?.prefsRepository.languageCode == 'en'
                           ? aboutUs?.ourValues ?? ''
                           : aboutUs?.ourValuesAr ?? '',
                     )
@@ -104,7 +104,7 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
             padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
             child: Text(
               context.translate(title),
-              style: textTheme.headline2!.copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),
+              style: textTheme?.headline2!.copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 7),
@@ -114,7 +114,7 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
                 child: Text(
                   text,
                   textAlign: TextAlign.center,
-                  style: textTheme.bodyText2,
+                  style: textTheme?.bodyText2,
                   // textAlign: TextAlign.center,
                 ),
               ),

@@ -25,10 +25,10 @@ class ViewPlayerProfile extends StatefulWidget {
   static MaterialPageRoute pageRoute(PlayersViewmodel playersViewmodel, PlayerModel player) {
     return MaterialPageRoute(
       builder: (context) => Provider.value(
-        value: playersViewmodel
+        value: (playersViewmodel
           ..viewProfilePlayer(id: player.id)
           ..fetchPlayer(id: player.id)
-          ..fetchVideos(playerId: player.id),
+          ..fetchVideos(playerId: player.id)) as PlayersViewmodel?,
         child: ViewPlayerProfile(player: player),
       ),
     );
@@ -55,7 +55,7 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
     super.didChangeDependencies();
   }
 
-  String? get availability => (viewmodel.player ?? player).availability;
+  String? get availability => (viewmodel?.player ?? player).availability;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
                 name: player.name!,
                 id: player.id,
                 photoId: player.photoId,
-                token: viewmodel.prefsRepository.token,
+                token: viewmodel?.prefsRepository.token,
                 isConfirmed: availability == 'CONFIRMED',
               );
             },
@@ -110,7 +110,7 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
                 child: MawahebGradientButton(
                   context: context,
                   text: buttonParams.item1,
-                  isLoading: viewmodel.statusButtonLoading,
+                  isLoading: viewmodel?.statusButtonLoading ?? false,
                   onPressed: () async {
                     await mawahebShowConfirmDialog(
                       context: context,
@@ -135,17 +135,17 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
       case 'BOOKED':
         title = 'lbl_confirm_player';
         message = 'msg_confirm_player';
-        onConfirm = viewmodel.confirmPlayer;
+        onConfirm = viewmodel?.confirmPlayer;
         break;
       case 'CONFIRMED':
         title = 'lbl_released_player';
         message = 'msg_release_player';
-        onConfirm = viewmodel.releasePlayer;
+        onConfirm = viewmodel?.releasePlayer;
         break;
       case 'RELEASED':
         title = 'lbl_book_player';
         message = 'msg_book_player';
-        onConfirm = viewmodel.bookPlayer;
+        onConfirm = viewmodel?.bookPlayer;
         break;
     }
     return Tuple3(title, message, onConfirm);

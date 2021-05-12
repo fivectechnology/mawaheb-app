@@ -135,6 +135,7 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   }
 
   Future<bool> logoutAsFuture() {
+    logger.d('my  debug logout as future invoked');
     return _authRepository.logout().then(
           (res) => res.apply(() {
             App.navKey.currentState!.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);

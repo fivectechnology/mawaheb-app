@@ -61,7 +61,8 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
           'currentPassword': password,
         }
       },
-      mapper: BaseResponseModel.dataTypeMapper(((json) => ((json as Map<String, dynamic>)['message'] as String?)!) as String Function(Object?)),
+      mapper: BaseResponseModel.dataTypeMapper(
+          ((json) => ((json as Map<String, dynamic>)['message'] as String?)!) as String Function(Object?)),
     );
   }
 
@@ -76,7 +77,8 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
           'code': code,
         }
       },
-      mapper: BaseResponseModel.fromJson(OTPResponseModel.fromJson) as BaseResponseModel<OTPResponseModel> Function(Object?)?,
+      mapper: BaseResponseModel.fromJson(OTPResponseModel.fromJson) as BaseResponseModel<OTPResponseModel> Function(
+          Object?)?,
     );
   }
 
@@ -97,13 +99,14 @@ class SettingsDataSourceImpl extends MawahebRemoteDataSource implements Settings
   @override
   Future<NetworkResult<bool?>> changePassword({String? currentPassword, String? newPassword, int? id}) {
     return mawahebRequest(
-        method: METHOD.POST,
-        modelName: 'auth.db.User',
-        mawahebModel: false,
-        data: {
-          'data': {'id': id, 'oldPassword': currentPassword, 'newPassword': newPassword, 'chkPassword': newPassword}
-        },
-        mapper: BaseResponseModel.successMapper);
+      method: METHOD.POST,
+      modelName: 'auth.db.User',
+      mawahebModel: false,
+      data: {
+        'data': {'id': id, 'oldPassword': currentPassword, 'newPassword': newPassword, 'chkPassword': newPassword}
+      },
+      mapper: BaseResponseModel.successMapper,
+    );
   }
 
   @override

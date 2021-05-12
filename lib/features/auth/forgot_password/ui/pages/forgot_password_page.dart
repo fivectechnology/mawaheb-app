@@ -61,9 +61,9 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
       const ResetPasswordPagee(),
     ];
     addSideEffects([
-      reaction((_) => viewmodel.forgotPasswordSliderModel, (PageSliderModel? sliderModel) {
+      reaction((_) => viewmodel?.forgotPasswordSliderModel, (PageSliderModel? sliderModel) {
         slidePage(sliderModel);
-        viewmodel.forgotPasswordSliderModel = null;
+        viewmodel?.forgotPasswordSliderModel = null;
       }),
     ]);
   }
@@ -100,7 +100,7 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
   @override
   Widget build(BuildContext context) {
     return MobxLoadingPage(
-      viewmodel: viewmodel,
+      viewmodel: viewmodel!,
       loadingWidget: const Center(child: MawahebLoader()),
       child: Scaffold(
         key: ForgotPasswordPage.scaffoldKey,
@@ -156,8 +156,8 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  viewmodel.forgetPasswordEmail = _emailController.text;
-                  viewmodel.forgetPassword(email: _emailController.text);
+                  viewmodel?.forgetPasswordEmail = _emailController.text;
+                  viewmodel?.forgetPassword(email: _emailController.text);
                 }
               },
               context: context,
@@ -165,7 +165,7 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
               buttonColor: Colors.white,
               textColor: Colors.black,
               borderColor: Colors.black,
-              isLoading: viewmodel.forgetPasswordLoading,
+              isLoading: viewmodel?.forgetPasswordLoading ?? false,
               progressColor: Colors.black,
             ),
           ),

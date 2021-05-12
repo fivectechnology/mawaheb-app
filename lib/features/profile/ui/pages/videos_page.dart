@@ -46,8 +46,8 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.videos.isEmpty) {
-      viewmodel.fetchVideos(playerId: viewmodel.player!.id);
+    if (viewmodel?.videos.isEmpty ?? false) {
+      viewmodel?.fetchVideos(playerId: viewmodel?.player!.id);
     }
   }
 
@@ -65,7 +65,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       print(fileType);
       print(fileSize);
       if (fileSize! <= 5000000) {
-        viewmodel.uploadVideo(
+        viewmodel?.uploadVideo(
           file: video,
           withDelete: deleteVideo,
           videoId: videoId,
@@ -74,7 +74,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
 
         uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
       } else {
-        viewmodel.showSnack(context.translate('msg_video_size'),
+        viewmodel?.showSnack(context.translate('msg_video_size'),
             scaffoldKey: VideosPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
@@ -101,7 +101,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       print(fileSize);
 
       if (fileSize! <= 5000000) {
-        viewmodel.uploadVideo(
+        viewmodel?.uploadVideo(
           file: video,
           withDelete: deleteVideo,
           videoId: videoId,
@@ -110,7 +110,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
 
         uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
       } else {
-        viewmodel.showSnack(context.translate('msg_video_size'),
+        viewmodel?.showSnack(context.translate('msg_video_size'),
             scaffoldKey: VideosPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
@@ -124,7 +124,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       key: VideosPage.scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (viewmodel.videos.length == 3) {
+          if (viewmodel?.videos.length == 3) {
             _selectVideoBottomSheet(
               context: context,
             );
@@ -142,34 +142,34 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       ),
       backgroundColor: Colors.white,
       body: Observer(builder: (_) {
-        return viewmodel.videosLoading != false || viewmodel.deleteVideoLoading == true
+        return viewmodel?.videosLoading != false || viewmodel?.deleteVideoLoading == true
             ? const Center(child: MawahebLoader())
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    if (viewmodel.videos != null)
+                    if (viewmodel?.videos != null)
                       ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: viewmodel.videos.length,
+                          itemCount: viewmodel?.videos.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: EdgeInsets.only(bottom: viewmodel.videos.length == index + 1 ? 45 : 1),
+                              padding: EdgeInsets.only(bottom: viewmodel?.videos.length == index + 1 ? 45 : 1),
                               child: videoRow(
-                                videoUid: viewmodel.videos[index].videoUid,
-                                videoVersion: viewmodel.videos[index].version,
-                                videoId: viewmodel.videos[index].id,
-                                videoShowId: viewmodel.videos[index].video!.id,
-                                token: viewmodel.prefsRepository.token,
-                                status: viewmodel.videos[index].statusEn,
-                                tStatus: viewmodel.videos[index].status!,
+                                videoUid: viewmodel?.videos[index].videoUid,
+                                videoVersion: viewmodel?.videos[index].version,
+                                videoId: viewmodel?.videos[index].id,
+                                videoShowId: viewmodel?.videos[index].video!.id,
+                                token: viewmodel?.prefsRepository.token,
+                                status: viewmodel?.videos[index].statusEn,
+                                tStatus: viewmodel!.videos[index].status!,
                               ),
                             );
                           }),
-                    if (viewmodel.videos.isEmpty)
+                    if (viewmodel!.videos.isEmpty)
                       Center(
                         heightFactor: 10,
-                        child: Text(context.translate('msg_no_videos'), style: textTheme.subtitle1),
+                        child: Text(context.translate('msg_no_videos'), style: textTheme?.subtitle1),
                       ),
                   ],
                 ),
@@ -212,7 +212,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
               const SizedBox(width: 10),
               Text(
                 tStatus,
-                style: textTheme.headline2!.copyWith(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.w800),
+                style: textTheme?.headline2!.copyWith(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.w800),
               ),
             ],
           ),
@@ -273,7 +273,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     Expanded(
                       child: Text(
                         context.translate('msg_added_3videos'),
-                        style: textTheme.bodyText1!
+                        style: textTheme?.bodyText1!
                             .copyWith(height: 1.2, color: TEXT_SECONDARY_COLOR, fontWeight: FontWeight.w200),
                       ),
                     ),
@@ -283,13 +283,13 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     padding: const EdgeInsets.only(top: 52),
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: viewmodel.videos.length,
+                    itemCount: viewmodel?.videos.length,
                     itemBuilder: (context, index) {
                       return currentVideoRow(
                           context: context,
                           videoNumber: index + 1,
-                          videoId: viewmodel.videos[index].id,
-                          videoVersion: viewmodel.videos[index].version);
+                          videoId: viewmodel?.videos[index].id,
+                          videoVersion: viewmodel?.videos[index].version);
                     }),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -330,7 +330,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                         context.translate('msg_delete_video') +
                             videoNumber.toString() +
                             context.translate('msg_delete_video2'),
-                        style: textTheme.bodyText1!
+                        style: textTheme?.bodyText1!
                             .copyWith(height: 1.2, color: TEXT_SECONDARY_COLOR, fontWeight: FontWeight.w200),
                       ),
                     )
@@ -343,10 +343,10 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                     text: 'lbl_delete',
                     buttonColor: Colors.white,
                     textColor: RED,
-                    isLoading: viewmodel.deleteVideoLoading,
+                    isLoading: viewmodel?.deleteVideoLoading ?? false,
                     borderColor: RED,
                     onPressed: () {
-                      viewmodel.deleteVideo(videoVersion: videoVersion, videoId: videoId);
+                      viewmodel?.deleteVideo(videoVersion: videoVersion, videoId: videoId);
                       bc.pop();
                     },
                   ),
@@ -388,7 +388,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                       child: Text(
                         context.translate('lbl_replace'),
                         textAlign: TextAlign.center,
-                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
+                        style: textTheme?.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),
@@ -399,7 +399,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                 ),
                 InkWell(
                   onTap: () {
-                    viewmodel.deleteVideo(videoId: videoId, videoVersion: videoVersion);
+                    viewmodel?.deleteVideo(videoId: videoId, videoVersion: videoVersion);
                     bc.pop();
                   },
                   child: Padding(
@@ -408,7 +408,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                       alignment: Alignment.center,
                       child: Text(
                         context.translate('lbl_delete'),
-                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
+                        style: textTheme?.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),
@@ -442,7 +442,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                       child: Text(
                         context.translate('lbl_camera'),
                         textAlign: TextAlign.center,
-                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
+                        style: textTheme?.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),
@@ -462,7 +462,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
                       alignment: Alignment.center,
                       child: Text(
                         context.translate('lbl_gallery'),
-                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
+                        style: textTheme?.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),

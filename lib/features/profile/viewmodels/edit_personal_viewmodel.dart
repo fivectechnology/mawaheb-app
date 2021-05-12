@@ -121,8 +121,8 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
           .updateImageProfile(imageId: res, version: playerVersion! + 1, id: playerId)
           .whenSuccess((res) => apply(() {
                 print('image updated');
-                Navigator.of(EditPersonalPage.keyLoader.currentContext!, rootNavigator: true).pop();
-                getContext((context) => context.pop());
+                Navigator.of(EditPersonalPage.keyLoader.currentContext!, rootNavigator: true).pop(true);
+                getContext((context) => context.pop(true));
               }));
       // updateProfileImage(
       //     id: player.id, version: player.version, imageId: await imageId);
@@ -154,7 +154,7 @@ abstract class _EditPersonalViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res!.data!.first.apply(() {
               if (image == null) {
-                getContext((context) => context.pop());
+                getContext((context) => context.pop(true));
               }
             }),
           ),

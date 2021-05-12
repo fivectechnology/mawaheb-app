@@ -68,16 +68,16 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (viewmodel.sportFuture == null) {
-      viewmodel.getSports();
+    if (viewmodel?.sportFuture == null) {
+      viewmodel?.getSports();
     }
 
-    if (viewmodel.videos == null) {
-      viewmodel.fetchVideos(playerId: viewmodel.player!.id);
+    if (viewmodel?.videos == null) {
+      viewmodel?.fetchVideos(playerId: viewmodel?.player!.id);
     }
 
-    if (viewmodel.subscriptionFuture == null) {
-      viewmodel.getSubscription();
+    if (viewmodel?.subscriptionFuture == null) {
+      viewmodel?.getSubscription();
     }
   }
 
@@ -90,7 +90,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
       fileType = 'video/' + fileName!.split('.').last;
       fileSize = await video!.length();
       if (fileSize! <= 5000000) {
-        viewmodel.uploadVideo(
+        viewmodel?.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
           fileType: fileType,
@@ -98,7 +98,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
         );
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
-        viewmodel.showSnack(context.translate('msg_video_size'),
+        viewmodel?.showSnack(context.translate('msg_video_size'),
             scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
@@ -115,7 +115,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
       fileType = fileName!.split('.').last;
       fileSize = await video!.length();
       if (fileSize! <= 5000000) {
-        viewmodel.uploadVideo(
+        viewmodel?.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
           fileType: 'video/' + fileType!,
@@ -123,7 +123,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
         );
         uploadingVideoLoader(context: context, key: RegisterPage.keyLoader);
       } else {
-        viewmodel.showSnack(context.translate('msg_video_size'),
+        viewmodel?.showSnack(context.translate('msg_video_size'),
             scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
       }
     } else {
@@ -140,9 +140,9 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
     };
 
     return Observer(builder: (_) {
-      return viewmodel.sportLoading == true ||
-              viewmodel.positionsLoading == true ||
-              viewmodel.deleteVideoLoading == true
+      return viewmodel?.sportLoading == true ||
+              viewmodel?.positionsLoading == true ||
+              viewmodel?.deleteVideoLoading == true
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
@@ -154,9 +154,9 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     context: context,
                     onChanged: (value) {
                       currentSport = value;
-                      viewmodel.getPositions(sportId: currentSport!.id);
+                      viewmodel?.getPositions(sportId: currentSport!.id);
                     },
-                    items: viewmodel.sports!
+                    items: viewmodel?.sports!
                         .map((em) => DropdownMenuItem(
                               child: Text(em.name!),
                               value: em,
@@ -164,24 +164,24 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                         .toList(),
                   ),
                   const SizedBox(height: 26),
-                  if (viewmodel.positions != null)
+                  if (viewmodel?.positions != null)
                     mawhaebDropDown(
                       hint: context.translate('lbl_position'),
                       context: context,
                       onChanged: (value) {
                         position = value;
                       },
-                      items: viewmodel.positions!
+                      items: viewmodel?.positions!
                           .map((em) => DropdownMenuItem(
                                 child: Text(em.name!),
                                 value: em,
                               ))
                           .toList(),
                     ),
-                  if (viewmodel.positions == null)
+                  if (viewmodel?.positions == null)
                     InkWell(
                       onTap: () {
-                        viewmodel.showSnack(context.translate('msg_select_sport'),
+                        viewmodel?.showSnack(context.translate('msg_select_sport'),
                             duration: const Duration(seconds: 3), scaffoldKey: RegisterPage.scaffoldKey);
                       },
                       child: mawhaebDropDown(
@@ -275,7 +275,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     ),
                   ),
                   uploadSpace(onPress: () {
-                    if (viewmodel.videos.length == 3) {
+                    if (viewmodel?.videos.length == 3) {
                       _deleteSomeVideosBottomSheet(context: context);
                     } else {
                       _optionPickerBottomSheet(context: context);
@@ -289,13 +289,13 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                         padding: const EdgeInsets.only(top: 52),
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: viewmodel.videos.length,
+                        itemCount: viewmodel?.videos.length,
                         itemBuilder: (context, index) {
                           return currentVideoRow(
                               context: context,
                               videoNumber: index + 1,
-                              videoId: viewmodel.videos[index].id,
-                              videoVersion: viewmodel.videos[index].version);
+                              videoId: viewmodel?.videos[index].id,
+                              videoVersion: viewmodel?.videos[index].version);
                         });
                   }),
                   const SizedBox(height: 26),
@@ -303,15 +303,15 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     builder: (_) {
                       return MawahebGradientButton(
                         text: context.translate('lbl_next'),
-                        isLoading: viewmodel.registerLoading,
+                        isLoading: viewmodel?.registerLoading ?? false,
                         onPressed: () {
                           if (currentSport == null) {
-                            viewmodel.showSnack(context.translate('msg_select_sport'),
+                            viewmodel?.showSnack(context.translate('msg_select_sport'),
                                 scaffoldKey: RegisterPage.scaffoldKey, duration: const Duration(seconds: 3));
                           } else {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              viewmodel.addSportInfo(
+                              viewmodel?.addSportInfo(
                                 height: int.parse(_hightController.text),
                                 weight: int.parse(_weightController.text),
                                 // hand: hand ?? 'RIGHT',
@@ -319,8 +319,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                                 hand: hand,
                                 leg: leg,
                                 brief: _briefController.text,
-                                sport: currentSport ?? viewmodel.sports!.first,
-                                position: position ?? viewmodel.positions!.first,
+                                sport: currentSport ?? viewmodel?.sports!.first,
+                                position: position ?? viewmodel?.positions!.first,
                               );
                             }
                           }
@@ -351,11 +351,11 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
               SvgPicture.asset('assets/icons/ic_upload.svg'),
               Text(
                 context.translate('lbl_upload_video'),
-                style: textTheme.headline6,
+                style: textTheme?.headline6,
               ),
               Text(
                 context.translate('lbl_max_video'),
-                style: textTheme.bodyText2!.copyWith(color: Colors.grey),
+                style: textTheme?.bodyText2!.copyWith(color: Colors.grey),
               ),
             ],
           ),
@@ -378,7 +378,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
         const Spacer(),
         InkWell(
             onTap: () {
-              viewmodel.deleteVideo(videoVersion: videoVersion, videoId: videoId);
+              viewmodel?.deleteVideo(videoVersion: videoVersion, videoId: videoId);
             },
             child: SvgPicture.asset('assets/icons/ic_delete.svg')),
       ],
@@ -402,7 +402,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                     Expanded(
                       child: Text(
                         context.translate('msg_delete_videos_note'),
-                        style: textTheme.headline2!.copyWith(color: Colors.black, fontSize: 18),
+                        style: textTheme?.headline2!.copyWith(color: Colors.black, fontSize: 18),
                       ),
                     ),
                   ],
@@ -452,7 +452,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                       child: Text(
                         context.translate('lbl_camera'),
                         textAlign: TextAlign.center,
-                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
+                        style: textTheme?.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),
@@ -472,7 +472,7 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                       alignment: Alignment.center,
                       child: Text(
                         context.translate('lbl_gallery'),
-                        style: textTheme.bodyText1!.copyWith(fontSize: 20),
+                        style: textTheme?.bodyText1!.copyWith(fontSize: 20),
                       ),
                     ),
                   ),
