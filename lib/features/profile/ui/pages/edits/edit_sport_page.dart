@@ -123,6 +123,7 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                     onChanged: (value) {
                       currentSport = value;
                       viewmodel?.getPositions(sportId: currentSport!.id);
+                      position = null;
                     },
                     items: viewmodel?.sports
                             ?.map((em) => DropdownMenuItem(
@@ -242,6 +243,9 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                       child: TextFormField(
                         controller: briefController,
                         maxLines: 10,
+                        validator: (value) {
+                          return briefValidator(context: context, value: value ?? '');
+                        },
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
@@ -263,20 +267,40 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                         isLoading: viewmodel!.playerLoading,
                         progressColor: RED,
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
+                          if (position == null) {
+                            viewmodel?.showSnack(context.translate('msg_select_position'),
+                                scaffoldKey: EditSportPage.scaffoldKey, duration: const Duration(seconds: 3));
+                          } else {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
 
-                            viewmodel?.editSportInfo(
-                              height: double.parse(hightController.text).toInt(),
-                              weight: double.parse(weightController.text).toInt(),
-                              hand: hand ?? viewmodel?.player!.hand,
-                              leg: leg ?? viewmodel?.player!.leg,
-                              brief: briefController.text,
-                              sport: currentSport ?? viewmodel?.player!.sport,
-                              position: position ?? viewmodel?.player!.position,
-                            );
+                              viewmodel?.editSportInfo(
+                                height: double.parse(hightController.text).toInt(),
+                                weight: double.parse(weightController.text).toInt(),
+                                hand: hand ?? viewmodel?.player!.hand,
+                                leg: leg ?? viewmodel?.player!.leg,
+                                brief: briefController.text,
+                                sport: currentSport ?? viewmodel?.player!.sport,
+                                position: position ?? viewmodel?.player!.position,
+                              );
+                            }
                           }
                         },
+                        // onPressed: () {
+                        //   if (_formKey.currentState!.validate()) {
+                        //     _formKey.currentState!.save();
+
+                        //     viewmodel?.editSportInfo(
+                        //       height: double.parse(hightController.text).toInt(),
+                        //       weight: double.parse(weightController.text).toInt(),
+                        //       hand: hand ?? viewmodel?.player!.hand,
+                        //       leg: leg ?? viewmodel?.player!.leg,
+                        //       brief: briefController.text,
+                        //       sport: currentSport ?? viewmodel?.player!.sport,
+                        //       position: position ?? viewmodel?.player!.position,
+                        //     );
+                        //   }
+                        // },
                         context: context,
                       );
                     },

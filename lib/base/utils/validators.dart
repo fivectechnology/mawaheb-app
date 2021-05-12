@@ -11,8 +11,7 @@ String? passwordValidator({required String password, BuildContext? context}) {
 }
 
 String? emailValidator({required String email, BuildContext? context}) {
-  const Pattern pattern =
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+  const Pattern pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
       r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
       r'{0,253}[a-zA-Z0-9])?)*$';
   final RegExp regex = RegExp(pattern as String);
@@ -23,10 +22,7 @@ String? emailValidator({required String email, BuildContext? context}) {
     return null;
 }
 
-String? confirmPasswordValidator(
-    {required String password,
-    BuildContext? context,
-    String? confirmPassword}) {
+String? confirmPasswordValidator({required String password, BuildContext? context, String? confirmPassword}) {
   if (password.isEmpty) {
     return context!.translate('msg_password_empty');
   } else if (password.length < 3) {

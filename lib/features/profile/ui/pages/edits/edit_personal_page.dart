@@ -177,6 +177,9 @@ class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalVie
                             hintColor: Colors.grey,
                             textEditingController: _dateOfBirth,
                             context: context,
+                            validator: (value) {
+                              return dateValidator(context: context, value: value ?? '');
+                            },
                           ),
                         ),
                       ),
