@@ -41,8 +41,8 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
   @override
   Widget build(BuildContext context) {
     return MawahebFutureBuilder<PlayerModel>(
-      future: viewmodel.playerFuture,
-      onRetry: viewmodel.fetchPlayer,
+      future: viewmodel?.playerFuture,
+      onRetry: viewmodel?.fetchPlayer ?? () {},
       onSuccess: (player) {
         return Scaffold(
           backgroundColor: WHITE,
@@ -61,31 +61,33 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                       child: Text(context.translate('lbl_sport'),
                           style: context.textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
-                    if (viewmodel.prefsRepository.type == 'PLAYER')
+                    if (viewmodel?.prefsRepository.type == 'PLAYER')
                       IconButton(
                           icon: const Icon(
                             Icons.edit,
                             color: DARK_GREY,
                           ),
                           onPressed: () async {
-                            await App.navKey.currentState!.push(MaterialPageRoute(
+                            final bool? dirty = await App.navKey.currentState!.push(MaterialPageRoute(
                               builder: (context) => EditSportPage(
-                                player: viewmodel.player,
+                                player: viewmodel?.player,
                               ),
                             ));
-                            viewmodel.fetchPlayer(id: viewmodel.player!.id);
+                            if (dirty ?? false) {
+                              viewmodel?.fetchPlayer(id: viewmodel?.player!.id);
+                            }
                           })
                   ],
                 ),
               ),
               cardInfoPlayer(context: context, rows: [
-                infoRow(title: 'lbl_sport_name', value: viewmodel.player!.sport?.name ?? 'N/A', context: context),
-                infoRow(title: 'lbl_position', value: viewmodel.player!.position?.name ?? 'N/A', context: context),
-                infoRow(title: 'lbl_weight', value: viewmodel.player!.weight, context: context),
-                infoRow(title: 'lbl_hight', value: viewmodel.player!.height, context: context),
-                infoRow(title: 'lbl_prefer_hand', value: viewmodel.player!.hand, context: context),
-                infoRow(title: 'lbl_prefer_leg', value: viewmodel.player!.leg, context: context),
-                infoRow(title: 'lbl_brief', value: viewmodel.player!.brief, context: context),
+                infoRow(title: 'lbl_sport_name', value: viewmodel?.player!.sport?.name ?? 'N/A', context: context),
+                infoRow(title: 'lbl_position', value: viewmodel?.player!.position?.name ?? 'N/A', context: context),
+                infoRow(title: 'lbl_weight', value: viewmodel?.player!.weight, context: context),
+                infoRow(title: 'lbl_hight', value: viewmodel?.player!.height, context: context),
+                infoRow(title: 'lbl_prefer_hand', value: viewmodel?.player!.hand, context: context),
+                infoRow(title: 'lbl_prefer_leg', value: viewmodel?.player!.leg, context: context),
+                infoRow(title: 'lbl_brief', value: viewmodel?.player!.brief, context: context),
               ]),
               const SizedBox(height: 26),
               Padding(
@@ -100,30 +102,32 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                       child: Text(context.translate('lbl_personal_info'),
                           style: context.textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
-                    if (viewmodel.prefsRepository.type == 'PLAYER')
+                    if (viewmodel?.prefsRepository.type == 'PLAYER')
                       IconButton(
                           icon: const Icon(
                             Icons.edit,
                             color: DARK_GREY,
                           ),
                           onPressed: () async {
-                            await App.navKey.currentState!.push(MaterialPageRoute(
+                            final bool? dirty = await App.navKey.currentState!.push(MaterialPageRoute(
                               builder: (context) => EditPersonalPage(
-                                player: viewmodel.player,
+                                player: viewmodel?.player,
                               ),
                             ));
-                            viewmodel.fetchPlayer(id: viewmodel.player!.id);
+                            if (dirty ?? false) {
+                              viewmodel?.fetchPlayer(id: viewmodel?.player!.id);
+                            }
                           })
                   ],
                 ),
               ),
               cardInfoPlayer(context: context, rows: [
-                infoRow(title: 'lbl_full_name', value: viewmodel.player!.name, context: context),
-                infoRow(title: 'lbl_date_of_birth', value: viewmodel.player!.dateOfBirth, context: context),
-                infoRow(title: 'lbl_phone_num', value: viewmodel.player!.phone, context: context),
-                infoRow(title: 'lbl_nationality', value: viewmodel.player!.country?.name ?? 'N/A', context: context),
-                infoRow(title: 'lbl_category', value: viewmodel.player!.category?.title ?? 'N/A', context: context),
-                infoRow(title: 'lbl_gender', value: viewmodel.player!.gender, context: context),
+                infoRow(title: 'lbl_full_name', value: viewmodel?.player!.name, context: context),
+                infoRow(title: 'lbl_date_of_birth', value: viewmodel?.player!.dateOfBirth, context: context),
+                infoRow(title: 'lbl_phone_num', value: viewmodel?.player!.phone, context: context),
+                infoRow(title: 'lbl_nationality', value: viewmodel?.player!.country?.name ?? 'N/A', context: context),
+                infoRow(title: 'lbl_category', value: viewmodel?.player!.category?.title ?? 'N/A', context: context),
+                infoRow(title: 'lbl_gender', value: viewmodel?.player!.gender, context: context),
               ]),
               const SizedBox(height: 26),
               Padding(
@@ -135,30 +139,34 @@ class _MyInfoPageState extends ProviderMobxState<MyInfoPage, ProfileViewmodel> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Text(context.translate('lbl_address'),
-                          style: context.textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        context.translate('lbl_address'),
+                        style: context.textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    if (viewmodel.prefsRepository.type == 'PLAYER')
+                    if (viewmodel?.prefsRepository.type == 'PLAYER')
                       IconButton(
                           icon: const Icon(
                             Icons.edit,
                             color: DARK_GREY,
                           ),
                           onPressed: () async {
-                            await App.navKey.currentState!.push(MaterialPageRoute(
+                            final bool? dirty = await App.navKey.currentState!.push(MaterialPageRoute(
                               builder: (context) => EditAddressPage(
-                                player: viewmodel.player,
+                                player: viewmodel?.player,
                               ),
                             ));
-                            viewmodel.fetchPlayer(id: viewmodel.player!.id);
+                            if (dirty ?? false) {
+                              viewmodel?.fetchPlayer(id: viewmodel?.player!.id);
+                            }
                           }),
                   ],
                 ),
               ),
               cardInfoPlayer(context: context, rows: [
-                infoRow(title: 'lbl_emirate', value: viewmodel.player!.emirate?.name ?? 'N/A', context: context),
-                infoRow(title: 'lbl_state/province/area', value: viewmodel.player!.area, context: context),
-                infoRow(title: 'lbl_address', value: viewmodel.player!.address, context: context),
+                infoRow(title: 'lbl_emirate', value: viewmodel?.player!.emirate?.name ?? 'N/A', context: context),
+                infoRow(title: 'lbl_state/province/area', value: viewmodel?.player!.area, context: context),
+                infoRow(title: 'lbl_address', value: viewmodel?.player!.address, context: context),
               ]),
               SizedBox(height: context.fullHeight * 0.04),
             ],

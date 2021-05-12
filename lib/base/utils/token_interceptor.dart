@@ -43,6 +43,7 @@ class TokenInterceptor extends Interceptor {
   @override
   Future onError(DioError err, ErrorInterceptorHandler handler) async {
     if ((err.response?.statusCode ?? -1) == 401) {
+      print('my debug token Interceptor on error invoked with $err');
       // If no token, firstly lock this interceptor to prevent other request enter this interceptor.
       // then request token
 

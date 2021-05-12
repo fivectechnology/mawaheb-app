@@ -43,7 +43,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
     super.dispose();
   }
 
-  PlayerFilterModel? get filter => viewmodel.filter;
+  PlayerFilterModel? get filter => viewmodel?.filter;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
 
     return Observer(builder: (_) {
       return Scaffold(
-        key: viewmodel.scaffoldKey,
+        key: viewmodel?.scaffoldKey,
         backgroundColor: Colors.white,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,12 +107,12 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                   crossAxisAlignment: WrapCrossAlignment.start,
                   alignment: WrapAlignment.start,
                   children: [
-                    if (viewmodel.filter?.sport != null)
+                    if (viewmodel?.filter?.sport != null)
                       filterChip(
                         context: context,
-                        text: viewmodel.filter!.sport!.name!,
+                        text: viewmodel?.filter!.sport!.name! ?? '',
                         onRemove: () {
-                          viewmodel.filter = PlayerFilterModel(
+                          viewmodel?.filter = PlayerFilterModel(
                             country: filter?.country,
                             sport: null,
                             position: filter?.position,
@@ -123,15 +123,15 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
+                          viewmodel?.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel.filter?.country != null)
+                    if (viewmodel?.filter?.country != null)
                       filterChip(
                         context: context,
-                        text: viewmodel.filter!.country!.name!,
+                        text: viewmodel?.filter!.country!.name! ?? '',
                         onRemove: () {
-                          viewmodel.filter = PlayerFilterModel(
+                          viewmodel?.filter = PlayerFilterModel(
                             country: null,
                             sport: filter?.sport,
                             position: filter?.position,
@@ -142,15 +142,15 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
+                          viewmodel?.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel.filter?.position != null)
+                    if (viewmodel?.filter?.position != null)
                       filterChip(
                         context: context,
-                        text: viewmodel.filter!.position!.name!,
+                        text: viewmodel?.filter!.position!.name! ?? '',
                         onRemove: () {
-                          viewmodel.filter = PlayerFilterModel(
+                          viewmodel?.filter = PlayerFilterModel(
                             country: filter?.country,
                             sport: filter?.sport,
                             position: null,
@@ -161,16 +161,16 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
+                          viewmodel?.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel.filter?.hand != null)
+                    if (viewmodel?.filter?.hand != null)
                       // TODO(ahmad): add localization to hand string
                       filterChip(
                         context: context,
-                        text: test[viewmodel.filter!.hand!]! + context.translate('lbl_hand'),
+                        text: test[viewmodel?.filter!.hand!]! + context.translate('lbl_hand'),
                         onRemove: () {
-                          viewmodel.filter = PlayerFilterModel(
+                          viewmodel?.filter = PlayerFilterModel(
                             country: filter?.country,
                             sport: filter?.sport,
                             position: filter?.position,
@@ -181,17 +181,17 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
+                          viewmodel?.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
-                    if (viewmodel.filter?.leg != null)
+                    if (viewmodel?.filter?.leg != null)
                       // TODO(ahmad): add localization to leg string
 
                       filterChip(
                         context: context,
-                        text: test[viewmodel.filter!.hand!]! + context.translate('lbl_leg'),
+                        text: test[viewmodel?.filter!.hand!]! + context.translate('lbl_leg'),
                         onRemove: () {
-                          viewmodel.filter = PlayerFilterModel(
+                          viewmodel?.filter = PlayerFilterModel(
                             country: filter?.country,
                             sport: filter?.sport,
                             position: filter?.position,
@@ -202,7 +202,7 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                             isConfirmed: filter?.isConfirmed,
                             isBooked: filter?.isBooked,
                           );
-                          viewmodel.searchPlayers(fresh: true, query: searchController!.text);
+                          viewmodel?.searchPlayers(fresh: true, query: searchController!.text);
                         },
                       ),
                   ],
@@ -214,16 +214,16 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                 return RefreshIndicator(
                   onRefresh: () async {
                     searchController!.text = '';
-                    viewmodel.searchPlayers(fresh: true, query: searchController!.text);
+                    viewmodel?.searchPlayers(fresh: true, query: searchController!.text);
                   },
                   child: MawahebFutureBuilder<ListBaseResponseModel<PlayerModel>>(
-                      future: viewmodel.playersFuture,
-                      onRetry: () => viewmodel.searchPlayers(fresh: true, query: searchController!.text),
+                      future: viewmodel?.playersFuture,
+                      onRetry: () => viewmodel?.searchPlayers(fresh: true, query: searchController!.text),
                       onSuccess: (ListBaseResponseModel<PlayerModel>? players) {
                         return FocusDetector(
                           child: PaginationList<PlayerModel>(
-                              canLoadMore: viewmodel.canLoadMorePlayers,
-                              dataList: players!.data!,
+                              canLoadMore: viewmodel?.canLoadMorePlayers ?? false,
+                              dataList: players!.data ?? [],
                               scrollController: scrollController,
                               shrinkWrap: false,
                               padding: 0,
@@ -235,9 +235,9 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
                                   name: player.name!,
                                   id: player.id,
                                   photoId: player.photoId,
-                                  token: viewmodel.prefsRepository.token,
+                                  token: viewmodel?.prefsRepository.token,
                                   onTap: () =>
-                                      App.navKey.currentState!.push(ViewPlayerProfile.pageRoute(viewmodel, player)),
+                                      App.navKey.currentState!.push(ViewPlayerProfile.pageRoute(viewmodel!, player)),
                                 );
                               }),
                         );
@@ -252,8 +252,8 @@ class _PlayersPageState extends MobxState<PlayersPage, PlayersViewmodel> with Se
   }
 
   @override
-  void onLoadMore() => viewmodel.searchPlayers(query: searchController!.text);
+  void onLoadMore() => viewmodel?.searchPlayers(query: searchController!.text);
 
   @override
-  void onSearch(String qurey) => viewmodel.searchPlayers(query: qurey, fresh: true);
+  void onSearch(String qurey) => viewmodel?.searchPlayers(query: qurey, fresh: true);
 }

@@ -155,12 +155,12 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       ),
                       child: MawahebGradientButton(
                         // enable: !_userNameController.text.isNullOrEmpty && !_passwordController.text.isNullOrEmpty,
-                        isLoading: viewmodel.loginLoading,
+                        isLoading: viewmodel?.loginLoading ?? false,
                         text: 'lbl_login',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            viewmodel.login(
+                            viewmodel?.login(
                               type: type,
                               userName: _userNameController.text,
                               password: _passwordController.text,
@@ -188,7 +188,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         const SizedBox(width: 4),
                         Text(
                           context.translate('lbl_switch_language_to'),
-                          style: textTheme.bodyText1?.copyWith(color: DARK_GREY),
+                          style: textTheme?.bodyText1?.copyWith(color: DARK_GREY),
                         ),
                         const SizedBox(width: 16),
                         InkWell(
@@ -199,7 +199,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                           },
                           child: Text(
                             isArabic(localizations: context.locale) ? 'English' : 'العربية',
-                            style: textTheme.bodyText1!.copyWith(color: RED, fontWeight: FontWeight.w600),
+                            style: textTheme?.bodyText1!.copyWith(color: RED, fontWeight: FontWeight.w600),
                           ),
                         )
                       ],

@@ -41,8 +41,8 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.player == null) {
-      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player!.id);
+    if (viewmodel?.player == null) {
+      viewmodel?.fetchPlayer(id: viewmodel?.prefsRepository.player!.id);
     }
   }
 
@@ -50,25 +50,25 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return SafeArea(
-        child: viewmodel.player == null
+        child: viewmodel?.player == null
             ? const Center(child: MawahebLoader())
             : Scaffold(
                 backgroundColor: Colors.white,
                 body: Column(
                   children: [
-                    if (viewmodel.player!.subscription != null)
+                    if (viewmodel?.player!.subscription != null)
                       profileActivationRow(
-                        finishDate: viewmodel.player!.subscription!.finishAt,
+                        finishDate: viewmodel?.player!.subscription!.finishAt,
                         isPending:
                             // ignore: avoid_bool_literals_in_conditional_expressions
-                            viewmodel.player!.status == 'PAYMENT_REQUIRED' ? true : false,
+                            viewmodel?.player!.status == 'PAYMENT_REQUIRED' ? true : false,
                       ),
                     profileDetails(
                       context: context,
                       isConfirmed: false,
-                      name: viewmodel.player!.name!,
-                      photo: viewmodel.player!.photo,
-                      token: viewmodel.prefsRepository.token,
+                      name: viewmodel!.player!.name!,
+                      photo: viewmodel?.player!.photo,
+                      token: viewmodel?.prefsRepository.token,
                     ),
                     Container(
                       height: context.fullHeight * 0.07,
@@ -80,24 +80,24 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
                         tabs: [
                           Text(
                             context.translate('lbl_my_info'),
-                            style: textTheme!.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
+                            style: textTheme?.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             context.translate('lbl_videos'),
-                            style: textTheme!.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
+                            style: textTheme?.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             context.translate('lbl_my_views'),
-                            style: textTheme!.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
+                            style: textTheme?.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             context.translate('Static Videos'),
-                            style: textTheme!.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
+                            style: textTheme?.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
                           ),
                         ],
                         unselectedLabelColor: GREY,
                         labelColor: Colors.black,
-                        labelStyle: textTheme!.subtitle1,
+                        labelStyle: textTheme?.subtitle1,
                         controller: _tabController,
                       ),
                     ),
@@ -106,7 +106,7 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
                         create: (_) => viewmodel,
                         child: TabBarView(
                           controller: _tabController,
-                          children: viewmodel.pages,
+                          children: viewmodel!.pages,
                           physics: const BouncingScrollPhysics(),
                         ),
                       ),
@@ -137,14 +137,14 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
             Expanded(
               child: Text(
                 context.translate('lbl_active_account') + finishDate!,
-                style: textTheme!.subtitle1,
+                style: textTheme?.subtitle1,
               ),
             )
           else
             Expanded(
               child: Text(
                 context.translate('lbl_pending_account'),
-                style: textTheme!.subtitle1,
+                style: textTheme?.subtitle1,
               ),
             ),
           Visibility(

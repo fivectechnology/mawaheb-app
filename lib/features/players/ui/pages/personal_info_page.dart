@@ -39,8 +39,8 @@ class _PersonalInfoPageState extends ProviderMobxState<PersonalInfoPage, Players
   @override
   Widget build(BuildContext context) {
     return MawahebFutureBuilder<PlayerModel>(
-      future: viewmodel.playerFuture,
-      onRetry: viewmodel.fetchPlayer,
+      future: viewmodel?.playerFuture,
+      onRetry: viewmodel?.fetchPlayer ?? () {},
       onSuccess: (player) {
         return Scaffold(
           backgroundColor: WHITE,

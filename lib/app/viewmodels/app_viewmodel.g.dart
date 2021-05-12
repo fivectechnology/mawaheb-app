@@ -16,13 +16,6 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
       (_$languageComputed ??= Computed<String>(() => super.language,
               name: '_AppViewmodelBase.language'))
           .value;
-  Computed<bool>? _$languageLoadingComputed;
-
-  @override
-  bool get languageLoading =>
-      (_$languageLoadingComputed ??= Computed<bool>(() => super.languageLoading,
-              name: '_AppViewmodelBase.languageLoading'))
-          .value;
 
   final _$appBarParamsAtom = Atom(name: '_AppViewmodelBase.appBarParams');
 
@@ -66,6 +59,21 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   set languageFuture(ObservableFuture<String>? value) {
     _$languageFutureAtom.reportWrite(value, super.languageFuture, () {
       super.languageFuture = value;
+    });
+  }
+
+  final _$languageLoadingAtom = Atom(name: '_AppViewmodelBase.languageLoading');
+
+  @override
+  bool get languageLoading {
+    _$languageLoadingAtom.reportRead();
+    return super.languageLoading;
+  }
+
+  @override
+  set languageLoading(bool value) {
+    _$languageLoadingAtom.reportWrite(value, super.languageLoading, () {
+      super.languageLoading = value;
     });
   }
 
@@ -183,11 +191,11 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
-  void changeLanguage(String? locale) {
+  void changeLanguage(String? locale, {dynamic updateBackend = false}) {
     final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
         name: '_AppViewmodelBase.changeLanguage');
     try {
-      return super.changeLanguage(locale);
+      return super.changeLanguage(locale, updateBackend: updateBackend);
     } finally {
       _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
     }
@@ -232,11 +240,11 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
 appBarParams: ${appBarParams},
 pageIndex: ${pageIndex},
 languageFuture: ${languageFuture},
+languageLoading: ${languageLoading},
 deviceRegistered: ${deviceRegistered},
 notificationsCount: ${notificationsCount},
 userRegested: ${userRegested},
-language: ${language},
-languageLoading: ${languageLoading}
+language: ${language}
     ''';
   }
 }

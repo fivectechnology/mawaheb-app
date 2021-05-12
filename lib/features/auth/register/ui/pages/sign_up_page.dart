@@ -82,12 +82,12 @@ class _SignUpPageState extends ProviderMobxState<SignUpPage, AuthViewmodel> {
               return MawahebGradientButton(
                 context: context,
                 text: 'lbl_sign_up_player',
-                isLoading: viewmodel.otpLoading,
+                isLoading: viewmodel?.otpLoading ?? false,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
 
-                    viewmodel.validateEmail(email: _emailController.text, password: _passwordController.text);
+                    viewmodel?.validateEmail(email: _emailController.text, password: _passwordController.text);
                     // viewmodel.sendOTP(
                     //   email: _emailController.text,
                     //   password: _passwordController.text,

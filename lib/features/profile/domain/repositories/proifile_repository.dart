@@ -11,13 +11,11 @@ import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 
 abstract class ProfileRepository extends BaseRepository {
-  const ProfileRepository(ProfileDataSource profileDataSource)
-      : super(profileDataSource);
+  const ProfileRepository(ProfileDataSource profileDataSource) : super(profileDataSource);
 
-  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> fetchPlayer(
-      {int? id});
+  Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> fetchPlayer({int? id});
 
-  Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews();
+  Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews({required int limit, required int offset});
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateImageProfile({
     int? id,
@@ -29,14 +27,11 @@ abstract class ProfileRepository extends BaseRepository {
 
   Future<NetworkResult<bool?>> uploadVideoPlayer({int? playerId, int? videoId});
 
-  Future<NetworkResult<bool?>> deleteVideoPlayer(
-      {int? videoVersion, int? videoId});
+  Future<NetworkResult<bool?>> deleteVideoPlayer({int? videoVersion, int? videoId});
 
-  Future<NetworkResult<bool?>> replaceVideoPlayer(
-      {int? videoVersion, int? videoId, int? videoFileId, int? playerId});
+  Future<NetworkResult<bool?>> replaceVideoPlayer({int? videoVersion, int? videoId, int? videoFileId, int? playerId});
 
-  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchPlayerVideos(
-      {int? playerId});
+  Future<NetworkResult<ListBaseResponseModel<VideoModel>?>> fetchPlayerVideos({int? playerId});
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateSportInfo({
     int? id,

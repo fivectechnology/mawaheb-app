@@ -62,15 +62,15 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (viewmodel.categoryFuture == null) {
-      viewmodel.getCategories();
+    if (viewmodel?.categoryFuture == null) {
+      viewmodel?.getCategories();
     }
-    if (viewmodel.countryFuture == null) {
-      viewmodel.getCountries();
+    if (viewmodel?.countryFuture == null) {
+      viewmodel?.getCountries();
     }
 
-    if (viewmodel.image != null) {
-      viewmodel.imageFile;
+    if (viewmodel?.image != null) {
+      viewmodel?.imageFile;
     }
   }
 
@@ -96,10 +96,10 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      viewmodel.image = File(pickedFile.path);
-      fileName = viewmodel.image!.path.split('/').last;
+      viewmodel?.image = File(pickedFile.path);
+      fileName = viewmodel?.image!.path.split('/').last;
       fileType = 'image/' + fileName!.split('.').last;
-      fileSize = await viewmodel.image!.length();
+      fileSize = await viewmodel?.image!.length();
     } else {
       print('No image selected.');
     }
@@ -108,7 +108,7 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return viewmodel.countries == null || viewmodel.categories == null
+      return viewmodel?.countries == null || viewmodel?.categories == null
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
@@ -149,13 +149,13 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                       context: context),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
-                    value: viewmodel.countries!.first,
+                    value: viewmodel?.countries!.first,
                     hint: 'lbl_nationality',
                     context: context,
                     onChanged: (value) {
                       currentCountry = value;
                     },
-                    items: viewmodel.countries!
+                    items: viewmodel?.countries!
                         .map((em) => DropdownMenuItem(
                               child: Text(em.name!),
                               value: em,
@@ -164,13 +164,13 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                   ),
                   const SizedBox(height: 26),
                   mawhaebDropDown(
-                    value: viewmodel.categories!.first,
+                    value: viewmodel?.categories!.first,
                     hint: 'lbl_category',
                     context: context,
                     onChanged: (value) {
                       currentCategory = value;
                     },
-                    items: viewmodel.categories!
+                    items: viewmodel?.categories!
                         .map((em) => DropdownMenuItem(
                               child: Text(em.title!),
                               value: em,
@@ -206,13 +206,13 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                       return MawahebGradientButton(
                           context: context,
                           text: 'lbl_next',
-                          isLoading: viewmodel.registerLoading,
+                          isLoading: viewmodel?.registerLoading ?? false,
                           onPressed: () async {
-                            if (viewmodel.image != null) {
-                              viewmodel.uploadFile(
-                                  playerVersion: viewmodel.prefsRepository.player!.version,
-                                  playerId: viewmodel.prefsRepository.player!.id,
-                                  file: viewmodel.image,
+                            if (viewmodel?.image != null) {
+                              viewmodel?.uploadFile(
+                                  playerVersion: viewmodel?.prefsRepository.player!.version,
+                                  playerId: viewmodel?.prefsRepository.player!.id,
+                                  file: viewmodel?.image,
                                   fileType: fileType,
                                   fileName: fileName,
                                   fileSize: fileSize);
@@ -221,13 +221,13 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
 
-                              viewmodel.addPersonalInfo(
+                              viewmodel?.addPersonalInfo(
                                 phone: _phoneController.text,
                                 name: _nameController.text,
                                 gender: gender ?? 'MALE',
                                 dateOfBirth: dateOfBirth,
-                                categoryModel: currentCategory ?? viewmodel.categories!.first,
-                                country: currentCountry ?? viewmodel.countries!.first,
+                                categoryModel: currentCategory ?? viewmodel?.categories!.first,
+                                country: currentCountry ?? viewmodel?.countries!.first,
                               );
                             }
                           });
@@ -255,7 +255,7 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey, width: 2.0),
             ),
-            child: viewmodel.imageFile == null
+            child: viewmodel?.imageFile == null
                 ? IconButton(
                     onPressed: () async {
                       await getImage();
@@ -266,13 +266,13 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                     ),
                   )
                 : CircleAvatar(
-                    backgroundImage: FileImage(viewmodel.imageFile!),
+                    backgroundImage: FileImage(viewmodel!.imageFile!),
                     radius: 200.0,
                   ),
           ),
           Text(
             context.translate('lbl_add_image'),
-            style: textTheme.bodyText1?.copyWith(color: Colors.grey, fontSize: 12),
+            style: textTheme?.bodyText1?.copyWith(color: Colors.grey, fontSize: 12),
           )
         ],
       ),

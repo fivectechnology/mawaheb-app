@@ -37,8 +37,8 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.contacts == null) {
-      viewmodel.getcontactUs();
+    if (viewmodel?.contacts == null) {
+      viewmodel?.getcontactUs();
     }
   }
 
@@ -49,8 +49,8 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05, vertical: context.fullHeight * 0.05),
         child: MawahebFutureBuilder<ContactUsModel>(
-            future: viewmodel.contactsFuture,
-            onRetry: viewmodel.getcontactUs,
+            future: viewmodel?.contactsFuture,
+            onRetry: viewmodel?.getcontactUs ?? () {},
             onSuccess: (contacts) {
               return ListView(
                 physics: const BouncingScrollPhysics(),
@@ -59,7 +59,7 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
                   SvgPicture.asset('assets/images/ic_logo.svg', fit: BoxFit.fitHeight),
                   contactRow(
                       title: 'lbl_address',
-                      text: viewmodel.prefsRepository.languageCode == 'en' ? contacts?.address : contacts?.addressAr),
+                      text: viewmodel?.prefsRepository.languageCode == 'en' ? contacts?.address : contacts?.addressAr),
                   contactRow(title: 'lbl_email', text: contacts?.email),
                   contactRow(title: 'lbl_phone', text: contacts?.phone),
                   const SizedBox(height: 18),
@@ -71,14 +71,14 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
                       zoomControlsEnabled: false,
                       initialCameraPosition: CameraPosition(
                         target: LatLng(
-                          double.parse(viewmodel.contacts!.latitude!),
-                          double.parse(viewmodel.contacts!.longitude!),
+                          double.parse(viewmodel!.contacts!.latitude!),
+                          double.parse(viewmodel!.contacts!.longitude!),
                         ),
                         zoom: 11.0,
                       ),
                       onTap: (_) {
                         launch(Uri.encodeFull(
-                          'https://www.google.com/maps/search/?api=1&query=${viewmodel.contacts!.latitude},${viewmodel.contacts!.longitude}',
+                          'https://www.google.com/maps/search/?api=1&query=${viewmodel?.contacts!.latitude},${viewmodel?.contacts!.longitude}',
                         ));
                       },
                     ),
@@ -102,9 +102,9 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
                 child: RichText(
                   text: TextSpan(
                     text: context.translate(title) + ': ',
-                    style: textTheme.headline6!.copyWith(fontSize: 14),
+                    style: textTheme?.headline6!.copyWith(fontSize: 14),
                     children: [
-                      TextSpan(text: text, style: textTheme.subtitle2!.copyWith(fontWeight: FontWeight.w200)),
+                      TextSpan(text: text, style: textTheme?.subtitle2!.copyWith(fontWeight: FontWeight.w200)),
                     ],
                   ),
                 ),

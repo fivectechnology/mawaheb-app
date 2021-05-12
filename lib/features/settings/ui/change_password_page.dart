@@ -21,14 +21,14 @@ class ChangePasswordPage extends StatefulWidget {
   static const String route = '/change_password';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(SettingsViewmodel? settingsViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const ChangePasswordPage(),
         ),
       );
 
-  static CupertinoPageRoute cupertionPageRoute(SettingsViewmodel settingsViewmodel) => CupertinoPageRoute(
+  static CupertinoPageRoute cupertionPageRoute(SettingsViewmodel? settingsViewmodel) => CupertinoPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const ChangePasswordPage(),
@@ -70,7 +70,7 @@ class _ChangePasswordPageState extends ProviderMobxState<ChangePasswordPage, Set
   @override
   Widget build(BuildContext context) {
     return MobxLoadingPage(
-      viewmodel: viewmodel,
+      viewmodel: viewmodel!,
       loadingWidget: const Center(child: MawahebLoader()),
       child: Scaffold(
         key: ChangePasswordPage.scaffoldKey,
@@ -132,7 +132,7 @@ class _ChangePasswordPageState extends ProviderMobxState<ChangePasswordPage, Set
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
-                            viewmodel.changePassword(
+                            viewmodel?.changePassword(
                                 currentPassword: _oldPasswordController.text, newPassword: _newPasswordController.text);
                           }
                         },

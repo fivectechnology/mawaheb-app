@@ -42,6 +42,13 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
   @observable
   ObservableFuture<List<SportPositionModel>>? positionFuture;
 
+  //* COMPUTED *//
+  @computed
+  PlayerModel? get player => playerFuture?.value;
+
+  @computed
+  bool get playerLoading => playerFuture?.isPending ?? false;
+
   @computed
   List<SportModel>? get sports => sportFuture?.value;
 
@@ -54,37 +61,26 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
   @computed
   bool get sportLoading => sportFuture?.isPending ?? false;
 
+  //* ACTIONS *//
+
   @observable
   ObservableFuture<PlayerModel>? editSportPlayerFuture;
 
-//* COMPUTED *//
-  @computed
-  PlayerModel? get player => playerFuture?.value;
-
-  @computed
-  bool get playerLoading => playerFuture?.isPending ?? false;
-
-//* ACTIONS *//
-
   @action
   void getSports() => sportFuture = futureWrapper(
-        () => _authRepository.getSports().whenSuccess((res) => res!.data!),
+        () => _authRepository.getSports().whenSuccess((res) => res!.data ?? []),
         catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void getPositions({required int? sportId}) => positionFuture = futureWrapper(
-        () => _authRepository.getPositions(sportId: sportId).whenSuccess((res) => res!.data!),
+        () => _authRepository.getPositions(sportId: sportId).whenSuccess((res) => res!.data ?? []),
         catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
   @action
   void fetchPlayer({int? id}) => playerFuture = futureWrapper(
-        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res!.data!.first.apply(() async {
-              // if (prefsRepository.player == null) {
-              //   await prefsRepository.setPlayer(res.data.first);
-              // }
-            })),
+        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res!.data!.first),
         catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
@@ -111,7 +107,7 @@ abstract class _EditSportViewmodelBase extends BaseViewmodel with Store {
               sportPositionModel: position)
           .whenSuccess(
             (res) => res!.data!.first.apply(() {
-              getContext((context) => context.pop());
+              getContext((context) => context.pop(true));
             }),
           ),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),

@@ -58,7 +58,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.otpVerifyError, (bool isError) {
+      reaction((_) => viewmodel?.otpVerifyError, (bool? isError) {
         setState(() {
           if (isError != null && isError) {
             _otpController.text = '';
@@ -72,7 +72,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
   @override
   Widget build(BuildContext context) {
     return MobxLoadingPage(
-      viewmodel: viewmodel,
+      viewmodel: viewmodel!,
       loadingWidget: const Center(child: MawahebLoader()),
       child: Scaffold(
         backgroundColor: WHITE,
@@ -91,7 +91,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
                   )),
               Observer(builder: (_) {
                 return Text(
-                  viewmodel.player?.email ?? '',
+                  viewmodel?.player?.email ?? '',
                   style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
                 );
               }),
@@ -100,7 +100,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
               ),
               Observer(builder: (_) {
                 return Text(
-                  viewmodel.otpCodeMessage ?? '',
+                  viewmodel?.otpCodeMessage ?? '',
                   style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
                 );
               }),
@@ -112,7 +112,7 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
                 padding: EdgeInsets.only(
                     left: 38, right: 38, top: context.fullHeight * 0.08, bottom: context.fullHeight * 0.04),
                 child: MawahebButton(
-                  onPressed: () => viewmodel.sendOTP(resend: true),
+                  onPressed: () => viewmodel?.sendOTP(resend: true),
                   context: context,
                   text: 'lbl_resend_otp',
                   buttonColor: Colors.white,
@@ -128,9 +128,9 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
   }
 
   void verifyCode(String code) {
-    print('my deubg enter verifyCode $code ${viewmodel.player}');
+    print('my deubg enter verifyCode $code ${viewmodel?.player}');
 
-    viewmodel.verifyOTP(code: code.toInt());
+    viewmodel?.verifyOTP(code: code.toInt());
     FocusScope.of(context).unfocus();
   }
 

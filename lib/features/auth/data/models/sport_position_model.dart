@@ -6,6 +6,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 part 'sport_position_model.g.dart';
 
 @JsonSerializable()
+@immutable
 class SportPositionModel with EquatableMixin {
   const SportPositionModel({
     required this.nameEn,
@@ -41,6 +42,12 @@ class SportPositionModel with EquatableMixin {
 
   String? get name => tName ?? nameEn;
 
+  // @override
+  // bool operator ==(Object? other) => other is SportPositionModel && id != null && id == other.id;
+
+  // @override
+  // int get hashCode => super.hashCode;
+
   @override
   List<Object?> get props {
     return [
@@ -51,7 +58,6 @@ class SportPositionModel with EquatableMixin {
     ];
   }
 
-  static SportPositionModel fromJson(Object json) =>
-      _$SportPositionModelFromJson(json as Map<String, dynamic>);
+  static SportPositionModel fromJson(Object json) => _$SportPositionModelFromJson(json as Map<String, dynamic>);
   Map<String, dynamic> toJson() => _$SportPositionModelToJson(this);
 }

@@ -226,11 +226,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
     required int? id,
   }) {
     viewProfileFuture = futureWrapper(
-      () => _playersRepository.viewPlayerProfile(id: id).whenSuccess(
-            (res) => res?.apply(() {
-              print('view profile');
-            }),
-          ),
+      () => _playersRepository.viewPlayerProfile(id: id).whenSuccess((res) => res ?? false),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }
@@ -281,11 +277,7 @@ abstract class _PlayersViewmodelBase extends BaseViewmodel with Store {
   @action
   void fetchVideos({int? playerId}) {
     fetchVideoFuture = futureWrapper(
-      () => _playersRepository.fetchApprovedVideos(playerId: playerId).whenSuccess(
-            (res) => res?.data!.apply(() {
-              print('fetch videos');
-            }),
-          ),
+      () => _playersRepository.fetchApprovedVideos(playerId: playerId).whenSuccess((res) => res?.data ?? []),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }

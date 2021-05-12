@@ -1,5 +1,6 @@
 import 'package:core_sdk/utils/constants.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:core_sdk/utils/widgets/loading_page.dart';
 import 'package:core_sdk/utils/widgets/progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
   // Lang _lang = Lang.english;
   bool noti = false;
-  late AppViewmodel appViewmodel;
+  AppViewmodel? appViewmodel;
 
   @override
   void initState() {
@@ -51,125 +52,128 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
   }
 
+//(appViewmodel?.languageLoading ?? false)
+  // ? const Center(
+  //     child: MawahebLoader(),
+  // )
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return appViewmodel.languageLoading
-            ? const Center(
-                child: MawahebLoader(),
-              )
-            : Scaffold(
-                key: viewmodel.scaffoldKey,
-                backgroundColor: Colors.white,
-                body: ListView(
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    Card(
-                      elevation: 3.0,
-                      shadowColor: Colors.black87,
-                      margin: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 30.0),
-                      child: Column(
-                        children: [
-                          // TODO(abd): add notification switcher here
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       Text(context.translate('lbl_app_notification'),
-                          //           style: textTheme.subtitle1.copyWith(
-                          //             fontSize: 14,
-                          //             fontWeight: FontWeight.bold,
-                          //           )),
-                          //       mawahebSwitchButton(
-                          //         isSelected: noti,
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                          settingRow(
-                              text: 'lbl_change_password',
-                              onPress: () {
-                                context.navigator.push(ChangePasswordPage.cupertionPageRoute(viewmodel));
-                              }),
-                          settingRow(
-                              text: 'lbl_change_email',
-                              onPress: () {
-                                context.navigator.push(ChangeEmailPage.cupertionPageRoute(viewmodel));
-                              }),
-                          settingRow(
-                            text: 'lbl_term_of_service',
-                            onPress: () {
-                              context.cupertinoPushPage(WebPage(
-                                context.translate('lbl_term_of_service'),
-                                TERMS_OF_SERVICES_ENDPOINT,
-                                showAppBar: false,
-                              ));
-                            },
-                          ),
-                          Observer(builder: (_) {
-                            return settingRow(
-                              text: 'lbl_log_out',
-                              onPress: () {
-                                mawahebShowConfirmDialog(
-                                    context: context,
-                                    message: context.translate('msg_app_exit_confirm'),
-                                    onConfirm: () {
-                                      viewmodel.logout();
-                                    });
-                              },
-                              isLoading: viewmodel.logoutLoading,
-                            );
+        return LoadingPage(
+          isLoading: appViewmodel?.languageLoading ?? false,
+          loadingWidget: const Center(child: MawahebLoader()),
+          child: Scaffold(
+            key: viewmodel?.scaffoldKey,
+            backgroundColor: Colors.white,
+            body: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                Card(
+                  elevation: 3.0,
+                  shadowColor: Colors.black87,
+                  margin: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 30.0),
+                  child: Column(
+                    children: [
+                      // TODO(abd): add notification switcher here
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text(context.translate('lbl_app_notification'),
+                      //           style: textTheme.subtitle1.copyWith(
+                      //             fontSize: 14,
+                      //             fontWeight: FontWeight.bold,
+                      //           )),
+                      //       mawahebSwitchButton(
+                      //         isSelected: noti,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      settingRow(
+                          text: 'lbl_change_password',
+                          onPress: () {
+                            context.navigator.push(ChangePasswordPage.cupertionPageRoute(viewmodel!));
                           }),
-                        ],
+                      settingRow(
+                          text: 'lbl_change_email',
+                          onPress: () {
+                            context.navigator.push(ChangeEmailPage.cupertionPageRoute(viewmodel!));
+                          }),
+                      settingRow(
+                        text: 'lbl_term_of_service',
+                        onPress: () {
+                          context.cupertinoPushPage(WebPage(
+                            context.translate('lbl_term_of_service'),
+                            TERMS_OF_SERVICES_ENDPOINT,
+                            showAppBar: false,
+                          ));
+                        },
                       ),
-                    ),
-                    Card(
-                      elevation: 3,
-                      shadowColor: Colors.black54,
-                      margin: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 30.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26.0),
-                            child: Text(context.translate('lbl_language'),
-                                style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold)),
-                          ),
-                          RadioListTile(
-                            title: Text(
-                              'English',
-                              style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold),
-                            ),
-                            activeColor: RED,
-                            value: LANGUAGE_ENGLISH,
-                            groupValue: appViewmodel.language,
-                            onChanged: (dynamic v) {
-                              appViewmodel.changeLanguage(v);
-                              // viewmodel.updateUserLanguage(lang: v);
-                            },
-                          ),
-                          RadioListTile(
-                            title: Text(
-                              'العربية',
-                              style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold),
-                            ),
-                            activeColor: RED,
-                            value: LANGUAGE_ARABIC,
-                            groupValue: appViewmodel.language,
-                            onChanged: (dynamic v) {
-                              appViewmodel.changeLanguage(v);
-                              viewmodel.updateUserLanguage(lang: v);
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                      Observer(builder: (_) {
+                        return settingRow(
+                          text: 'lbl_log_out',
+                          onPress: () {
+                            mawahebShowConfirmDialog(
+                                context: context,
+                                message: context.translate('msg_app_exit_confirm'),
+                                onConfirm: () {
+                                  viewmodel?.logout();
+                                });
+                          },
+                          isLoading: viewmodel?.logoutLoading ?? false,
+                        );
+                      }),
+                    ],
+                  ),
                 ),
-              );
+                Card(
+                  elevation: 3,
+                  shadowColor: Colors.black54,
+                  margin: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 30.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26.0),
+                        child: Text(context.translate('lbl_language'),
+                            style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold)),
+                      ),
+                      RadioListTile(
+                        title: Text(
+                          'English',
+                          style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold),
+                        ),
+                        activeColor: RED,
+                        value: LANGUAGE_ENGLISH,
+                        groupValue: appViewmodel?.language,
+                        onChanged: (_) {
+                          appViewmodel?.changeLanguage(LANGUAGE_ENGLISH, updateBackend: true);
+                          // viewmodel?.updateUserLanguage(lang: v);
+                        },
+                      ),
+                      RadioListTile(
+                        title: Text(
+                          'العربية',
+                          style: textTheme!.subtitle1!.copyWith(fontSize: 14.0, fontWeight: FontWeight.bold),
+                        ),
+                        activeColor: RED,
+                        value: LANGUAGE_ARABIC,
+                        groupValue: appViewmodel?.language,
+                        onChanged: (_) {
+                          appViewmodel?.changeLanguage(LANGUAGE_ARABIC, updateBackend: true);
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
     );
   }

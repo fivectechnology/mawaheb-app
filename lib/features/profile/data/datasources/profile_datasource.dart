@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
+import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
@@ -25,6 +26,8 @@ abstract class ProfileDataSource extends BaseRemoteDataSource {
 
   Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews({
     required int? id,
+    required int limit,
+    required int offset,
   });
 
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> updateImageProfile({
@@ -124,18 +127,23 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
           'fullNameAr'
         ]
       },
-      mapper:
-          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
+      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
     );
   }
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews({int? id}) {
+  Future<NetworkResult<ListBaseResponseModel<ViewModel>?>> playerViews({
+    int? id,
+    required int limit,
+    required int offset,
+  }) {
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'ProfileView',
       action: EndPointAction.search,
       data: {
+        'limit': limit,
+        'offset': offset,
         'data': {
           'criteria': [
             {'fieldName': 'player.id', 'value': id, 'operator': '='}
@@ -144,7 +152,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
         },
         'fields': ['player', 'partner', 'partner.photo.fileUUID', 'partner.type']
       },
-      mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson) as ListBaseResponseModel<ViewModel> Function(Object?)?,
+      mapper: ListBaseResponseModel.fromJson(ViewModel.fromJson),
     );
   }
 
@@ -175,8 +183,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
           },
           'fields': ['id', 'version', 'photo', 'name', 'email']
         },
-        mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(
-            Object?)?);
+        mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson));
   }
 
   @override
@@ -220,6 +227,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
       method: METHOD.DELETE,
       mawahebModel: true,
       modelName: 'PartnerVideo',
+      mapper: BaseResponseModel.successMapper,
       id: videoId,
       data: {
         'data': {
@@ -264,8 +272,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
           },
           'fields': ['partner', 'status', 'video', 'video.fileUUID']
         },
-        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson) as ListBaseResponseModel<VideoModel> Function(
-            Object?)?);
+        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson));
   }
 
   @override
@@ -305,8 +312,7 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
           'brief': brief,
         }
       },
-      mapper:
-          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
+      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson),
     );
   }
 }

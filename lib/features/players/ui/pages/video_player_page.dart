@@ -30,8 +30,8 @@ class _VideoPlayerPageState extends ProviderMobxState<VideoPlayerPage, PlayersVi
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // if (viewmodel.videos == null) {
-    //   viewmodel.fetchVideos(playerId: viewmodel.player.id);
+    // if (viewmodel?.videos == null) {
+    //   viewmodel?.fetchVideos(playerId: viewmodel?.player.id);
     // }
   }
 
@@ -40,39 +40,39 @@ class _VideoPlayerPageState extends ProviderMobxState<VideoPlayerPage, PlayersVi
     return Scaffold(
       backgroundColor: Colors.white,
       body: Observer(builder: (_) {
-        return viewmodel.videosLoading != false
+        return viewmodel?.videosLoading != false
             ? const Center(child: MawahebLoader())
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    if (viewmodel.videos != null)
+                    if (viewmodel?.videos != null)
                       // ListView.builder(
                       //     physics: const NeverScrollableScrollPhysics(),
                       //     shrinkWrap: true,
-                      //     itemCount: viewmodel.videos.length,
+                      //     itemCount: viewmodel?.videos.length,
                       //     itemBuilder: (context, index) {
-                      //       return viewmodel.videos[index].status == 'APPROVED'
+                      //       return viewmodel?.videos[index].status == 'APPROVED'
                       //           ? videoRow(
-                      //               videoUid: viewmodel.videos[index].videoUid,
-                      //               videoId: viewmodel.videos[index].video.id,
-                      //               token: viewmodel.prefsRepository.token,
+                      //               videoUid: viewmodel?.videos[index].videoUid,
+                      //               videoId: viewmodel?.videos[index].video.id,
+                      //               token: viewmodel?.prefsRepository.token,
                       //             )
                       //           : const SizedBox();
                       //     }),
                       ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: viewmodel.videos!.length,
+                          itemCount: viewmodel?.videos!.length,
                           itemBuilder: (context, index) {
                             return videoRow(
-                                videoUid: viewmodel.videos![index].videoUid,
-                                videoId: viewmodel.videos![index].video!.id,
-                                token: viewmodel.prefsRepository.token);
+                                videoUid: viewmodel?.videos![index].videoUid,
+                                videoId: viewmodel?.videos![index].video!.id,
+                                token: viewmodel?.prefsRepository.token);
                           }),
-                    if (viewmodel.videos == null || viewmodel.videos!.isEmpty)
+                    if (viewmodel?.videos == null || viewmodel!.videos!.isEmpty)
                       Center(
                         heightFactor: 10,
-                        child: Text(context.translate('msg_no_videos'), style: textTheme.subtitle1),
+                        child: Text(context.translate('msg_no_videos'), style: textTheme?.subtitle1),
                       ),
                   ],
                 ),

@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import 'package:dio/dio.dart';
 import 'package:mawaheb_app/base/data/datasources/mawaheb_datasource.dart';
+import 'package:mawaheb_app/base/data/models/base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
@@ -110,7 +111,8 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
         },
         'fields': ['name', 'id', 'photo.fileUUID', 'availability']
       },
-      mapper: ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
+      mapper:
+          ListBaseResponseModel.fromJson(PlayerModel.fromJson) as ListBaseResponseModel<PlayerModel> Function(Object?)?,
     );
   }
 
@@ -121,6 +123,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
         mawahebModel: false,
         modelName: 'auth.db.User',
         action: EndPointAction.fetch,
+        mapper: BaseResponseModel.successMapper,
         id: id,
         data: {
           'data': {
@@ -137,6 +140,7 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
     return mawahebRequest(
       method: METHOD.POST,
       modelName: 'Membership',
+      mapper: BaseResponseModel.successMapper,
       data: {
         'data': {
           'partner': {'id': partnerId},
@@ -152,10 +156,16 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
     required int? memberShipId,
     required int? memberShipVersion,
   }) {
-    return mawahebRequest(method: METHOD.POST, id: memberShipId, modelName: 'Membership', data: {
-      'data': {'version': memberShipVersion, 'status': 'CONFIRMED'},
-      'fields': ['partner', 'player', 'status', 'version']
-    });
+    return mawahebRequest(
+      method: METHOD.POST,
+      id: memberShipId,
+      mapper: BaseResponseModel.successMapper,
+      modelName: 'Membership',
+      data: {
+        'data': {'version': memberShipVersion, 'status': 'CONFIRMED'},
+        'fields': ['partner', 'player', 'status', 'version']
+      },
+    );
   }
 
   @override
@@ -163,10 +173,16 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
     required int? memberShipId,
     required int? memberShipVersion,
   }) {
-    return mawahebRequest(method: METHOD.POST, id: memberShipId, modelName: 'Membership', data: {
-      'data': {'version': memberShipVersion, 'status': 'RELEASED'},
-      'fields': ['partner', 'player', 'status', 'version']
-    });
+    return mawahebRequest(
+      method: METHOD.POST,
+      id: memberShipId,
+      mapper: BaseResponseModel.successMapper,
+      modelName: 'Membership',
+      data: {
+        'data': {'version': memberShipVersion, 'status': 'RELEASED'},
+        'fields': ['partner', 'player', 'status', 'version']
+      },
+    );
   }
 
   @override
@@ -185,7 +201,8 @@ class PlayersDataSourceImpl extends MawahebRemoteDataSource implements PlayersDa
           },
           'fields': ['status', 'video', 'video.fileUUID']
         },
-        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson) as ListBaseResponseModel<VideoModel> Function(Object?)?);
+        mapper: ListBaseResponseModel.fromJson(VideoModel.fromJson) as ListBaseResponseModel<VideoModel> Function(
+            Object?)?);
   }
 
 // @override

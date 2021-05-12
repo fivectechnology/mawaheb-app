@@ -5,6 +5,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
 import 'package:core_sdk/utils/extensions/mobx.dart';
 import 'package:core_sdk/utils/nav_stack.dart';
+import 'package:core_sdk/utils/network_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mawaheb_app/base/domain/repositories/app_repository.dart';
@@ -66,6 +67,9 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<String>? languageFuture;
 
   @observable
+  bool languageLoading = false;
+
+  @observable
   bool deviceRegistered = false;
 
   @observable
@@ -78,9 +82,6 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   String get language => languageFuture?.value ?? defaultLanguage;
-
-  @computed
-  bool get languageLoading => languageFuture?.isPending ?? false;
 
   //* ACTIONS *//
   //
@@ -119,16 +120,20 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void changeLanguage(String? locale) {
+  void changeLanguage(String? locale, {updateBackend = false}) {
+    logger.d('my debug update backend $updateBackend');
     if (locale == language) {
       return;
     }
-    languageFuture = ObservableFuture(
-      _settingsRepository
-          .updateLanguage(id: prefsRepository.player!.id, language: locale)
+    languageLoading = true;
+    final tempFuture = ObservableFuture(
+      (updateBackend
+              ? _settingsRepository.updateLanguage(id: prefsRepository.player!.id, language: locale)
+              : Future.value(Success(true)))
           .whenSuccess((res) => prefsRepository.setApplicationLanguage(locale))
           .then((res) => locale!),
-    );
+    ).whenComplete(() => languageLoading = false);
+    languageFuture = languageFuture?.replace(tempFuture) ?? tempFuture;
   }
 
   @action

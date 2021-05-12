@@ -68,9 +68,9 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
   void didChangeDependencies() {
     super.didChangeDependencies();
     addSideEffects([
-      reaction((_) => viewmodel.registerSliderModel, (PageSliderModel? sliderModel) {
+      reaction((_) => viewmodel?.registerSliderModel, (PageSliderModel? sliderModel) {
         slidePage(sliderModel);
-        viewmodel.registerSliderModel = null;
+        viewmodel?.registerSliderModel = null;
       }),
     ]);
 
@@ -86,7 +86,7 @@ class _RegisterPageState extends ProviderMobxState<RegisterPage, AuthViewmodel> 
   @override
   Widget build(BuildContext context) {
     return MobxLoadingPage(
-      viewmodel: viewmodel,
+      viewmodel: viewmodel!,
       loadingWidget: const Center(child: MawahebLoader()),
       child: Scaffold(
         key: RegisterPage.scaffoldKey,

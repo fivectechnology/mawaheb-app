@@ -86,7 +86,7 @@ abstract class _EditAddressViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             ((res) => res!.data!.first.apply(() {
-                  getContext((context) => context.pop());
+                  getContext((context) => context.pop(true));
                 })),
           ),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),

@@ -37,8 +37,8 @@ class _SubscriptionPageState extends ProviderMobxState<SubscriptionPage, AuthVie
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.transaction == null) {
-      viewmodel.playerTransaction();
+    if (viewmodel?.transaction == null) {
+      viewmodel?.playerTransaction();
     }
   }
 
@@ -65,7 +65,7 @@ class _SubscriptionPageState extends ProviderMobxState<SubscriptionPage, AuthVie
               child: MawahebGradientButton(
                 text: context.translate('pay'),
                 onPressed: () {
-                  viewmodel.confirmTransaction();
+                  viewmodel?.confirmTransaction();
                 },
                 context: context,
               ),

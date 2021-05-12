@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/features/players/ui/pages/players_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/profile_page.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -17,7 +18,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ProviderMobxState<HomePage, AppViewmodel> {
+class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,6 @@ class _HomePageState extends ProviderMobxState<HomePage, AppViewmodel> {
 
   @override
   Widget build(BuildContext context) {
-    return viewmodel.isPlayer ? const ProfilePage() : const PlayersPage();
+    return Provider.of<AppViewmodel>(context, listen: false).isPlayer ? const ProfilePage() : const PlayersPage();
   }
 }

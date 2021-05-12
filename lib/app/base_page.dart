@@ -22,8 +22,7 @@ class BasePage extends StatefulWidget {
 
   static const String route = '/base';
 
-  static MaterialPageRoute<dynamic> get pageRoute =>
-      MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
+  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const BasePage());
 
   @override
   _BasePageState createState() => _BasePageState();
@@ -31,18 +30,10 @@ class BasePage extends StatefulWidget {
 
 class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   final List<Widget> pages = <Widget>[
-    Navigator(
-        key: HomePage.navKey,
-        onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
-    Navigator(
-        key: NotificationsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
-    Navigator(
-        key: PublicInfoPage.navKey,
-        onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
-    Navigator(
-        key: SettingsPage.navKey,
-        onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
+    Navigator(key: HomePage.navKey, onGenerateRoute: (RouteSettings route) => HomePage.pageRoute),
+    Navigator(key: NotificationsPage.navKey, onGenerateRoute: (RouteSettings route) => NotificationsPage.pageRoute),
+    Navigator(key: PublicInfoPage.navKey, onGenerateRoute: (RouteSettings route) => PublicInfoPage.pageRoute),
+    Navigator(key: SettingsPage.navKey, onGenerateRoute: (RouteSettings route) => SettingsPage.pageRoute),
   ];
 
   AppViewmodel? appViewmodel;
@@ -56,12 +47,13 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    print('my debug didChangeDependencies called in base page');
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
     if (appViewmodel!.pageIndex == PageIndex.home) {
       appViewmodel!.appBarParams = AppBarParams.initial(appViewmodel!.isPlayer);
     }
-    Future.delayed(500.milliseconds).then((value) =>
-        appViewmodel!.changeLanguage(appViewmodel!.prefsRepository.languageCode));
+    Future.delayed(500.milliseconds)
+        .then((value) => appViewmodel!.changeLanguage(appViewmodel!.prefsRepository.languageCode));
   }
 
   @override
@@ -73,11 +65,9 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
         body: buildBaseScreenBody,
         bottomNavigationBar: Container(
           height: 60.0 + context.mediaQuery.padding.bottom,
-          decoration: const BoxDecoration(
-              color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
+          decoration: const BoxDecoration(color: WHITE, border: Border(top: BorderSide(color: LIGHT_GREY))),
           child: Column(children: <Widget>[
-            Expanded(
-                child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
+            Expanded(child: MawahebBottomNavigationBar(appViewModel: appViewmodel)),
           ]),
         ),
       ),
@@ -113,9 +103,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
     if (appViewmodel!.pageIndex == PageIndex.home) {
       bool exitConfirmed = false;
       await mawahebShowConfirmDialog(
-          context: context,
-          message: context.translate('msg_close_app'),
-          onConfirm: () => exitConfirmed = true);
+          context: context, message: context.translate('msg_close_app'), onConfirm: () => exitConfirmed = true);
       // await showConfirmDialog(
       //   context,
       //   context.translate('msg_close_app'),

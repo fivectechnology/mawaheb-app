@@ -44,29 +44,29 @@ class _AddressInfoPageState extends ProviderMobxState<AddressInfoPage, AuthViewm
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.emirates == null) {
-      viewmodel.getEmirates();
+    if (viewmodel?.emirates == null) {
+      viewmodel?.getEmirates();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return MawahebFutureBuilder<List<EmirateModel>>(
-        future: viewmodel.emirateFuture,
-        onRetry: viewmodel.getEmirates,
+        future: viewmodel?.emirateFuture,
+        onRetry: viewmodel?.getEmirates ?? () {},
         onSuccess: (emirate) {
           return Form(
             key: _formKey,
             child: Column(
               children: [
                 mawhaebDropDown(
-                  value: viewmodel.emirates!.first,
+                  value: viewmodel?.emirates!.first,
                   hint: 'lbl_emirate',
                   context: context,
                   onChanged: (value) {
                     currentEmirate = value;
                   },
-                  items: viewmodel.emirates!
+                  items: viewmodel?.emirates!
                       .map((em) => DropdownMenuItem(
                             child: Text(em.name!),
                             value: em,
@@ -100,12 +100,12 @@ class _AddressInfoPageState extends ProviderMobxState<AddressInfoPage, AuthViewm
                       builder: (_) {
                         return MawahebGradientButton(
                           text: 'lbl_next',
-                          isLoading: viewmodel.registerLoading,
+                          isLoading: viewmodel?.registerLoading ?? false,
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              viewmodel.addAddressInfo(
-                                  emirateModel: currentEmirate ?? viewmodel.emirates!.first,
+                              viewmodel?.addAddressInfo(
+                                  emirateModel: currentEmirate ?? viewmodel?.emirates!.first,
                                   address: _addressController.text,
                                   area: _addressController.text);
                             }

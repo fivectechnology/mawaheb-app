@@ -35,8 +35,8 @@ class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPag
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (viewmodel.partners == null) {
-      viewmodel.getPartners();
+    if (viewmodel?.partners == null) {
+      viewmodel?.getPartners();
     }
   }
 
@@ -45,8 +45,8 @@ class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPag
     return Scaffold(
         backgroundColor: WHITE,
         body: MawahebFutureBuilder<List<StrategicPartnersModel>>(
-          future: viewmodel.partnersFuture,
-          onRetry: viewmodel.getPartners,
+          future: viewmodel?.partnersFuture,
+          onRetry: viewmodel?.getPartners ?? () {},
           onSuccess: (partners) {
             return ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -55,8 +55,8 @@ class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPag
                 itemBuilder: (context, index) {
                   return imageRow(
                       context: context,
-                      token: viewmodel.prefsRepository.token,
-                      title: viewmodel.prefsRepository.languageCode == 'en'
+                      token: viewmodel?.prefsRepository.token,
+                      title: viewmodel?.prefsRepository.languageCode == 'en'
                           ? partners![index].title!
                           : partners![index].titleAr!,
                       sourceId: partners[index].sourceId);

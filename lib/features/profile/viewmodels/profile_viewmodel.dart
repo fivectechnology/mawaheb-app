@@ -10,6 +10,7 @@ import 'package:mawaheb_app/app/app.dart';
 import 'package:mawaheb_app/app/base_page.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
+import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/emirate_model.dart';
@@ -95,7 +96,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   ObservableFuture<List<EmirateModel>>? emirateFuture;
 
   @observable
-  ObservableFuture<List<ViewModel>>? viewsFuture;
+  ObservableFuture<ListBaseResponseModel<ViewModel>>? viewsFuture;
 
   @observable
   ObservableFuture<bool>? uploadImageFuture;
@@ -141,7 +142,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   List<EmirateModel>? get emirates => emirateFuture?.value;
 
   @computed
-  List<ViewModel>? get views => viewsFuture?.value;
+  ListBaseResponseModel<ViewModel>? get views => viewsFuture?.value;
 
   @computed
   bool get deleteVideoLoading => deleteVideoFuture?.isPending ?? false;
@@ -163,6 +164,18 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @computed
   File? get imageFile => image;
+
+  @computed
+  bool get canLoadMoreViews {
+    if (views == null) {
+      return true;
+    }
+    if (views!.offset! + PAGE_SIZE < views!.total!) {
+      return true;
+    }
+
+    return false;
+  }
 
   //* ACTIONS *//
 
@@ -197,10 +210,24 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       );
 
   @action
-  void playerViews() => viewsFuture = futureWrapper(
-        () => _profileRepository.playerViews().whenSuccess((res) => res!.data ?? []),
+  void playerViews({bool fresh = false}) {
+    if (fresh || canLoadMoreViews) {
+      int offset = (views?.offset ?? -PAGE_SIZE) + PAGE_SIZE;
+      if (fresh) {
+        viewsFuture = null;
+        offset = 0;
+      }
+      final ObservableFuture<ListBaseResponseModel<ViewModel>> future = futureWrapper(
+        () => _profileRepository.playerViews(limit: PAGE_SIZE, offset: offset).replace(
+              oldValue: viewsFuture,
+              onSuccess: () {},
+            ),
         catchBlock: (err) => showSnack(err!, duration: 2.seconds),
+        unknownErrorHandler: (err) => showSnack(err, duration: 2.seconds),
       );
+      viewsFuture = viewsFuture?.replace(future) ?? future;
+    }
+  }
 
   @action
   void fetchPlayer({int? id}) => playerFuture = futureWrapper(
@@ -363,7 +390,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
             videoVersion: player!.id,
           )
           .whenSuccess(
-            (res) => res!.apply(() {
+            (res) => res?.apply(() {
               showSnack('Video deleted', scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
               fetchVideos(playerId: player!.id);
             }),
@@ -376,9 +403,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   void fetchVideos({int? playerId}) {
     fetchVideoFuture = futureWrapper(
       () => _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
-            (res) => res?.data!.apply(() {
-              print('fetch videos');
-            }),
+            (res) => res?.data ?? [],
           ),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
