@@ -18,6 +18,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/video_model.dart';
 import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
+import 'package:mime/mime.dart';
 
 abstract class ProfileDataSource extends BaseRemoteDataSource {
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> fetchProfile({
@@ -188,19 +189,21 @@ class ProfileDataSourceImpl extends MawahebRemoteDataSource implements ProfileDa
 
   @override
   Future<NetworkResult<int>> uploadFile({required File? file}) async {
+    final body = FormData.fromMap({
+      'file': await MultipartFile.fromFile(
+        file!.path,
+        filename: file.path.split('/').last,
+      ),
+      'request': "{\"data\":{\"fileType\":\"${lookupMimeType(file.path.split('/').last)}\"}}",
+      'field': '',
+    });
+    // print('my debug files fileType ${lookupMimeType(file.path.split('/').last)}, ${body.fields}');
     return mawahebRequest<List<int?>?>(
       method: METHOD.POST,
       modelName: 'meta.db.MetaFile',
       mawahebModel: false,
       action: EndPointAction.upload,
-      data: FormData.fromMap({
-        'file': await MultipartFile.fromFile(
-          file!.path,
-          filename: file.path.split('/').last,
-        ),
-        'request': '{}',
-        'field': '',
-      }),
+      data: body,
       mapper: ListBaseResponseModel.dataTypeMapper((json) => (json as Map<String, dynamic>)['id'] as int?),
     ).whenSuccessWrapped((res) => res!.first!);
   }

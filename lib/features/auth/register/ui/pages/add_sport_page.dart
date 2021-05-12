@@ -160,8 +160,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                   currentSport = value;
                   viewmodel?.getPositions(sportId: currentSport!.id);
                 },
-                items: viewmodel?.sports!
-                    .map((em) => DropdownMenuItem(
+                items: viewmodel?.sports
+                    ?.map((em) => DropdownMenuItem(
                           child: Text(em.name!),
                           value: em,
                         ))
@@ -175,8 +175,8 @@ class _AddSportPageState extends ProviderMobxState<AddSportPage, AuthViewmodel> 
                   onChanged: (value) {
                     position = value;
                   },
-                  items: viewmodel?.positions!
-                      .map((em) => DropdownMenuItem(
+                  items: viewmodel?.positions
+                      ?.map((em) => DropdownMenuItem(
                             child: Text(em.name!),
                             value: em,
                           ))

@@ -39,6 +39,8 @@
 	<string>This app needs access to location when open.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to photo library</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow access to microphone</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

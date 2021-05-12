@@ -29,6 +29,7 @@ dependencies:
   tuple: ^2.0.0
   device_info: ^2.0.0
   package_info: ^2.0.0
+  mime: ^1.0.0
 
   # Firebase
   firebase_core: ^1.1.0

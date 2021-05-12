@@ -52,7 +52,7 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
     const MyInfoPage(),
     const VideosPage(),
     const ViewsPage(),
-    const StaticVideosPage(),
+    // const StaticVideosPage(),
   ];
 
   //* OBSERVERS *//

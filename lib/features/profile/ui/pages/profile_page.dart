@@ -28,9 +28,8 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
 
   @override
   void initState() {
-    _tabController = TabController(length: 4, vsync: this);
-
     super.initState();
+    _tabController = TabController(length: viewmodel!.pages.length, vsync: this);
   }
 
   @override
@@ -90,10 +89,10 @@ class _ProfilePageState extends MobxState<ProfilePage, ProfileViewmodel> with Ti
                             context.translate('lbl_my_views'),
                             style: textTheme?.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            context.translate('Static Videos'),
-                            style: textTheme?.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
-                          ),
+                          // Text(
+                          //   context.translate('Static Videos'),
+                          //   style: textTheme?.headline2!.copyWith(fontSize: 12.0, fontWeight: FontWeight.bold),
+                          // ),
                         ],
                         unselectedLabelColor: GREY,
                         labelColor: Colors.black,

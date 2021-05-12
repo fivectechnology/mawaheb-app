@@ -16,6 +16,8 @@ import 'package:mawaheb_app/features/settings/domain/repositories/settings_repos
 import 'package:mawaheb_app/features/settings/ui/change_email_page.dart';
 import 'package:mawaheb_app/features/settings/ui/change_password_page.dart';
 import 'package:mawaheb_app/features/settings/ui/setting_otp_page.dart';
+import 'package:provider/provider.dart';
+
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
@@ -166,7 +168,10 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
                 getContext((context) async {
                   final bool? done = await context.navigator.push(SettingOtpPage.pageRoute(this as SettingsViewmodel));
                   if (done ?? false) {
-                    context.pop();
+                    Provider.of<AppViewmodel>(context, listen: false).popRoute(
+                      context,
+                      onBackPressed: () => context.pop(),
+                    );
                   }
                 });
               } else {
@@ -199,7 +204,12 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
         logger.d('otp verify success with res: $res');
         await _settingsRepository
             .changeEmail(email: player!.email, code: res?.data.data)
-            .whenSuccess((res) => res?.apply(() => getContext((context) => context.pop(true))));
+            .whenSuccess((res) => res?.apply(() => getContext((context) {
+                  Provider.of<AppViewmodel>(context, listen: false).popRoute(
+                    context,
+                    onBackPressed: () => context.pop(true),
+                  );
+                })));
 
         return res!.data;
       }),
@@ -226,7 +236,12 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     changePasswordFuture = futureWrapper(
       () => _settingsRepository
           .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player!.id)
-          .whenSuccess((res) => res?.apply(() => getContext((context) => context.pop()))),
+          .whenSuccess((res) => res?.apply(() => getContext((context) {
+                Provider.of<AppViewmodel>(context, listen: false).popRoute(
+                  context,
+                  onBackPressed: () => context.pop(),
+                );
+              }))),
       // .then((res) => logoutAsFuture()),
       catchBlock: (err) => showSnack(
         err!,
