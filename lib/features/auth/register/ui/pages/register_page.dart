@@ -1,6 +1,7 @@
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/mobx/widgets/mobx_loading_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/widgets/custom_app_bar.dart';
@@ -33,7 +34,6 @@ class RegisterPage extends StatefulWidget {
           child: const RegisterPage(),
         ),
       );
-
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }

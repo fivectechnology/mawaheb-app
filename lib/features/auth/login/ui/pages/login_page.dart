@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/utils.dart';
 import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
+
 // import 'package:easy_gradient_text/easy_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -78,11 +79,11 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                       top: 50,
                       bottom: 5,
                     ),
-                    // child: GradientText(
-                    //   text: context.translate('lbl_welcome_to_mawaheb'),
-                    //   colors: const [YELLOW, RED],
-                    //   style: context.textTheme.headline1.copyWith(fontSize: 26, letterSpacing: 0.3),
-                    // ),
+                    child: Text(
+                      context.translate('lbl_welcome_to_mawaheb'),
+                      style: context.textTheme.headline1!
+                          .copyWith(fontSize: 26, letterSpacing: 0.3, foreground: Paint()..shader = linearGradient),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 40),
@@ -137,7 +138,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                     children: [
                       InkWell(
                         onTap: () {
-                          context.pushNamed(ForgotPasswordPage.route, arguments: viewmodel);
+                          context.navigator.push(ForgotPasswordPage.pageRoute(viewmodel!));
                         },
                         child: Text(
                           context.translate('lbl_forget_password'),
@@ -173,7 +174,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   }),
                   MawahebGradientButton(
                     text: 'lbl_sign_up_player',
-                    onPressed: () => context.pushNamed(RegisterPage.route, arguments: viewmodel),
+                    onPressed: () => context.navigator.push(RegisterPage.pageRoute(viewmodel!)),
                     context: context,
                   ),
                   Padding(

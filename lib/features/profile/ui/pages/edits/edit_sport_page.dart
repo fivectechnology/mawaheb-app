@@ -66,6 +66,7 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
 
     hand = widget.player!.handEn;
     leg = widget.player!.legEn;
+    position = widget.player!.position;
 
     hightController = TextEditingController(text: widget.player!.height);
     weightController = TextEditingController(text: widget.player!.weight);

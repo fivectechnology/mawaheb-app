@@ -175,6 +175,8 @@
   "msg_state_empty": "State is empty",
   "msg_height_empty": "Height is empty",
   "msg_weight_empty": "Weight is empty",
+  "msg_brief_empty": "Brief is empty",
+  "msg_dateOfBirth_empty": "Date of birth is empty",
   "msg_uploading_video": "Uploading video...",
   "msg_added_3videos": "you have already added 3 videos for this sport if you want to add new one remove one of uploaded videos",
   "msg_delete_video": "you are going to delete video ",
@@ -186,6 +188,7 @@
   "msg_book_player": "Are you sure to book player?",
   "msg_video_size": "Please select video size less than 5 MB",
   "msg_select_sport": "Please select sport first",
+  "msg_select_position": "Please select position first",
   "msg_uploading_image": "Uploading image...",
   "msg_something_wrong": "Something went wrong! Please try again",
   "lbl_retry": "Retry"

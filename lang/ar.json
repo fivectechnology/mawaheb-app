@@ -170,6 +170,8 @@
   "msg_state_empty": "المقاطعة فارغة",
   "msg_height_empty": "الطول فارغ",
   "msg_weight_empty": "الوزن فارغ",
+  "msg_brief_empty": "النبذة المختصرة فارغة",
+  "msg_dateOfBirth_empty": "تاريخ الميلاد فارغ",
   "msg_uploading_video": "جاري رفع الفيديو...",
   "msg_added_3videos": "لقد أضفت بالفعل 3 مقاطع فيديو لهذه الرياضة إذا كنت تريد إضافة مقطع فيديو جديد ، فقم بإزالة أحد مقاطع الفيديو المحملة",
   "msg_delete_video": "ستقوم بحذف الفيديو ",
@@ -181,6 +183,7 @@
   "msg_book_player": "هل انت متأكد من  حجز اللاعب؟",
   "msg_video_size": "يرجى اختيار فيديو حجمه اقل من 5 ميجابايت",
   "msg_select_sport": "يرحى اختيار الرياضة اولا",
+  "msg_select_position": "يرحى اختيار المركز اولا",
   "msg_uploading_image": "جاري رفع الصورة...",
   "lbl_retry": "إعادة المحاولة",
   "msg_something_wrong": "هناك خطأ ما! حاول مرة اخرى"

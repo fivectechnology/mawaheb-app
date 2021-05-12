@@ -67,3 +67,7 @@ const LinearGradient BUTTON_GRADIENT = LinearGradient(
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
 );
+
+final Shader linearGradient = const LinearGradient(
+  colors: <Color>[YELLOW, RED],
+).createShader(const Rect.fromLTWH(0.0, 0.0, 400.0, 100.0));

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 String? passwordValidator({required String password, BuildContext? context}) {
   if (password.isEmpty) {
     return context!.translate('msg_password_empty');
-  } else if (password.length < 3) {
+  } else if (password.length < 6) {
     return context!.translate('msg_short_password');
   }
   return null;
@@ -24,7 +24,9 @@ String? emailValidator({required String email, BuildContext? context}) {
 }
 
 String? confirmPasswordValidator(
-    {required String password, BuildContext? context, String? confirmPassword}) {
+    {required String password,
+    BuildContext? context,
+    String? confirmPassword}) {
   if (password.isEmpty) {
     return context!.translate('msg_password_empty');
   } else if (password.length < 3) {
@@ -83,9 +85,16 @@ String? weightValidator({required String value, BuildContext? context}) {
   return null;
 }
 
-// String dateValidator(String date) {
-//   if (date.isEmpty) {
-//     return 'date is empty';
-//   }
-//   return null;
-// }
+String? briefValidator({required String value, BuildContext? context}) {
+  if (value.isEmpty) {
+    return context!.translate('msg_brief_empty');
+  }
+  return null;
+}
+
+String? dateValidator({required String value, BuildContext? context}) {
+  if (value.isEmpty) {
+    return context!.translate('msg_dateOfBirth_empty');
+  }
+  return null;
+}
