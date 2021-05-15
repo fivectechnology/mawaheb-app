@@ -71,6 +71,8 @@
   "lbl_phone": "Phone",
   "lbl_edit": "Edit",
   "lbl_sport": "Sport",
+  "lbl_info_sport": "Sport",
+
   "lbl_filter": "Filter",
   "lbl_booked_by_us": "Booked by us",
   "lbl_confirmed_by_us": "Confirmed by us",
@@ -186,7 +188,7 @@
   "msg_confirm_player": "Are you sure to confirm player?",
   "msg_release_player": "Are you sure to release player?",
   "msg_book_player": "Are you sure to book player?",
-  "msg_video_size": "Please select video size less than 5 MB",
+  "msg_video_size": "Please select video size less than 15 MB",
   "msg_select_sport": "Please select sport first",
   "msg_select_position": "Please select position first",
   "msg_uploading_image": "Uploading image...",
