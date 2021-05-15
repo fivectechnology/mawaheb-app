@@ -327,6 +327,11 @@ class _AddSportPageState
                             context.translate('msg_select_sport'),
                             scaffoldKey: RegisterPage.scaffoldKey,
                             duration: const Duration(seconds: 3));
+                      } else if (position == null) {
+                        viewmodel?.showSnack(
+                            context.translate('msg_select_position'),
+                            scaffoldKey: RegisterPage.scaffoldKey,
+                            duration: const Duration(seconds: 3));
                       } else {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
