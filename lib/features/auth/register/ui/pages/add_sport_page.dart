@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mawaheb_app/base/utils/api_helper.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
@@ -85,14 +86,14 @@ class _AddSportPageState
   }
 
   Future getVideoCamera() async {
+    FocusScope.of(context).requestFocus(FocusNode());
     final pickedFile = await picker.getVideo(source: ImageSource.camera);
-
     if (pickedFile != null) {
       video = File(pickedFile.path);
       fileName = video!.path.split('/').last;
       fileType = 'video/' + fileName!.split('.').last;
       fileSize = await video!.length();
-      if (fileSize! <= 5000000) {
+      if (fileSize! <= VIDEO_SIZE) {
         viewmodel?.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
@@ -118,7 +119,7 @@ class _AddSportPageState
       fileName = video!.path.split('/').last;
       fileType = fileName!.split('.').last;
       fileSize = await video!.length();
-      if (fileSize! <= 5000000) {
+      if (fileSize! <= VIDEO_SIZE) {
         viewmodel?.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
