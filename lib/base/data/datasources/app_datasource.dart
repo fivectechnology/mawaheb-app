@@ -10,11 +10,12 @@ import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/data/models/version_model.dart';
 import 'package:mawaheb_app/base/domain/repositories/prefs_repository.dart';
 import 'package:mawaheb_app/base/utils/api_helper.dart';
+import 'package:supercharged/supercharged.dart';
 
 import 'mawaheb_datasource.dart';
 
 abstract class AppDataSource extends BaseRemoteDataSource {
-  Future<NetworkResult<ListBaseResponseModel<int>?>> getNotificationsCount();
+  Future<NetworkResult<List<int>?>> getNotificationsCount({bool reset = false});
 
   Future<NetworkResult<BaseResponseModel<Object>?>> deleteDevice({String? firebaseToken});
 
@@ -42,18 +43,20 @@ class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource
   }) : super(
           prefsRepository: prefsRepository,
           client: client,
-         
           logger: logger,
         );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<int>?>> getNotificationsCount() => mawahebRequest(
+  Future<NetworkResult<List<int>?>> getNotificationsCount({bool reset = false}) => mawahebRequest(
           method: METHOD.POST,
-          modelName: 'NotificationMessage',
-          mapper: ListBaseResponseModel.fromJson((obj) => obj as int) as ListBaseResponseModel<int> Function(Object?)?,
+          modelName: 'Metadata',
+          action: reset ? null : EndPointAction.search,
+          // mapper: ListBaseResponseModel.fromJson((obj) => obj as int) as ListBaseResponseModel<int> Function(Object?)?,
+          mapper: ListBaseResponseModel.dataTypeMapper(
+              (json) => ((json as Map<String, dynamic>)['value'] as String?)!.toInt()!),
           data: {
             'fields': ['id', 'version', 'code', 'value'],
-            'data': {'_domain': 'self.recordId =:__user__'},
+            'data': reset ? {'id': 1, 'version': 0, 'value': 0} : {'_domain': 'self.recordId =:__user__'},
             'limit': 1,
             'offset': 0
           });
@@ -99,17 +102,18 @@ class AppDataSourceImpl extends MawahebRemoteDataSource implements AppDataSource
     final version = (await getDevice()).getOrThrow()!.version;
     logger.d('version in modify device is $version');
     return mawahebRequest(
-        method: METHOD.POST,
-        modelName: 'NotificationDevice',
-        mapper: ListBaseResponseModel.versionMapper,
-        data: {
-          'fields': ['id', 'version', 'deviceId'],
-          'data': {
-            'id': prefsRepository!.fbId,
-            'version': version,
-            'user': link ? {'id': prefsRepository!.player!.id} : null,
-          }
-        });
+      method: METHOD.POST,
+      modelName: 'NotificationDevice',
+      mapper: ListBaseResponseModel.versionMapper,
+      data: {
+        'fields': ['id', 'version', 'deviceId'],
+        'data': {
+          'id': prefsRepository!.fbId,
+          'version': version,
+          'user': link ? {'id': prefsRepository!.player!.id} : null,
+        }
+      },
+    );
   }
 
   @override

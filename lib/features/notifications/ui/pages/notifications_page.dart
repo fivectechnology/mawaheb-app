@@ -5,11 +5,13 @@ import 'package:core_sdk/utils/pagination_mixin.dart';
 import 'package:core_sdk/utils/widgets/pagination_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
 import 'package:mawaheb_app/base/data/models/list_base_response_model.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/notifications/data/models/notification_model.dart';
 import 'package:mawaheb_app/features/notifications/viewmodels/notifications_viewmodel.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({
@@ -31,6 +33,12 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
     super.initState();
     initPagination();
     viewmodel?.getnotifications(fresh: true);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<AppViewmodel>(context, listen: false).updateNotificationsCount(reset: true);
   }
 
   @override

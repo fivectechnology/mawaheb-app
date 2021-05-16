@@ -87,11 +87,11 @@ class AppRepositoryImpl extends AppRepository {
   }
 
   @override
-  Future<int> getNotificationsCount() async {
+  Future<int> getNotificationsCount({bool reset = false}) async {
     if ((_prefsRepository.token ?? '').isNotEmpty)
       try {
-        final result = await _remoteDataSource.getNotificationsCount();
-        return result.getOrThrow()!.data!.first;
+        final result = await _remoteDataSource.getNotificationsCount(reset: reset);
+        return result.getOrThrow()!.first;
       } catch (e) {
         // throw ServerFailure('Failed to get notifications count!');
       }

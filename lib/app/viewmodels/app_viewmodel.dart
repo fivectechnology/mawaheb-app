@@ -115,8 +115,7 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
     if (pageIndex != newPageIndex) {
       pageIndex = newPageIndex;
       appBarHistory.clear();
-      pushRoute(AppBarParams(
-          title: getAppBarTitle(pageIndex, isPlayer), onBackPressed: null));
+      pushRoute(AppBarParams(title: getAppBarTitle(pageIndex, isPlayer), onBackPressed: null));
     }
   }
 
@@ -143,8 +142,8 @@ abstract class _AppViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void updateNotificationsCount() {
-    _appRepository.getNotificationsCount().then((count) {
+  void updateNotificationsCount({bool reset = false}) {
+    _appRepository.getNotificationsCount(reset: reset).then((count) {
       notificationsCount = count;
     }).catchError((error) {
       logger.e('updateCartItemsCount => ERROR: $error');

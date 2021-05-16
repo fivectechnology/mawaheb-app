@@ -11,7 +11,7 @@ abstract class AppRepository extends BaseRepository {
 
   Future<bool> deleteDevice({required String firebaseToken});
 
-  Future<int> getNotificationsCount();
+  Future<int> getNotificationsCount({bool reset = false});
 
   Future<bool> modifyDevice(bool link);
 

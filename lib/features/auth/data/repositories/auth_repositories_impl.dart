@@ -51,24 +51,18 @@ class AuthRepositoryImpl extends AuthRepository {
       _prefsRepository
           .setType(type)
           .then((res) => _prefsRepository.setToken(null))
+          .then((res) => res ? _appRepository.registerDevice() : throw Exception(''))
           .then((res) =>
-              res ? _appRepository.registerDevice() : throw Exception(''))
-          .then((res) => res
-              ? authDataSource.login(
-                  userName: userName, password: password, type: type)
-              : throw Exception(''))
+              res ? authDataSource.login(userName: userName, password: password, type: type) : throw Exception(''))
           .whenSuccess((res) => _prefsRepository.setToken(res?.data.data))
-          .then((res) => res
-              ? _prefsRepository
-                  .setUser(UserModel(userName: userName, password: password))
-              : throw Exception(''))
+          .then((res) =>
+              res ? _prefsRepository.setUser(UserModel(userName: userName, password: password)) : throw Exception(''))
           .then((res) => getPlayerId(token: _prefsRepository.token))
           .then((res) => _profileRepository.fetchPlayer(id: res))
           .whenSuccessWrapped((res) async {
-        await _prefsRepository.setApplicationLanguage(
-            res?.data!.first.language ?? defaultLanguage);
-        await _appRepository.modifyDevice(true);
+        await _prefsRepository.setApplicationLanguage(res?.data!.first.language ?? defaultLanguage);
         await _prefsRepository.setPlayer(res!.data!.first);
+        await _appRepository.modifyDevice(true);
         return res.data!.first;
       });
   // : authDataSource.login(userName: userName, password: password, type: type).whenSuccessWrapped((res) {
@@ -99,10 +93,8 @@ class AuthRepositoryImpl extends AuthRepository {
   }) =>
       _prefsRepository
           .setType(type)
-          .then((res) => authDataSource.signUp(
-              code: code, email: email, password: password))
-          .then(
-              (res) => login(password: password, userName: email, type: type));
+          .then((res) => authDataSource.signUp(code: code, email: email, password: password))
+          .then((res) => login(password: password, userName: email, type: type));
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addAddressInfo({
@@ -112,12 +104,7 @@ class AuthRepositoryImpl extends AuthRepository {
     required String? area,
     required String? address,
   }) =>
-      authDataSource.addAddressInfo(
-          id: id,
-          version: version,
-          emirateModel: emirateModel,
-          area: area,
-          address: address);
+      authDataSource.addAddressInfo(id: id, version: version, emirateModel: emirateModel, area: area, address: address);
 
   @override
   Future<NetworkResult<ListBaseResponseModel<PlayerModel>?>> addPersonalInfo({
@@ -165,75 +152,58 @@ class AuthRepositoryImpl extends AuthRepository {
       );
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CategoryModel>?>>
-      getCategories() => authDataSource.getCategories();
+  Future<NetworkResult<ListBaseResponseModel<CategoryModel>?>> getCategories() => authDataSource.getCategories();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<CountryModel>?>> getCountries() =>
-      authDataSource.getCountries();
+  Future<NetworkResult<ListBaseResponseModel<CountryModel>?>> getCountries() => authDataSource.getCountries();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<EmirateModel>?>> getEmirates() =>
-      authDataSource.getEmirates();
+  Future<NetworkResult<ListBaseResponseModel<EmirateModel>?>> getEmirates() => authDataSource.getEmirates();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>?>>
-      getPositions({int? sportId}) =>
-          authDataSource.getPositions(sportId: sportId);
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>?>> getPositions({int? sportId}) =>
+      authDataSource.getPositions(sportId: sportId);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SportModel>?>> getSports() =>
-      authDataSource.getSports();
+  Future<NetworkResult<ListBaseResponseModel<SportModel>?>> getSports() => authDataSource.getSports();
 
   @override
-  Future<NetworkResult<String?>> sendOTP({String? email}) =>
-      authDataSource.sendOTP(email: email);
+  Future<NetworkResult<String?>> sendOTP({String? email}) => authDataSource.sendOTP(email: email);
 
   @override
-  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP(
-          {String? email, int? code}) =>
+  Future<NetworkResult<BaseResponseModel<OTPResponseModel>?>> verifyOTP({String? email, int? code}) =>
       authDataSource.verifyOTP(email: email, code: code);
 
   @override
-  Future<int?> getPlayerId({String? token}) =>
-      authDataSource.getPlayerId(token: token);
+  Future<int?> getPlayerId({String? token}) => authDataSource.getPlayerId(token: token);
 
   @override
-  Future<NetworkResult<bool?>> forgetPassword({String? email}) =>
-      authDataSource.forgetPassword(email: email);
+  Future<NetworkResult<bool?>> forgetPassword({String? email}) => authDataSource.forgetPassword(email: email);
 
   @override
-  Future<NetworkResult<bool?>> resetPassword(
-          {String? email, String? password, int? code}) =>
-      authDataSource.resetPassword(
-          email: email, password: password, code: code);
+  Future<NetworkResult<bool?>> resetPassword({String? email, String? password, int? code}) =>
+      authDataSource.resetPassword(email: email, password: password, code: code);
 
   @override
-  Future<NetworkResult<bool?>> validateEmail({String? email}) =>
-      authDataSource.validateEmail(email: email);
+  Future<NetworkResult<bool?>> validateEmail({String? email}) => authDataSource.validateEmail(email: email);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>?>>
-      getSubscription() => authDataSource.getSubscription();
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>?>> getSubscription() =>
+      authDataSource.getSubscription();
 
   @override
-  Future<NetworkResult<bool?>> confirmTransaction(
-          {int? transactionId, int? transactionVersion}) =>
-      authDataSource.confirmTransaction(
-          transactionId: transactionId, transactionVersion: transactionVersion);
+  Future<NetworkResult<bool?>> confirmTransaction({int? transactionId, int? transactionVersion}) =>
+      authDataSource.confirmTransaction(transactionId: transactionId, transactionVersion: transactionVersion);
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>>
-      getPlayerTransaction() => authDataSource.getPlayerTransaction();
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> getPlayerTransaction() =>
+      authDataSource.getPlayerTransaction();
 
   @override
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>>
-      playerTransaction({int? amount, int? playerId}) =>
-          authDataSource.playerTransaction(amount: amount, playerId: playerId);
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> playerTransaction({int? amount, int? playerId}) =>
+      authDataSource.playerTransaction(amount: amount, playerId: playerId);
 
   @override
-  Future<NetworkResult<bool?>> subscriptionPlayer(
-          {int? playerId, int? subscriptionId}) =>
-      authDataSource.subscriptionPlayer(
-          playerId: playerId, subscriptionId: subscriptionId);
+  Future<NetworkResult<bool?>> subscriptionPlayer({int? playerId, int? subscriptionId}) =>
+      authDataSource.subscriptionPlayer(playerId: playerId, subscriptionId: subscriptionId);
 }

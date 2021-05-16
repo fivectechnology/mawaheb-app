@@ -202,11 +202,11 @@ mixin _$AppViewmodel on _AppViewmodelBase, Store {
   }
 
   @override
-  void updateNotificationsCount() {
+  void updateNotificationsCount({bool reset = false}) {
     final _$actionInfo = _$_AppViewmodelBaseActionController.startAction(
         name: '_AppViewmodelBase.updateNotificationsCount');
     try {
-      return super.updateNotificationsCount();
+      return super.updateNotificationsCount(reset: reset);
     } finally {
       _$_AppViewmodelBaseActionController.endAction(_$actionInfo);
     }

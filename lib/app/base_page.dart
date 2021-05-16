@@ -49,6 +49,8 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
     super.didChangeDependencies();
     print('my debug didChangeDependencies called in base page');
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
+    appViewmodel?.updateNotificationsCount();
+
     if (appViewmodel!.pageIndex == PageIndex.home) {
       appViewmodel!.appBarParams = AppBarParams.initial(appViewmodel!.isPlayer);
     }
@@ -130,7 +132,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
     //
     // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     //   logger.d('onResume => notification: ${message.notification} data: ${message.data}');
-    //   appViewModel?.updateNotificationsCount();
+    // appViewmodel?.updateNotificationsCount();
     //   PushRouting.route(
     //     navigator: appViewModel.currentNavigator.currentState.push,
     //     message: message.data,
