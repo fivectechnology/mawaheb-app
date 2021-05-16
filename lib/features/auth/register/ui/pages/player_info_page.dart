@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
+import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
@@ -112,133 +113,135 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
           ? const Center(child: MawahebLoader())
           : Form(
               key: _formKey,
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  imageRow(),
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                    hintText: 'lbl_full_name',
-                    hintColor: Colors.grey,
-                    textEditingController: _nameController,
-                    context: context,
-                    validator: (value) {
-                      return nameValidator(context: context, name: value ?? '');
-                    },
-                  ),
-                  const SizedBox(height: 26),
-                  InkWell(
-                    onTap: () => _selectDate(context),
-                    child: AbsorbPointer(
-                      child: MawahebTextField(
-                          hintText: 'lbl_date_of_birth',
-                          hintColor: Colors.grey,
-                          textEditingController: _dateOfBirth,
-                          validator: (value) {
-                            return dateValidator(context: context, value: value ?? '');
-                          },
-                          context: context),
-                    ),
-                  ),
-
-                  const SizedBox(height: 26),
-                  MawahebTextField(
-                      keyboardType: TextInputType.phone,
-                      hintText: 'lbl_phone_num',
+              child: FocusDetector(
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    imageRow(),
+                    const SizedBox(height: 26),
+                    MawahebTextField(
+                      hintText: 'lbl_full_name',
                       hintColor: Colors.grey,
-                      textEditingController: _phoneController,
+                      textEditingController: _nameController,
+                      context: context,
                       validator: (value) {
-                        return phoneValidator(context: context, phone: value ?? '');
+                        return nameValidator(context: context, name: value ?? '');
                       },
-                      context: context),
-                  const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    value: viewmodel?.countries!.first,
-                    hint: 'lbl_nationality',
-                    context: context,
-                    onChanged: (value) {
-                      currentCountry = value;
-                    },
-                    items: viewmodel?.countries!
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.name!),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 26),
-                  mawhaebDropDown(
-                    value: viewmodel?.categories!.first,
-                    hint: 'lbl_category',
-                    context: context,
-                    onChanged: (value) {
-                      currentCategory = value;
-                    },
-                    items: viewmodel?.categories!
-                        .map((em) => DropdownMenuItem(
-                              child: Text(em.title!),
-                              value: em,
-                            ))
-                        .toList(),
-                  ),
-                  const SizedBox(height: 26),
-                  AbsorbPointer(
-                    child: mawhaebDropDown(
-                      value: 'MALE',
-                      hint: 'lbl_gender',
+                    ),
+                    const SizedBox(height: 26),
+                    InkWell(
+                      onTap: () => _selectDate(context),
+                      child: AbsorbPointer(
+                        child: MawahebTextField(
+                            hintText: 'lbl_date_of_birth',
+                            hintColor: Colors.grey,
+                            textEditingController: _dateOfBirth,
+                            validator: (value) {
+                              return dateValidator(context: context, value: value ?? '');
+                            },
+                            context: context),
+                      ),
+                    ),
+
+                    const SizedBox(height: 26),
+                    MawahebTextField(
+                        keyboardType: TextInputType.phone,
+                        hintText: 'lbl_phone_num',
+                        hintColor: Colors.grey,
+                        textEditingController: _phoneController,
+                        validator: (value) {
+                          return phoneValidator(context: context, phone: value ?? '');
+                        },
+                        context: context),
+                    const SizedBox(height: 26),
+                    mawhaebDropDown(
+                      value: viewmodel?.countries!.first,
+                      hint: 'lbl_nationality',
                       context: context,
                       onChanged: (value) {
-                        gender = value;
+                        currentCountry = value;
                       },
-                      items: ['MALE']
+                      items: viewmodel?.countries!
                           .map((em) => DropdownMenuItem(
-                                child: Text(em),
+                                child: Text(em.name!),
                                 value: em,
                               ))
                           .toList(),
                     ),
-                  ),
-                  // MawahebTextField(
-                  //   hintText: 'lbl_gender',
-                  //   hintColor: Colors.grey,
-                  //   textEditingController: _genderController,
-                  //   context: context,
-                  // ),
-                  const SizedBox(height: 26),
-                  Observer(
-                    builder: (_) {
-                      return MawahebGradientButton(
-                          context: context,
-                          text: 'lbl_next',
-                          isLoading: viewmodel?.registerLoading ?? false,
-                          onPressed: () async {
-                            if (viewmodel?.image != null) {
-                              viewmodel?.uploadFile(
-                                  playerVersion: viewmodel?.prefsRepository.player!.version,
-                                  playerId: viewmodel?.prefsRepository.player!.id,
-                                  file: viewmodel?.image,
-                                  fileType: fileType,
-                                  fileName: fileName,
-                                  fileSize: fileSize);
-                            }
+                    const SizedBox(height: 26),
+                    mawhaebDropDown(
+                      value: viewmodel?.categories!.first,
+                      hint: 'lbl_category',
+                      context: context,
+                      onChanged: (value) {
+                        currentCategory = value;
+                      },
+                      items: viewmodel?.categories!
+                          .map((em) => DropdownMenuItem(
+                                child: Text(em.title!),
+                                value: em,
+                              ))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 26),
+                    AbsorbPointer(
+                      child: mawhaebDropDown(
+                        value: 'MALE',
+                        hint: 'lbl_gender',
+                        context: context,
+                        onChanged: (value) {
+                          gender = value;
+                        },
+                        items: ['MALE']
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(em),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    // MawahebTextField(
+                    //   hintText: 'lbl_gender',
+                    //   hintColor: Colors.grey,
+                    //   textEditingController: _genderController,
+                    //   context: context,
+                    // ),
+                    const SizedBox(height: 26),
+                    Observer(
+                      builder: (_) {
+                        return MawahebGradientButton(
+                            context: context,
+                            text: 'lbl_next',
+                            isLoading: viewmodel?.registerLoading ?? false,
+                            onPressed: () async {
+                              if (viewmodel?.image != null) {
+                                viewmodel?.uploadFile(
+                                    playerVersion: viewmodel?.prefsRepository.player!.version,
+                                    playerId: viewmodel?.prefsRepository.player!.id,
+                                    file: viewmodel?.image,
+                                    fileType: fileType,
+                                    fileName: fileName,
+                                    fileSize: fileSize);
+                              }
 
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
 
-                              viewmodel?.addPersonalInfo(
-                                phone: _phoneController.text,
-                                name: _nameController.text,
-                                gender: gender ?? 'MALE',
-                                dateOfBirth: dateOfBirth,
-                                categoryModel: currentCategory ?? viewmodel?.categories!.first,
-                                country: currentCountry ?? viewmodel?.countries!.first,
-                              );
-                            }
-                          });
-                    },
-                  ),
-                  const SizedBox(height: 34),
-                ],
+                                viewmodel?.addPersonalInfo(
+                                  phone: _phoneController.text,
+                                  name: _nameController.text,
+                                  gender: gender ?? 'MALE',
+                                  dateOfBirth: dateOfBirth,
+                                  categoryModel: currentCategory ?? viewmodel?.categories!.first,
+                                  country: currentCountry ?? viewmodel?.countries!.first,
+                                );
+                              }
+                            });
+                      },
+                    ),
+                    const SizedBox(height: 34),
+                  ],
+                ),
               ),
             );
     });
