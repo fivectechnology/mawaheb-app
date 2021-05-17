@@ -3,6 +3,7 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:core_sdk/utils/mobx/side_effect_mixin.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/app/viewmodels/app_viewmodel.dart';
@@ -16,6 +17,8 @@ import 'package:mawaheb_app/features/public_info/ui/pages/public_info_page.dart'
 import 'package:mawaheb_app/features/settings/ui/settings_page.dart';
 import 'package:provider/provider.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../main.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({Key? key}) : super(key: key);
@@ -147,30 +150,31 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
       //   getCusomerProfile();
       //   getUserProfile();
       // }
-      // RemoteNotification notification = message.notification;
-      // AndroidNotification android = message.notification?.android;
+      final RemoteNotification? notification = message.notification;
+      final AndroidNotification? android = message.notification?.android;
       // logger.d(
       //   'my debug 12 $android ${notification.hashCode} ${notification.title} ${notification.body}, ${channel.id} ${channel.name}',
       // );
-      // if (notification != null && android != null) {
-      //   flutterLocalNotificationsPlugin.show(
-      //       notification.hashCode,
-      //       notification.title,
-      //       notification.body,
-      //       NotificationDetails(
-      //         android: AndroidNotificationDetails(
-      //           channel.id,
-      //           channel.name,
-      //           channel.description,
-      //           color: PRIMARY,
-      //           importance: Importance.max,
-      //           priority: Priority.max,
-      //           enableVibration: true,
-      //           playSound: true,
-      //           icon: '@drawable/ic_notification',
-      //         ),
-      //       ));
-      // }
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                color: PRIMARY,
+                importance: Importance.max,
+                priority: Priority.max,
+                enableVibration: true,
+                playSound: true,
+                // icon: '@drawable/ic_notification',
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
     });
   }
 }

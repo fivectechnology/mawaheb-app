@@ -10,6 +10,7 @@ part 'notification_model.g.dart';
 
 enum NotificationType {
   PROFILE,
+  PROFILE_VIEW,
   ORDER,
   STORE,
   LOYALTY,
