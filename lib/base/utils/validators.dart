@@ -47,13 +47,13 @@ String? nameValidator({required String name, BuildContext? context}) {
 }
 
 String? phoneValidator({required String phone, BuildContext? context}) {
-  const String arPattern = r'^[\u0621-\u064A\u0660-\u0669 ]+$';
+  const String arPattern = r'[0-9|٠-٩]';
   const String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
   final RegExp regExp = RegExp(pattern);
   final arRegExp = RegExp(arPattern);
   if (phone.isEmpty) {
     return context!.translate('msg_phone_empty');
-  } else if (!regExp.hasMatch(phone) || phone.length != 10
+  } else if (!arRegExp.hasMatch(phone) || phone.length != 10
       //||
       //!arRegExp.hasMatch(phone)
       ) {
