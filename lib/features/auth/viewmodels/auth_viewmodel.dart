@@ -666,8 +666,10 @@ abstract class _AuthViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res?.apply(() {
-              showSnack('Video deleted',
-                  scaffoldKey: RegisterPage.scaffoldKey, duration: 2.seconds);
+              getContext((context) => showSnack(
+                  context.translate('msg_video_deleted'),
+                  scaffoldKey: RegisterPage.scaffoldKey,
+                  duration: 2.seconds));
               fetchVideos(playerId: player!.id);
             }),
           ),

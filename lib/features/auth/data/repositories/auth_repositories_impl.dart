@@ -60,11 +60,16 @@ class AuthRepositoryImpl extends AuthRepository {
           .then((res) => getPlayerId(token: _prefsRepository.token))
           .then((res) => _profileRepository.fetchPlayer(id: res))
           .whenSuccessWrapped((res) async {
-        await _prefsRepository.setApplicationLanguage(res?.data!.first.language ?? defaultLanguage);
+        await getFileSize(token: _prefsRepository.token)
+            .then((value) => _prefsRepository.setFileSize(value));
+        await _prefsRepository.setApplicationLanguage(
+            res?.data!.first.language ?? defaultLanguage);
+        await _appRepository.modifyDevice(true);
         await _prefsRepository.setPlayer(res!.data!.first);
         await _appRepository.modifyDevice(true);
         return res.data!.first;
       });
+
   // : authDataSource.login(userName: userName, password: password, type: type).whenSuccessWrapped((res) {
   //     _prefsRepository.setToken(res!.data.data);
   //     return null;
@@ -204,6 +209,12 @@ class AuthRepositoryImpl extends AuthRepository {
       authDataSource.playerTransaction(amount: amount, playerId: playerId);
 
   @override
-  Future<NetworkResult<bool?>> subscriptionPlayer({int? playerId, int? subscriptionId}) =>
-      authDataSource.subscriptionPlayer(playerId: playerId, subscriptionId: subscriptionId);
+  Future<NetworkResult<bool?>> subscriptionPlayer(
+          {int? playerId, int? subscriptionId}) =>
+      authDataSource.subscriptionPlayer(
+          playerId: playerId, subscriptionId: subscriptionId);
+
+  @override
+  Future<String?> getFileSize({String? token}) =>
+      authDataSource.getFileSize(token: token);
 }

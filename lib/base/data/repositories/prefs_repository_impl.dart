@@ -15,7 +15,8 @@ class PrefsRepositoryImpl implements PrefsRepository {
 
   @override
   String get token =>
-      _prefs.getString(PreferencesKeys.USER_TOKEN) ?? base64Encode(utf8.encode('$DEFAULT_USER_NAME:$DEFAULT_PASSWORD'));
+      _prefs.getString(PreferencesKeys.USER_TOKEN) ??
+      base64Encode(utf8.encode('$DEFAULT_USER_NAME:$DEFAULT_PASSWORD'));
 
   //base64Encode(utf8.encode('${user.userName}:${user.password}'));
 
@@ -52,10 +53,12 @@ class PrefsRepositoryImpl implements PrefsRepository {
   int? get fbId => _prefs.getInt(PreferencesKeys.FB_USER_TOKEN);
 
   @override
-  Future<bool> setFbId(int? fbId) => _prefs.setInt(PreferencesKeys.FB_USER_TOKEN, fbId!);
+  Future<bool> setFbId(int? fbId) =>
+      _prefs.setInt(PreferencesKeys.FB_USER_TOKEN, fbId!);
 
   @override
-  String get languageCode => _prefs.getString(PreferencesKeys.APP_LANGUAGE) ?? LANGUAGE_DEFAULT;
+  String get languageCode =>
+      _prefs.getString(PreferencesKeys.APP_LANGUAGE) ?? LANGUAGE_DEFAULT;
 
   @override
   Future<bool> setApplicationLanguage(String? languageCode) =>
@@ -65,10 +68,12 @@ class PrefsRepositoryImpl implements PrefsRepository {
   String? get baseUrl => _prefs.getString(PreferencesKeys.API_BASE_URL);
 
   @override
-  Future<bool> setBaseUrl(String baseUrl) => _prefs.setString(PreferencesKeys.API_BASE_URL, baseUrl);
+  Future<bool> setBaseUrl(String baseUrl) =>
+      _prefs.setString(PreferencesKeys.API_BASE_URL, baseUrl);
 
   @override
-  Future<bool> setUser(UserModel user) => _prefs.setString(PreferencesKeys.USER_PROFILE, json.encode(user.toJson()));
+  Future<bool> setUser(UserModel user) => _prefs.setString(
+      PreferencesKeys.USER_PROFILE, json.encode(user.toJson()));
 
   @override
   UserModel? get user {
@@ -90,6 +95,7 @@ class PrefsRepositoryImpl implements PrefsRepository {
     await _prefs.remove(PreferencesKeys.APP_LANGUAGE);
     await _prefs.remove(PreferencesKeys.CUSTOMER_PROFILE);
     await _prefs.remove(PreferencesKeys.USER_GENDER);
+    await _prefs.remove(FILE_SIZE);
     // await _prefs.remove(PreferencesKeys.IS_DEVICE_REGISTERED);
 
     return true;
@@ -98,17 +104,26 @@ class PrefsRepositoryImpl implements PrefsRepository {
   @override
   PlayerModel? get player {
     final jsonPlayer = _prefs.getString(PreferencesKeys.CUSTOMER_PROFILE);
-    return jsonPlayer != null ? PlayerModel.fromJson(json.decode(jsonPlayer)) : null;
+    return jsonPlayer != null
+        ? PlayerModel.fromJson(json.decode(jsonPlayer))
+        : null;
   }
 
   @override
-  Future<bool> setPlayer(PlayerModel player) async =>
-      _prefs.setString(PreferencesKeys.CUSTOMER_PROFILE, json.encode(player.toJson()));
+  Future<bool> setPlayer(PlayerModel player) async => _prefs.setString(
+      PreferencesKeys.CUSTOMER_PROFILE, json.encode(player.toJson()));
+
+  @override
+  int? get fileSize => _prefs.getInt(FILE_SIZE) ?? 0;
+
+  @override
+  Future<bool> setFileSize(String? fileSize) =>
+      _prefs.setInt(FILE_SIZE, int.parse(fileSize!) * 1000000);
 }
 
 const String DEFAULT_USER_NAME = 'apiuser@mawaheb.com';
 const String DEFAULT_PASSWORD = 'welcome1';
+const String FILE_SIZE = 'file_size';
 
 // const String DEFAULT_USER_NAME = 'admin';
 // const String DEFAULT_PASSWORD = 'admin';
-

@@ -100,14 +100,15 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
       backgroundColor: WHITE,
       appBar: customAppBar(
           context: context,
-          title: 'lbl_sport',
+          title: 'lbl_address',
           withTitle: true,
           onBackButton: () {
-            context.pop();
+            context.navigator.pop();
           }) as PreferredSizeWidget?,
       body: Observer(builder: (_) {
         return LoadingPage(
-          isLoading: viewmodel?.sportLoading == true || viewmodel?.positionsLoading == true,
+          isLoading: viewmodel?.sportLoading == true ||
+              viewmodel?.positionsLoading == true,
           loadingWidget: const Center(child: MawahebLoader()),
           child: Form(
             key: _formKey,
@@ -136,7 +137,8 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                   const SizedBox(height: 26),
                   if (viewmodel?.positions != null)
                     mawhaebDropDown<SportPositionModel>(
-                      value: currentSport == null ? widget.player!.position : null,
+                      value:
+                          currentSport == null ? widget.player!.position : null,
                       hint: context.translate('lbl_position'),
                       context: context,
                       onChanged: (value) {
@@ -152,26 +154,14 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                               .toList() ??
                           <DropdownMenuItem<SportPositionModel>>[],
                     ),
-                  // if (viewmodel?.positions == null)
-                  //   InkWell(
-                  //     onTap: () {
-                  //       viewmodel?.showSnack(
-                  //           context.translate('msg_select_sport'),
-                  //           duration: const Duration(seconds: 3),
-                  //           scaffoldKey: EditSportPage.scaffoldKey);
-                  //     },
-                  //     child: mawhaebDropDown(
-                  //       hint: context.translate('lbl_position'),
-                  //       context: context,
-                  //     ),
-                  //   ),
                   const SizedBox(height: 26),
                   MawahebTextField(
                     keyboardType: TextInputType.number,
                     hintText: context.translate('lbl_weight'),
                     hintColor: Colors.grey,
                     validator: (value) {
-                      return weightValidator(context: context, value: value ?? '');
+                      return weightValidator(
+                          context: context, value: value ?? '');
                     },
                     textEditingController: weightController,
                     context: context,
@@ -183,7 +173,8 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                     hintColor: Colors.grey,
                     context: context,
                     validator: (value) {
-                      return heightValidator(context: context, value: value ?? '');
+                      return heightValidator(
+                          context: context, value: value ?? '');
                     },
                     // onChanged: (value) {
                     //   hightController.text = value;
@@ -237,21 +228,26 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                         leg = v;
                       }),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.03),
+                    padding: EdgeInsets.symmetric(
+                        vertical: context.fullHeight * 0.03),
                     child: SizedBox(
                       height: context.fullHeight * 0.15,
                       child: TextFormField(
                         controller: briefController,
                         maxLines: 10,
                         validator: (value) {
-                          return briefValidator(context: context, value: value ?? '');
+                          return briefValidator(
+                              context: context, value: value ?? '');
                         },
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6), borderSide: const BorderSide(color: Colors.grey)),
-                          hintText: context.translate('msg_brief'),
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide: const BorderSide(color: Colors.grey)),
+                          labelText: context.translate('msg_brief'),
+                          labelStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w200,
+                              fontFamily: 'Poppins'),
                         ),
                       ),
                     ),
@@ -268,20 +264,25 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
                         progressColor: RED,
                         onPressed: () {
                           if (position == null) {
-                            viewmodel?.showSnack(context.translate('msg_select_position'),
-                                scaffoldKey: EditSportPage.scaffoldKey, duration: const Duration(seconds: 3));
+                            viewmodel?.showSnack(
+                                context.translate('msg_select_position'),
+                                scaffoldKey: EditSportPage.scaffoldKey,
+                                duration: const Duration(seconds: 3));
                           } else {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
 
                               viewmodel?.editSportInfo(
-                                height: double.parse(hightController.text).toInt(),
-                                weight: double.parse(weightController.text).toInt(),
+                                height:
+                                    double.parse(hightController.text).toInt(),
+                                weight:
+                                    double.parse(weightController.text).toInt(),
                                 hand: hand ?? viewmodel?.player!.hand,
                                 leg: leg ?? viewmodel?.player!.leg,
                                 brief: briefController.text,
                                 sport: currentSport ?? viewmodel?.player!.sport,
-                                position: position ?? viewmodel?.player!.position,
+                                position:
+                                    position ?? viewmodel?.player!.position,
                               );
                             }
                           }

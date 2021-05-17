@@ -122,6 +122,8 @@ abstract class AuthDataSource extends BaseRemoteDataSource {
     required int? transactionId,
     required int? transactionVersion,
   });
+
+  Future<String?> getFileSize({String? token});
 }
 
 @LazySingleton(as: AuthDataSource)
@@ -431,6 +433,21 @@ class AuthDataSourceImpl extends MawahebRemoteDataSource
 
     if (response.statusCode == 200) {
       return jsonDecode(response.data)['user.id'] as int?;
+    }
+
+    return null;
+    // return response.data['user.id'] as int;
+  }
+
+  @override
+  Future<String?> getFileSize({String? token}) async {
+    final Response response = await client.get(
+      '$BASE_API$WEB_SERVICE/app/info',
+      options: Options(headers: {'Authorization': 'Basic $token'}),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.data)['file.upload.size'] as String?;
     }
 
     return null;

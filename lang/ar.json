@@ -182,10 +182,12 @@
   "msg_confirm_player": "هل انت متأكد من تأكيد حجز اللاعب؟",
   "msg_release_player": "هل انت متأكد من تحرير اللاعب؟",
   "msg_book_player": "هل انت متأكد من  حجز اللاعب؟",
-  "msg_video_size": "يرجى اختيار فيديو حجمه اقل من 15 ميجابايت",
+  "msg_video_size": "حجم الفيديو كبير",
   "msg_select_sport": "يرحى اختيار الرياضة اولا",
   "msg_select_position": "يرحى اختيار المركز اولا",
   "msg_uploading_image": "جاري رفع الصورة...",
+  "msg_video_deleted": "تم حذف الفيديو",
+
   "lbl_retry": "إعادة المحاولة",
   "lbl_info_sport": "المعلومات الرياضية",
   "msg_something_wrong": "هناك خطأ ما! حاول مرة اخرى"

@@ -67,7 +67,8 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       print(fileName);
       print(fileType);
       print(fileSize);
-      if (fileSize! <= VIDEO_SIZE) {
+
+      if (fileSize! <= viewmodel!.prefsRepository.fileSize!) {
         viewmodel?.uploadVideo(
           file: video,
           withDelete: deleteVideo,
@@ -104,7 +105,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       print(fileType);
       print(fileSize);
 
-      if (fileSize! <= VIDEO_SIZE) {
+      if (fileSize! <= viewmodel!.prefsRepository.fileSize!) {
         viewmodel?.uploadVideo(
           file: video,
           withDelete: deleteVideo,
@@ -129,7 +130,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       key: VideosPage.scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (viewmodel?.videos.length == 3) {
+          if (viewmodel?.videos.length == MAX_VIDEO_NUMBER) {
             _selectVideoBottomSheet(
               context: context,
             );
