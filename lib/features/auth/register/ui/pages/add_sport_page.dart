@@ -283,8 +283,8 @@ class _AddSportPageState
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6),
                           borderSide: const BorderSide(color: Colors.grey)),
-                      hintText: context.translate('msg_brief'),
-                      hintStyle: const TextStyle(
+                      labelText: context.translate('msg_brief'),
+                      labelStyle: const TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.w200,
                           fontFamily: 'Poppins'),
@@ -293,7 +293,7 @@ class _AddSportPageState
                 ),
               ),
               uploadSpace(onPress: () {
-                if (viewmodel?.videos.length == 3) {
+                if (viewmodel?.videos.length == MAX_VIDEO_NUMBER) {
                   _deleteSomeVideosBottomSheet(context: context);
                 } else {
                   _optionPickerBottomSheet(context: context);

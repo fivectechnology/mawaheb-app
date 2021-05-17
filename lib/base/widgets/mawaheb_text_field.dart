@@ -52,14 +52,21 @@ class _MawahebTextFieldState extends State<MawahebTextField> {
       initialValue: widget.initialValue,
       controller: widget.textEditingController,
       decoration: InputDecoration(
-        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-        hintText: context.translate(widget.hintText!),
-        hintStyle:
-            TextStyle(color: widget.hintColor ?? Colors.black, fontWeight: FontWeight.w200, fontFamily: 'Poppins'),
+        labelText: context.translate(widget.hintText!),
+        enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey)),
+        labelStyle: TextStyle(
+            height: 0.5,
+            color: widget.hintColor ?? Colors.black,
+            fontWeight: FontWeight.w200,
+            fontFamily: 'Poppins'),
         suffixIcon: widget.isSuffixIcon == true
             ? IconButton(
-                onPressed: () => setState(() => showPassword = !showPassword), //widget.onPressed,
-                icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off, color: Colors.black),
+                onPressed: () => setState(
+                    () => showPassword = !showPassword), //widget.onPressed,
+                icon: Icon(
+                    showPassword ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.black),
               )
             : null,
       ),

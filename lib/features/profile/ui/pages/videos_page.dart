@@ -129,7 +129,7 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       key: VideosPage.scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (viewmodel?.videos.length == 3) {
+          if (viewmodel?.videos.length == MAX_VIDEO_NUMBER) {
             _selectVideoBottomSheet(
               context: context,
             );

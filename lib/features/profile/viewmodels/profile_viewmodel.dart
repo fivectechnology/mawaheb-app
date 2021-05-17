@@ -23,7 +23,7 @@ import 'package:mawaheb_app/features/profile/data/models/view_model.dart';
 import 'package:mawaheb_app/features/profile/domain/repositories/proifile_repository.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/edits/edit_personal_page.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/my_info_page.dart';
-import 'package:mawaheb_app/features/profile/ui/pages/static_videos_page.dart';
+import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/features/profile/ui/pages/view_page.dart';
 import 'package:mobx/mobx.dart';
 import 'package:core_sdk/utils/extensions/future.dart';
@@ -36,13 +36,14 @@ part 'profile_viewmodel.g.dart';
 
 @injectable
 class ProfileViewmodel extends _ProfileViewmodelBase with _$ProfileViewmodel {
-  ProfileViewmodel(Logger logger, ProfileRepository profileRepository, AuthRepository authRepository,
-      PrefsRepository prefsRepository)
+  ProfileViewmodel(Logger logger, ProfileRepository profileRepository,
+      AuthRepository authRepository, PrefsRepository prefsRepository)
       : super(logger, profileRepository, authRepository, prefsRepository);
 }
 
 abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
-  _ProfileViewmodelBase(Logger logger, this._profileRepository, this._authRepository, this.prefsRepository)
+  _ProfileViewmodelBase(Logger logger, this._profileRepository,
+      this._authRepository, this.prefsRepository)
       : super(logger);
   final ProfileRepository _profileRepository;
   final AuthRepository _authRepository;
@@ -187,7 +188,9 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void getPositions({required int sportId}) => positionFuture = futureWrapper(
-        () => _authRepository.getPositions(sportId: sportId).whenSuccess((res) => res!.data!),
+        () => _authRepository
+            .getPositions(sportId: sportId)
+            .whenSuccess((res) => res!.data!),
         catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
@@ -217,8 +220,11 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
         viewsFuture = null;
         offset = 0;
       }
-      final ObservableFuture<ListBaseResponseModel<ViewModel>> future = futureWrapper(
-        () => _profileRepository.playerViews(limit: PAGE_SIZE, offset: offset).replace(
+      final ObservableFuture<ListBaseResponseModel<ViewModel>> future =
+          futureWrapper(
+        () => _profileRepository
+            .playerViews(limit: PAGE_SIZE, offset: offset)
+            .replace(
               oldValue: viewsFuture,
               onSuccess: () {},
             ),
@@ -231,11 +237,13 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
 
   @action
   void fetchPlayer({int? id}) => playerFuture = futureWrapper(
-        () => _profileRepository.fetchPlayer(id: id).whenSuccess((res) => res!.data!.first.apply(() async {
-              if (prefsRepository.player == null) {
-                await prefsRepository.setPlayer(res.data!.first);
-              }
-            })),
+        () => _profileRepository
+            .fetchPlayer(id: id)
+            .whenSuccess((res) => res!.data!.first.apply(() async {
+                  if (prefsRepository.player == null) {
+                    await prefsRepository.setPlayer(res.data!.first);
+                  }
+                })),
         catchBlock: (err) => showSnack(err!, duration: 2.seconds),
       );
 
@@ -263,8 +271,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
           .whenSuccess(
             (res) => res!.data!.first.apply(() {
               if (image == null) {
-                getContext((context) =>
-                    App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                getContext((context) => App.navKey.currentState!.context
+                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
               }
             }),
           ),
@@ -273,7 +281,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   }
 
   @action
-  void editAddressInfo({String? address, String? area, EmirateModel? emirateModel}) {
+  void editAddressInfo(
+      {String? address, String? area, EmirateModel? emirateModel}) {
     editAddressPlayerFuture = futureWrapper(
       () => _authRepository
           .addAddressInfo(
@@ -285,8 +294,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res!.data!.first.apply(() {
-              getContext(
-                  (context) => App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              getContext((context) => App.navKey.currentState!.context
+                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),
@@ -316,8 +325,8 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
               sportPositionModel: position)
           .whenSuccess(
             (res) => res!.data!.first.apply(() {
-              getContext(
-                  (context) => App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+              getContext((context) => App.navKey.currentState!.context
+                  .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
             }),
           ),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),
@@ -339,12 +348,15 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
       print('file upoladed');
 
       await _profileRepository
-          .updateImageProfile(imageId: res, version: playerVersion! + 1, id: playerId)
+          .updateImageProfile(
+              imageId: res, version: playerVersion! + 1, id: playerId)
           .whenSuccess((res) => apply(() {
                 print('image updated');
-                Navigator.of(EditPersonalPage.keyLoader.currentContext!, rootNavigator: true).pop();
-                getContext((context) =>
-                    App.navKey.currentState!.context.pushNamedAndRemoveUntil(BasePage.route, (_) => false));
+                Navigator.of(EditPersonalPage.keyLoader.currentContext!,
+                        rootNavigator: true)
+                    .pop();
+                getContext((context) => App.navKey.currentState!.context
+                    .pushNamedAndRemoveUntil(BasePage.route, (_) => false));
               }));
       // updateProfileImage(
       //     id: player.id, version: player.version, imageId: await imageId);
@@ -364,15 +376,25 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
     imageId = _profileRepository.uploadFile(file: file).then((res1) async {
       final res = res1.getOrThrow();
       if (withDelete!) {
-        await _profileRepository.uploadVideoPlayer(playerId: player!.id, videoId: res).whenSuccess((res) => apply(() {
-              Navigator.of(VideosPage.keyLoader.currentContext!, rootNavigator: true).pop();
-              fetchVideos(playerId: player!.id);
-            }));
+        await _profileRepository
+            .uploadVideoPlayer(playerId: player!.id, videoId: res)
+            .whenSuccess((res) => apply(() {
+                  Navigator.of(VideosPage.keyLoader.currentContext!,
+                          rootNavigator: true)
+                      .pop();
+                  fetchVideos(playerId: player!.id);
+                }));
       } else {
         await _profileRepository
-            .replaceVideoPlayer(playerId: player!.id, videoFileId: res, videoVersion: videoVersion, videoId: videoId)
+            .replaceVideoPlayer(
+                playerId: player!.id,
+                videoFileId: res,
+                videoVersion: videoVersion,
+                videoId: videoId)
             .whenSuccess((res) => apply(() {
-                  Navigator.of(VideosPage.keyLoader.currentContext!, rootNavigator: true).pop();
+                  Navigator.of(VideosPage.keyLoader.currentContext!,
+                          rootNavigator: true)
+                      .pop();
                   fetchVideos(playerId: player!.id);
                 }));
       }
@@ -391,7 +413,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
           )
           .whenSuccess(
             (res) => res?.apply(() {
-              showSnack('Video deleted', scaffoldKey: VideosPage.scaffoldKey, duration: 2.seconds);
+              getContext((context) => showSnack(
+                  context.translate('msg_video_deleted'),
+                  scaffoldKey: VideosPage.scaffoldKey,
+                  duration: 2.seconds));
               fetchVideos(playerId: player!.id);
             }),
           ),
@@ -402,9 +427,10 @@ abstract class _ProfileViewmodelBase extends BaseViewmodel with Store {
   @action
   void fetchVideos({int? playerId}) {
     fetchVideoFuture = futureWrapper(
-      () => _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
-            (res) => res?.data ?? [],
-          ),
+      () =>
+          _profileRepository.fetchPlayerVideos(playerId: playerId).whenSuccess(
+                (res) => res?.data ?? [],
+              ),
       catchBlock: (err) => showSnack(err!, duration: 2.seconds),
     );
   }

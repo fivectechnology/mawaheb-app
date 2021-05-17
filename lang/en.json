@@ -193,6 +193,8 @@
   "msg_select_position": "Please select position first",
   "msg_uploading_image": "Uploading image...",
   "msg_something_wrong": "Something went wrong! Please try again",
+  "msg_video_deleted": "Video deleted",
+
   "lbl_retry": "Retry"
 
 }
