@@ -51,14 +51,15 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(26.0),
-                child: Text(
-                  context.translate('lbl_clubs_view'),
-                  style: context.textTheme.headline2!
-                      .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+              if (viewmodel!.views?.data != null)
+                Padding(
+                  padding: const EdgeInsets.all(26.0),
+                  child: Text(
+                    context.translate('lbl_clubs_view'),
+                    style: context.textTheme.headline2!
+                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: PaginationList<ViewModel>(
