@@ -47,23 +47,22 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel>
       future: viewmodel?.viewsFuture,
       onRetry: viewmodel?.playerViews ?? () {},
       onSuccess: (ListBaseResponseModel<ViewModel>? views) {
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (viewmodel!.views?.data != null)
-                Padding(
-                  padding: const EdgeInsets.all(26.0),
-                  child: Text(
-                    context.translate('lbl_clubs_view'),
-                    style: context.textTheme.headline2!
-                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (viewmodel!.views?.data != null)
               Padding(
+                padding: const EdgeInsets.fromLTRB(26.0, 26.0, 26.0, 10),
+                child: Text(
+                  context.translate('lbl_clubs_view'),
+                  style: context.textTheme.headline2!
+                      .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ),
+            Expanded(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: PaginationList<ViewModel>(
-                  physics: const NeverScrollableScrollPhysics(),
                   canLoadMore: viewmodel?.canLoadMoreViews ?? false,
                   dataList: views?.data ?? [],
                   scrollController: scrollController,
@@ -81,13 +80,13 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel>
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
   }
 
   @override
-  void onLoadMore() => viewmodel?.playerViews(fresh: true);
+  void onLoadMore() => viewmodel?.playerViews();
 }
