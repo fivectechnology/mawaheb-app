@@ -51,6 +51,7 @@ class TokenInterceptor extends Interceptor {
       baseDio.interceptors.responseLock.lock();
       tokenDio.options = baseDio.options;
       try {
+        throw Exception('Refresh token fail with 401');
         // this status mean that refresh token is invalidate and we should go
         // to login page after unlock dio for login requests
         final tokenRes = await tokenDio.post(
