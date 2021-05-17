@@ -27,6 +27,9 @@ abstract class PrefsRepository {
   PlayerModel? get player;
   Future<bool> setPlayer(PlayerModel player);
 
+  int? get fileSize;
+  Future<bool> setFileSize(String? fileSize);
+
   // bool get deviceRegistered;
   // Future<bool> setDeviceRegistered(bool status);
 }

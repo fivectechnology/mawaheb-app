@@ -67,7 +67,8 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<NetworkResult<ListBaseResponseModel<SportModel>?>> getSports();
 
-  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>?>> getPositions({int? sportId});
+  Future<NetworkResult<ListBaseResponseModel<SportPositionModel>?>>
+      getPositions({int? sportId});
 
   Future<NetworkResult<ListBaseResponseModel<CountryModel>?>> getCountries();
 
@@ -86,19 +87,27 @@ abstract class AuthRepository extends BaseRepository {
 
   Future<int?> getPlayerId({String? token});
 
+  Future<String?> getFileSize({String? token});
+
   Future<NetworkResult<bool?>> forgetPassword({String? email});
 
-  Future<NetworkResult<bool?>> resetPassword({String? email, String? password, int? code});
+  Future<NetworkResult<bool?>> resetPassword(
+      {String? email, String? password, int? code});
 
   Future<NetworkResult<bool?>> validateEmail({String? email});
 
-  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>?>> getSubscription();
+  Future<NetworkResult<ListBaseResponseModel<SubscriptionModel>?>>
+      getSubscription();
 
-  Future<NetworkResult<bool?>> subscriptionPlayer({int? playerId, int? subscriptionId});
+  Future<NetworkResult<bool?>> subscriptionPlayer(
+      {int? playerId, int? subscriptionId});
 
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> playerTransaction({int? amount, int? playerId});
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>>
+      playerTransaction({int? amount, int? playerId});
 
-  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>> getPlayerTransaction();
+  Future<NetworkResult<ListBaseResponseModel<TransactionModel>?>>
+      getPlayerTransaction();
 
-  Future<NetworkResult<bool?>> confirmTransaction({int? transactionId, int? transactionVersion});
+  Future<NetworkResult<bool?>> confirmTransaction(
+      {int? transactionId, int? transactionVersion});
 }

@@ -68,24 +68,20 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       print(fileType);
       print(fileSize);
 
-      viewmodel?.uploadVideo(
-        file: video,
-        withDelete: deleteVideo,
-        videoId: videoId,
-        videoVersion: videoVersion,
-      );
+      if (fileSize! <= viewmodel!.prefsRepository.fileSize!) {
+        viewmodel?.uploadVideo(
+          file: video,
+          withDelete: deleteVideo,
+          videoId: videoId,
+          videoVersion: videoVersion,
+        );
 
-      uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
-
-      // if (fileSize! <= VIDEO_SIZE) {
-      //
-      //
-      //   uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
-      // } else {
-      //   viewmodel?.showSnack(context.translate('msg_video_size'),
-      //       scaffoldKey: VideosPage.scaffoldKey,
-      //       duration: const Duration(seconds: 3));
-      // }
+        uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
+      } else {
+        viewmodel?.showSnack(context.translate('msg_video_size'),
+            scaffoldKey: VideosPage.scaffoldKey,
+            duration: const Duration(seconds: 3));
+      }
     } else {
       print('No image selected.');
     }
@@ -108,28 +104,21 @@ class _VideosPageState extends ProviderMobxState<VideosPage, ProfileViewmodel> {
       print(fileName);
       print(fileType);
       print(fileSize);
-      viewmodel?.uploadVideo(
-        file: video,
-        withDelete: deleteVideo,
-        videoId: videoId,
-        videoVersion: videoVersion,
-      );
-      uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
 
-      // if (fileSize! <= VIDEO_SIZE) {
-      //   viewmodel?.uploadVideo(
-      //     file: video,
-      //     withDelete: deleteVideo,
-      //     videoId: videoId,
-      //     videoVersion: videoVersion,
-      //   );
-      //
-      //   uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
-      // } else {
-      //   viewmodel?.showSnack(context.translate('msg_video_size'),
-      //       scaffoldKey: VideosPage.scaffoldKey,
-      //       duration: const Duration(seconds: 3));
-      // }
+      if (fileSize! <= viewmodel!.prefsRepository.fileSize!) {
+        viewmodel?.uploadVideo(
+          file: video,
+          withDelete: deleteVideo,
+          videoId: videoId,
+          videoVersion: videoVersion,
+        );
+
+        uploadingVideoLoader(context: context, key: VideosPage.keyLoader);
+      } else {
+        viewmodel?.showSnack(context.translate('msg_video_size'),
+            scaffoldKey: VideosPage.scaffoldKey,
+            duration: const Duration(seconds: 3));
+      }
     } else {
       print('No image selected.');
     }

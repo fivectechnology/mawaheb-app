@@ -4,7 +4,7 @@ typedef EndPointFunction = String Function(String);
 
 const int PAGE_SIZE = 20;
 
-const int VIDEO_SIZE = 15000000;
+// const int VIDEO_SIZE = 15000000;
 
 const int MAX_VIDEO_NUMBER = 3;
 // const String BASE_API = 'http://54.237.125.179:8080/mawaheb';

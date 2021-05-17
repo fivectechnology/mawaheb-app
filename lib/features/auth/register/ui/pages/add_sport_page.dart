@@ -93,7 +93,7 @@ class _AddSportPageState
       fileName = video!.path.split('/').last;
       fileType = 'video/' + fileName!.split('.').last;
       fileSize = await video!.length();
-      if (fileSize! <= VIDEO_SIZE) {
+      if (fileSize! <= viewmodel!.prefsRepository.fileSize!) {
         viewmodel?.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
@@ -119,7 +119,7 @@ class _AddSportPageState
       fileName = video!.path.split('/').last;
       fileType = fileName!.split('.').last;
       fileSize = await video!.length();
-      if (fileSize! <= VIDEO_SIZE) {
+      if (fileSize! <= viewmodel!.prefsRepository.fileSize!) {
         viewmodel?.uploadVideo(
           fileSize: fileSize,
           fileName: fileName,
