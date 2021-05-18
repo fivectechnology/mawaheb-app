@@ -12,13 +12,15 @@ import 'package:mawaheb_app/features/profile/viewmodels/profile_viewmodel.dart';
 class ViewsPage extends StatefulWidget {
   const ViewsPage({Key? key}) : super(key: key);
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const ViewsPage());
 
   @override
   _ViewsPageState createState() => _ViewsPageState();
 }
 
-class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> with PaginationMixin {
+class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel>
+    with PaginationMixin {
   @override
   void initState() {
     super.initState();
@@ -48,13 +50,15 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> wit
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(26.0),
-              child: Text(
-                context.translate('lbl_clubs_view'),
-                style: context.textTheme.headline2!.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+            if (viewmodel!.views?.data != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(26.0, 26.0, 26.0, 10),
+                child: Text(
+                  context.translate('lbl_clubs_view'),
+                  style: context.textTheme.headline2!
+                      .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -64,7 +68,8 @@ class _ViewsPageState extends ProviderMobxState<ViewsPage, ProfileViewmodel> wit
                   scrollController: scrollController,
                   shrinkWrap: true,
                   padding: 4.0,
-                  emptyWidget: Center(child: Text(context.translate('msg_no_views'))),
+                  emptyWidget:
+                      Center(child: Text(context.translate('msg_no_views'))),
                   cardBuilder: (view) => heroUserListTile(
                     context,
                     id: view.partner?.id,

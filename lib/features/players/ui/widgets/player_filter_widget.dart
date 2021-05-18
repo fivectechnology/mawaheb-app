@@ -56,156 +56,181 @@ class _PlayerFilterWidgetState extends State<PlayerFilterWidget> {
     };
 
     final textTheme = context.textTheme;
-    return Wrap(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
-          child: Column(
+    return SingleChildScrollView(
+      child: Wrap(
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                context.translate('lbl_filter'),
-                style: context.textTheme.headline2!.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => context.navigator.pop()),
+                  ],
+                ),
               ),
-              Observer(
-                builder: (_) {
-                  return mawhaebDropDown(
-                    hint: 'lbl_nationality',
-                    value: filter?.country,
-                    context: context,
-                    onChanged: (value) => changePlayerFilter(country: value),
-                    items: widget.viewmodel?.countries
-                            ?.map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name!),
-                                  value: em,
-                                ))
-                            .toList() ??
-                        <DropdownMenuItem<CountryModel>>[],
-                  );
-                },
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 26, horizontal: 43),
+                child: Column(
+                  children: [
+                    Text(
+                      context.translate('lbl_filter'),
+                      style: context.textTheme.headline2!
+                          .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Observer(
+                      builder: (_) {
+                        return mawhaebDropDown(
+                          hint: 'lbl_nationality',
+                          value: filter?.country,
+                          context: context,
+                          onChanged: (value) =>
+                              changePlayerFilter(country: value),
+                          items: widget.viewmodel?.countries
+                                  ?.map((em) => DropdownMenuItem(
+                                        child: Text(em.tName ?? em.name!),
+                                        value: em,
+                                      ))
+                                  .toList() ??
+                              <DropdownMenuItem<CountryModel>>[],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 26),
+                    Observer(
+                      builder: (_) {
+                        return mawhaebDropDown(
+                          hint: context.translate('lbl_sport_name'),
+                          context: context,
+                          value: filter?.sport,
+                          onChanged: (value) =>
+                              changePlayerFilter(sport: value),
+                          items: widget.viewmodel?.sports
+                                  ?.map((em) => DropdownMenuItem(
+                                        child: Text(em.tName ?? em.name!),
+                                        value: em,
+                                      ))
+                                  .toList() ??
+                              <DropdownMenuItem<SportModel>>[],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 26),
+                    Observer(
+                      builder: (_) {
+                        return mawhaebDropDown(
+                          hint: context.translate('lbl_position'),
+                          context: context,
+                          value: filter?.position,
+                          onChanged: (value) =>
+                              changePlayerFilter(position: value),
+                          items: widget.viewmodel?.positions
+                                  ?.map((em) => DropdownMenuItem(
+                                        child: Text(em.tName ?? em.name!),
+                                        value: em,
+                                      ))
+                                  .toList() ??
+                              <DropdownMenuItem<SportPositionModel>>[],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 26),
+                    mawhaebDropDown(
+                      hint: context.translate('lbl_prefer_hand'),
+                      context: context,
+                      value: filter?.hand,
+                      items: test
+                          .map((key, value) {
+                            return MapEntry(
+                                key,
+                                DropdownMenuItem(
+                                  value: key,
+                                  child: Text(value),
+                                ));
+                          })
+                          .values
+                          .toList(),
+                      onChanged: (value) => changePlayerFilter(hand: value),
+                    ),
+                    const SizedBox(height: 26),
+                    mawhaebDropDown(
+                      hint: context.translate('lbl_prefer_leg'),
+                      context: context,
+                      value: filter?.leg,
+                      items: test
+                          .map((key, value) {
+                            return MapEntry(
+                                key,
+                                DropdownMenuItem(
+                                  value: key,
+                                  child: Text(value),
+                                ));
+                          })
+                          .values
+                          .toList(),
+                      onChanged: (value) => changePlayerFilter(leg: value),
+                    ),
+                    const SizedBox(height: 26),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          context.translate('lbl_confirmed_by_us'),
+                          style: textTheme.subtitle1!.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        mawahebSwitchButton(
+                          isSelected: filter!.isConfirmed!,
+                          onChanged: (value) {
+                            setState(() {
+                              changePlayerFilter(isConfirmed: value);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(context.translate('lbl_booked_by_us'),
+                            style: textTheme.subtitle1!.copyWith(
+                                fontSize: 14, fontWeight: FontWeight.bold)),
+                        mawahebSwitchButton(
+                          isSelected: filter!.isBooked!,
+                          onChanged: (value) {
+                            setState(() {
+                              changePlayerFilter(isBooked: value);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 26),
+                    MawahebButton(
+                      context: context,
+                      buttonColor: Colors.white,
+                      textColor: Colors.black,
+                      borderColor: Colors.black,
+                      text: 'lbl_filter',
+                      onPressed: () {
+                        widget.viewmodel!.filter = filter;
+                        widget.viewmodel!
+                            .searchPlayers(fresh: true, query: widget.query);
+                        context.pop();
+                      },
+                    )
+                  ],
+                ),
               ),
-              const SizedBox(height: 26),
-              Observer(
-                builder: (_) {
-                  return mawhaebDropDown(
-                    hint: context.translate('lbl_sport_name'),
-                    context: context,
-                    value: filter?.sport,
-                    onChanged: (value) => changePlayerFilter(sport: value),
-                    items: widget.viewmodel?.sports
-                            ?.map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name!),
-                                  value: em,
-                                ))
-                            .toList() ??
-                        <DropdownMenuItem<SportModel>>[],
-                  );
-                },
-              ),
-              const SizedBox(height: 26),
-              Observer(
-                builder: (_) {
-                  return mawhaebDropDown(
-                    hint: context.translate('lbl_position'),
-                    context: context,
-                    value: filter?.position,
-                    onChanged: (value) => changePlayerFilter(position: value),
-                    items: widget.viewmodel?.positions
-                            ?.map((em) => DropdownMenuItem(
-                                  child: Text(em.tName ?? em.name!),
-                                  value: em,
-                                ))
-                            .toList() ??
-                        <DropdownMenuItem<SportPositionModel>>[],
-                  );
-                },
-              ),
-              const SizedBox(height: 26),
-              mawhaebDropDown(
-                hint: context.translate('lbl_prefer_hand'),
-                context: context,
-                value: filter?.hand,
-                items: test
-                    .map((key, value) {
-                      return MapEntry(
-                          key,
-                          DropdownMenuItem(
-                            value: key,
-                            child: Text(value),
-                          ));
-                    })
-                    .values
-                    .toList(),
-                onChanged: (value) => changePlayerFilter(hand: value),
-              ),
-              const SizedBox(height: 26),
-              mawhaebDropDown(
-                hint: context.translate('lbl_prefer_leg'),
-                context: context,
-                value: filter?.leg,
-                items: test
-                    .map((key, value) {
-                      return MapEntry(
-                          key,
-                          DropdownMenuItem(
-                            value: key,
-                            child: Text(value),
-                          ));
-                    })
-                    .values
-                    .toList(),
-                onChanged: (value) => changePlayerFilter(leg: value),
-              ),
-              const SizedBox(height: 26),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    context.translate('lbl_confirmed_by_us'),
-                    style: textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  mawahebSwitchButton(
-                    isSelected: filter!.isConfirmed!,
-                    onChanged: (value) {
-                      setState(() {
-                        changePlayerFilter(isConfirmed: value);
-                      });
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(context.translate('lbl_booked_by_us'),
-                      style: textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
-                  mawahebSwitchButton(
-                    isSelected: filter!.isBooked!,
-                    onChanged: (value) {
-                      setState(() {
-                        changePlayerFilter(isBooked: value);
-                      });
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 26),
-              MawahebButton(
-                context: context,
-                buttonColor: Colors.white,
-                textColor: Colors.black,
-                borderColor: Colors.black,
-                text: 'lbl_filter',
-                onPressed: () {
-                  widget.viewmodel!.filter = filter;
-                  widget.viewmodel!.searchPlayers(fresh: true, query: widget.query);
-                  context.pop();
-                },
-              )
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

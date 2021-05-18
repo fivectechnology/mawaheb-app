@@ -21,7 +21,8 @@ class PlayerInfoPage extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const PlayerInfoPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const PlayerInfoPage());
 
   static const String route = '/player_info';
 
@@ -29,7 +30,8 @@ class PlayerInfoPage extends StatefulWidget {
   _PlayerInfoPageState createState() => _PlayerInfoPageState();
 }
 
-class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
+class _PlayerInfoPageState
+    extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dateOfBirth = TextEditingController();
@@ -125,7 +127,8 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                       textEditingController: _nameController,
                       context: context,
                       validator: (value) {
-                        return nameValidator(context: context, name: value ?? '');
+                        return nameValidator(
+                            context: context, name: value ?? '');
                       },
                     ),
                     const SizedBox(height: 26),
@@ -137,7 +140,8 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                             hintColor: Colors.grey,
                             textEditingController: _dateOfBirth,
                             validator: (value) {
-                              return dateValidator(context: context, value: value ?? '');
+                              return dateValidator(
+                                  context: context, value: value ?? '');
                             },
                             context: context),
                       ),
@@ -150,7 +154,8 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                         hintColor: Colors.grey,
                         textEditingController: _phoneController,
                         validator: (value) {
-                          return phoneValidator(context: context, phone: value ?? '');
+                          return phoneValidator(
+                              context: context, phone: value ?? '');
                         },
                         context: context),
                     const SizedBox(height: 26),
@@ -187,12 +192,12 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                     AbsorbPointer(
                       child: mawhaebDropDown(
                         value: 'MALE',
-                        hint: 'lbl_gender',
+                        hint: context.translate('lbl_male'),
                         context: context,
                         onChanged: (value) {
                           gender = value;
                         },
-                        items: ['MALE']
+                        items: [context.translate('lbl_male')]
                             .map((em) => DropdownMenuItem(
                                   child: Text(em),
                                   value: em,
@@ -216,8 +221,10 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                             onPressed: () async {
                               if (viewmodel?.image != null) {
                                 viewmodel?.uploadFile(
-                                    playerVersion: viewmodel?.prefsRepository.player!.version,
-                                    playerId: viewmodel?.prefsRepository.player!.id,
+                                    playerVersion: viewmodel
+                                        ?.prefsRepository.player!.version,
+                                    playerId:
+                                        viewmodel?.prefsRepository.player!.id,
                                     file: viewmodel?.image,
                                     fileType: fileType,
                                     fileName: fileName,
@@ -230,10 +237,12 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
                                 viewmodel?.addPersonalInfo(
                                   phone: _phoneController.text,
                                   name: _nameController.text,
-                                  gender: gender ?? 'MALE',
+                                  gender: 'MALE',
                                   dateOfBirth: dateOfBirth,
-                                  categoryModel: currentCategory ?? viewmodel?.categories!.first,
-                                  country: currentCountry ?? viewmodel?.countries!.first,
+                                  categoryModel: currentCategory ??
+                                      viewmodel?.categories!.first,
+                                  country: currentCountry ??
+                                      viewmodel?.countries!.first,
                                 );
                               }
                             });
@@ -279,7 +288,8 @@ class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmod
           ),
           Text(
             context.translate('lbl_add_image'),
-            style: textTheme?.bodyText1?.copyWith(color: Colors.grey, fontSize: 12),
+            style: textTheme?.bodyText1
+                ?.copyWith(color: Colors.grey, fontSize: 12),
           )
         ],
       ),
