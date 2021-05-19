@@ -21,7 +21,7 @@ class ForgotPasswordPage extends StatefulWidget {
   static const String route = '/forgot_password';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute pageRoute(AuthViewmodel? authViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const ForgotPasswordPage(),

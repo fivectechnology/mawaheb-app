@@ -52,7 +52,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false);
   }
 
-//(appViewmodel?.languageLoading ?? false)
+//(appViewmodel.languageLoading ?? false)
   // ? const Center(
   //     child: MawahebLoader(),
   // )
@@ -64,7 +64,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
           isLoading: appViewmodel?.languageLoading ?? false,
           loadingWidget: const Center(child: MawahebLoader()),
           child: Scaffold(
-            key: viewmodel?.scaffoldKey,
+            key: viewmodel.scaffoldKey,
             backgroundColor: Colors.white,
             body: ListView(
               physics: const BouncingScrollPhysics(),
@@ -95,12 +95,12 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                       settingRow(
                           text: 'lbl_change_password',
                           onPress: () {
-                            context.navigator.push(ChangePasswordPage.cupertionPageRoute(viewmodel!));
+                            context.navigator.push(ChangePasswordPage.cupertionPageRoute(viewmodel));
                           }),
                       settingRow(
                           text: 'lbl_change_email',
                           onPress: () {
-                            context.navigator.push(ChangeEmailPage.cupertionPageRoute(viewmodel!));
+                            context.navigator.push(ChangeEmailPage.cupertionPageRoute(viewmodel));
                           }),
                       settingRow(
                         text: 'lbl_term_of_service',
@@ -120,10 +120,10 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                                 context: context,
                                 message: context.translate('msg_app_exit_confirm'),
                                 onConfirm: () {
-                                  viewmodel?.logout();
+                                  viewmodel.logout();
                                 });
                           },
-                          isLoading: viewmodel?.logoutLoading ?? false,
+                          isLoading: viewmodel.logoutLoading,
                         );
                       }),
                     ],
@@ -152,7 +152,7 @@ class _SettingsPageState extends MobxState<SettingsPage, SettingsViewmodel> {
                         groupValue: appViewmodel?.language,
                         onChanged: (_) {
                           appViewmodel?.changeLanguage(LANGUAGE_ENGLISH, updateBackend: true);
-                          // viewmodel?.updateUserLanguage(lang: v);
+                          // viewmodel.updateUserLanguage(lang: v);
                         },
                       ),
                       RadioListTile(

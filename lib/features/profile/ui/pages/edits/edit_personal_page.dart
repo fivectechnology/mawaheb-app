@@ -39,8 +39,7 @@ class EditPersonalPage extends StatefulWidget {
   _EditPersonalPageState createState() => _EditPersonalPageState();
 }
 
-class _EditPersonalPageState
-    extends MobxState<EditPersonalPage, EditPersonalViewmodel> {
+class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalViewmodel> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _dateOfBirth = TextEditingController();
@@ -67,16 +66,16 @@ class _EditPersonalPageState
   void initState() {
     super.initState();
 
-    if (viewmodel?.player == null) {
-      viewmodel?.fetchPlayer(id: viewmodel?.prefsRepository.player!.id);
+    if (viewmodel.player == null) {
+      viewmodel.fetchPlayer(id: viewmodel.prefsRepository.player!.id);
     }
 
-    if (viewmodel?.categories == null) {
-      viewmodel?.getCategories();
+    if (viewmodel.categories == null) {
+      viewmodel.getCategories();
     }
 
-    if (viewmodel?.countries == null) {
-      viewmodel?.getCountries();
+    if (viewmodel.countries == null) {
+      viewmodel.getCountries();
     }
 
     _nameController = TextEditingController(text: widget.player!.name);
@@ -97,14 +96,14 @@ class _EditPersonalPageState
     super.didChangeDependencies();
     print('my debug didChangeDependencies1');
 
-    // if (viewmodel?.categoryFuture == null) {
-    //   viewmodel?.getCategories();
+    // if (viewmodel.categoryFuture == null) {
+    //   viewmodel.getCategories();
     // }
-    // if (viewmodel?.countryFuture == null) {
-    //   viewmodel?.getCountries();
+    // if (viewmodel.countryFuture == null) {
+    //   viewmodel.getCountries();
     // }
-    if (viewmodel?.image != null) {
-      viewmodel?.imageFile;
+    if (viewmodel.image != null) {
+      viewmodel.imageFile;
     }
   }
 
@@ -112,10 +111,10 @@ class _EditPersonalPageState
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      viewmodel?.image = File(pickedFile.path);
-      fileName = viewmodel?.image!.path.split('/').last;
+      viewmodel.image = File(pickedFile.path);
+      fileName = viewmodel.image!.path.split('/').last;
       fileType = 'image/' + fileName!.split('.').last;
-      fileSize = await viewmodel?.image!.length();
+      fileSize = await viewmodel.image!.length();
     } else {
       print('No image selected.');
     }
@@ -149,13 +148,12 @@ class _EditPersonalPageState
             context.navigator.pop();
           }) as PreferredSizeWidget?,
       body: Observer(builder: (_) {
-        return viewmodel?.countries == null || viewmodel?.categories == null
+        return viewmodel.countries == null || viewmodel.categories == null
             ? const Center(child: MawahebLoader())
             : Form(
                 key: _formKey,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -168,8 +166,7 @@ class _EditPersonalPageState
                         context: context,
                         validator: (value) {
                           markAsDirty();
-                          return nameValidator(
-                              context: context, name: value ?? '');
+                          return nameValidator(context: context, name: value ?? '');
                         },
                       ),
                       const SizedBox(height: 26),
@@ -182,8 +179,7 @@ class _EditPersonalPageState
                             textEditingController: _dateOfBirth,
                             context: context,
                             validator: (value) {
-                              return dateValidator(
-                                  context: context, value: value ?? '');
+                              return dateValidator(context: context, value: value ?? '');
                             },
                           ),
                         ),
@@ -196,8 +192,7 @@ class _EditPersonalPageState
                         textEditingController: _phoneController,
                         validator: (value) {
                           markAsDirty();
-                          return phoneValidator(
-                              context: context, phone: value ?? '');
+                          return phoneValidator(context: context, phone: value ?? '');
                         },
                         context: context,
                       ),
@@ -209,7 +204,7 @@ class _EditPersonalPageState
                         onChanged: (value) {
                           currentCountry = value;
                         },
-                        items: viewmodel?.countries!
+                        items: viewmodel.countries!
                             .map((em) => DropdownMenuItem(
                                   child: Text(em.name!),
                                   value: em,
@@ -225,7 +220,7 @@ class _EditPersonalPageState
                           markAsDirty();
                           currentCategory = value;
                         },
-                        items: viewmodel?.categories!
+                        items: viewmodel.categories!
                             .map((em) => DropdownMenuItem(
                                   child: Text(em.title!),
                                   value: em,
@@ -260,58 +255,47 @@ class _EditPersonalPageState
                               borderColor: Colors.black,
                               buttonColor: WHITE,
                               progressColor: RED,
-                              isLoading: viewmodel?.personalLoading ?? false,
+                              isLoading: viewmodel.personalLoading,
                               onPressed: () async {
-                                if (viewmodel?.image != null) {
-                                  viewmodel?.uploadImage(
-                                    playerId: viewmodel?.player!.id,
-                                    playerVersion: viewmodel?.player!.version,
-                                    file: viewmodel?.image,
+                                if (viewmodel.image != null) {
+                                  viewmodel.uploadImage(
+                                    playerId: viewmodel.player!.id,
+                                    playerVersion: viewmodel.player!.version,
+                                    file: viewmodel.image,
                                     fileType: fileType,
                                     fileName: fileName,
                                     fileSize: fileSize,
                                   );
 
-                                  viewmodel?.editPersonalInfo(
-                                    phone: _phoneController.text != ''
-                                        ? _phoneController.text
-                                        : viewmodel?.player!.phone,
-                                    name: _nameController.text != ''
-                                        ? _nameController.text
-                                        : viewmodel?.player!.name,
+                                  viewmodel.editPersonalInfo(
+                                    phone:
+                                        _phoneController.text != '' ? _phoneController.text : viewmodel.player!.phone,
+                                    name: _nameController.text != '' ? _nameController.text : viewmodel.player!.name,
                                     gender: 'MALE',
-                                    dateOfBirth: dateOfBirth ??
-                                        viewmodel?.player!.dateOfBirth,
-                                    categoryModel: currentCategory ??
-                                        viewmodel?.player!.category,
-                                    country: currentCountry ??
-                                        viewmodel?.player!.country,
+                                    dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
+                                    categoryModel: currentCategory ?? viewmodel.player!.category,
+                                    country: currentCountry ?? viewmodel.player!.country,
                                   );
                                   uploadingVideoLoader(
-                                      context: context,
-                                      key: EditPersonalPage.keyLoader,
-                                      text: 'msg_uploading_image');
+                                      context: context, key: EditPersonalPage.keyLoader, text: 'msg_uploading_image');
                                 } else {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    // viewmodel?.editPersonalInfo(
-                                    //   phone: _phoneController.text ?? viewmodel?.player!.phone,
-                                    //   name: _nameController.text ?? viewmodel?.player as String?,
+                                    // viewmodel.editPersonalInfo(
+                                    //   phone: _phoneController.text ?? viewmodel.player!.phone,
+                                    //   name: _nameController.text ?? viewmodel.player as String?,
                                     //   gender: 'MALE',
-                                    //   dateOfBirth: dateOfBirth ?? viewmodel?.player!.dateOfBirth,
-                                    //   categoryModel: currentCategory ?? viewmodel?.player!.category,
-                                    //   country: currentCountry ?? viewmodel?.player!.country,
+                                    //   dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
+                                    //   categoryModel: currentCategory ?? viewmodel.player!.category,
+                                    //   country: currentCountry ?? viewmodel.player!.country,
                                     // );
-                                    viewmodel?.editPersonalInfo(
+                                    viewmodel.editPersonalInfo(
                                       phone: _phoneController.text,
                                       name: _nameController.text,
                                       gender: 'MALE',
-                                      dateOfBirth: dateOfBirth ??
-                                          viewmodel?.player!.dateOfBirth,
-                                      categoryModel: currentCategory ??
-                                          viewmodel?.player!.category,
-                                      country: currentCountry ??
-                                          viewmodel?.player!.country,
+                                      dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
+                                      categoryModel: currentCategory ?? viewmodel.player!.category,
+                                      country: currentCountry ?? viewmodel.player!.country,
                                     );
                                   }
                                 }
@@ -342,7 +326,7 @@ class _EditPersonalPageState
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey, width: 2.0),
             ),
-            child: viewmodel?.imageFile == null
+            child: viewmodel.imageFile == null
                 ? IconButton(
                     onPressed: () async {
                       await getImage();
@@ -353,14 +337,13 @@ class _EditPersonalPageState
                     ),
                   )
                 : CircleAvatar(
-                    backgroundImage: FileImage(viewmodel!.imageFile!),
+                    backgroundImage: FileImage(viewmodel.imageFile!),
                     radius: 200.0,
                   ),
           ),
           Text(
             context.translate('lbl_add_image'),
-            style: textTheme!.bodyText1!
-                .copyWith(color: Colors.grey, fontSize: 12),
+            style: textTheme!.bodyText1!.copyWith(color: Colors.grey, fontSize: 12),
           )
         ],
       ),

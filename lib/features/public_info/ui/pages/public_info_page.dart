@@ -47,7 +47,7 @@ class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: viewmodel?.prefsRepository.user == null ? 6 : 5,
+      length: viewmodel.prefsRepository.user == null ? 6 : 5,
       child: Scaffold(
         backgroundColor: WHITE,
         appBar: PreferredSize(
@@ -79,7 +79,7 @@ class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel
               indicator: const UnderlineTabIndicator(
                   borderSide: BorderSide(width: 3.0, color: RED), insets: EdgeInsets.symmetric(horizontal: 15)),
               tabs: [
-                if (viewmodel?.prefsRepository.user == null) Text(context.translate('lbl_log_in')),
+                if (viewmodel.prefsRepository.user == null) Text(context.translate('lbl_log_in')),
                 Text(context.translate('lbl_about_us')),
                 Text(context.translate('lbl_gallery')),
                 Text(context.translate('lbl_contacts')),
@@ -93,7 +93,7 @@ class _PublicInfoPageState extends MobxState<PublicInfoPage, PublicInfoViewmodel
           create: (_) => viewmodel,
           child: TabBarView(
             children: [
-              if (viewmodel?.prefsRepository.user == null) const LoginPage(),
+              if (viewmodel.prefsRepository.user == null) const LoginPage(),
               const AboutUsPage(),
               const GalleryPage(),
               const ContactsPage(),

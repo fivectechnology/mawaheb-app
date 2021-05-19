@@ -25,14 +25,14 @@ class ChangePasswordPage extends StatefulWidget {
   static const String route = '/change_password';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute pageRoute(SettingsViewmodel? settingsViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(SettingsViewmodel settingsViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const ChangePasswordPage(),
         ),
       );
 
-  static CupertinoPageRoute cupertionPageRoute(SettingsViewmodel? settingsViewmodel) => CupertinoPageRoute(
+  static CupertinoPageRoute cupertionPageRoute(SettingsViewmodel settingsViewmodel) => CupertinoPageRoute(
         builder: (context) => Provider.value(
           value: settingsViewmodel,
           child: const ChangePasswordPage(),

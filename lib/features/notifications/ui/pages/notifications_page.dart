@@ -32,7 +32,7 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
   void initState() {
     super.initState();
     initPagination();
-    viewmodel?.getnotifications(fresh: true);
+    viewmodel.getnotifications(fresh: true);
   }
 
   @override
@@ -50,15 +50,15 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: viewmodel?.scaffoldKey,
+      key: viewmodel.scaffoldKey,
       backgroundColor: Colors.white,
       body: Observer(builder: (_) {
         return MawahebFutureBuilder<ListBaseResponseModel<NotificationModel>>(
-          future: viewmodel?.notificationsFuture,
-          onRetry: () => viewmodel?.getnotifications(fresh: true),
+          future: viewmodel.notificationsFuture,
+          onRetry: () => viewmodel.getnotifications(fresh: true),
           onSuccess: (ListBaseResponseModel<NotificationModel>? notifications) {
             return PaginationList<NotificationModel>(
-              canLoadMore: viewmodel?.canLoadMoreNotifications ?? false,
+              canLoadMore: viewmodel.canLoadMoreNotifications,
               dataList: notifications?.data ?? [],
               scrollController: scrollController,
               shrinkWrap: false,
@@ -77,7 +77,7 @@ class _NotificationsPageState extends MobxState<NotificationsPage, Notifications
   }
 
   @override
-  void onLoadMore() => viewmodel?.getnotifications();
+  void onLoadMore() => viewmodel.getnotifications();
 
   // @override
   // Widget build(BuildContext context) {

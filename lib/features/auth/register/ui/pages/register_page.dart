@@ -28,7 +28,7 @@ class RegisterPage extends StatefulWidget {
 
   static final GlobalKey<State> keyLoader = GlobalKey<State>();
 
-  static MaterialPageRoute pageRoute(AuthViewmodel? authViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const RegisterPage(),
