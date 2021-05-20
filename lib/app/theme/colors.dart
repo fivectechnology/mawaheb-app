@@ -14,6 +14,7 @@ const TEXT_SECONDARY_COLOR = Color.fromARGB(255, 75, 75, 75);
 const PRIMARY = Color(0xFFFFDB5D);
 const LIGHT_PRIMARY = Color.fromARGB(255, 104, 171, 203);
 const LIGHT_ACCENT = Color.fromARGB(255, 164, 208, 220);
+const ORANGE = Color(0xFFFF913E);
 
 const BORDER_COLOR = Color(0xFFE6E6E6);
 
