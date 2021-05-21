@@ -1,6 +1,6 @@
 import 'package:core_sdk/utils/colors.dart';
 import 'package:flutter/material.dart';
-
+import 'package:core_sdk/utils/utils.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/public_info/data/models/strategic_partners_model.dart';
@@ -21,7 +21,8 @@ class StrategicPartnersPage extends StatefulWidget {
   _StrategicPartnersPageState createState() => _StrategicPartnersPageState();
 }
 
-class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
+class _StrategicPartnersPageState
+    extends ProviderMobxState<StrategicPartnersPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -56,7 +57,7 @@ class _StrategicPartnersPageState extends ProviderMobxState<StrategicPartnersPag
                   return imageRow(
                       context: context,
                       token: viewmodel?.prefsRepository.token,
-                      title: viewmodel?.prefsRepository.languageCode == 'en'
+                      title: !isArabic(context: context)
                           ? partners![index].title!
                           : partners![index].titleAr!,
                       sourceId: partners[index].sourceId);

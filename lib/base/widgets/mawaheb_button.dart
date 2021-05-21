@@ -59,7 +59,8 @@ class MawahebButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(80.0),
             border: Border.all(color: borderColor!, width: 1.0),
           ),
-          constraints: const BoxConstraints(minWidth: double.infinity, minHeight: 55),
+          constraints:
+              const BoxConstraints(minWidth: double.infinity, minHeight: 55),
           // min sizes for Material buttons
           alignment: Alignment.center,
 
@@ -69,11 +70,10 @@ class MawahebButton extends StatelessWidget {
               Text(
                 context.translate(text!),
                 style: textStyle ??
-                    TextStyle(
+                    context.textTheme.bodyText1!.copyWith(
                       color: textColor,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins',
                     ),
                 textAlign: TextAlign.center,
               ),

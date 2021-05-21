@@ -55,11 +55,12 @@ class _MawahebTextFieldState extends State<MawahebTextField> {
         labelText: context.translate(widget.hintText!),
         enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.grey)),
-        labelStyle: TextStyle(
-            height: 0.5,
-            color: widget.hintColor ?? Colors.black,
-            fontWeight: FontWeight.w200,
-            fontFamily: 'Poppins'),
+        labelStyle: context.textTheme.bodyText1!.copyWith(
+          height: 0.5,
+          color: widget.hintColor ?? Colors.black,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
         suffixIcon: widget.isSuffixIcon == true
             ? IconButton(
                 onPressed: () => setState(

@@ -5,6 +5,7 @@ import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mawaheb_app/app/theme/colors.dart';
 import 'package:mawaheb_app/base/utils/validators.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
@@ -82,11 +83,22 @@ class _PlayerInfoPageState
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: RED,
+              accentColor: RED,
+              colorScheme: const ColorScheme.light(primary: RED),
+              buttonTheme:
+                  const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child!,
+          );
+        });
     if (picked != null && picked != _selectedDate)
       setState(() {
         _selectedDate = picked;

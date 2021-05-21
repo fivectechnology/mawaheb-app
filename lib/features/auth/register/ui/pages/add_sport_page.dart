@@ -276,10 +276,6 @@ class _AddSportPageState
                 child: SizedBox(
                   height: context.fullHeight * 0.15,
                   child: TextFormField(
-                    validator: (value) {
-                      return briefValidator(
-                          context: context, value: value ?? '');
-                    },
                     controller: _briefController,
                     maxLines: 10,
                     decoration: InputDecoration(

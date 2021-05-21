@@ -16,11 +16,12 @@ Widget mawhaebDropDown<T>({
     value: value,
     decoration: InputDecoration(
       labelText: context.translate(hint),
-      labelStyle: TextStyle(
-          height: 0.8,
-          color: textColor ?? Colors.grey,
-          fontWeight: FontWeight.w200,
-          fontFamily: 'Poppins'),
+      labelStyle: context.textTheme.bodyText1!.copyWith(
+        height: 0.8,
+        color: textColor ?? Colors.grey,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
       helperText: helperText,
       enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey)),
