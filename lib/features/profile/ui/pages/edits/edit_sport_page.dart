@@ -100,7 +100,7 @@ class _EditSportPageState extends MobxState<EditSportPage, EditSportViewmodel> {
       backgroundColor: WHITE,
       appBar: customAppBar(
           context: context,
-          title: 'lbl_address',
+          title: 'lbl_sport',
           withTitle: true,
           onBackButton: () {
             context.navigator.pop();

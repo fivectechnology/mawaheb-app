@@ -95,14 +95,6 @@ class _EditPersonalPageState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print('my debug didChangeDependencies1');
-
-    // if (viewmodel.categoryFuture == null) {
-    //   viewmodel.getCategories();
-    // }
-    // if (viewmodel.countryFuture == null) {
-    //   viewmodel.getCountries();
-    // }
     if (viewmodel.image != null) {
       viewmodel.imageFile;
     }
@@ -154,7 +146,7 @@ class _EditPersonalPageState
       backgroundColor: WHITE,
       appBar: customAppBar(
           context: context,
-          title: 'lbl_address',
+          title: 'lbl_personal_info',
           withTitle: true,
           onBackButton: () {
             context.navigator.pop();

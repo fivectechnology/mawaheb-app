@@ -1,7 +1,7 @@
 import 'package:core_sdk/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
-
+import 'package:core_sdk/utils/utils.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
@@ -15,7 +15,8 @@ class ContactsPage extends StatefulWidget {
 
   static const String route = '/contacts';
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const ContactsPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const ContactsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -23,7 +24,8 @@ class ContactsPage extends StatefulWidget {
   _ContactsPageState createState() => _ContactsPageState();
 }
 
-class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewmodel> {
+class _ContactsPageState
+    extends ProviderMobxState<ContactsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -47,7 +49,9 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
     return Scaffold(
       backgroundColor: WHITE,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: context.fullWidth * 0.05, vertical: context.fullHeight * 0.05),
+        padding: EdgeInsets.symmetric(
+            horizontal: context.fullWidth * 0.05,
+            vertical: context.fullHeight * 0.05),
         child: MawahebFutureBuilder<ContactUsModel>(
             future: viewmodel?.contactsFuture,
             onRetry: viewmodel?.getcontactUs ?? () {},
@@ -56,10 +60,13 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
                 physics: const BouncingScrollPhysics(),
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/images/ic_logo.svg', fit: BoxFit.fitHeight),
+                  SvgPicture.asset('assets/images/ic_logo.svg',
+                      fit: BoxFit.fitHeight),
                   contactRow(
                       title: 'lbl_address',
-                      text: viewmodel?.prefsRepository.languageCode == 'en' ? contacts?.address : contacts?.addressAr),
+                      text: !isArabic(context: context)
+                          ? contacts?.address
+                          : contacts?.addressAr),
                   contactRow(title: 'lbl_email', text: contacts?.email),
                   contactRow(title: 'lbl_phone', text: contacts?.phone),
                   const SizedBox(height: 18),
@@ -104,7 +111,10 @@ class _ContactsPageState extends ProviderMobxState<ContactsPage, PublicInfoViewm
                     text: context.translate(title) + ': ',
                     style: textTheme?.headline6!.copyWith(fontSize: 14),
                     children: [
-                      TextSpan(text: text, style: textTheme?.subtitle2!.copyWith(fontWeight: FontWeight.w200)),
+                      TextSpan(
+                          text: text,
+                          style: textTheme?.subtitle2!
+                              .copyWith(fontWeight: FontWeight.w200)),
                     ],
                   ),
                 ),

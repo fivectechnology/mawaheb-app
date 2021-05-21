@@ -4,13 +4,15 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_future_builder.dart';
 import 'package:mawaheb_app/features/public_info/data/models/about_us_model.dart';
 import 'package:mawaheb_app/features/public_info/viewmodels/public_info_viewmodels.dart';
+import 'package:core_sdk/utils/utils.dart';
 
 class AboutUsPage extends StatefulWidget {
   const AboutUsPage({Key? key}) : super(key: key);
 
   static const String route = '/about_us';
 
-  static MaterialPageRoute<dynamic> get pageRoute => MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
+  static MaterialPageRoute<dynamic> get pageRoute =>
+      MaterialPageRoute<dynamic>(builder: (_) => const AboutUsPage());
 
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
@@ -18,7 +20,8 @@ class AboutUsPage extends StatefulWidget {
   _AboutUsPageState createState() => _AboutUsPageState();
 }
 
-class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
+class _AboutUsPageState
+    extends ProviderMobxState<AboutUsPage, PublicInfoViewmodel> {
   @override
   void initState() {
     super.initState();
@@ -49,38 +52,46 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
             onSuccess: (aboutUs) {
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    aboutUsTile(
-                      title: 'lbl_summary',
-                      image: 'assets/images/ic_summary.png',
-                      text: viewmodel?.prefsRepository.languageCode == 'en'
-                          ? aboutUs?.summary ?? ''
-                          : aboutUs?.summaryAr ?? '',
-                    ),
-                    aboutUsTile(
-                      title: 'lbl_mission',
-                      image: 'assets/images/ic_mission.png',
-                      text: viewmodel?.prefsRepository.languageCode == 'en'
-                          ? aboutUs?.mission ?? ''
-                          : aboutUs?.missionAr ?? '',
-                    ),
-                    aboutUsTile(
-                      title: 'lbl_vision',
-                      image: 'assets/images/ic_vision.png',
-                      text: viewmodel?.prefsRepository.languageCode == 'en'
-                          ? aboutUs?.vision ?? ''
-                          : aboutUs?.visionAr ?? '',
-                    ),
-                    aboutUsTile(
-                      title: 'lbl_value',
-                      image: 'assets/images/ic_value.png',
-                      text: viewmodel?.prefsRepository.languageCode == 'en'
-                          ? aboutUs?.ourValues ?? ''
-                          : aboutUs?.ourValuesAr ?? '',
-                    )
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FlatButton(
+                          onPressed: () {
+                            print(viewmodel?.prefsRepository.languageCode);
+                          },
+                          child: Text('lang')),
+                      aboutUsTile(
+                        title: 'lbl_summary',
+                        image: 'assets/images/ic_summary.png',
+                        text: !isArabic(context: context)
+                            ? aboutUs?.summary ?? ''
+                            : aboutUs?.summaryAr ?? '',
+                      ),
+                      aboutUsTile(
+                        title: 'lbl_mission',
+                        image: 'assets/images/ic_mission.png',
+                        text: !isArabic(context: context)
+                            ? aboutUs?.mission ?? ''
+                            : aboutUs?.missionAr ?? '',
+                      ),
+                      aboutUsTile(
+                        title: 'lbl_vision',
+                        image: 'assets/images/ic_vision.png',
+                        text: !isArabic(context: context)
+                            ? aboutUs?.vision ?? ''
+                            : aboutUs?.visionAr ?? '',
+                      ),
+                      aboutUsTile(
+                        title: 'lbl_value',
+                        image: 'assets/images/ic_value.png',
+                        text: !isArabic(context: context)
+                            ? aboutUs?.ourValues ?? ''
+                            : aboutUs?.ourValuesAr ?? '',
+                      )
+                    ],
+                  ),
                 ),
               );
             }),
@@ -104,7 +115,8 @@ class _AboutUsPageState extends ProviderMobxState<AboutUsPage, PublicInfoViewmod
             padding: EdgeInsets.symmetric(vertical: context.fullHeight * 0.01),
             child: Text(
               context.translate(title),
-              style: textTheme?.headline2!.copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),
+              style: textTheme?.headline2!
+                  .copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: 7),
