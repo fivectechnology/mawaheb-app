@@ -2,7 +2,7 @@ import 'package:core_sdk/utils/colors.dart';
 import 'package:flutter/material.dart';
 // import 'package:tawreed_common_sdk/theme/colors.dart';
 
-TextTheme buildTextTheme(TextTheme base, ColorScheme scheme) {
+TextTheme buildTextTheme(TextTheme base, ColorScheme scheme, bool isArabic) {
   return base
       .copyWith(
         headline1: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
@@ -55,7 +55,7 @@ TextTheme buildTextTheme(TextTheme base, ColorScheme scheme) {
         // ),
       )
       .apply(
-        fontFamily: 'Poppins',
+        fontFamily: isArabic ? 'Cairo' : 'Poppins',
         displayColor: TEXT_COLOR,
         bodyColor: TEXT_COLOR,
 

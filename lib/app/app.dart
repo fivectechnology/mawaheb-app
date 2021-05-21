@@ -59,7 +59,7 @@ class _AppState extends State<App> {
             Locale(LANGUAGE_ENGLISH),
             Locale(LANGUAGE_ARABIC),
           ],
-          theme: lightTheme,
+          theme: lightTheme(isArabic: appViewmodel.language == LANGUAGE_ARABIC),
           localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

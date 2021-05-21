@@ -24,9 +24,9 @@ const ColorScheme _lightColorScheme = ColorScheme.light(
   error: ERROR_COLOR,
 );
 
-ThemeData _buildTawreedLightTheme() {
+ThemeData _buildMawahebLightTheme(bool isArabic) {
   final ThemeData base = ThemeData.light();
-  final TextTheme textTheme = buildTextTheme(base.textTheme, _lightColorScheme);
+  final TextTheme textTheme = buildTextTheme(base.textTheme, _lightColorScheme, isArabic);
 
   return base.copyWith(
     cursorColor: const Color.fromARGB(255, 213, 194, 148),
@@ -87,4 +87,6 @@ ThemeData _buildTawreedLightTheme() {
 //   return original.copyWith(color: _lightColorScheme.primary, size: 32.0);
 // }
 
-final ThemeData lightTheme = _buildTawreedLightTheme();
+// final ThemeData lightTheme = _buildTawreedLightTheme();
+
+ThemeData lightTheme({bool isArabic = true}) => _buildMawahebLightTheme(isArabic);
