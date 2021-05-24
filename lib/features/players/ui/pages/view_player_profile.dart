@@ -22,13 +22,14 @@ class ViewPlayerProfile extends StatefulWidget {
 
   final PlayerModel player;
 
-  static MaterialPageRoute pageRoute(PlayersViewmodel playersViewmodel, PlayerModel player) {
+  static MaterialPageRoute pageRoute(
+      PlayersViewmodel playersViewmodel, PlayerModel player) {
     return MaterialPageRoute(
       builder: (context) => Provider.value(
         value: (playersViewmodel
           ..viewProfilePlayer(id: player.id)
           ..fetchPlayer(id: player.id)
-          ..fetchVideos(playerId: player.id)) as PlayersViewmodel?,
+          ..fetchVideos(playerId: player.id)),
         child: ViewPlayerProfile(player: player),
       ),
     );
@@ -38,7 +39,8 @@ class ViewPlayerProfile extends StatefulWidget {
   _ViewPlayerProfileState createState() => _ViewPlayerProfileState();
 }
 
-class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, PlayersViewmodel>
+class _ViewPlayerProfileState
+    extends ProviderMobxState<ViewPlayerProfile, PlayersViewmodel>
     with TickerProviderStateMixin {
   TabController? _tabController;
 
@@ -60,7 +62,8 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, withTitle: false) as PreferredSizeWidget?,
+      appBar: customAppBar(context: context, withTitle: false)
+          as PreferredSizeWidget?,
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -84,7 +87,8 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
               borderRadius: BorderRadius.circular(25.0),
             ),
             child: TabBar(
-              indicator: BoxDecoration(borderRadius: BorderRadius.circular(25.0), color: YELLOW),
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0), color: YELLOW),
               tabs: [
                 Text(context.translate('lbl_personal_info')),
                 Text(context.translate('lbl_videos')),
@@ -104,9 +108,11 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
           ),
           Observer(
             builder: (_) {
-              final Tuple3 buttonParams = getButtonParams(context, availability);
+              final Tuple3 buttonParams =
+                  getButtonParams(context, availability);
               return Container(
-                margin: const EdgeInsets.only(top: 15, bottom: 33, right: 38, left: 38),
+                margin: const EdgeInsets.only(
+                    top: 15, bottom: 33, right: 38, left: 38),
                 child: MawahebGradientButton(
                   context: context,
                   text: buttonParams.item1,
@@ -127,7 +133,8 @@ class _ViewPlayerProfileState extends ProviderMobxState<ViewPlayerProfile, Playe
     );
   }
 
-  Tuple3<String?, String?, VoidCallback?> getButtonParams(BuildContext context, String? availability) {
+  Tuple3<String?, String?, VoidCallback?> getButtonParams(
+      BuildContext context, String? availability) {
     String? title;
     String? message;
     VoidCallback? onConfirm;

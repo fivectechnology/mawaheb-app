@@ -126,7 +126,9 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         'CLUB',
                       ]
                           .map((e) => DropdownMenuItem(
-                                child: Text(context.translate(e)),
+                                child: Text(
+                                  context.translate(e),
+                                ),
                                 value: e,
                               ))
                           .toList(),

@@ -284,9 +284,9 @@ class _AddSportPageState
                           borderSide: const BorderSide(color: Colors.grey)),
                       labelText: context.translate('msg_brief'),
                       labelStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w200,
-                          fontFamily: 'Poppins'),
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w200,
+                      ),
                     ),
                   ),
                 ),

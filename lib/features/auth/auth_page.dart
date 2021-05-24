@@ -10,7 +10,8 @@ import 'package:core_sdk/utils/extensions/build_context.dart';
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
 
-  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const AuthPage());
+  static MaterialPageRoute get pageRoute =>
+      MaterialPageRoute(builder: (context) => const AuthPage());
 
   static const String route = '/auth';
 
@@ -48,7 +49,6 @@ class _AuthPageState extends MobxState<AuthPage, AuthViewmodel> {
         title: Text(
           context.translate('lbl_public_info'),
           style: const TextStyle(
-            fontFamily: 'Poppins',
             color: TEXT_COLOR,
             fontWeight: FontWeight.w500,
             fontSize: 19.0,
