@@ -13,6 +13,7 @@ class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final AppViewmodel? appViewModel;
   final String? title;
+
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -24,18 +25,16 @@ class MawahebAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           child: AppBar(
             title: Text(
-              title ??
-                  (appViewModel!.appBarParams!.translateTitle
-                      ? context.translate(appViewModel!.appBarParams!.title)
-                      : appViewModel!.appBarParams!.title),
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                color: TEXT_COLOR,
-                fontWeight: FontWeight.w500,
-                fontSize: 19,
-                letterSpacing: 0.15,
-              ),
-            ),
+                title ??
+                    (appViewModel!.appBarParams!.translateTitle
+                        ? context.translate(appViewModel!.appBarParams!.title)
+                        : appViewModel!.appBarParams!.title),
+                style: context.textTheme.bodyText1!.copyWith(
+                  color: TEXT_COLOR,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 19,
+                  letterSpacing: 0.15,
+                )),
             toolbarHeight: 56.0,
             elevation: 0,
             //leadingWidth: 30,
