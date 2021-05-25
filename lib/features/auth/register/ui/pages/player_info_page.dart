@@ -204,7 +204,7 @@ class _PlayerInfoPageState
                     AbsorbPointer(
                       child: mawhaebDropDown(
                         value: context.translate('lbl_male'),
-                        hint: context.translate('lbl_male'),
+                        hint: context.translate('lbl_gender'),
                         context: context,
                         onChanged: (value) {
                           gender = value;

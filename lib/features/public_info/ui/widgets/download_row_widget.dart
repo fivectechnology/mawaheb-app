@@ -15,8 +15,7 @@ Widget imageRow({
       children: [
         Text(
           title,
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 7.0),
         AspectRatio(

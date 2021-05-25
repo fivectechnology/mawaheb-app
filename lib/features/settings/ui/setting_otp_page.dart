@@ -20,9 +20,11 @@ class SettingOtpPage extends StatefulWidget {
   static const String route = '/setting_otp';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute<bool> pageRoute(SettingsViewmodel? settingsViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute<bool> pageRoute(
+          SettingsViewmodel? settingsViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
-          value: settingsViewmodel,
+          value: settingsViewmodel!,
           child: const SettingOtpPage(),
         ),
       );
@@ -31,7 +33,8 @@ class SettingOtpPage extends StatefulWidget {
   _SettingOtpPageState createState() => _SettingOtpPageState();
 }
 
-class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsViewmodel> {
+class _SettingOtpPageState
+    extends ProviderMobxState<SettingOtpPage, SettingsViewmodel> {
   final TextEditingController _otpController = TextEditingController();
   final FocusNode otpFocusNode = FocusNode()..requestFocus();
 
@@ -87,12 +90,14 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
                   ),
                   child: Text(
                     context.translate('msg_enter_otp'),
-                    style: context.textTheme.headline1!.copyWith(color: Colors.black, fontSize: 22, wordSpacing: 0.5),
+                    style: context.textTheme.headline1!.copyWith(
+                        color: Colors.black, fontSize: 22, wordSpacing: 0.5),
                   )),
               Observer(builder: (_) {
                 return Text(
                   viewmodel?.player?.email ?? '',
-                  style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
+                  style: context.textTheme.bodyText1!
+                      .copyWith(color: Colors.black, fontSize: 16),
                 );
               }),
               SizedBox(
@@ -101,7 +106,8 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
               Observer(builder: (_) {
                 return Text(
                   viewmodel?.otpCodeMessage ?? '',
-                  style: context.textTheme.bodyText1!.copyWith(color: Colors.black, fontSize: 16),
+                  style: context.textTheme.bodyText1!
+                      .copyWith(color: Colors.black, fontSize: 16),
                 );
               }),
               SizedBox(
@@ -110,7 +116,10 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
               codeField(true),
               Padding(
                 padding: EdgeInsets.only(
-                    left: 38, right: 38, top: context.fullHeight * 0.08, bottom: context.fullHeight * 0.04),
+                    left: 38,
+                    right: 38,
+                    top: context.fullHeight * 0.08,
+                    bottom: context.fullHeight * 0.04),
                 child: MawahebButton(
                   onPressed: () => viewmodel?.sendOTP(resend: true),
                   context: context,
@@ -161,7 +170,8 @@ class _SettingOtpPageState extends ProviderMobxState<SettingOtpPage, SettingsVie
           color: DARK_GREY,
           fontWeight: FontWeight.w600,
         ),
-        pinTextAnimatedSwitcherTransition: ProvidedPinBoxTextAnimation.scalingTransition,
+        pinTextAnimatedSwitcherTransition:
+            ProvidedPinBoxTextAnimation.scalingTransition,
         pinBoxColor: Colors.green[100]!,
         pinTextAnimatedSwitcherDuration: const Duration(milliseconds: 200),
         highlightAnimationBeginColor: Colors.black,

@@ -12,12 +12,14 @@ Widget mawhaebDropDown<T>({
   Function? onChanged,
 }) {
   return DropdownButtonFormField(
+    style: context.textTheme.bodyText1!
+        .copyWith(height: 0.1, fontWeight: FontWeight.w500),
     key: key,
     value: value,
     decoration: InputDecoration(
       labelText: context.translate(hint),
       labelStyle: context.textTheme.bodyText1!.copyWith(
-        height: 0.8,
+        height: 0.5,
         color: textColor ?? Colors.grey,
         fontSize: 14,
         fontWeight: FontWeight.w500,

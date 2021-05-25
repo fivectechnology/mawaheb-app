@@ -21,7 +21,8 @@ class ForgotPasswordPage extends StatefulWidget {
   static const String route = '/forgot_password';
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) => MaterialPageRoute(
+  static MaterialPageRoute pageRoute(AuthViewmodel authViewmodel) =>
+      MaterialPageRoute(
         builder: (context) => Provider.value(
           value: authViewmodel,
           child: const ForgotPasswordPage(),
@@ -32,7 +33,8 @@ class ForgotPasswordPage extends StatefulWidget {
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, AuthViewmodel> {
+class _ForgotPasswordPageState
+    extends ProviderMobxState<ForgotPasswordPage, AuthViewmodel> {
   final TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final PageController _pageController = PageController(keepPage: true);
@@ -62,7 +64,8 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
       const ResetPasswordPagee(),
     ];
     addSideEffects([
-      reaction((_) => viewmodel?.forgotPasswordSliderModel, (PageSliderModel? sliderModel) {
+      reaction((_) => viewmodel?.forgotPasswordSliderModel,
+          (PageSliderModel? sliderModel) {
         slidePage(sliderModel);
         viewmodel?.forgotPasswordSliderModel = null;
       }),
@@ -94,8 +97,10 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
       return;
     }
     sliderModel.value == 1
-        ? _pageController.nextPage(duration: 400.milliseconds, curve: Curves.easeIn)
-        : _pageController.previousPage(duration: 400.milliseconds, curve: Curves.easeOut);
+        ? _pageController.nextPage(
+            duration: 400.milliseconds, curve: Curves.easeIn)
+        : _pageController.previousPage(
+            duration: 400.milliseconds, curve: Curves.easeOut);
   }
 
   @override
@@ -137,10 +142,13 @@ class _ForgotPasswordPageState extends ProviderMobxState<ForgotPasswordPage, Aut
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-              padding: EdgeInsets.only(top: context.fullHeight * 0.02, bottom: context.fullHeight * 0.1),
+              padding: EdgeInsets.only(
+                  top: context.fullHeight * 0.02,
+                  bottom: context.fullHeight * 0.1),
               child: Text(
                 context.translate('msg_recover_account'),
-                style: context.textTheme.headline2!.copyWith(color: Colors.black, fontSize: 40),
+                style: context.textTheme.headline2!
+                    .copyWith(color: Colors.black, fontSize: 40),
               )),
           MawahebTextField(
             hintText: 'lbl_email_username',

@@ -25,7 +25,8 @@ import 'package:supercharged/supercharged.dart';
 part 'settings_viewmodel.g.dart';
 
 @injectable
-class SettingsViewmodel extends _SettingsViewmodelBase with _$SettingsViewmodel {
+class SettingsViewmodel extends _SettingsViewmodelBase
+    with _$SettingsViewmodel {
   SettingsViewmodel(
     Logger logger,
     SettingsRepository settingsRepository,
@@ -95,7 +96,8 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   bool get playerEmailLoading => playerEmailFuture?.isPending ?? false;
 
   @computed
-  OTPResponseModel get otpCode => verifyOTPFuture?.value ?? false as OTPResponseModel;
+  OTPResponseModel get otpCode =>
+      verifyOTPFuture?.value ?? false as OTPResponseModel;
 
   @computed
   bool get verifyOTPLoading => verifyOTPFuture?.isPending ?? false;
@@ -120,7 +122,9 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     String? lang,
   }) {
     updateLang = futureWrapper(
-      () => _settingsRepository.updateLanguage(id: _prefsRepository.player!.id, language: lang).whenSuccess(
+      () => _settingsRepository
+          .updateLanguage(id: _prefsRepository.player!.id, language: lang)
+          .whenSuccess(
             (res) => res?.apply(() {}),
           ),
       useLoader: true,
@@ -140,9 +144,11 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     logger.d('my  debug logout as future invoked');
     return _authRepository.logout().then(
           (res) => res.apply(() {
-            App.navKey.currentState!.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+            App.navKey.currentState!
+                .pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
             getContext(
-              (context) => Provider.of<AppViewmodel>(context, listen: false).navigateTo(PageIndex.home),
+              (context) => Provider.of<AppViewmodel>(context, listen: false)
+                  .navigateTo(PageIndex.home),
             );
           }),
         );
@@ -161,12 +167,15 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
       ));
     }
     sendOtp = futureWrapper(
-      () => _settingsRepository.sendOTP(email: player!.email, password: player!.password).whenSuccess(
+      () => _settingsRepository
+          .sendOTP(email: player!.email, password: player!.password)
+          .whenSuccess(
             (res) => res?.apply(() {
               logger.d('otp success with res: $res');
               if (!resend) {
                 getContext((context) async {
-                  final bool? done = await context.navigator.push(SettingOtpPage.pageRoute(this as SettingsViewmodel));
+                  final bool? done = await context.navigator.push(
+                      SettingOtpPage.pageRoute(this as SettingsViewmodel));
                   if (done ?? false) {
                     Provider.of<AppViewmodel>(context, listen: false).popRoute(
                       context,
@@ -200,7 +209,9 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
     logger.d('otp verify enterre');
 
     verifyOTPFuture = futureWrapper(
-      () => _settingsRepository.verifyOTP(email: player!.email, code: code).whenSuccess((res) async {
+      () => _settingsRepository
+          .verifyOTP(email: player!.email, code: code)
+          .whenSuccess((res) async {
         logger.d('otp verify success with res: $res');
         await _settingsRepository
             .changeEmail(email: player!.email, code: res?.data.data)
@@ -235,7 +246,10 @@ abstract class _SettingsViewmodelBase extends BaseViewmodel with Store {
   void changePassword({String? newPassword, String? currentPassword}) {
     changePasswordFuture = futureWrapper(
       () => _settingsRepository
-          .changePassword(newPassword: newPassword, currentPassword: currentPassword, id: _prefsRepository.player!.id)
+          .changePassword(
+              newPassword: newPassword,
+              currentPassword: currentPassword,
+              id: _prefsRepository.player!.id)
           .whenSuccess((res) => res?.apply(() => getContext((context) {
                 Provider.of<AppViewmodel>(context, listen: false).popRoute(
                   context,

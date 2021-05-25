@@ -65,6 +65,9 @@ class _RegisterPageState
   void initState() {
     super.initState();
     onBackButton = () => context.pop();
+
+    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)
+      ..refreshUserStatus();
   }
 
   @override
@@ -77,9 +80,6 @@ class _RegisterPageState
         viewmodel?.registerSliderModel = null;
       }),
     ]);
-
-    appViewmodel = Provider.of<AppViewmodel>(context, listen: false)
-      ..refreshUserStatus();
   }
 
   @override
@@ -136,12 +136,14 @@ class _RegisterPageState
       case 2:
         withBack = false;
         newTitle = 'lbl_personal_info';
-
         break;
       case 3:
+        withBack = true;
         newTitle = 'lbl_address';
         break;
+
       case 4:
+        withBack = true;
         newTitle = 'lbl_add_sport';
         break;
     }
@@ -155,12 +157,15 @@ class _RegisterPageState
     String? newTitle;
     switch (pageIndex) {
       case 0:
+        withBack = false;
         newTitle = 'lbl_personal_info';
         break;
       case 1:
+        withBack = true;
         newTitle = 'lbl_address';
         break;
       case 2:
+        withBack = true;
         newTitle = 'lbl_add_sport';
         break;
     }

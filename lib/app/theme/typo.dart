@@ -14,7 +14,8 @@ TextTheme buildTextTheme(TextTheme base, ColorScheme scheme, bool isArabic) {
         //   color: scheme.primary,
         // ),
 
-        headline5: base.headline5!.copyWith(fontWeight: FontWeight.w400, fontSize: 23),
+        headline5:
+            base.headline5!.copyWith(fontWeight: FontWeight.w400, fontSize: 23),
 
         headline6: base.headline6!.copyWith(
           fontWeight: FontWeight.w500,
@@ -28,7 +29,8 @@ TextTheme buildTextTheme(TextTheme base, ColorScheme scheme, bool isArabic) {
           letterSpacing: 0.5,
         ),
 
-        bodyText2: base.bodyText2!.copyWith(fontWeight: FontWeight.w400, fontSize: 13.0, letterSpacing: 0.25),
+        bodyText2: base.bodyText2!.copyWith(
+            fontWeight: FontWeight.w400, fontSize: 13.0, letterSpacing: 0.25),
 
         subtitle1: base.subtitle1!.copyWith(
           fontWeight: FontWeight.w500,

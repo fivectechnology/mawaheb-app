@@ -164,6 +164,7 @@ class _AddSportPageState
                 onChanged: (value) {
                   currentSport = value;
                   viewmodel?.getPositions(sportId: currentSport!.id);
+                  position = null;
                 },
                 items: viewmodel?.sports
                     ?.map((em) => DropdownMenuItem(
@@ -284,9 +285,9 @@ class _AddSportPageState
                           borderSide: const BorderSide(color: Colors.grey)),
                       labelText: context.translate('msg_brief'),
                       labelStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w200,
-                          fontFamily: 'Poppins'),
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w200,
+                      ),
                     ),
                   ),
                 ),
