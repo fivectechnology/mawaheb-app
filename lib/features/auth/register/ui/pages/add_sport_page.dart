@@ -164,6 +164,7 @@ class _AddSportPageState
                 onChanged: (value) {
                   currentSport = value;
                   viewmodel?.getPositions(sportId: currentSport!.id);
+                  position = null;
                 },
                 items: viewmodel?.sports
                     ?.map((em) => DropdownMenuItem(

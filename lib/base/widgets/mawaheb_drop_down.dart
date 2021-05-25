@@ -12,7 +12,8 @@ Widget mawhaebDropDown<T>({
   Function? onChanged,
 }) {
   return DropdownButtonFormField(
-    style: context.textTheme.bodyText1!.copyWith(height: 0.1),
+    style: context.textTheme.bodyText1!
+        .copyWith(height: 0.1, fontWeight: FontWeight.w500),
     key: key,
     value: value,
     decoration: InputDecoration(
