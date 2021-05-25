@@ -92,7 +92,7 @@ class PrefsRepositoryImpl implements PrefsRepository {
     await _prefs.remove(PreferencesKeys.USER_PROFILE);
     await _prefs.remove(PreferencesKeys.USER_TOKEN);
     await _prefs.remove(PreferencesKeys.FB_USER_TOKEN);
-    await _prefs.remove(PreferencesKeys.APP_LANGUAGE);
+    // await _prefs.remove(PreferencesKeys.APP_LANGUAGE);
     await _prefs.remove(PreferencesKeys.CUSTOMER_PROFILE);
     await _prefs.remove(PreferencesKeys.USER_GENDER);
     await _prefs.remove(FILE_SIZE);
