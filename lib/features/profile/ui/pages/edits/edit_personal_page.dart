@@ -124,9 +124,9 @@ class _EditPersonalPageState
         builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.light().copyWith(
-              primaryColor: RED,
-              accentColor: RED,
-              colorScheme: const ColorScheme.light(primary: RED),
+              primaryColor: ORANGE,
+              accentColor: ORANGE,
+              colorScheme: const ColorScheme.light(primary: ORANGE),
               buttonTheme:
                   const ButtonThemeData(textTheme: ButtonTextTheme.primary),
             ),

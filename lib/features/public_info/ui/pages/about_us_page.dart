@@ -53,7 +53,7 @@ class _AboutUsPageState
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 42),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
