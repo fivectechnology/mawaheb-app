@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:core_sdk/utils/widgets/unfucus_detector.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_gradient_button.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'package:mawaheb_app/base/widgets/search_bottom_sheet.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
@@ -22,8 +24,7 @@ class PlayerInfoPage extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  static MaterialPageRoute get pageRoute =>
-      MaterialPageRoute(builder: (context) => const PlayerInfoPage());
+  static MaterialPageRoute get pageRoute => MaterialPageRoute(builder: (context) => const PlayerInfoPage());
 
   static const String route = '/player_info';
 
@@ -31,8 +32,7 @@ class PlayerInfoPage extends StatefulWidget {
   _PlayerInfoPageState createState() => _PlayerInfoPageState();
 }
 
-class _PlayerInfoPageState
-    extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
+class _PlayerInfoPageState extends ProviderMobxState<PlayerInfoPage, AuthViewmodel> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dateOfBirth = TextEditingController();
@@ -93,8 +93,7 @@ class _PlayerInfoPageState
               primaryColor: RED,
               accentColor: RED,
               colorScheme: const ColorScheme.light(primary: RED),
-              buttonTheme:
-                  const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
             ),
             child: child!,
           );
@@ -139,8 +138,7 @@ class _PlayerInfoPageState
                       textEditingController: _nameController,
                       context: context,
                       validator: (value) {
-                        return nameValidator(
-                            context: context, name: value ?? '');
+                        return nameValidator(context: context, name: value ?? '');
                       },
                     ),
                     const SizedBox(height: 26),
@@ -152,8 +150,7 @@ class _PlayerInfoPageState
                             hintColor: Colors.grey,
                             textEditingController: _dateOfBirth,
                             validator: (value) {
-                              return dateValidator(
-                                  context: context, value: value ?? '');
+                              return dateValidator(context: context, value: value ?? '');
                             },
                             context: context),
                       ),
@@ -166,24 +163,41 @@ class _PlayerInfoPageState
                         hintColor: Colors.grey,
                         textEditingController: _phoneController,
                         validator: (value) {
-                          return phoneValidator(
-                              context: context, phone: value ?? '');
+                          return phoneValidator(context: context, phone: value ?? '');
                         },
                         context: context),
                     const SizedBox(height: 26),
-                    mawhaebDropDown(
-                      value: viewmodel?.countries!.first,
-                      hint: 'lbl_nationality',
-                      context: context,
-                      onChanged: (value) {
-                        currentCountry = value;
+                    InkWell(
+                      onTap: () async {
+                        final CountryModel? result = await SearchBottomSheet.show(
+                          context,
+                          title: 'lbl_search_nationality',
+                          hintText: 'lbl_nationality',
+                          items: viewmodel!.countries!,
+                        );
+                        // currentCountry = result;
+
+                        result?.apply(() => setState(() {
+                              currentCountry = result;
+                            }));
                       },
-                      items: viewmodel?.countries!
-                          .map((em) => DropdownMenuItem(
-                                child: Text(em.name!),
-                                value: em,
-                              ))
-                          .toList(),
+                      child: mawhaebDropDown(
+                        value: currentCountry ?? viewmodel?.countries!.first,
+                        hint: 'lbl_nationality',
+                        context: context,
+                        // onChanged: (value) {
+                        //   currentCountry = value;
+                        // },
+                        items: viewmodel?.countries!
+                            .map((em) => DropdownMenuItem(
+                                  child: Text(
+                                    em.name!,
+                                    style: textTheme?.bodyText1,
+                                  ),
+                                  value: em,
+                                ))
+                            .toList(),
+                      ),
                     ),
                     const SizedBox(height: 26),
                     mawhaebDropDown(
@@ -233,10 +247,8 @@ class _PlayerInfoPageState
                             onPressed: () async {
                               if (viewmodel?.image != null) {
                                 viewmodel?.uploadFile(
-                                    playerVersion: viewmodel
-                                        ?.prefsRepository.player!.version,
-                                    playerId:
-                                        viewmodel?.prefsRepository.player!.id,
+                                    playerVersion: viewmodel?.prefsRepository.player!.version,
+                                    playerId: viewmodel?.prefsRepository.player!.id,
                                     file: viewmodel?.image,
                                     fileType: fileType,
                                     fileName: fileName,
@@ -251,10 +263,8 @@ class _PlayerInfoPageState
                                   name: _nameController.text,
                                   gender: 'MALE',
                                   dateOfBirth: dateOfBirth,
-                                  categoryModel: currentCategory ??
-                                      viewmodel?.categories!.first,
-                                  country: currentCountry ??
-                                      viewmodel?.countries!.first,
+                                  categoryModel: currentCategory ?? viewmodel?.categories!.first,
+                                  country: currentCountry ?? viewmodel?.countries!.first,
                                 );
                               }
                             });
@@ -300,8 +310,7 @@ class _PlayerInfoPageState
           ),
           Text(
             context.translate('lbl_add_image'),
-            style: textTheme?.bodyText1
-                ?.copyWith(color: Colors.grey, fontSize: 12),
+            style: textTheme?.bodyText1?.copyWith(color: Colors.grey, fontSize: 12),
           )
         ],
       ),

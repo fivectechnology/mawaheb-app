@@ -38,10 +38,16 @@ class CountryModel with EquatableMixin {
   @override
   List<Object?> get props {
     return [
-      tName,
-      nameEn,
-      id,
+      name,
+      // tName,
+      // nameEn,
+      // id,
     ];
+  }
+
+  @override
+  String toString() {
+    return name ?? '';
   }
 
   static CountryModel fromJson(Object json) => _$CountryModelFromJson(json as Map<String, dynamic>);

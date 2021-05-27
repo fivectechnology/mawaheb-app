@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:core_sdk/utils/extensions/object.dart';
 import 'package:core_sdk/utils/mobx/mobx_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,6 +12,7 @@ import 'package:mawaheb_app/base/widgets/mawaheb_drop_down.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_loader.dart';
 import 'package:mawaheb_app/base/widgets/mawaheb_text_field.dart';
+import 'package:mawaheb_app/base/widgets/search_bottom_sheet.dart';
 import 'package:mawaheb_app/base/widgets/uploading_video_loader.dart';
 import 'package:mawaheb_app/features/auth/data/models/category_model.dart';
 import 'package:mawaheb_app/features/auth/data/models/country_model.dart';
@@ -39,8 +41,7 @@ class EditPersonalPage extends StatefulWidget {
   _EditPersonalPageState createState() => _EditPersonalPageState();
 }
 
-class _EditPersonalPageState
-    extends MobxState<EditPersonalPage, EditPersonalViewmodel> {
+class _EditPersonalPageState extends MobxState<EditPersonalPage, EditPersonalViewmodel> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _dateOfBirth = TextEditingController();
@@ -127,8 +128,7 @@ class _EditPersonalPageState
               primaryColor: RED,
               accentColor: RED,
               colorScheme: const ColorScheme.light(primary: RED),
-              buttonTheme:
-                  const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
             ),
             child: child!,
           );
@@ -157,8 +157,7 @@ class _EditPersonalPageState
             : Form(
                 key: _formKey,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 43, vertical: 30),
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -171,8 +170,7 @@ class _EditPersonalPageState
                         context: context,
                         validator: (value) {
                           markAsDirty();
-                          return nameValidator(
-                              context: context, name: value ?? '');
+                          return nameValidator(context: context, name: value ?? '');
                         },
                       ),
                       const SizedBox(height: 26),
@@ -185,8 +183,7 @@ class _EditPersonalPageState
                             textEditingController: _dateOfBirth,
                             context: context,
                             validator: (value) {
-                              return dateValidator(
-                                  context: context, value: value ?? '');
+                              return dateValidator(context: context, value: value ?? '');
                             },
                           ),
                         ),
@@ -199,25 +196,40 @@ class _EditPersonalPageState
                         textEditingController: _phoneController,
                         validator: (value) {
                           markAsDirty();
-                          return phoneValidator(
-                              context: context, phone: value ?? '');
+                          return phoneValidator(context: context, phone: value ?? '');
                         },
                         context: context,
                       ),
                       const SizedBox(height: 26),
-                      mawhaebDropDown(
-                        value: widget.player!.country,
-                        hint: 'lbl_nationality',
-                        context: context,
-                        onChanged: (value) {
-                          currentCountry = value;
+                      InkWell(
+                        onTap: () async {
+                          final CountryModel? result = await SearchBottomSheet.show(
+                            context,
+                            title: 'lbl_search_nationality',
+                            hintText: 'lbl_nationality',
+                            items: viewmodel.countries!,
+                          );
+                          // currentCountry = result;
+
+                          result?.apply(() => setState(() {
+                                currentCountry = result;
+                              }));
                         },
-                        items: viewmodel.countries!
-                            .map((em) => DropdownMenuItem(
-                                  child: Text(em.name!),
-                                  value: em,
-                                ))
-                            .toList(),
+                        child: mawhaebDropDown(
+                          value: currentCountry ?? widget.player!.country,
+                          hint: 'lbl_nationality',
+                          context: context,
+                          // onChanged: (value) {
+                          //   currentCountry = value;
+                          // },
+                          onChanged: null,
+                          items: viewmodel.countries!
+                              .map((em) => DropdownMenuItem(
+                                    child: Text(em.name!, style: textTheme?.bodyText1),
+                                    value: em,
+                                  ))
+                              .toList(),
+                        ),
                       ),
                       const SizedBox(height: 26),
                       mawhaebDropDown(
@@ -276,24 +288,16 @@ class _EditPersonalPageState
                                   );
 
                                   viewmodel.editPersonalInfo(
-                                    phone: _phoneController.text != ''
-                                        ? _phoneController.text
-                                        : viewmodel.player!.phone,
-                                    name: _nameController.text != ''
-                                        ? _nameController.text
-                                        : viewmodel.player!.name,
+                                    phone:
+                                        _phoneController.text != '' ? _phoneController.text : viewmodel.player!.phone,
+                                    name: _nameController.text != '' ? _nameController.text : viewmodel.player!.name,
                                     gender: 'MALE',
-                                    dateOfBirth: dateOfBirth ??
-                                        viewmodel.player!.dateOfBirth,
-                                    categoryModel: currentCategory ??
-                                        viewmodel.player!.category,
-                                    country: currentCountry ??
-                                        viewmodel.player!.country,
+                                    dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
+                                    categoryModel: currentCategory ?? viewmodel.player!.category,
+                                    country: currentCountry ?? viewmodel.player!.country,
                                   );
                                   uploadingVideoLoader(
-                                      context: context,
-                                      key: EditPersonalPage.keyLoader,
-                                      text: 'msg_uploading_image');
+                                      context: context, key: EditPersonalPage.keyLoader, text: 'msg_uploading_image');
                                 } else {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
@@ -309,12 +313,9 @@ class _EditPersonalPageState
                                       phone: _phoneController.text,
                                       name: _nameController.text,
                                       gender: 'MALE',
-                                      dateOfBirth: dateOfBirth ??
-                                          viewmodel.player!.dateOfBirth,
-                                      categoryModel: currentCategory ??
-                                          viewmodel.player!.category,
-                                      country: currentCountry ??
-                                          viewmodel.player!.country,
+                                      dateOfBirth: dateOfBirth ?? viewmodel.player!.dateOfBirth,
+                                      categoryModel: currentCategory ?? viewmodel.player!.category,
+                                      country: currentCountry ?? viewmodel.player!.country,
                                     );
                                   }
                                 }
@@ -362,8 +363,7 @@ class _EditPersonalPageState
           ),
           Text(
             context.translate('lbl_add_image'),
-            style: textTheme!.bodyText1!
-                .copyWith(color: Colors.grey, fontSize: 12),
+            style: textTheme!.bodyText1!.copyWith(color: Colors.grey, fontSize: 12),
           )
         ],
       ),
