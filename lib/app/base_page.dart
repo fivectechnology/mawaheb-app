@@ -171,7 +171,7 @@ class _BasePageState extends State<BasePage> with SideEffectMinxin<BasePage> {
                 enableVibration: true,
                 playSound: true,
                 // icon: '@drawable/ic_notification',
-                icon: '@mipmap/ic_launcher',
+                icon: '@drawable/ic_notification',
               ),
             ));
       }
