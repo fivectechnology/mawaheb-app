@@ -12,8 +12,8 @@ String? passwordValidator({required String password, BuildContext? context}) {
 
 String? emailValidator({required String email, BuildContext? context}) {
   const Pattern pattern =
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-      r'{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]'
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z](?:[a-zA-Z]"
+      r'{0,253}[a-zA-Z])?(?:\.[a-zA-Z0-9](?:[a-zA-Z]'
       r'{0,253}[a-zA-Z0-9])?)*$';
   final RegExp regex = RegExp(pattern as String);
 

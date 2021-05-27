@@ -173,6 +173,7 @@
   "msg_height_empty": "الطول فارغ",
   "msg_weight_empty": "الوزن فارغ",
   "msg_name_empty": "الاسم فارغ",
+  "msg_name_short": "الاسم غير صالح",
   "msg_brief_empty": "النبذة المختصرة فارغة",
   "msg_dateOfBirth_empty": "تاريخ الميلاد فارغ",
   "msg_uploading_video": "جاري رفع الفيديو...",
