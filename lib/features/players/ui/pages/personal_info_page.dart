@@ -18,7 +18,8 @@ class PersonalInfoPage extends StatefulWidget {
   _PersonalInfoPageState createState() => _PersonalInfoPageState();
 }
 
-class _PersonalInfoPageState extends ProviderMobxState<PersonalInfoPage, PlayersViewmodel> {
+class _PersonalInfoPageState
+    extends ProviderMobxState<PersonalInfoPage, PlayersViewmodel> {
   bool isPlayer = true;
 
   @override
@@ -56,8 +57,9 @@ class _PersonalInfoPageState extends ProviderMobxState<PersonalInfoPage, Players
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 26, bottom: 12),
-                      child: Text(context.translate('lbl_sport'),
-                          style: context.textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                      child: Text(context.translate('lbl_info_sport'),
+                          style: context.textTheme.subtitle1!.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -70,14 +72,29 @@ class _PersonalInfoPageState extends ProviderMobxState<PersonalInfoPage, Players
                 ),
                 infoRow(
                   title: 'lbl_position',
-                  value: player?.position?.tName ?? player?.position?.name ?? 'N/A',
+                  value: player?.position?.tName ??
+                      player?.position?.name ??
+                      'N/A',
                   context: context,
                 ),
-                infoRow(title: 'lbl_weight', value: player?.weight, context: context),
-                infoRow(title: 'lbl_hight', value: player?.height, context: context),
-                infoRow(title: 'lbl_prefer_hand', value: player?.hand, context: context),
-                infoRow(title: 'lbl_prefer_leg', value: player?.leg, context: context),
-                infoRow(title: 'lbl_brief', value: player?.brief, context: context),
+                infoRow(
+                    title: 'lbl_weight',
+                    value: player?.weight,
+                    context: context),
+                infoRow(
+                    title: 'lbl_hight',
+                    value: player?.height,
+                    context: context),
+                infoRow(
+                    title: 'lbl_prefer_hand',
+                    value: player?.hand,
+                    context: context),
+                infoRow(
+                    title: 'lbl_prefer_leg',
+                    value: player?.leg,
+                    context: context),
+                infoRow(
+                    title: 'lbl_brief', value: player?.brief, context: context),
               ]),
               const SizedBox(height: 26),
               Padding(
@@ -90,22 +107,39 @@ class _PersonalInfoPageState extends ProviderMobxState<PersonalInfoPage, Players
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: Text(context.translate('lbl_personal_info'),
-                          style: context.textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                          style: context.textTheme.subtitle1!.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
               ),
               cardInfoPlayer(context: context, rows: [
-                infoRow(title: 'lbl_full_name', value: player?.name, context: context),
-                infoRow(title: 'lbl_date_of_birth', value: player?.dateOfBirth, context: context),
-                infoRow(title: 'lbl_phone_num', value: player?.phone, context: context),
+                infoRow(
+                    title: 'lbl_full_name',
+                    value: player?.name,
+                    context: context),
+                infoRow(
+                    title: 'lbl_date_of_birth',
+                    value: player?.dateOfBirth,
+                    context: context),
+                infoRow(
+                    title: 'lbl_phone_num',
+                    value: player?.phone,
+                    context: context),
                 infoRow(
                   title: 'lbl_nationality',
-                  value: player?.country?.tName ?? player?.country?.name ?? 'N/A',
+                  value:
+                      player?.country?.tName ?? player?.country?.name ?? 'N/A',
                   context: context,
                 ),
-                infoRow(title: 'lbl_category', value: player?.category?.title ?? 'N/A', context: context),
-                infoRow(title: 'lbl_gender', value: player?.gender, context: context),
+                infoRow(
+                    title: 'lbl_category',
+                    value: player?.category?.title ?? 'N/A',
+                    context: context),
+                infoRow(
+                    title: 'lbl_gender',
+                    value: player?.gender,
+                    context: context),
               ]),
               const SizedBox(height: 26),
               Padding(
@@ -118,7 +152,8 @@ class _PersonalInfoPageState extends ProviderMobxState<PersonalInfoPage, Players
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: Text(context.translate('lbl_address'),
-                          style: context.textTheme.subtitle1!.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
+                          style: context.textTheme.subtitle1!.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -126,11 +161,18 @@ class _PersonalInfoPageState extends ProviderMobxState<PersonalInfoPage, Players
               cardInfoPlayer(context: context, rows: [
                 infoRow(
                   title: 'lbl_emirate',
-                  value: player?.emirate?.tName ?? player?.emirate?.name ?? 'N/A',
+                  value:
+                      player?.emirate?.tName ?? player?.emirate?.name ?? 'N/A',
                   context: context,
                 ),
-                infoRow(title: 'lbl_state/province/area', value: player?.area, context: context),
-                infoRow(title: 'lbl_address', value: player?.address, context: context),
+                infoRow(
+                    title: 'lbl_state/province/area',
+                    value: player?.area,
+                    context: context),
+                infoRow(
+                    title: 'lbl_address',
+                    value: player?.address,
+                    context: context),
               ]),
               SizedBox(height: context.fullHeight * 0.04),
             ],

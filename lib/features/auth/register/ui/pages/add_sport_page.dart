@@ -22,6 +22,7 @@ import 'package:mawaheb_app/features/auth/data/models/sport_position_model.dart'
 import 'package:mawaheb_app/features/auth/register/ui/pages/register_page.dart';
 import 'package:mawaheb_app/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:core_sdk/utils/extensions/build_context.dart';
+import 'package:open_file/open_file.dart';
 
 class AddSportPage extends StatefulWidget {
   const AddSportPage({
@@ -53,6 +54,7 @@ class _AddSportPageState
   String? fileName;
   int? fileSize;
   final picker = ImagePicker();
+  List<File> localVideos = [];
 
   @override
   void initState() {
@@ -90,6 +92,8 @@ class _AddSportPageState
     final pickedFile = await picker.getVideo(source: ImageSource.camera);
     if (pickedFile != null) {
       video = File(pickedFile.path);
+      //add video file to local videos list
+      localVideos.add(video!);
       fileName = video!.path.split('/').last;
       fileType = 'video/' + fileName!.split('.').last;
       fileSize = await video!.length();
@@ -116,6 +120,9 @@ class _AddSportPageState
 
     if (pickedFile != null) {
       video = File(pickedFile.path);
+      //add video file to local videos list
+      localVideos.add(video!);
+
       fileName = video!.path.split('/').last;
       fileType = fileName!.split('.').last;
       fileSize = await video!.length();
@@ -366,8 +373,8 @@ class _AddSportPageState
     return InkWell(
       onTap: onPress as void Function()?,
       child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15),
         margin: const EdgeInsets.symmetric(horizontal: 6),
-        height: context.fullHeight * 0.14,
         decoration: DottedDecoration(
             shape: Shape.box,
             dash: const [10, 10],
@@ -393,16 +400,23 @@ class _AddSportPageState
     );
   }
 
-  Widget currentVideoRow(
-      {required BuildContext context,
-      int? videoNumber,
-      int? videoId,
-      int? videoVersion}) {
+  Widget currentVideoRow({
+    required BuildContext context,
+    int? videoNumber,
+    int? videoId,
+    int? videoVersion,
+  }) {
     return Row(
       children: [
-        const Icon(
-          Icons.play_circle_fill,
-          color: Colors.grey,
+        InkWell(
+          onTap: () {
+            //open video from storage
+            OpenFile.open(localVideos[videoNumber! - 1].path);
+          },
+          child: const Icon(
+            Icons.play_circle_fill,
+            color: Colors.grey,
+          ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
@@ -415,6 +429,7 @@ class _AddSportPageState
             onTap: () {
               viewmodel?.deleteVideo(
                   videoVersion: videoVersion, videoId: videoId);
+              localVideos.removeAt(videoNumber! - 1);
             },
             child: SvgPicture.asset('assets/icons/ic_delete.svg')),
       ],
