@@ -114,7 +114,7 @@ class _ContactsPageState
                       TextSpan(
                           text: text,
                           style: textTheme?.subtitle2!
-                              .copyWith(fontWeight: FontWeight.w200)),
+                              .copyWith(fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),

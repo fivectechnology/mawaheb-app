@@ -190,6 +190,7 @@
   "msg_select_position": "يرحى اختيار المركز اولا",
   "msg_uploading_image": "جاري رفع الصورة...",
   "msg_video_deleted": "تم حذف الفيديو",
+  "msg_video_uploaded": "تم رفع الفيديو",
 
   "lbl_retry": "إعادة المحاولة",
   "lbl_info_sport": "المعلومات الرياضية",

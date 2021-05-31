@@ -8,7 +8,7 @@ const int PAGE_SIZE = 20;
 
 const int MAX_VIDEO_NUMBER = 3;
 // const String BASE_API = 'http://54.237.125.179:8080/mawaheb';
-const String BASE_API = 'https://tawreed.ai/mawaheb';
+const String BASE_API = 'https://demo.fivectech.com:9003/mawaheb';
 
 const String BASE_DB = '/com.axelor.';
 const String MAWAHEB_BASE_DB = '/com.axelor.mawaheb.base.db.';
