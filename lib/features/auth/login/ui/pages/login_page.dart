@@ -75,7 +75,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 50,
+                      top: 30,
                       bottom: 5,
                     ),
                     child: Text(
@@ -136,7 +136,7 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                         type = v;
                         print(type);
                       }),
-                  const SizedBox(height: 26),
+                  const SizedBox(height: 10),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -159,9 +159,8 @@ class _LoginPageState extends ProviderMobxState<LoginPage, AuthViewmodel> {
                   ),
                   Observer(builder: (_) {
                     return Padding(
-                      padding: EdgeInsets.only(
-                        top: context.fullHeight * 0.05,
-                        bottom: context.fullHeight * 0.04,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 25,
                       ),
                       child: MawahebGradientButton(
                         // enable: !_userNameController.text.isNullOrEmpty && !_passwordController.text.isNullOrEmpty,

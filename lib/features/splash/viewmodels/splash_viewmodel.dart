@@ -22,23 +22,27 @@ part 'splash_viewmodel.g.dart';
 
 @injectable
 class SplashViewmodel extends _SplashViewmodelBase with _$SplashViewmodel {
-  SplashViewmodel(Logger logger, PrefsRepository prefsRepository, AuthRepository authRepository)
+  SplashViewmodel(Logger logger, PrefsRepository prefsRepository,
+      AuthRepository authRepository)
       : super(logger, prefsRepository, authRepository);
 }
 
 abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
-  _SplashViewmodelBase(Logger logger, this.prefsRepository, this.authRepository) : super(logger) {
-    Future.delayed(2.seconds).then((_) {
+  _SplashViewmodelBase(Logger logger, this.prefsRepository, this.authRepository)
+      : super(logger) {
+    Future.delayed(2.seconds).then((_) async {
       // TODO(ahmad): use this when you want to test base pages without login
       // getContext((context) => context.pushNamedAndRemoveUntil(AuthPage.route, (_) => false));
       // print(prefsRepository.type);
-      if (prefsRepository.player != null && prefsRepository.player?.status == 'INACTIVE') {
-        getContext((context) => showSnack(
-              context.translate('msg_signUp_error'),
-              duration: 3.seconds,
-              scaffoldKey: LoginPage.scaffoldKey,
-            ));
-        logout();
+      if (prefsRepository.player != null &&
+          prefsRepository.player?.status == 'INACTIVE') {
+        // getContext((context) => showSnack(
+        //       context.translate('msg_signUp_error'),
+        //       duration: 3.seconds,
+        //       scaffoldKey: LoginPage.scaffoldKey,
+        //     ));
+
+        await logoutAsFuture();
       }
       // TODO(ahmad): use this in release
       getContext((context) {
@@ -79,9 +83,11 @@ abstract class _SplashViewmodelBase extends BaseViewmodel with Store {
   Future<bool> logoutAsFuture() {
     return authRepository.logout().then(
           (res) => res.apply(() {
-            App.navKey.currentState!.pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
+            // App.navKey.currentState!
+            //     .pushNamedAndRemoveUntil(AuthPage.route, (_) => false);
             getContext(
-              (context) => Provider.of<AppViewmodel>(context, listen: false).navigateTo(PageIndex.home),
+              (context) => Provider.of<AppViewmodel>(context, listen: false)
+                  .navigateTo(PageIndex.home),
             );
           }),
         );

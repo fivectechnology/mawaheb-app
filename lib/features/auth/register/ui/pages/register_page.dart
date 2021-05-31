@@ -68,6 +68,12 @@ class _RegisterPageState
 
     appViewmodel = Provider.of<AppViewmodel>(context, listen: false)
       ..refreshUserStatus();
+
+    pageTitle =
+        !appViewmodel.userRegested! ? 'lbl_sign_up' : 'lbl_personal_info';
+
+    // ignore: avoid_bool_literals_in_conditional_expressions
+    withBack = !appViewmodel.userRegested! ? true : false;
   }
 
   @override
@@ -138,11 +144,13 @@ class _RegisterPageState
         newTitle = 'lbl_personal_info';
         break;
       case 3:
+        onBackButton = () => slidePage(const PageSliderBackwardModel());
         withBack = true;
         newTitle = 'lbl_address';
         break;
 
       case 4:
+        onBackButton = () => slidePage(const PageSliderBackwardModel());
         withBack = true;
         newTitle = 'lbl_add_sport';
         break;
@@ -159,12 +167,15 @@ class _RegisterPageState
       case 0:
         withBack = false;
         newTitle = 'lbl_personal_info';
+
         break;
       case 1:
+        onBackButton = () => slidePage(const PageSliderBackwardModel());
         withBack = true;
         newTitle = 'lbl_address';
         break;
       case 2:
+        onBackButton = () => slidePage(const PageSliderBackwardModel());
         withBack = true;
         newTitle = 'lbl_add_sport';
         break;

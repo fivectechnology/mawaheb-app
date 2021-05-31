@@ -171,7 +171,7 @@
   "msg_password_empty": "Password empty",
   "msg_password_match": "Password not matching",
   "msg_name_empty": "Name is empty",
-  "msg_name_short": "Name is to short",
+  "msg_name_short": "Name is invalid",
   "msg_phone_empty": "Phone number is empty",
   "msg_phone_valid": "phone number not valid (10 digits)",
   "msg_address_empty": "Address is empty",
